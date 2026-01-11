@@ -18,6 +18,33 @@ body {
   line-height: 1.6;
 }
 
+/* TOP BAR */
+.topbar {
+  background: #020617;
+  border-bottom: 1px solid #020617;
+}
+
+.brand {
+  max-width: 1000px;
+  margin: auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo {
+  height: 48px;   /* 40–60px OK */
+  width: auto;
+}
+
+.site-name {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
 /* HERO */
 .hero {
   background: linear-gradient(135deg, #020617, #020617);
