@@ -35,10 +35,16 @@ body {
 }
 
 .logo {
-  height: 42px;     /* KECIK & MATCH GAMBAR */
+.logo {
+  height: 48px;      /* DEFAULT – MOBILE */
   width: auto;
   display: block;
 }
+
+  @media (min-width: 768px) {
+  .logo {
+    height: 56px;   /* DESKTOP – LEBIH NGAM */
+  }
 
 .brand span {
   font-size: 1.4rem;
