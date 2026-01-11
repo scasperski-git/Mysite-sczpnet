@@ -18,37 +18,10 @@ body {
   line-height: 1.6;
 }
 
-/* TOP BAR */
-.topbar {
-  background: #020617;
-  border-bottom: 1px solid #020617;
-}
-
-.brand {
-  max-width: 1000px;
-  margin: auto;
-  padding: 12px 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-}
-
-.logo {
-  height: 48px;   /* 40–60px OK */
-  width: auto;
-}
-
-.site-name {
-  color: var(--text);
-  font-weight: 600;
-  font-size: 1rem;
-}
-
 /* HERO */
 .hero {
   background: linear-gradient(135deg, #020617, #020617);
-  padding: 80px 20px;
+  padding: 90px 20px 80px;
   text-align: center;
 }
 
@@ -70,6 +43,14 @@ body {
 .subtitle {
   color: var(--muted);
   margin-top: 10px;
+}
+
+/* LOGO KECIL BAWAH ASPIRING */
+.hero-logo {
+  width: 36px;          /* kecil & kemas */
+  height: auto;
+  margin-top: 14px;
+  opacity: 0.9;
 }
 
 /* CONTENT */
