@@ -25,6 +25,14 @@ body {
   text-align: center;
 }
 
+.hero-logo {
+  width: 56px;          /* kecil & kemas */
+  height: auto;
+  margin-bottom: 18px;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 8px rgba(199,231,193,0.35));
+}
+
 .hero .tag {
   font-family: monospace;
   color: var(--accent);
@@ -43,14 +51,6 @@ body {
 .subtitle {
   color: var(--muted);
   margin-top: 10px;
-}
-
-/* LOGO KECIL BAWAH ASPIRING */
-.hero-logo {
-  width: 36px;          /* kecil & kemas */
-  height: auto;
-  margin-top: 14px;
-  opacity: 0.9;
 }
 
 /* CONTENT */
