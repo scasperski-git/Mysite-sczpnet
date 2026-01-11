@@ -22,8 +22,8 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(2, 6, 23, 0.6); /* TONED */
-  backdrop-filter: blur(10px);   /* glass effect */
+  background: rgba(2, 6, 23, 0.6);
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
@@ -34,17 +34,23 @@ body {
   padding: 14px 20px;
 }
 
+/* ===== LOGO (BETUL) ===== */
 .logo {
-.logo {
-  height: 48px;      /* DEFAULT – MOBILE */
+  height: 48px;        /* MOBILE */
   width: auto;
   display: block;
+
+  /* RESET BUG LAMA */
+  position: static;
+  transform: none;
 }
 
-  @media (min-width: 768px) {
+/* DESKTOP */
+@media (min-width: 768px) {
   .logo {
-    height: 56px;   /* DESKTOP – LEBIH NGAM */
+    height: 56px;
   }
+}
 
 .brand span {
   font-size: 1.3rem;
