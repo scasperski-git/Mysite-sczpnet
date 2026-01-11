@@ -127,3 +127,35 @@ footer {
   color: var(--muted);
   border-top: 1px solid #020617;
 }
+
+/* ===== ABOUT TEXT ===== */
+.about-text {
+  margin-top: 10px;
+  line-height: 1.7;
+
+  /* animasi */
+  opacity: 0;
+  transform: translateY(6px);
+  animation: fadeUp 0.8s ease-out forwards;
+}
+
+.about-strong {
+  display: inline-block;
+  font-weight: 600;        /* lebih kuat */
+  font-size: 1.05rem;
+}
+
+.about-light {
+  display: inline-block;
+  margin-top: 4px;
+  font-weight: 400;        /* lebih ringan */
+  color: var(--muted);
+}
+
+/* ANIMATION */
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
