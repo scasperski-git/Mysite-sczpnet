@@ -139,6 +139,10 @@ footer {
   animation: fadeUp 0.8s ease-out forwards;
 }
 
+.about-text {
+  animation-delay: 0.2s;
+}
+
 .about-strong {
   display: inline-block;
   font-weight: 600;        /* lebih kuat */
