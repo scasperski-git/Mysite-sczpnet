@@ -206,7 +206,7 @@ button.disabled{
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbxEnf_5xMaTeBOWwXgaOGrWrhGZsOhOb_YDijVcBFskBkbHwTeUpleBDewIE1Rk242_/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxXVmo47pEAEf6cut0bz1RkKdS4_D55SC144mma5z0oIX9k7QCsC1xZSi1KbfJQLL2oIg/exec";
 
 function submitForm(){
   const btn = document.getElementById("submitBtn");
@@ -238,30 +238,23 @@ function submitForm(){
   btn.classList.add("disabled");
   loader.style.display="block";
 
-  fetch(API_URL,{ method:"POST", body:data })
-    .then(async res=>{
-      if(res.headers.get("Content-Type")?.includes("application/pdf")){
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "statement.pdf";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
+fetch(API_URL,{ method:"POST", body:data })
+  .then(async res=>{
+    const j = await res.json();
 
-        ok.style.display="block";
-      }else{
-        const j = await res.json();
-        err.innerText = "Access denied. Ref: " + (j.ref || "-");
-        err.style.display="block";
-      }
-    })
-    .catch(()=>{
-      err.innerText = "System error. Please try again.";
+    if(j.status === "success"){
+      window.open(j.pdf_url, "_blank");
+      ok.style.display="block";
+    }else{
+      err.innerText = "Access denied. Ref: " + (j.ref || "-");
       err.style.display="block";
-    })
+    }
+  })
+  .catch(()=>{
+    err.innerText = "System error. Please try again.";
+    err.style.display="block";
+  })
+
     .finally(()=>{
       btn.classList.remove("disabled");
       loader.style.display="none";
