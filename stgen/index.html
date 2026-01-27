@@ -217,48 +217,45 @@ function submitForm(){
   err.style.display="none";
   ok.style.display="none";
 
-  const data = new FormData();
+const data = new URLSearchParams();
 
-  const fields = [
-    "email","key","customer_name","ic","account_no","product",
-    "agreement_date","due_date","outstanding","payable",
-    "valid_until","ref_client","letter_date"
-  ];
-
-  for(const f of fields){
-    const el = document.getElementById(f);
-    if(!el.value.trim()){
-      err.innerText = "All fields are required";
-      err.style.display="block";
-      return;
-    }
-    data.append(f, el.value.trim());
-  }
-
-  btn.classList.add("disabled");
-  loader.style.display="block";
-
-fetch(API_URL,{ method:"POST", body:data })
-  .then(async res=>{
-    const j = await res.json();
-
-    if(j.status === "success"){
-      window.open(j.pdf_url, "_blank");
-      ok.style.display="block";
-    }else{
-      err.innerText = "Access denied. Ref: " + (j.ref || "-");
-      err.style.display="block";
-    }
-  })
-  .catch(()=>{
-    err.innerText = "System error. Please try again.";
+for(const f of fields){
+  const el = document.getElementById(f);
+  if(!el.value.trim()){
+    err.innerText = "All fields are required";
     err.style.display="block";
-  })
+    return;
+  }
+  data.append(f, el.value.trim());
+}
 
-    .finally(()=>{
-      btn.classList.remove("disabled");
-      loader.style.display="none";
-    });
+fetch(API_URL,{
+  method:"POST",
+  headers:{
+    "Content-Type":"application/x-www-form-urlencoded"
+  },
+  body:data.toString()
+})
+.then(async res=>{
+  const j = await res.json();
+
+  if(j.status === "success"){
+    window.open(j.pdf_url, "_blank");
+    ok.style.display="block";
+  }else{
+    err.innerText = "Access denied. Ref: " + (j.ref || "-");
+    err.style.display="block";
+  }
+})
+.catch(()=>{
+  err.innerText = "System error. Please try again.";
+  err.style.display="block";
+})
+.finally(()=>{
+  btn.classList.remove("disabled");
+  loader.style.display="none";
+});
+
 }
 </script>
 
