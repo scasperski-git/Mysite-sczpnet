@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>DCA Statement Generator</title>
+<style>
+body{font-family:Arial;background:#f4f6f9;padding:20px}
+.container{max-width:800px;margin:auto;background:#fff;padding:20px;border-radius:8px}
+input,button{width:100%;padding:10px;margin:6px 0}
+button{background:#b30000;color:#fff;border:none;font-weight:bold;cursor:pointer}
+.status{margin-top:10px;font-weight:bold}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2>DCA Statement Generator</h2>
+
+<input id="rujukan" placeholder="Rujukan Kami">
+<input id="tarikh_surat" placeholder="Tarikh Surat">
+<input id="nama" placeholder="Nama">
+<input id="nokp" placeholder="No KP">
+<input id="akaun" placeholder="No Akaun">
+<input id="produk" placeholder="Produk">
+<input id="tarikh_perjanjian" placeholder="Tarikh Perjanjian">
+<input id="tarikh_akhir" placeholder="Tarikh Akhir Bayaran">
+<input id="jumlah_tertunggak" placeholder="Jumlah Tertunggak">
+<input id="jumlah_bayar" placeholder="Jumlah Perlu Dibayar">
+<input id="sah_laku" placeholder="Sah Laku Hingga">
+<input id="security_key" placeholder="Security Key">
+
+<button onclick="submitData()">Generate Statement</button>
+
+<div class="status" id="status"></div>
+</div>
+
+<script>
+function submitData(){
+
+  document.getElementById("status").innerHTML = "Processing... ⏳";
+
+  const data = {
+    rujukan: document.getElementById("rujukan").value,
+    tarikh_surat: document.getElementById("tarikh_surat").value,
+    nama: document.getElementById("nama").value,
+    nokp: document.getElementById("nokp").value,
+    akaun: document.getElementById("akaun").value,
+    produk: document.getElementById("produk").value,
+    tarikh_perjanjian: document.getElementById("tarikh_perjanjian").value,
+    tarikh_akhir: document.getElementById("tarikh_akhir").value,
+    jumlah_tertunggak: document.getElementById("jumlah_tertunggak").value,
+    jumlah_bayar: document.getElementById("jumlah_bayar").value,
+    sah_laku: document.getElementById("sah_laku").value,
+    security_key: document.getElementById("security_key").value
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbz1G4WX4V4COlN14BctjGpiRLyXGdQ4HUxp8aUgsjLwNxPI17MmZIwunXaB1tbshJYd/exec",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body: JSON.stringify(data)
+  })
+  .then(res => res.json())
+  .then(res => {
+    console.log(res);
+    if(res.status === "success"){
+      document.getElementById("status").innerHTML = 
+        `SUCCESS ✅ <br><a href="${res.pdf}" target="_blank">Download PDF</a>`;
+    }else if(res.status === "denied"){
+      document.getElementById("status").innerHTML = 
+        "ACCESS DENIED ❌ Invalid Security Key";
+    }else{
+      document.getElementById("status").innerHTML = 
+        "ERROR ❌ " + (res.message || "System error");
+    }
+  })
+  .catch(err=>{
+    console.error(err);
+    document.getElementById("status").innerHTML = "ERROR ❌ API not responding";
+  });
+
+}
+</script>
+</body>
+</html>
