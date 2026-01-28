@@ -219,7 +219,7 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbxcpMIZCH9ZNMJnLC3y_ATX0yeMiewtVAM9jF9JsS_oexku9IIgcUzuCaUWMCWrl_NI/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbxgwZNepTRDZd3pGiU1DHRe26kdXI2RL2UJUOcr6u357qVpzzQduBC0ht3x4zvdzRUB/exec";
     let CURRENT_REF = "";
 
     function generate(){
@@ -262,38 +262,39 @@
         });
     }
 
-    function downloadPdf(){
-      if(!CURRENT_REF) return;
+function downloadPdf(){
+  if(!CURRENT_REF) return;
 
-      const url = `${API_URL}?action=download&ref=${encodeURIComponent(CURRENT_REF)}`;
+  const url = `${API_URL}?action=download&ref=${encodeURIComponent(CURRENT_REF)}`;
 
-      fetch(url)
-  .then(res=>{
-    const type = res.headers.get("content-type") || "";
-    if(!type.includes("pdf")){
-      return res.text().then(t=>{ throw new Error(t); });
-    }
-    return res.blob();
-  })
-  .then(blob => {
+  fetch(url)
+    .then(res=>{
+      if(!res.ok) throw new Error("HTTP ERROR");
+      const type = res.headers.get("content-type") || "";
+      if(!type.includes("pdf")){
+        return res.text().then(t=>{ throw new Error(t); });
+      }
+      return res.blob();
+    })
+    .then(blob=>{
+      if(blob.size < 1000){
+        throw new Error("INVALID_PDF_BINARY");
+      }
 
-          const file = new Blob([blob], { type: "application/pdf" });
-          const fileURL = URL.createObjectURL(file);
+      const fileURL = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = fileURL;
+      a.download = `STATEMENT_${CURRENT_REF}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(fileURL);
+    })
+    .catch(err=>{
+      alert("Download failed: " + err.message);
+    });
+}
 
-          const a = document.createElement("a");
-          a.href = fileURL;
-          a.download = `STATEMENT_${CURRENT_REF}.pdf`; // nama file
-
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-
-          URL.revokeObjectURL(fileURL);
-        })
-        .catch(() => {
-          alert("Download failed. Please try again.");
-        });
-    }
   </script>
 </body>
 </html>
