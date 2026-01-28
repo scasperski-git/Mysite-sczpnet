@@ -214,7 +214,7 @@ button:hover{
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbwDrPDfqW6bgBBtQmxQQ1pOmsR5Ay8gGGqpWNtYmyV8uhsdpMF2q7VtlnGvzypr7kjK/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbx7A3_LgdtfKaHf3PN3uv95VLHzagFCbxLj_oFaJCKwpEfKeaVD7VcvyaiCSQtxeiP4/exec";
 
 let CURRENT_REF = "";
 
@@ -239,7 +239,9 @@ function generate(){
     .then(r=>r.json())
     
 .then(j=>{
-  if(j.status==="success"){
+  if(j.status==="system_error"){
+    alert(j.error);
+  }
 
     CURRENT_REF = j.ref;
 
