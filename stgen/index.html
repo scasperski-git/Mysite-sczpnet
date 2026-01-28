@@ -214,9 +214,10 @@ button:hover{
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbwtKyMYy0n8Zd7XyNtdOkkMIeRCrPXDdnuzYtyDWIvnQAObd8bMn88J4haNb26ezbh09Q/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbw8_AG_c2Zrl1iFWabiUl-4i2Zrypl1K9JbmlCQdeUZ67yJjgsvMdWOE7TJWlEMEkc-2g/exec";
 
 let CURRENT_REF = "";
+let CURRENT_FILE_ID = "";
 
 function generate(){
   const fields = [
@@ -241,9 +242,11 @@ function generate(){
       document.getElementById("formBox").style.display="none";
       document.getElementById("summaryBox").style.display="block";
 
-      if(j.status==="success"){
-        CURRENT_REF = j.ref;
-        document.getElementById("successBox").style.display="block";
+if(j.status==="success"){
+  CURRENT_REF = j.ref;
+  CURRENT_FILE_ID = j.fileId;
+
+  document.getElementById("successBox").style.display="block";
         document.getElementById("invalidBox").style.display="none";
         document.getElementById("refSuccess").innerText = j.ref;
       }else{
@@ -260,7 +263,7 @@ function generate(){
 function downloadPdf(){
   if(!CURRENT_REF) return;
 
-  const url = `${API_URL}?action=download&ref=${encodeURIComponent(CURRENT_REF)}`;
+  const url = `${API_URL}?action=download&fileId=${encodeURIComponent(CURRENT_FILE_ID)}`;
 
   fetch(url)
     .then(res => res.blob())
