@@ -2,34 +2,40 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DCA Statement Generator</title>
+<title>DCA Professional Statement Generator</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-body{font-family:Arial;background:#f2f2f2}
-.card{max-width:700px;margin:30px auto;background:#fff;padding:25px;border-radius:10px}
-input,textarea,button{width:100%;padding:10px;margin-top:8px}
+body{font-family:Arial;background:#eaeaea}
+.card{max-width:750px;margin:30px auto;background:#fff;padding:25px;border-radius:10px}
+input,button{width:100%;padding:10px;margin-top:8px}
 button{font-weight:bold;cursor:pointer}
 </style>
 </head>
 <body>
 <div class="card">
-<h2>Statement Input (Highlighted Fields)</h2>
+<h2>DCA Statement Generator (Professional)</h2>
 <form id="stmtForm">
 <input id="rujukan" placeholder="Rujukan Kami">
-<input id="tarikh" placeholder="Tarikh (e.g 27 Jan, 2026)">
-<input id="nama" placeholder="Nama">
+<input id="tarikh" placeholder="Tarikh (e.g 27 Jan 2026)">
+<input id="nama" placeholder="Nama Pelanggan">
 <input id="ic" placeholder="No Kad Pengenalan">
 <input id="akaun" placeholder="No Akaun / Perjanjian">
 <input id="produk" placeholder="Produk">
 <input id="tarikh_perjanjian" placeholder="Tarikh Perjanjian">
 <input id="tarikh_akhir" placeholder="Tarikh Akhir Bayaran">
-<input id="tertunggak" placeholder="Jumlah Tertunggak (RM)">
-<input id="jumlah" placeholder="Jumlah Perlu Dibayar (RM)">
+<input id="tertunggak" placeholder="Jumlah Tertunggak">
+<input id="jumlah" placeholder="Jumlah Perlu Dibayar">
 <input id="sahlaku" placeholder="Sah Laku Hingga">
-<button type="submit">Generate Statement</button>
+<button type="submit">Generate Professional Statement</button>
 </form>
 </div>
 <script>
+function formatRM(val){
+val=val.toString().replace(/,/g,'');
+let num=parseFloat(val||0).toFixed(2);
+return 'RM '+num.replace(/\B(?=(\d{3})+(?!\d))/g,',');
+}
+
 document.getElementById('stmtForm').addEventListener('submit',function(e){
 e.preventDefault();
 const data={
@@ -41,8 +47,8 @@ akaun:akaun.value,
 produk:produk.value,
 tarikh_perjanjian:tarikh_perjanjian.value,
 tarikh_akhir:tarikh_akhir.value,
-tertunggak:tertunggak.value,
-jumlah:jumlah.value,
+tertunggak:formatRM(tertunggak.value),
+jumlah:formatRM(jumlah.value),
 sahlaku:sahlaku.value
 };
 sessionStorage.setItem('stmtData',JSON.stringify(data));
