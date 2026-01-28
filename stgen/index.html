@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>DCA Statement System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body{
   margin:0;
@@ -15,6 +16,7 @@ body{
   justify-content:center;
   color:#e5e7eb;
 }
+
 .container{
   width:100%;
   max-width:760px;
@@ -24,12 +26,17 @@ body{
   box-shadow:0 0 60px rgba(0,0,0,.7);
   border:1px solid #1e293b;
 }
-h2{text-align:center;margin-top:0}
+
+/* ===== FORM ===== */
+#formBox{}
+h2{text-align:center;margin-top:0;font-weight:600;}
+
 .form-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:14px;
 }
+
 label{font-size:11px;color:#94a3b8;}
 input{
   width:100%;
@@ -39,7 +46,14 @@ input{
   background:#020617;
   color:#e5e7eb;
 }
+input:focus{
+  outline:none;
+  border-color:#38bdf8;
+  box-shadow:0 0 0 2px rgba(56,189,248,.25);
+}
+
 .full{grid-column:1/-1;}
+
 button{
   width:100%;
   padding:14px;
@@ -50,44 +64,161 @@ button{
   font-weight:700;
   margin-top:18px;
   cursor:pointer;
+  transition:.3s;
 }
-.footer{text-align:center;font-size:10px;color:#64748b;margin-top:16px}
+button:hover{
+  transform:translateY(-1px);
+  box-shadow:0 10px 25px rgba(34,197,94,.35);
+}
+
+/* ===== SUMMARY ===== */
+#summaryBox{display:none;}
+.summary-card{
+  background:#020617;
+  border:1px solid #1e293b;
+  border-radius:16px;
+  padding:26px;
+  text-align:center;
+  animation:fadeIn .4s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.success{color:#22c55e;}
+.invalid{color:#ef4444;}
+
+.ref{
+  margin-top:8px;
+  font-size:12px;
+  color:#94a3b8;
+}
+
+.download-btn{
+  margin-top:16px;
+  background:linear-gradient(135deg,#2563eb,#38bdf8);
+  color:#020617;
+}
+
+.footer{
+  text-align:center;
+  font-size:10px;
+  color:#64748b;
+  margin-top:16px;
+}
 </style>
 </head>
 
 <body>
+
 <div class="container">
-<h2>DCA Statement Generator</h2>
 
-<div class="form-grid">
-  <div class="full"><label>Security Key</label><input id="key" type="password"></div>
-  <div><label>Customer Name</label><input id="customer_name"></div>
-  <div><label>IC</label><input id="ic"></div>
-  <div><label>Account No</label><input id="account_no"></div>
-  <div><label>Product</label><input id="product"></div>
-  <div><label>Agreement Date</label><input id="agreement_date" type="date"></div>
-  <div><label>Due Date</label><input id="due_date" type="date"></div>
-  <div><label>Outstanding</label><input id="outstanding"></div>
-  <div><label>Payable</label><input id="payable"></div>
-  <div><label>Valid Until</label><input id="valid_until" type="date"></div>
-  <div><label>Reference (Client)</label><input id="ref_client"></div>
-  <div class="full"><label>Letter Date</label><input id="letter_date" type="date"></div>
-</div>
+  <!-- ===== FORM ===== -->
+  <div id="formBox">
+    <h2>DCA Statement Generator</h2>
 
-<button onclick="generate()">Generate Statement</button>
+    <div class="form-grid">
 
-<div class="footer">Secure DCA Statement System · Audit Mode · 2026</div>
+      <div class="full">
+        <label>Security Key</label>
+        <input id="key" type="password">
+      </div>
+
+      <div>
+        <label>Customer Name</label>
+        <input id="customer_name">
+      </div>
+
+      <div>
+        <label>IC Number</label>
+        <input id="ic">
+      </div>
+
+      <div>
+        <label>Account No</label>
+        <input id="account_no">
+      </div>
+
+      <div>
+        <label>Product</label>
+        <input id="product">
+      </div>
+
+      <div>
+        <label>Agreement Date</label>
+        <input id="agreement_date" type="date">
+      </div>
+
+      <div>
+        <label>Due Date</label>
+        <input id="due_date" type="date">
+      </div>
+
+      <div>
+        <label>Outstanding</label>
+        <input id="outstanding">
+      </div>
+
+      <div>
+        <label>Payable</label>
+        <input id="payable">
+      </div>
+
+      <div>
+        <label>Valid Until</label>
+        <input id="valid_until" type="date">
+      </div>
+
+      <div>
+        <label>Reference (Client)</label>
+        <input id="ref_client">
+      </div>
+
+      <div class="full">
+        <label>Letter Date</label>
+        <input id="letter_date" type="date">
+      </div>
+
+    </div>
+
+    <button onclick="generate()">Generate Statement</button>
+  </div>
+
+  <!-- ===== SUMMARY ===== -->
+  <div id="summaryBox">
+    <div class="summary-card">
+
+      <!-- SUCCESS -->
+      <div id="successBox" style="display:none;">
+        <h2 class="success">Statement Generated</h2>
+        <div class="ref">Reference No: <span id="refSuccess"></span></div>
+        <button class="download-btn" onclick="downloadPdf()">Download PDF</button>
+      </div>
+
+      <!-- INVALID -->
+      <div id="invalidBox" style="display:none;">
+        <h2 class="invalid">Invalid Security Key</h2>
+        <p>Access denied. Unauthorized generation attempt.</p>
+        <div class="ref">Reference No: <span id="refInvalid"></span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">
+    Secure DCA Statement System · Audit Mode · 2026
+  </div>
+
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbz7m9HdpYa_FmZ8riRywru8WQ76yldN_RrGxIoKnsBdmyFu47LJfQQGU1s_d66LQnOS/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzPlrDr2owuxB7PrVzWkbevmpZScbQy7Y3oZCQNZNjYi_mF5Dw44IXylzHDwA5KyA/exec";
 
-  function buildUrl(action, ref){
-  const sep = API_URL.includes("?") ? "&" : "?";
-  return `${API_URL}${sep}action=${action}&ref=${encodeURIComponent(ref)}`;
-}
-  
-  function generate(){
+let CURRENT_REF = "";
+
+function generate(){
   const fields = [
     "key","customer_name","ic","account_no","product",
     "agreement_date","due_date","outstanding","payable",
@@ -107,17 +238,51 @@ const API_URL = "https://script.google.com/macros/s/AKfycbz7m9HdpYa_FmZ8riRywru8
   fetch(API_URL,{method:"POST",body:fd})
     .then(r=>r.json())
     .then(j=>{
+      document.getElementById("formBox").style.display="none";
+      document.getElementById("summaryBox").style.display="block";
+
       if(j.status==="success"){
-        const previewUrl = buildUrl("preview", j.ref);
-        window.open(previewUrl,"_blank");   // native PDF viewer
+        CURRENT_REF = j.ref;
+        document.getElementById("successBox").style.display="block";
+        document.getElementById("invalidBox").style.display="none";
+        document.getElementById("refSuccess").innerText = j.ref;
       }else{
-        alert("Invalid security key. Ref: " + j.ref);
+        document.getElementById("successBox").style.display="none";
+        document.getElementById("invalidBox").style.display="block";
+        document.getElementById("refInvalid").innerText = j.ref || "-";
       }
     })
     .catch(()=>{
       alert("System error. Please try again.");
     });
 }
+
+function downloadPdf(){
+  if(!CURRENT_REF) return;
+
+  const url = `${API_URL}?action=download&ref=${encodeURIComponent(CURRENT_REF)}`;
+
+  fetch(url)
+    .then(res => res.blob())
+    .then(blob => {
+      const file = new Blob([blob], { type: "application/pdf" });
+      const fileURL = URL.createObjectURL(file);
+
+      const a = document.createElement("a");
+      a.href = fileURL;
+      a.download = `STATEMENT_${CURRENT_REF}.pdf`;   // nama file
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      URL.revokeObjectURL(fileURL);
+    })
+    .catch(() => {
+      alert("Download failed. Please try again.");
+    });
+}
+
 </script>
+
 </body>
 </html>
