@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DCA Statement Generator</title>
+<title>DCA Statement System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
   margin:0;
   font-family:Segoe UI,Arial;
-  background:#0f172a;
+  background:#020617;
   min-height:100vh;
   display:flex;
   align-items:center;
@@ -19,20 +19,17 @@ body{
 
 .container{
   width:100%;
-  max-width:720px;
+  max-width:760px;
   background:#020617;
   border-radius:18px;
   padding:28px;
-  box-shadow:0 0 40px rgba(0,0,0,.6);
+  box-shadow:0 0 60px rgba(0,0,0,.7);
   border:1px solid #1e293b;
 }
 
-h2{
-  margin-top:0;
-  text-align:center;
-  font-weight:600;
-  letter-spacing:.5px;
-}
+/* ===== FORM ===== */
+#formBox{}
+h2{text-align:center;margin-top:0;font-weight:600;}
 
 .form-grid{
   display:grid;
@@ -40,11 +37,7 @@ h2{
   gap:14px;
 }
 
-label{
-  font-size:11px;
-  color:#94a3b8;
-}
-
+label{font-size:11px;color:#94a3b8;}
 input{
   width:100%;
   padding:10px;
@@ -52,16 +45,14 @@ input{
   border:1px solid #334155;
   background:#020617;
   color:#e5e7eb;
-  font-size:13px;
 }
-
 input:focus{
   outline:none;
   border-color:#38bdf8;
   box-shadow:0 0 0 2px rgba(56,189,248,.25);
 }
 
-.full{ grid-column:1 / -1; }
+.full{grid-column:1/-1;}
 
 button{
   width:100%;
@@ -71,44 +62,45 @@ button{
   background:linear-gradient(135deg,#16a34a,#22c55e);
   color:#022c22;
   font-weight:700;
-  cursor:pointer;
   margin-top:18px;
-  font-size:14px;
+  cursor:pointer;
   transition:.3s;
 }
-
 button:hover{
   transform:translateY(-1px);
   box-shadow:0 10px 25px rgba(34,197,94,.35);
 }
 
-button.disabled{
-  background:#475569;
-  cursor:not-allowed;
-  box-shadow:none;
-}
-
-.status{
+/* ===== SUMMARY ===== */
+#summaryBox{display:none;}
+.summary-card{
+  background:#020617;
+  border:1px solid #1e293b;
+  border-radius:16px;
+  padding:26px;
   text-align:center;
+  animation:fadeIn .4s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.success{color:#22c55e;}
+.invalid{color:#ef4444;}
+
+.ref{
+  margin-top:8px;
   font-size:12px;
-  margin-top:12px;
-  display:none;
+  color:#94a3b8;
 }
 
-.error{ color:#fca5a5; }
-.success{ color:#86efac; }
-
-.loader{
-  display:none;
-  margin:14px auto 0;
-  width:36px;height:36px;
-  border:4px solid #334155;
-  border-top:4px solid #22c55e;
-  border-radius:50%;
-  animation:spin 1s linear infinite;
+.download-btn{
+  margin-top:16px;
+  background:linear-gradient(135deg,#2563eb,#38bdf8);
+  color:#020617;
 }
-
-@keyframes spin{ to{transform:rotate(360deg)} }
 
 .footer{
   text-align:center;
@@ -122,150 +114,153 @@ button.disabled{
 <body>
 
 <div class="container">
-  <h2>DCA Statement Generator</h2>
 
-  <div class="form-grid">
+  <!-- ===== FORM ===== -->
+  <div id="formBox">
+    <h2>DCA Statement Generator</h2>
 
-    <div class="full">
-      <label>Authorized Email</label>
-      <input id="email" type="email" placeholder="authorized@dca.com">
+    <div class="form-grid">
+
+      <div class="full">
+        <label>Security Key</label>
+        <input id="key" type="password">
+      </div>
+
+      <div>
+        <label>Customer Name</label>
+        <input id="customer_name">
+      </div>
+
+      <div>
+        <label>IC Number</label>
+        <input id="ic">
+      </div>
+
+      <div>
+        <label>Account No</label>
+        <input id="account_no">
+      </div>
+
+      <div>
+        <label>Product</label>
+        <input id="product">
+      </div>
+
+      <div>
+        <label>Agreement Date</label>
+        <input id="agreement_date" type="date">
+      </div>
+
+      <div>
+        <label>Due Date</label>
+        <input id="due_date" type="date">
+      </div>
+
+      <div>
+        <label>Outstanding</label>
+        <input id="outstanding">
+      </div>
+
+      <div>
+        <label>Payable</label>
+        <input id="payable">
+      </div>
+
+      <div>
+        <label>Valid Until</label>
+        <input id="valid_until" type="date">
+      </div>
+
+      <div>
+        <label>Reference (Client)</label>
+        <input id="ref_client">
+      </div>
+
+      <div class="full">
+        <label>Letter Date</label>
+        <input id="letter_date" type="date">
+      </div>
+
     </div>
 
-    <div class="full">
-      <label>Security Key</label>
-      <input id="key" type="password" placeholder="Enter security key">
-    </div>
-
-    <div>
-      <label>Customer Name</label>
-      <input id="customer_name">
-    </div>
-
-    <div>
-      <label>IC Number</label>
-      <input id="ic">
-    </div>
-
-    <div>
-      <label>Account No</label>
-      <input id="account_no">
-    </div>
-
-    <div>
-      <label>Product</label>
-      <input id="product">
-    </div>
-
-    <div>
-      <label>Agreement Date</label>
-      <input id="agreement_date" type="date">
-    </div>
-
-    <div>
-      <label>Due Date</label>
-      <input id="due_date" type="date">
-    </div>
-
-    <div>
-      <label>Outstanding Amount</label>
-      <input id="outstanding">
-    </div>
-
-    <div>
-      <label>Payable Amount</label>
-      <input id="payable">
-    </div>
-
-    <div>
-      <label>Valid Until</label>
-      <input id="valid_until" type="date">
-    </div>
-
-    <div>
-      <label>Reference (Client)</label>
-      <input id="ref_client">
-    </div>
-
-    <div class="full">
-      <label>Letter Date</label>
-      <input id="letter_date" type="date">
-    </div>
-
+    <button onclick="generate()">Generate Statement</button>
   </div>
 
-  <button id="submitBtn" onclick="submitForm()">Generate Statement PDF</button>
+  <!-- ===== SUMMARY ===== -->
+  <div id="summaryBox">
+    <div class="summary-card">
 
-  <div class="loader" id="loader"></div>
+      <!-- SUCCESS -->
+      <div id="successBox" style="display:none;">
+        <h2 class="success">Statement Generated</h2>
+        <div class="ref">Reference No: <span id="refSuccess"></span></div>
+        <button class="download-btn" onclick="downloadPdf()">Download PDF</button>
+      </div>
 
-  <div class="status error" id="errMsg">Access denied. Invalid authorization.</div>
-  <div class="status success" id="okMsg">Statement generated. Download started.</div>
+      <!-- INVALID -->
+      <div id="invalidBox" style="display:none;">
+        <h2 class="invalid">Invalid Security Key</h2>
+        <p>Access denied. Unauthorized generation attempt.</p>
+        <div class="ref">Reference No: <span id="refInvalid"></span></div>
+      </div>
+
+    </div>
+  </div>
 
   <div class="footer">
     Secure DCA Statement System · Audit Mode · 2026
   </div>
+
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbzY4ZXjoOkKiujHEosPK6jhnY0GeH3poYegTPw49llPeP7cQuzy9r-t3P5bgOwKk1ZK1A/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzr9-4qX211Ee1NcTlQno-PnvSShl0EEGc1tCM0SPx3dE5Qcp8r2sdbxBidIQfMlKzCmQ/exec";
 
-function submitForm(){
-  const btn = document.getElementById("submitBtn");
-  const loader = document.getElementById("loader");
-  const err = document.getElementById("errMsg");
-  const ok = document.getElementById("okMsg");
+let CURRENT_REF = "";
 
-  err.style.display="none";
-  ok.style.display="none";
-
-  const data = new FormData();
-
+function generate(){
   const fields = [
-    "email","key","customer_name","ic","account_no","product",
+    "key","customer_name","ic","account_no","product",
     "agreement_date","due_date","outstanding","payable",
     "valid_until","ref_client","letter_date"
   ];
 
+  const fd = new FormData();
   for(const f of fields){
     const el = document.getElementById(f);
     if(!el.value.trim()){
-      err.innerText = "All fields are required";
-      err.style.display="block";
+      alert("All fields required");
       return;
     }
-    data.append(f, el.value.trim());
+    fd.append(f, el.value.trim());
   }
 
-  btn.classList.add("disabled");
-  loader.style.display="block";
+  fetch(API_URL,{method:"POST",body:fd})
+    .then(r=>r.json())
+    .then(j=>{
+      document.getElementById("formBox").style.display="none";
+      document.getElementById("summaryBox").style.display="block";
 
-  fetch(API_URL,{ method:"POST", body:data })
-    .then(async res=>{
-      if(res.headers.get("Content-Type")?.includes("application/pdf")){
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "statement.pdf";
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-
-        ok.style.display="block";
+      if(j.status==="success"){
+        CURRENT_REF = j.ref;
+        document.getElementById("successBox").style.display="block";
+        document.getElementById("invalidBox").style.display="none";
+        document.getElementById("refSuccess").innerText = j.ref;
       }else{
-        const j = await res.json();
-        err.innerText = "Access denied. Ref: " + (j.ref || "-");
-        err.style.display="block";
+        document.getElementById("successBox").style.display="none";
+        document.getElementById("invalidBox").style.display="block";
+        document.getElementById("refInvalid").innerText = j.ref || "-";
       }
     })
     .catch(()=>{
-      err.innerText = "System error. Please try again.";
-      err.style.display="block";
-    })
-    .finally(()=>{
-      btn.classList.remove("disabled");
-      loader.style.display="none";
+      alert("System error. Please try again.");
     });
+}
+
+function downloadPdf(){
+  if(!CURRENT_REF) return;
+  const url = `${API_URL}?action=download&ref=${encodeURIComponent(CURRENT_REF)}`;
+  window.open(url,"_blank");
 }
 </script>
 
