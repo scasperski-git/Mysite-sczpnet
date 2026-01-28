@@ -1,58 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>DCA Professional Statement Generator</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<style>
-body{font-family:Arial;background:#eaeaea}
-.card{max-width:750px;margin:30px auto;background:#fff;padding:25px;border-radius:10px}
-input,button{width:100%;padding:10px;margin-top:8px}
-button{font-weight:bold;cursor:pointer}
-</style>
+  <base target="_top">
 </head>
 <body>
-<div class="card">
-<h2>DCA Statement Generator (Professional)</h2>
-<form id="stmtForm">
-<input id="rujukan" placeholder="Rujukan Kami">
-<input id="tarikh" placeholder="Tarikh (e.g 27 Jan 2026)">
-<input id="nama" placeholder="Nama Pelanggan">
-<input id="ic" placeholder="No Kad Pengenalan">
-<input id="akaun" placeholder="No Akaun / Perjanjian">
-<input id="produk" placeholder="Produk">
-<input id="tarikh_perjanjian" placeholder="Tarikh Perjanjian">
-<input id="tarikh_akhir" placeholder="Tarikh Akhir Bayaran">
-<input id="tertunggak" placeholder="Jumlah Tertunggak">
-<input id="jumlah" placeholder="Jumlah Perlu Dibayar">
-<input id="sahlaku" placeholder="Sah Laku Hingga">
-<button type="submit">Generate Professional Statement</button>
+<h2>DCA Statement System</h2>
+<form id="form">
+<input name="rujukan" placeholder="Rujukan"><br>
+<input name="tarikh" placeholder="Tarikh"><br>
+<input name="nama" placeholder="Nama"><br>
+<input name="ic" placeholder="No KP"><br>
+<input name="akaun" placeholder="No Akaun"><br>
+<input name="produk" placeholder="Produk"><br>
+<input name="tarikh_perjanjian" placeholder="Tarikh Perjanjian"><br>
+<input name="tarikh_akhir" placeholder="Tarikh Akhir Bayaran"><br>
+<input name="tertunggak" placeholder="Jumlah Tertunggak"><br>
+<input name="jumlah" placeholder="Jumlah Perlu Dibayar"><br>
+<input name="sahlaku" placeholder="Sah Laku Hingga"><br><br>
+<button type="submit">Submit & Generate</button>
 </form>
-</div>
-<script>
-function formatRM(val){
-val=val.toString().replace(/,/g,'');
-let num=parseFloat(val||0).toFixed(2);
-return 'RM '+num.replace(/\B(?=(\d{3})+(?!\d))/g,',');
-}
 
-document.getElementById('stmtForm').addEventListener('submit',function(e){
-e.preventDefault();
-const data={
-rujukan:rujukan.value,
-tarikh:tarikh.value,
-nama:nama.value,
-ic:ic.value,
-akaun:akaun.value,
-produk:produk.value,
-tarikh_perjanjian:tarikh_perjanjian.value,
-tarikh_akhir:tarikh_akhir.value,
-tertunggak:formatRM(tertunggak.value),
-jumlah:formatRM(jumlah.value),
-sahlaku:sahlaku.value
-};
-sessionStorage.setItem('stmtData',JSON.stringify(data));
-window.location.href='view.html';
+<script>
+const form = document.getElementById('form');
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(form).entries());
+
+  google.script.run.withSuccessHandler(res => {
+    alert('SUCCESS! Data saved, PDF sent to email');
+  }).submitData(data);
 });
 </script>
 </body>
