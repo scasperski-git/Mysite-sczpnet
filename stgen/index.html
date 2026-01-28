@@ -219,7 +219,7 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyMl59W_Wfc4fw49uPCsSPKl2OQv5-Kb4oA-FppBi7GuX9moQdsFP3c-d7iMu19h2_V/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbxcpMIZCH9ZNMJnLC3y_ATX0yeMiewtVAM9jF9JsS_oexku9IIgcUzuCaUWMCWrl_NI/exec";
     let CURRENT_REF = "";
 
     function generate(){
@@ -268,8 +268,15 @@
       const url = `${API_URL}?action=download&ref=${encodeURIComponent(CURRENT_REF)}`;
 
       fetch(url)
-        .then(res => res.blob())
-        .then(blob => {
+  .then(res=>{
+    const type = res.headers.get("content-type") || "";
+    if(!type.includes("pdf")){
+      return res.text().then(t=>{ throw new Error(t); });
+    }
+    return res.blob();
+  })
+  .then(blob => {
+
           const file = new Blob([blob], { type: "application/pdf" });
           const fileURL = URL.createObjectURL(file);
 
