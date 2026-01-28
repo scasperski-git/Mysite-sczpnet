@@ -2,59 +2,69 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>DCA Statement Preview</title>
+<title>Statement Preview</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 body{font-family:Arial;background:#f2f2f2}
-.card{max-width:700px;margin:40px auto;background:#fff;padding:25px;border-radius:10px}
+.card{max-width:800px;margin:30px auto;background:#fff;padding:30px;border-radius:10px}
 button{width:100%;padding:12px;margin-top:15px;font-weight:bold}
 </style>
 </head>
 <body>
-
 <div class="card">
-<h2>DCA PAYMENT STATEMENT</h2>
-<p><b>Nama:</b> <span id="vNama"></span></p>
-<p><b>A/C No:</b> <span id="vAc"></span></p>
-<p><b>Amount:</b> RM <span id="vAmount"></span></p>
-<p><b>Date:</b> <span id="vDate"></span></p>
-<p><b>Remark:</b> <span id="vRemark"></span></p>
-<p><b>Officer:</b> <span id="vOfficer"></span></p>
-<p><b>Company:</b> <span id="vCompany"></span></p>
+<h3 style="text-align:center">PENYATA TERKINI PERJANJIAN</h3>
+<p><b>Rujukan Kami :</b> <span id="vRujukan"></span></p>
+<p><b>Tarikh :</b> <span id="vTarikh"></span></p>
+<p><b>Nama :</b> <span id="vNama"></span></p>
+<p><b>No KP :</b> <span id="vIC"></span></p>
+<hr>
+<p>No Akaun / Perjanjian : <span id="vAkaun"></span></p>
+<p>Produk : <span id="vProduk"></span></p>
+<p>Tarikh Perjanjian : <span id="vTP"></span></p>
+<p>Tarikh Akhir Bayaran : <span id="vTA"></span></p>
+<p>Jumlah Tertunggak : RM <span id="vTertunggak"></span></p>
+<p><b>JUMLAH PERLU DIBAYAR : RM <span id="vJumlah"></span></b></p>
+<p><b>Sah Laku Hingga : <span id="vSah"></span></b></p>
 
-<button onclick="generatePDF()">Download PDF Statement</button>
+<button onclick="generatePDF()">Download PDF</button>
 </div>
-
 <script>
 const { jsPDF } = window.jspdf;
-const data = JSON.parse(sessionStorage.getItem('dcaData'));
+const d=JSON.parse(sessionStorage.getItem('stmtData'));
 
-vNama.innerText=data.nama;
-vAc.innerText=data.acno;
-vAmount.innerText=data.amount;
-vDate.innerText=data.date;
-vRemark.innerText=data.remark;
-vOfficer.innerText=data.officer;
-vCompany.innerText=data.company;
+vRujukan.innerText=d.rujukan;
+vTarikh.innerText=d.tarikh;
+vNama.innerText=d.nama;
+vIC.innerText=d.ic;
+vAkaun.innerText=d.akaun;
+vProduk.innerText=d.produk;
+vTP.innerText=d.tarikh_perjanjian;
+vTA.innerText=d.tarikh_akhir;
+vTertunggak.innerText=d.tertunggak;
+vJumlah.innerText=d.jumlah;
+vSah.innerText=d.sahlaku;
 
 function generatePDF(){
 const doc=new jsPDF();
-
-doc.setFontSize(16);
-doc.text('DCA PAYMENT STATEMENT',20,20);
-
+let y=20;
+doc.setFontSize(12);
+doc.text('Rujukan Kami : '+d.rujukan,20,y); y+=8;
+doc.text('Tarikh : '+d.tarikh,20,y); y+=12;
+doc.text(d.nama,20,y); y+=8;
+doc.text('No KP : '+d.ic,20,y); y+=12;
+doc.setFontSize(13);
+doc.text('PENYATA TERKINI PERJANJIAN',20,y); y+=10;
 doc.setFontSize(11);
-doc.text('Nama    : '+data.nama,20,40);
-doc.text('A/C No  : '+data.acno,20,52);
-doc.text('Amount  : RM '+data.amount,20,64);
-doc.text('Date    : '+data.date,20,76);
-doc.text('Remark  : '+data.remark,20,90);
+doc.text('No Akaun/Perjanjian : '+d.akaun,20,y); y+=8;
+doc.text('Produk : '+d.produk,20,y); y+=8;
+doc.text('Tarikh Perjanjian : '+d.tarikh_perjanjian,20,y); y+=8;
+doc.text('Tarikh Akhir Bayaran : '+d.tarikh_akhir,20,y); y+=8;
+doc.text('Jumlah Tertunggak : RM '+d.tertunggak,20,y); y+=10;
+doc.setFontSize(12);
+doc.text('JUMLAH PERLU DIBAYAR : RM '+d.jumlah,20,y); y+=8;
+doc.text('Sah Laku Hingga : '+d.sahlaku,20,y);
 
-doc.text('--------------------------------------------',20,115);
-doc.text('Officer : '+data.officer,20,130);
-doc.text('Company : '+data.company,20,145);
-
-doc.save('DCA_Statement_'+data.acno+'.pdf');
+doc.save('Statement_'+d.akaun+'.pdf');
 }
 </script>
 </body>
