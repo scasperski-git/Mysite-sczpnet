@@ -1,51 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>View & Generate PDF</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    body { font-family: Arial, sans-serif; background:#f2f2f2; }
-    .card { max-width:500px; margin:50px auto; background:white; padding:20px; border-radius:8px; }
-    button { width:100%; padding:10px; margin-top:15px; }
-  </style>
+<meta charset="UTF-8">
+<title>DCA Statement Preview</title>
+<style>
+body{font-family:Segoe UI;background:#020617;color:#e5e7eb;display:flex;justify-content:center}
+.card{max-width:700px;width:100%;margin:40px;background:#020617;border:1px solid #1e293b;border-radius:16px;padding:24px}
+.row{margin:6px 0}
+.btn{margin-top:12px;padding:12px;border-radius:10px;border:none;cursor:pointer;font-weight:700;width:100%}
+.view{background:#2563eb;color:white}
+.download{background:#22c55e;color:#022c22}
+</style>
 </head>
+
 <body>
-
 <div class="card">
-  <h2>Preview Data</h2>
-  <p><b>Nama:</b> <span id="vNama"></span></p>
-  <p><b>A/C No:</b> <span id="vAc"></span></p>
-  <p><b>Remark:</b> <span id="vRemark"></span></p>
+  <h2>DCA Statement Preview</h2>
+  <div id="preview"></div>
 
-  <button onclick="generatePDF()">Download PDF</button>
+  <button class="btn view" onclick="viewPdf()">View PDF</button>
+  <button class="btn download" onclick="downloadPdf()">Download PDF</button>
 </div>
 
 <script>
-  const { jsPDF } = window.jspdf;
+const API_URL = "https://script.google.com/macros/s/AKfycbz7m9HdpYa_FmZ8riRywru8WQ76yldN_RrGxIoKnsBdmyFu47LJfQQGU1s_d66LQnOS/exec";
 
-  const nama = sessionStorage.getItem('nama');
-  const acno = sessionStorage.getItem('acno');
-  const remark = sessionStorage.getItem('remark');
+const data = JSON.parse(sessionStorage.getItem("statement_data") || "{}");
+const ref = sessionStorage.getItem("statement_ref");
 
-  document.getElementById('vNama').innerText = nama;
-  document.getElementById('vAc').innerText = acno;
-  document.getElementById('vRemark').innerText = remark;
+const box = document.getElementById("preview");
 
-  function generatePDF(){
-    const doc = new jsPDF();
+Object.keys(data).forEach(k=>{
+  const div = document.createElement("div");
+  div.className = "row";
+  div.innerHTML = `<b>${k.replaceAll("_"," ").toUpperCase()}:</b> ${data[k]}`;
+  box.appendChild(div);
+});
 
-    doc.setFontSize(14);
-    doc.text('User Data', 20, 20);
+function viewPdf(){
+  const url = `${API_URL}?action=download&ref=${encodeURIComponent(ref)}&mode=view`;
+  window.open(url, "_blank");
+}
 
-    doc.setFontSize(11);
-    doc.text('Nama   : ' + nama, 20, 40);
-    doc.text('A/C No : ' + acno, 20, 55);
-    doc.text('Remark : ' + remark, 20, 70);
-
-    doc.save('user_data.pdf');
-  }
+function downloadPdf(){
+  const url = `${API_URL}?action=download&ref=${encodeURIComponent(ref)}&mode=download`;
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `STATEMENT_${ref}.pdf`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
 </script>
-
 </body>
 </html>
