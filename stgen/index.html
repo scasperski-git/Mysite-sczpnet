@@ -2,34 +2,78 @@
 <html>
 <head>
   <base target="_top">
+  <style>
+    body{
+      font-family:Arial;
+      background:#eaeaea;
+    }
+    .card{
+      max-width:600px;
+      margin:40px auto;
+      background:#fff;
+      padding:25px;
+      border-radius:10px;
+      box-shadow:0 0 10px rgba(0,0,0,0.1);
+    }
+    h2{
+      text-align:center;
+      margin-bottom:20px;
+    }
+    input,button{
+      width:100%;
+      padding:10px;
+      margin-top:8px;
+      border-radius:5px;
+      border:1px solid #ccc;
+      font-size:14px;
+    }
+    button{
+      background:#1e3a8a;
+      color:white;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    button:hover{
+      background:#0f2560;
+    }
+  </style>
 </head>
+
 <body>
-<h2>DCA Statement System</h2>
-<form id="form">
-<input name="rujukan" placeholder="Rujukan"><br>
-<input name="tarikh" placeholder="Tarikh"><br>
-<input name="nama" placeholder="Nama"><br>
-<input name="ic" placeholder="No KP"><br>
-<input name="akaun" placeholder="No Akaun"><br>
-<input name="produk" placeholder="Produk"><br>
-<input name="tarikh_perjanjian" placeholder="Tarikh Perjanjian"><br>
-<input name="tarikh_akhir" placeholder="Tarikh Akhir Bayaran"><br>
-<input name="tertunggak" placeholder="Jumlah Tertunggak"><br>
-<input name="jumlah" placeholder="Jumlah Perlu Dibayar"><br>
-<input name="sahlaku" placeholder="Sah Laku Hingga"><br><br>
-<button type="submit">Submit & Generate</button>
-</form>
+  <div class="card">
+    <h2>DCA Statement System</h2>
+
+    <form id="form">
+      <input name="rujukan" placeholder="Rujukan" required>
+      <input name="tarikh" placeholder="Tarikh" required>
+      <input name="nama" placeholder="Nama" required>
+      <input name="ic" placeholder="No KP" required>
+      <input name="akaun" placeholder="No Akaun" required>
+      <input name="produk" placeholder="Produk" required>
+      <input name="tarikh_perjanjian" placeholder="Tarikh Perjanjian" required>
+      <input name="tarikh_akhir" placeholder="Tarikh Akhir Bayaran" required>
+      <input name="tertunggak" placeholder="Jumlah Tertunggak" required>
+      <input name="jumlah" placeholder="Jumlah Perlu Dibayar" required>
+      <input name="sahlaku" placeholder="Sah Laku Hingga" required>
+
+      <button type="submit">Submit & Generate PDF</button>
+    </form>
+  </div>
 
 <script>
 const form = document.getElementById('form');
+
 form.addEventListener('submit', e => {
   e.preventDefault();
+
   const data = Object.fromEntries(new FormData(form).entries());
 
   google.script.run.withSuccessHandler(res => {
-    alert('SUCCESS! Data saved, PDF sent to email');
+    alert("✅ SUCCESS!\nData saved to Google Sheet\nPDF sent to email");
+    form.reset();
   }).submitData(data);
 });
 </script>
+
 </body>
 </html>
