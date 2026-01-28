@@ -264,8 +264,9 @@
 
 function downloadPdf(){
   if(!CURRENT_REF) return;
-
   const url = `${API_URL}?action=download&ref=${encodeURIComponent(CURRENT_REF)}`;
+  window.open(url, "_blank");   // direct browser navigation
+}
 
   fetch(url)
     .then(res=>{
