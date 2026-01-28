@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>DCA Statement Preview</title>
+<title>DCA Preview</title>
 <style>
 body{font-family:Segoe UI;background:#020617;color:#e5e7eb;display:flex;justify-content:center}
 .card{max-width:700px;width:100%;margin:40px;background:#020617;border:1px solid #1e293b;border-radius:16px;padding:24px}
@@ -15,41 +15,34 @@ body{font-family:Segoe UI;background:#020617;color:#e5e7eb;display:flex;justify-
 
 <body>
 <div class="card">
-  <h2>DCA Statement Preview</h2>
-  <div id="preview"></div>
-
-  <button class="btn view" onclick="viewPdf()">View PDF</button>
-  <button class="btn download" onclick="downloadPdf()">Download PDF</button>
+<h2>DCA Statement Preview</h2>
+<div id="preview"></div>
+<button class="btn view" onclick="viewPdf()">View PDF</button>
+<button class="btn download" onclick="downloadPdf()">Download PDF</button>
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbx7A3_LgdtfKaHf3PN3uv95VLHzagFCbxLj_oFaJCKwpEfKeaVD7VcvyaiCSQtxeiP4/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbySu1vJ3YbXiwl72RhT07GVA9jOrvqoSHhw-Gmnco0GWrOvPCRm9j9NsP6u9o0oHvBU/exec"; // sama URL
 
-const data = JSON.parse(sessionStorage.getItem("statement_data") || "{}");
+const data = JSON.parse(sessionStorage.getItem("statement_data")||"{}");
 const ref = sessionStorage.getItem("statement_ref");
 
 const box = document.getElementById("preview");
-
 Object.keys(data).forEach(k=>{
-  const div = document.createElement("div");
-  div.className = "row";
-  div.innerHTML = `<b>${k.replaceAll("_"," ").toUpperCase()}:</b> ${data[k]}`;
+  const div=document.createElement("div");
+  div.className="row";
+  div.innerHTML=`<b>${k.replaceAll("_"," ").toUpperCase()}:</b> ${data[k]}`;
   box.appendChild(div);
 });
 
 function viewPdf(){
-  const url = `${API_URL}?action=download&ref=${encodeURIComponent(ref)}&mode=view`;
-  window.open(url, "_blank");
+  window.open(`${API_URL}?ref=${ref}&mode=view`,"_blank");
 }
-
 function downloadPdf(){
-  const url = `${API_URL}?action=download&ref=${encodeURIComponent(ref)}&mode=download`;
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `STATEMENT_${ref}.pdf`;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
+  const a=document.createElement("a");
+  a.href=`${API_URL}?ref=${ref}&mode=download`;
+  a.download=`STATEMENT_${ref}.pdf`;
+  document.body.appendChild(a);a.click();a.remove();
 }
 </script>
 </body>
