@@ -6,42 +6,46 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 body{font-family:Arial;background:#f2f2f2}
-.card{max-width:600px;margin:40px auto;background:#fff;padding:20px;border-radius:10px}
-input,textarea,button{width:100%;padding:10px;margin-top:10px}
-button{cursor:pointer;font-weight:bold}
+.card{max-width:700px;margin:30px auto;background:#fff;padding:25px;border-radius:10px}
+input,textarea,button{width:100%;padding:10px;margin-top:8px}
+button{font-weight:bold;cursor:pointer}
 </style>
 </head>
 <body>
-
 <div class="card">
-<h2>DCA Statement Generator</h2>
-<form id="dcaForm">
-<input id="nama" placeholder="Nama Debtor" required>
-<input id="acno" placeholder="A/C No" required>
-<input id="amount" placeholder="Amount (RM)" required>
-<textarea id="remark" placeholder="Remark" rows="4"></textarea>
-<input id="officer" placeholder="Officer Name" required>
-<input id="company" placeholder="Company Name" required>
+<h2>Statement Input (Highlighted Fields)</h2>
+<form id="stmtForm">
+<input id="rujukan" placeholder="Rujukan Kami">
+<input id="tarikh" placeholder="Tarikh (e.g 27 Jan, 2026)">
+<input id="nama" placeholder="Nama">
+<input id="ic" placeholder="No Kad Pengenalan">
+<input id="akaun" placeholder="No Akaun / Perjanjian">
+<input id="produk" placeholder="Produk">
+<input id="tarikh_perjanjian" placeholder="Tarikh Perjanjian">
+<input id="tarikh_akhir" placeholder="Tarikh Akhir Bayaran">
+<input id="tertunggak" placeholder="Jumlah Tertunggak (RM)">
+<input id="jumlah" placeholder="Jumlah Perlu Dibayar (RM)">
+<input id="sahlaku" placeholder="Sah Laku Hingga">
 <button type="submit">Generate Statement</button>
 </form>
 </div>
-
 <script>
-const form=document.getElementById('dcaForm');
-form.addEventListener('submit',function(e){
+document.getElementById('stmtForm').addEventListener('submit',function(e){
 e.preventDefault();
-
 const data={
+rujukan:rujukan.value,
+tarikh:tarikh.value,
 nama:nama.value,
-acno:acno.value,
-amount:amount.value,
-remark:remark.value,
-officer:officer.value,
-company:company.value,
-date:new Date().toLocaleDateString()
+ic:ic.value,
+akaun:akaun.value,
+produk:produk.value,
+tarikh_perjanjian:tarikh_perjanjian.value,
+tarikh_akhir:tarikh_akhir.value,
+tertunggak:tertunggak.value,
+jumlah:jumlah.value,
+sahlaku:sahlaku.value
 };
-
-sessionStorage.setItem('dcaData',JSON.stringify(data));
+sessionStorage.setItem('stmtData',JSON.stringify(data));
 window.location.href='view.html';
 });
 </script>
