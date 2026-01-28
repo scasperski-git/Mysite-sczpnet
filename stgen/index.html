@@ -82,7 +82,12 @@ button{
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbz7m9HdpYa_FmZ8riRywru8WQ76yldN_RrGxIoKnsBdmyFu47LJfQQGU1s_d66LQnOS/exec";
 
-function generate(){
+  function buildUrl(action, ref){
+  const sep = API_URL.includes("?") ? "&" : "?";
+  return `${API_URL}${sep}action=${action}&ref=${encodeURIComponent(ref)}`;
+}
+  
+  function generate(){
   const fields = [
     "key","customer_name","ic","account_no","product",
     "agreement_date","due_date","outstanding","payable",
@@ -103,7 +108,7 @@ function generate(){
     .then(r=>r.json())
     .then(j=>{
       if(j.status==="success"){
-        const previewUrl = `${API_URL}?action=preview&ref=${j.ref}`;
+        const previewUrl = buildUrl("preview", j.ref);
         window.open(previewUrl,"_blank");   // native PDF viewer
       }else{
         alert("Invalid security key. Ref: " + j.ref);
