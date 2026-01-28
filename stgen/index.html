@@ -259,9 +259,29 @@ function generate(){
 
 function downloadPdf(){
   if(!CURRENT_REF) return;
+
   const url = `${API_URL}?action=download&ref=${encodeURIComponent(CURRENT_REF)}`;
-  window.open(url,"_blank");
+
+  fetch(url)
+    .then(res => res.blob())
+    .then(blob => {
+      const file = new Blob([blob], { type: "application/pdf" });
+      const fileURL = URL.createObjectURL(file);
+
+      const a = document.createElement("a");
+      a.href = fileURL;
+      a.download = `STATEMENT_${CURRENT_REF}.pdf`;   // nama file
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      URL.revokeObjectURL(fileURL);
+    })
+    .catch(() => {
+      alert("Download failed. Please try again.");
+    });
 }
+
 </script>
 
 </body>
