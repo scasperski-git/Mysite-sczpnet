@@ -1,51 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>View & Generate PDF</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    body { font-family: Arial, sans-serif; background:#f2f2f2; }
-    .card { max-width:500px; margin:50px auto; background:white; padding:20px; border-radius:8px; }
-    button { width:100%; padding:10px; margin-top:15px; }
-  </style>
+<meta charset="UTF-8">
+<title>DCA Statement Preview</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+body{font-family:Arial;background:#f2f2f2}
+.card{max-width:700px;margin:40px auto;background:#fff;padding:25px;border-radius:10px}
+button{width:100%;padding:12px;margin-top:15px;font-weight:bold}
+</style>
 </head>
 <body>
 
 <div class="card">
-  <h2>Preview Data</h2>
-  <p><b>Nama:</b> <span id="vNama"></span></p>
-  <p><b>A/C No:</b> <span id="vAc"></span></p>
-  <p><b>Remark:</b> <span id="vRemark"></span></p>
+<h2>DCA PAYMENT STATEMENT</h2>
+<p><b>Nama:</b> <span id="vNama"></span></p>
+<p><b>A/C No:</b> <span id="vAc"></span></p>
+<p><b>Amount:</b> RM <span id="vAmount"></span></p>
+<p><b>Date:</b> <span id="vDate"></span></p>
+<p><b>Remark:</b> <span id="vRemark"></span></p>
+<p><b>Officer:</b> <span id="vOfficer"></span></p>
+<p><b>Company:</b> <span id="vCompany"></span></p>
 
-  <button onclick="generatePDF()">Download PDF</button>
+<button onclick="generatePDF()">Download PDF Statement</button>
 </div>
 
 <script>
-  const { jsPDF } = window.jspdf;
+const { jsPDF } = window.jspdf;
+const data = JSON.parse(sessionStorage.getItem('dcaData'));
 
-  const nama = sessionStorage.getItem('nama');
-  const acno = sessionStorage.getItem('acno');
-  const remark = sessionStorage.getItem('remark');
+vNama.innerText=data.nama;
+vAc.innerText=data.acno;
+vAmount.innerText=data.amount;
+vDate.innerText=data.date;
+vRemark.innerText=data.remark;
+vOfficer.innerText=data.officer;
+vCompany.innerText=data.company;
 
-  document.getElementById('vNama').innerText = nama;
-  document.getElementById('vAc').innerText = acno;
-  document.getElementById('vRemark').innerText = remark;
+function generatePDF(){
+const doc=new jsPDF();
 
-  function generatePDF(){
-    const doc = new jsPDF();
+doc.setFontSize(16);
+doc.text('DCA PAYMENT STATEMENT',20,20);
 
-    doc.setFontSize(14);
-    doc.text('User Data', 20, 20);
+doc.setFontSize(11);
+doc.text('Nama    : '+data.nama,20,40);
+doc.text('A/C No  : '+data.acno,20,52);
+doc.text('Amount  : RM '+data.amount,20,64);
+doc.text('Date    : '+data.date,20,76);
+doc.text('Remark  : '+data.remark,20,90);
 
-    doc.setFontSize(11);
-    doc.text('Nama   : ' + nama, 20, 40);
-    doc.text('A/C No : ' + acno, 20, 55);
-    doc.text('Remark : ' + remark, 20, 70);
+doc.text('--------------------------------------------',20,115);
+doc.text('Officer : '+data.officer,20,130);
+doc.text('Company : '+data.company,20,145);
 
-    doc.save('user_data.pdf');
-  }
+doc.save('DCA_Statement_'+data.acno+'.pdf');
+}
 </script>
-
 </body>
 </html>
