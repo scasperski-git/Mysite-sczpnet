@@ -1,53 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Form to PDF App</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <style>
-    body { font-family: Arial, sans-serif; background:#f2f2f2; }
-    .card { max-width:500px; margin:50px auto; background:white; padding:20px; border-radius:8px; }
-    input, textarea, button { width:100%; padding:10px; margin-top:10px; }
-    button { cursor:pointer; }
-  </style>
+<meta charset="UTF-8">
+<title>DCA Statement Generator</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+body{font-family:Arial;background:#f2f2f2}
+.card{max-width:600px;margin:40px auto;background:#fff;padding:20px;border-radius:10px}
+input,textarea,button{width:100%;padding:10px;margin-top:10px}
+button{cursor:pointer;font-weight:bold}
+</style>
 </head>
 <body>
 
 <div class="card">
-  <h2>Form Input</h2>
-  <form id="dataForm">
-    <label>Nama</label>
-    <input type="text" id="nama" required>
-
-    <label>A/C No</label>
-    <input type="text" id="acno" required>
-
-    <label>Remark</label>
-    <textarea id="remark" rows="4" required></textarea>
-
-    <button type="submit">Submit</button>
-  </form>
+<h2>DCA Statement Generator</h2>
+<form id="dcaForm">
+<input id="nama" placeholder="Nama Debtor" required>
+<input id="acno" placeholder="A/C No" required>
+<input id="amount" placeholder="Amount (RM)" required>
+<textarea id="remark" placeholder="Remark" rows="4"></textarea>
+<input id="officer" placeholder="Officer Name" required>
+<input id="company" placeholder="Company Name" required>
+<button type="submit">Generate Statement</button>
+</form>
 </div>
 
 <script>
-  const form = document.getElementById('dataForm');
+const form=document.getElementById('dcaForm');
+form.addEventListener('submit',function(e){
+e.preventDefault();
 
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
+const data={
+nama:nama.value,
+acno:acno.value,
+amount:amount.value,
+remark:remark.value,
+officer:officer.value,
+company:company.value,
+date:new Date().toLocaleDateString()
+};
 
-    const nama = document.getElementById('nama').value;
-    const acno = document.getElementById('acno').value;
-    const remark = document.getElementById('remark').value;
-
-    // Simpan data dalam sessionStorage
-    sessionStorage.setItem('nama', nama);
-    sessionStorage.setItem('acno', acno);
-    sessionStorage.setItem('remark', remark);
-
-    // Pergi ke page PDF
-    window.location.href = 'view.html';
-  });
+sessionStorage.setItem('dcaData',JSON.stringify(data));
+window.location.href='view.html';
+});
 </script>
+</body>
+</html>
 
+
+<!-- ================= SAVE AS: view.html ================= -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DCA Statement Preview</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+body{font-family:Arial;background:#f2f2f2}
+.card{max-width:700px;margin:40px auto;background:#fff;padding:25px;border-radius:10px}
+button{width:100%;padding:12px;margin-top:15px;font-weight:bold}
+</style>
+</head>
+<body>
+
+<div class="card">
+<h2>DCA PAYMENT STATEMENT</h2>
+<p><b>Nama:</b> <span id="vNama"></span></p>
+<p><b>A/C No:</b> <span id="vAc"></span></p>
+<p><b>Amount:</b> RM <span id="vAmount"></span></p>
+<p><b>Date:</b> <span id="vDate"></span></p>
+<p><b>Remark:</b> <span id="vRemark"></span></p>
+<p><b>Officer:</b> <span id="vOfficer"></span></p>
+<p><b>Company:</b> <span id="vCompany"></span></p>
+
+<button onclick="generatePDF()">Download PDF Statement</button>
+</div>
+
+<script>
+const { jsPDF } = window.jspdf;
+const data = JSON.parse(sessionStorage.getItem('dcaData'));
+
+vNama.innerText=data.nama;
+vAc.innerText=data.acno;
+vAmount.innerText=data.amount;
+vDate.innerText=data.date;
+vRemark.innerText=data.remark;
+vOfficer.innerText=data.officer;
+vCompany.innerText=data.company;
+
+function generatePDF(){
+const doc=new jsPDF();
+
+doc.setFontSize(16);
+doc.text('DCA PAYMENT STATEMENT',20,20);
+
+doc.setFontSize(11);
+doc.text('Nama    : '+data.nama,20,40);
+doc.text('A/C No  : '+data.acno,20,52);
+doc.text('Amount  : RM '+data.amount,20,64);
+doc.text('Date    : '+data.date,20,76);
+doc.text('Remark  : '+data.remark,20,90);
+
+doc.text('--------------------------------------------',20,115);
+doc.text('Officer : '+data.officer,20,130);
+doc.text('Company : '+data.company,20,145);
+
+doc.save('DCA_Statement_'+data.acno+'.pdf');
+}
+</script>
 </body>
 </html>
