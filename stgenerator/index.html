@@ -298,15 +298,32 @@
     }
 
     function goHome(){
-      CURRENT_REF = "";
-      CURRENT_PDF_URL = "";
+  // reset state
+  CURRENT_REF = "";
+  CURRENT_PDF_URL = "";
 
-      document.getElementById("summaryBox").style.display="none";
-      document.getElementById("successBox").style.display="none";
-      document.getElementById("invalidBox").style.display="none";
-      document.getElementById("limitBox").style.display="none";
-      document.getElementById("formBox").style.display="block";
-    }
+  // hide summary
+  document.getElementById("summaryBox").style.display="none";
+  document.getElementById("successBox").style.display="none";
+  document.getElementById("invalidBox").style.display="none";
+  document.getElementById("limitBox").style.display="none";
+
+  // show form
+  document.getElementById("formBox").style.display="block";
+
+  // reset all inputs
+  const fields = [
+    "key","customer_name","ic","account_no","product",
+    "agreement_date","due_date","outstanding","payable",
+    "valid_until","ref_client","letter_date"
+  ];
+
+  for(const f of fields){
+    const el = document.getElementById(f);
+    if(el) el.value = "";
+  }
+}
+
   </script>
 
 </body>
