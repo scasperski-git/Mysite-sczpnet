@@ -1,40 +1,108 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Generate PDF</title>
+<title>DCA Statement PDF</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+body{font-family:Arial;background:#eaeaea}
+.card{max-width:850px;margin:30px auto;background:#fff;padding:35px;border-radius:10px}
+button{width:100%;padding:12px;margin-top:15px;font-weight:bold}
+.letterhead{display:flex;align-items:center;gap:15px;border-bottom:2px solid #000;padding-bottom:10px}
+.logo{width:80px;height:80px;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;font-size:12px}
+.company{text-align:left}
+</style>
 </head>
 <body>
-<h2>Generate PDF</h2>
-<button onclick="gen()">Generate & Send</button>
+<div class="card">
+<div class="letterhead">
+<div class="logo">LOGO</div>
+<div class="company">
+<b>DEBT COLLECTION AGENCY SDN BHD</b><br>
+No 1, Jalan Contoh, 50000 Kuala Lumpur<br>
+Tel: 03-00000000 | Email: info@dca.com.my
+</div>
+</div>
 
+<p><b>Rujukan Kami:</b> <span id="vRujukan"></span></p>
+<p><b>Tarikh:</b> <span id="vTarikh"></span></p>
+<br>
+<p><b><span id="vNama"></span></b><br>
+No KP: <span id="vIC"></span></p>
+
+<p><b>PERKARA: PENYATA TERKINI PERJANJIAN BAGI AKAUN NO <span id="vAkaun"></span></b></p>
+
+<p>Berikut adalah ringkasan penyata terkini perjanjian pelanggan:</p>
+
+<p>No Akaun / Perjanjian : <span id="vAkaun2"></span><br>
+Produk : <span id="vProduk"></span><br>
+Tarikh Perjanjian : <span id="vTP"></span><br>
+Tarikh Akhir Bayaran : <span id="vTA"></span><br>
+Jumlah Tertunggak : <span id="vTertunggak"></span></p>
+
+<p><b>JUMLAH PERLU DIBAYAR : <span id="vJumlah"></span></b><br>
+<b>Sah Laku Hingga : <span id="vSah"></span></b></p>
+
+<p>Pembayaran boleh dibuat melalui saluran rasmi yang ditetapkan oleh pihak syarikat. Sila simpan resit sebagai bukti bayaran.</p>
+
+<p>Dokumen ini adalah cetakan komputer dan tidak memerlukan tandatangan.</p>
+
+<button onclick="generatePDF()">Download PDF Rasmi</button>
+</div>
 <script>
 const { jsPDF } = window.jspdf;
-const data = JSON.parse(sessionStorage.getItem('data'));
+const d=JSON.parse(sessionStorage.getItem('stmtData'));
 
-function gen(){
- const doc = new jsPDF();
- doc.text('DCA STATEMENT',20,20);
- doc.text('Nama: '+data.nama,20,35);
- doc.text('Akaun: '+data.akaun,20,45);
- const pdfBlob = doc.output('blob');
- const reader = new FileReader();
- reader.onloadend = async ()=>{
-  const base64 = reader.result.split(',')[1];
-  const payload = {...data, pdf_base64:base64, pdf_name:'Statement_'+data.akaun+'.pdf'};
+vRujukan.innerText=d.rujukan;
+vTarikh.innerText=d.tarikh;
+vNama.innerText=d.nama;
+vIC.innerText=d.ic;
+vAkaun.innerText=d.akaun;
+vAkaun2.innerText=d.akaun;
+vProduk.innerText=d.produk;
+vTP.innerText=d.tarikh_perjanjian;
+vTA.innerText=d.tarikh_akhir;
+vTertunggak.innerText=d.tertunggak;
+vJumlah.innerText=d.jumlah;
+vSah.innerText=d.sahlaku;
 
-  const res = await fetch('https://script.google.com/macros/s/AKfycbx2Zc5QHQT6AWivlA5yCyNTwC821tlxoiLb3asmMwTNbiOnxC7ZSkCRSshBKjxvv52VEQ/exec',{
-    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)
-  });
-  const j = await res.json();
-  if(j.status==='OK'){
-    doc.save('Statement_'+data.akaun+'.pdf');
-  }else{
-    alert('KEY INVALID / ERROR');
-  }
- };
- reader.readAsDataURL(pdfBlob);
+function generatePDF(){
+const doc=new jsPDF();
+let y=15;
+// Letterhead
+doc.setFontSize(12);
+doc.text('DEBT COLLECTION AGENCY SDN BHD',20,y); y+=6;
+doc.setFontSize(10);
+doc.text('No 1, Jalan Contoh, 50000 Kuala Lumpur',20,y); y+=5;
+doc.text('Tel: 03-00000000 | Email: info@dca.com.my',20,y); y+=8;
+doc.line(20,y,190,y); y+=10;
+
+// Body
+doc.setFontSize(11);
+doc.text('Rujukan Kami: '+d.rujukan,20,y); y+=6;
+doc.text('Tarikh: '+d.tarikh,20,y); y+=10;
+doc.text(d.nama,20,y); y+=6;
+doc.text('No KP: '+d.ic,20,y); y+=10;
+doc.setFontSize(12);
+doc.text('PENYATA TERKINI PERJANJIAN BAGI AKAUN NO '+d.akaun,20,y); y+=10;
+doc.setFontSize(11);
+doc.text('No Akaun / Perjanjian : '+d.akaun,20,y); y+=6;
+doc.text('Produk : '+d.produk,20,y); y+=6;
+doc.text('Tarikh Perjanjian : '+d.tarikh_perjanjian,20,y); y+=6;
+doc.text('Tarikh Akhir Bayaran : '+d.tarikh_akhir,20,y); y+=6;
+doc.text('Jumlah Tertunggak : '+d.tertunggak,20,y); y+=10;
+doc.setFontSize(12);
+doc.text('JUMLAH PERLU DIBAYAR : '+d.jumlah,20,y); y+=7;
+doc.text('Sah Laku Hingga : '+d.sahlaku,20,y); y+=10;
+doc.setFontSize(11);
+doc.text('Pembayaran boleh dibuat melalui saluran rasmi yang ditetapkan oleh pihak syarikat.',20,y); y+=6;
+doc.text('Dokumen ini adalah cetakan komputer dan tidak memerlukan tandatangan.',20,y);
+
+// Logo placeholder box
+doc.rect(150,15,30,20);
+doc.text('LOGO',158,27);
+
+doc.save('Statement_Rasmi_'+d.akaun+'.pdf');
 }
 </script>
 </body>
