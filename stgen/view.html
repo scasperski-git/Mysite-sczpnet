@@ -24,7 +24,7 @@ function gen(){
   const base64 = reader.result.split(',')[1];
   const payload = {...data, pdf_base64:base64, pdf_name:'Statement_'+data.akaun+'.pdf'};
 
-  const res = await fetch('https://script.google.com/macros/s/AKfycbyduxJYgFT0iTtjwJO7LODVZ-s24TC5PWN_uR5CDPtQljPtRvOQOB5soZ70KUiK31xfzg/exec',{
+  const res = await fetch('https://script.google.com/macros/s/AKfycbx2Zc5QHQT6AWivlA5yCyNTwC821tlxoiLb3asmMwTNbiOnxC7ZSkCRSshBKjxvv52VEQ/exec',{
     method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)
   });
   const j = await res.json();
