@@ -24,21 +24,30 @@
 </form>
 
 <script>
-form.onsubmit = e =>{
+const form = document.getElementById('form');
+
+form.onsubmit = (e) =>{
  e.preventDefault();
- const data={
-  api_key:api_key.value,
-  rujukan:rujukan.value, tarikh:tarikh.value, nama:nama.value, ic:ic.value,
-  akaun:akaun.value, produk:produk.value,
-  tarikh_perjanjian:tarikh_perjanjian.value,
-  tarikh_akhir:tarikh_akhir.value,
-  tertunggak:tertunggak.value,
-  jumlah:jumlah.value,
-  sahlaku:sahlaku.value
+
+ const data = {
+  api_key: document.getElementById('api_key').value,
+  rujukan: document.getElementById('rujukan').value,
+  tarikh: document.getElementById('tarikh').value,
+  nama: document.getElementById('nama').value,
+  ic: document.getElementById('ic').value,
+  akaun: document.getElementById('akaun').value,
+  produk: document.getElementById('produk').value,
+  tarikh_perjanjian: document.getElementById('tarikh_perjanjian').value,
+  tarikh_akhir: document.getElementById('tarikh_akhir').value,
+  tertunggak: document.getElementById('tertunggak').value,
+  jumlah: document.getElementById('jumlah').value,
+  sahlaku: document.getElementById('sahlaku').value
  };
- sessionStorage.setItem('data',JSON.stringify(data));
- location.href='view.html';
+
+ sessionStorage.setItem('data', JSON.stringify(data));
+ location.href = 'view.html';
 };
 </script>
+
 </body>
 </html>
