@@ -28,7 +28,6 @@
     }
 
     /* ===== FORM ===== */
-    #formBox{}
     h2{text-align:center;margin-top:0;font-weight:600;}
 
     .form-grid{
@@ -200,13 +199,22 @@
           <button class="download-btn" onclick="downloadPdf()">Download PDF</button>
         </div>
 
-        <!-- INVALID -->
+        <!-- INVALID KEY -->
         <div id="invalidBox" style="display:none;">
           <h2 class="invalid">Invalid Security Key</h2>
           <p>Access denied. Unauthorized generation attempt.</p>
           <div class="ref">
             Reference No: <span id="refInvalid"></span>
           </div>
+        </div>
+
+        <!-- RATE LIMIT -->
+        <div id="limitBox" style="display:none;">
+          <h2 class="invalid">Daily Limit Reached</h2>
+          <p>
+            You have reached your daily limit for generating statements.<br>
+            Please try again tomorrow or contact the system administrator for assistance.
+          </p>
         </div>
 
       </div>
@@ -219,58 +227,68 @@
   </div>
 
   <script>
-  const API_URL = "https://script.google.com/macros/s/AKfycbx9m7Y4-Jm3NaMrrUkDxOg1sBONFdT3_FWkz1rqbC3lAB7N5eVvWn-D9igpHL2bEdTEVA/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbx9m7Y4-Jm3NaMrrUkDxOg1sBONFdT3_FWkz1rqbC3lAB7N5eVvWn-D9igpHL2bEdTEVA/exec";
 
-  let CURRENT_REF = "";
-  let CURRENT_PDF_URL = "";
+    let CURRENT_REF = "";
+    let CURRENT_PDF_URL = "";
 
-  function generate(){
-    const fields = [
-      "key","customer_name","ic","account_no","product",
-      "agreement_date","due_date","outstanding","payable",
-      "valid_until","ref_client","letter_date"
-    ];
+    function generate(){
+      const fields = [
+        "key","customer_name","ic","account_no","product",
+        "agreement_date","due_date","outstanding","payable",
+        "valid_until","ref_client","letter_date"
+      ];
 
-    const fd = new FormData();
+      const fd = new FormData();
 
-    for(const f of fields){
-      const el = document.getElementById(f);
-      if(!el.value.trim()){
-        alert("All fields required");
-        return;
+      for(const f of fields){
+        const el = document.getElementById(f);
+        if(!el.value.trim()){
+          alert("All fields required");
+          return;
+        }
+        fd.append(f, el.value.trim());
       }
-      fd.append(f, el.value.trim());
+
+      fetch(API_URL,{method:"POST",body:fd})
+        .then(r=>r.json())
+        .then(j=>{
+          document.getElementById("formBox").style.display="none";
+          document.getElementById("summaryBox").style.display="block";
+
+          if(j.status==="success"){
+            CURRENT_REF = j.ref;
+            CURRENT_PDF_URL = j.pdf_url;
+
+            document.getElementById("successBox").style.display="block";
+            document.getElementById("invalidBox").style.display="none";
+            document.getElementById("limitBox").style.display="none";
+            document.getElementById("refSuccess").innerText = j.ref;
+
+          }else if(j.status==="rate_limited"){
+
+            document.getElementById("successBox").style.display="none";
+            document.getElementById("invalidBox").style.display="none";
+            document.getElementById("limitBox").style.display="block";
+
+          }else{ // invalid key / other fail
+
+            document.getElementById("successBox").style.display="none";
+            document.getElementById("limitBox").style.display="none";
+            document.getElementById("invalidBox").style.display="block";
+            document.getElementById("refInvalid").innerText = j.ref || "-";
+          }
+        })
+        .catch(()=>{
+          alert("System error. Please try again.");
+        });
     }
 
-    fetch(API_URL,{method:"POST",body:fd})
-      .then(r=>r.json())
-      .then(j=>{
-        document.getElementById("formBox").style.display="none";
-        document.getElementById("summaryBox").style.display="block";
-
-        if(j.status==="success"){
-          CURRENT_REF = j.ref;
-          CURRENT_PDF_URL = j.pdf_url;
-
-          document.getElementById("successBox").style.display="block";
-          document.getElementById("invalidBox").style.display="none";
-          document.getElementById("refSuccess").innerText = j.ref;
-        }else{
-          document.getElementById("successBox").style.display="none";
-          document.getElementById("invalidBox").style.display="block";
-          document.getElementById("refInvalid").innerText = j.ref || "-";
-        }
-      })
-      .catch(()=>{
-        alert("System error. Please try again.");
-      });
-  }
-
-  function downloadPdf(){
-    if(!CURRENT_PDF_URL) return;
-    window.open(CURRENT_PDF_URL, "_blank");
-  }
-</script>
+    function downloadPdf(){
+      if(!CURRENT_PDF_URL) return;
+      window.open(CURRENT_PDF_URL, "_blank");
+    }
+  </script>
 
 </body>
 </html>
