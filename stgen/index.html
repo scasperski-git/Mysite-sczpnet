@@ -1,60 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>DCA Professional Statement Generator</title>
+<title>DCA Statement</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<style>
-body{font-family:Arial;background:#eaeaea}
-.card{max-width:750px;margin:30px auto;background:#fff;padding:25px;border-radius:10px}
-input,button{width:100%;padding:10px;margin-top:8px}
-button{font-weight:bold;cursor:pointer}
-</style>
 </head>
 <body>
-<div class="card">
-<h2>DCA Statement Generator (Professional)</h2>
-<input id="api_key" placeholder="Enter DCA Key" required>
-<form id="stmtForm">
-<input id="rujukan" placeholder="Rujukan Kami">
-<input id="tarikh" placeholder="Tarikh (e.g 27 Jan 2026)">
-<input id="nama" placeholder="Nama Pelanggan">
-<input id="ic" placeholder="No Kad Pengenalan">
-<input id="akaun" placeholder="No Akaun / Perjanjian">
-<input id="produk" placeholder="Produk">
-<input id="tarikh_perjanjian" placeholder="Tarikh Perjanjian">
-<input id="tarikh_akhir" placeholder="Tarikh Akhir Bayaran">
-<input id="tertunggak" placeholder="Jumlah Tertunggak">
-<input id="jumlah" placeholder="Jumlah Perlu Dibayar">
-<input id="sahlaku" placeholder="Sah Laku Hingga">
-<button type="submit">Generate Professional Statement</button>
+<h2>DCA Statement Generator</h2>
+<form id="form">
+<input id="api_key" placeholder="DCA KEY" required><br>
+<input id="rujukan" placeholder="Rujukan"><br>
+<input id="tarikh" placeholder="Tarikh"><br>
+<input id="nama" placeholder="Nama"><br>
+<input id="ic" placeholder="IC"><br>
+<input id="akaun" placeholder="No Akaun"><br>
+<input id="produk" placeholder="Produk"><br>
+<input id="tarikh_perjanjian" placeholder="Tarikh Perjanjian"><br>
+<input id="tarikh_akhir" placeholder="Tarikh Akhir"><br>
+<input id="tertunggak" placeholder="Jumlah Tertunggak"><br>
+<input id="jumlah" placeholder="Jumlah Perlu Dibayar"><br>
+<input id="sahlaku" placeholder="Sah Laku Hingga"><br>
+<button type="submit">Generate</button>
 </form>
-</div>
-<script>
-function formatRM(val){
-val=val.toString().replace(/,/g,'');
-let num=parseFloat(val||0).toFixed(2);
-return 'RM '+num.replace(/\B(?=(\d{3})+(?!\d))/g,',');
-}
 
-document.getElementById('stmtForm').addEventListener('submit',function(e){
-e.preventDefault();
-const data={
-rujukan:rujukan.value,
-tarikh:tarikh.value,
-nama:nama.value,
-ic:ic.value,
-akaun:akaun.value,
-produk:produk.value,
-tarikh_perjanjian:tarikh_perjanjian.value,
-tarikh_akhir:tarikh_akhir.value,
-tertunggak:formatRM(tertunggak.value),
-jumlah:formatRM(jumlah.value),
-sahlaku:sahlaku.value
+<script>
+form.onsubmit = e =>{
+ e.preventDefault();
+ const data={
+  api_key:api_key.value,
+  rujukan:rujukan.value, tarikh:tarikh.value, nama:nama.value, ic:ic.value,
+  akaun:akaun.value, produk:produk.value,
+  tarikh_perjanjian:tarikh_perjanjian.value,
+  tarikh_akhir:tarikh_akhir.value,
+  tertunggak:tertunggak.value,
+  jumlah:jumlah.value,
+  sahlaku:sahlaku.value
+ };
+ sessionStorage.setItem('data',JSON.stringify(data));
+ location.href='view.html';
 };
-sessionStorage.setItem('stmtData',JSON.stringify(data));
-window.location.href='view.html';
-});
 </script>
 </body>
 </html>
