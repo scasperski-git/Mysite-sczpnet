@@ -219,74 +219,58 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwMJvNZyl8nlze4YyFghliPXcroGIRwMXNs4bEInNmXHBYAehrFHZtMcIwU1OP7I1RVkg/exec";
-    let CURRENT_REF = "";
+  const API_URL = "https://script.google.com/macros/s/AKfycbwJ4E55ktJP8kLGxY7w2UZG4v3tukoPToiLEqMyvhjV2LwFlwRe9Qo-4TMlan0lV3kLVQ/exec";
 
-    function generate(){
-      const fields = [
-        "key","customer_name","ic","account_no","product",
-        "agreement_date","due_date","outstanding","payable",
-        "valid_until","ref_client","letter_date"
-      ];
+  let CURRENT_REF = "";
+  let CURRENT_PDF_URL = "";
 
-      const fd = new FormData();
+  function generate(){
+    const fields = [
+      "key","customer_name","ic","account_no","product",
+      "agreement_date","due_date","outstanding","payable",
+      "valid_until","ref_client","letter_date"
+    ];
 
-      for(const f of fields){
-        const el = document.getElementById(f);
-        if(!el.value.trim()){
-          alert("All fields required");
-          return;
-        }
-        fd.append(f, el.value.trim());
+    const fd = new FormData();
+
+    for(const f of fields){
+      const el = document.getElementById(f);
+      if(!el.value.trim()){
+        alert("All fields required");
+        return;
       }
-
-      fetch(API_URL,{method:"POST",body:fd})
-        .then(r=>r.json())
-        .then(j=>{
-          document.getElementById("formBox").style.display="none";
-          document.getElementById("summaryBox").style.display="block";
-
-          if(j.status==="success"){
-            CURRENT_REF = j.ref;
-            document.getElementById("successBox").style.display="block";
-            document.getElementById("invalidBox").style.display="none";
-            document.getElementById("refSuccess").innerText = j.ref;
-          }else{
-            document.getElementById("successBox").style.display="none";
-            document.getElementById("invalidBox").style.display="block";
-            document.getElementById("refInvalid").innerText = j.ref || "-";
-          }
-        })
-        .catch(()=>{
-          alert("System error. Please try again.");
-        });
+      fd.append(f, el.value.trim());
     }
 
-    function downloadPdf(){
-      if(!CURRENT_REF) return;
+    fetch(API_URL,{method:"POST",body:fd})
+      .then(r=>r.json())
+      .then(j=>{
+        document.getElementById("formBox").style.display="none";
+        document.getElementById("summaryBox").style.display="block";
 
-      const url = `${API_URL}?action=download&ref=${encodeURIComponent(CURRENT_REF)}`;
+        if(j.status==="success"){
+          CURRENT_REF = j.ref;
+          CURRENT_PDF_URL = j.pdf_url;
 
-      fetch(url)
-        .then(res => res.blob())
-        .then(blob => {
-          const file = new Blob([blob], { type: "application/pdf" });
-          const fileURL = URL.createObjectURL(file);
+          document.getElementById("successBox").style.display="block";
+          document.getElementById("invalidBox").style.display="none";
+          document.getElementById("refSuccess").innerText = j.ref;
+        }else{
+          document.getElementById("successBox").style.display="none";
+          document.getElementById("invalidBox").style.display="block";
+          document.getElementById("refInvalid").innerText = j.ref || "-";
+        }
+      })
+      .catch(()=>{
+        alert("System error. Please try again.");
+      });
+  }
 
-          const a = document.createElement("a");
-          a.href = fileURL;
-          a.download = `STATEMENT_${CURRENT_REF}.pdf`; // nama file
+  function downloadPdf(){
+    if(!CURRENT_PDF_URL) return;
+    window.open(CURRENT_PDF_URL, "_blank");
+  }
+</script>
 
-          document.body.appendChild(a);
-          a.click();
-          a.remove();
-
-          URL.revokeObjectURL(fileURL);
-        })
-        .catch(() => {
-          alert("Download failed. Please try again.");
-        });
-    }
-  </script>
 </body>
 </html>
