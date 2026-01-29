@@ -40,21 +40,21 @@ function submitData(){
   document.getElementById("status").innerHTML = "Processing... ⏳";
 
   const data = {
-    rujukan: rujukan.value,
-    tarikh_surat: tarikh_surat.value,
-    nama: nama.value,
-    nokp: nokp.value,
-    akaun: akaun.value,
-    produk: produk.value,
-    tarikh_perjanjian: tarikh_perjanjian.value,
-    tarikh_akhir: tarikh_akhir.value,
-    jumlah_tertunggak: jumlah_tertunggak.value,
-    jumlah_bayar: jumlah_bayar.value,
-    sah_laku: sah_laku.value,
-    security_key: security_key.value
+    rujukan: document.getElementById("rujukan").value,
+    tarikh_surat: document.getElementById("tarikh_surat").value,
+    nama: document.getElementById("nama").value,
+    nokp: document.getElementById("nokp").value,
+    akaun: document.getElementById("akaun").value,
+    produk: document.getElementById("produk").value,
+    tarikh_perjanjian: document.getElementById("tarikh_perjanjian").value,
+    tarikh_akhir: document.getElementById("tarikh_akhir").value,
+    jumlah_tertunggak: document.getElementById("jumlah_tertunggak").value,
+    jumlah_bayar: document.getElementById("jumlah_bayar").value,
+    sah_laku: document.getElementById("sah_laku").value,
+    security_key: document.getElementById("security_key").value
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbxHtK--SzAsFGgG8DCEuoHXGznqv1xibH16iNU7SKXpIbqWlmQdTI-1CW2EsjDjoclL/exec",{
+  fetch("https://script.google.com/macros/s/AKfycbwX_WkwlhEWR1HZRlcQGQfkKIHp1nuPPfzo_EDlGvkE05GCf4dja-tddeZXzOqzS3Xgrw/exec",{
     method:"POST",
     headers:{
       "Content-Type":"application/json"
@@ -65,11 +65,14 @@ function submitData(){
   .then(res => {
     console.log(res);
     if(res.status === "success"){
-      document.getElementById("status").innerHTML = "SUCCESS ✅ PDF sent to authorized email";
+      document.getElementById("status").innerHTML = 
+        `SUCCESS ✅ <br><a href="${res.pdf}" target="_blank">Download PDF</a>`;
     }else if(res.status === "denied"){
-      document.getElementById("status").innerHTML = "ACCESS DENIED ❌ Invalid Security Key";
+      document.getElementById("status").innerHTML = 
+        "ACCESS DENIED ❌ Invalid Security Key";
     }else{
-      document.getElementById("status").innerHTML = "ERROR ❌ " + (res.message || "System error");
+      document.getElementById("status").innerHTML = 
+        "ERROR ❌ " + (res.message || "System error");
     }
   })
   .catch(err=>{
