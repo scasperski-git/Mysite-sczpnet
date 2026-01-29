@@ -63,7 +63,7 @@
       background:linear-gradient(135deg,#16a34a,#22c55e);
       color:#022c22;
       font-weight:700;
-      margin-top:18px;
+      margin-top:14px;
       cursor:pointer;
       transition:.3s;
     }
@@ -71,6 +71,11 @@
     button:hover{
       transform:translateY(-1px);
       box-shadow:0 10px 25px rgba(34,197,94,.35);
+    }
+
+    .btn-secondary{
+      background:linear-gradient(135deg,#334155,#475569);
+      color:#e5e7eb;
     }
 
     /* ===== SUMMARY ===== */
@@ -197,6 +202,7 @@
             Reference No: <span id="refSuccess"></span>
           </div>
           <button class="download-btn" onclick="downloadPdf()">Download PDF</button>
+          <button class="btn-secondary" onclick="goHome()">Back to Home</button>
         </div>
 
         <!-- INVALID KEY -->
@@ -206,6 +212,7 @@
           <div class="ref">
             Reference No: <span id="refInvalid"></span>
           </div>
+          <button class="btn-secondary" onclick="goHome()">Back to Home</button>
         </div>
 
         <!-- RATE LIMIT -->
@@ -213,8 +220,9 @@
           <h2 class="invalid">Daily Limit Reached</h2>
           <p>
             You have reached your daily limit for generating statements.<br>
-            Please try again tomorrow.
+            Please try again tomorrow or contact the system administrator for assistance.
           </p>
+          <button class="btn-secondary" onclick="goHome()">Back to Home</button>
         </div>
 
       </div>
@@ -227,7 +235,7 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbx9m7Y4-Jm3NaMrrUkDxOg1sBONFdT3_FWkz1rqbC3lAB7N5eVvWn-D9igpHL2bEdTEVA/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbzg80B3e-LlEMrwz_Vz83kd756rfOiDZ1k6h8OCEXUIHw5xDgcM8ORyZprD8wNezLLvWg/exec";
 
     let CURRENT_REF = "";
     let CURRENT_PDF_URL = "";
@@ -287,6 +295,17 @@
     function downloadPdf(){
       if(!CURRENT_PDF_URL) return;
       window.open(CURRENT_PDF_URL, "_blank");
+    }
+
+    function goHome(){
+      CURRENT_REF = "";
+      CURRENT_PDF_URL = "";
+
+      document.getElementById("summaryBox").style.display="none";
+      document.getElementById("successBox").style.display="none";
+      document.getElementById("invalidBox").style.display="none";
+      document.getElementById("limitBox").style.display="none";
+      document.getElementById("formBox").style.display="block";
     }
   </script>
 
