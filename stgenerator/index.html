@@ -231,14 +231,6 @@
           <div class="ref">
             Reference No: <span id="refSuccess"></span>
           </div>
-          <div style="margin-top:16px;border:1px solid #1e293b;border-radius:12px;overflow:hidden;">
-  <iframe
-    id="pdfPreview"
-    src=""
-    style="width:100%;height:420px;border:none;background:#020617;">
-  </iframe>
-</div>
-
           <button class="download-btn" onclick="downloadPdf()">Download PDF</button>
           <button class="btn-secondary" onclick="goHome()">Back to Home</button>
         </div>
@@ -273,7 +265,7 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbyppNF4gdalNKuwI8GOuqns6krPudizEWrKX7LY8GH4pUcwVcIIHB9gWNGKt0_CWdn7Zw/exec;
+    const API_URL = "https://script.google.com/macros/s/AKfycbwGxB6VHjgZq1vjKi7FJg7GhAIiEKxoVHrId1-3t9hJDatzo3Zni2xpGUicUCfmSg9BlQ/exec";
 
     let CURRENT_REF = "";
     let CURRENT_PDF_URL = "";
@@ -312,7 +304,6 @@
           if(j.status==="success"){
             CURRENT_REF = j.ref;
             CURRENT_PDF_URL = j.pdf_url;
-            document.getElementById("pdfPreview").src = CURRENT_PDF_URL;
 
             document.getElementById("successBox").style.display="block";
             document.getElementById("invalidBox").style.display="none";
