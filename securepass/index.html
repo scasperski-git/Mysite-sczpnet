@@ -874,12 +874,12 @@ const SYSTEM_MODE = "ON";
 </div>
 <div class="field-msg" id="errAgency">Agency Full Name is required</div>  
   
-    <label>Director Name</label>  
+    <label>Authorized Representative Name</label>
 <div class="field icon-field">
-  <i class="fa-solid fa-user-tie input-icon"></i>
-  <input id="director" placeholder="e.g JOHN DOE">  
+  <i class="fa-solid fa-user-shield input-icon"></i>
+  <input id="representative" placeholder="e.g JOHN DOE (PIC)">  
 </div>
-<div class="field-msg" id="errDirector">Director Name is required</div>  
+<div class="field-msg" id="errRep">Authorized Representative Name is required</div>
 
   
 <label>Contact Number</label>  
@@ -1036,10 +1036,10 @@ const SYSTEM_MODE = "ON";
 </div> 
 
   <script>  
-const API_URL = "https://script.google.com/macros/s/AKfycbyBqIlWQMg9RXmMW3uaXRF-wPg2uE9NqQhycDFCA_MHEQpTE1q8GTpHbsaLn7VxSwa10w/exec";  
+const API_URL = "https://script.google.com/macros/s/AKfycbz_nwfNVEZQAP5NGGJHT-Dhz3nK2xqqrhMc_7fr6Dz9672qNRH7tqWjG_0wDKzAlT__YA/exec";  
   
 const agencyEl = document.getElementById('agency');  
-const directorEl = document.getElementById('director');  
+const repEl = document.getElementById('representative');
 const contactEl = document.getElementById('contact');  
 const keyEl = document.getElementById('key');  
 const submitBtn = document.getElementById('submitBtn');  
@@ -1056,7 +1056,7 @@ const loading = document.getElementById('loading');
 /* Auto caps */  
 function autoCaps(el){ el.value = el.value.toUpperCase(); }  
 agencyEl.addEventListener("input",()=>autoCaps(agencyEl));  
-directorEl.addEventListener("input",()=>autoCaps(directorEl));  
+repEl.addEventListener("input",()=>autoCaps(repEl));
   
 /* Reveal key */  
 let hideTimer=null;  
@@ -1088,7 +1088,7 @@ function toggleKey(){
 /* Form validation state */  
 function checkForm(){  
   const consent=document.getElementById('consent').checked;  
-  if(agencyEl.value && directorEl.value && contactEl.value && keyEl.value && consent){  
+  if(agencyEl.value && repEl.value && contactEl.value && keyEl.value && consent)
     submitBtn.classList.remove("disabled");  
     submitBtn.classList.add("ready");  
     formError.style.display="none";  
@@ -1181,7 +1181,7 @@ function validateFields(){
   }  
   
   check(agencyEl, document.getElementById("errAgency"));  
-  check(directorEl, document.getElementById("errDirector"));  
+  check(repEl, document.getElementById("errRep")); 
   check(contactEl, document.getElementById("errContact"));  
   check(keyEl, document.getElementById("errKey"));  
   
@@ -1201,7 +1201,7 @@ consentEl.addEventListener("change", ()=>{
 }  
   
 agencyEl.addEventListener("input",()=>clearError(agencyEl,"errAgency"));  
-directorEl.addEventListener("input",()=>clearError(directorEl,"errDirector"));  
+repEl.addEventListener("input",()=>clearError(repEl,"errRep"));  
 contactEl.addEventListener("input",()=>clearError(contactEl,"errContact"));  
 keyEl.addEventListener("input",()=>clearError(keyEl,"errKey"));  
 
@@ -1238,7 +1238,7 @@ function verifyKey(){
  fetch(`${API_URL}?action=direct_access`
   + `&agency=${encodeURIComponent(agencyEl.value)}`
   + `&key=${encodeURIComponent(keyEl.value)}`
-  + `&director=${encodeURIComponent(directorEl.value)}`
+  + `&representative=${encodeURIComponent(repEl.value)}`
   + `&contact=${encodeURIComponent(contactEl.value)}`
   + `&ip=${encodeURIComponent(USER_IP || "-")}`
   + `&geo=${encodeURIComponent(JSON.stringify(USER_GEO || {}))}`
