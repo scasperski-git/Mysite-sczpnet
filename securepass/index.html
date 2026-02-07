@@ -972,7 +972,7 @@ const SYSTEM_MODE = "ON";
       </p>
   
       <p><b>Agency:</b> <span id="sAgency"></span></p>  
-      <p><b>Director:</b> <span id="sDirector"></span></p>  
+      <p><b>Authorized Representative:</b> <span id="sRep"></span></p>  
       <p><b>Contact:</b> <span id="sContact"></span></p>  
   
       <hr style="border:0;border-top:1px solid #334155;margin:10px 0;">  
@@ -1012,7 +1012,7 @@ const SYSTEM_MODE = "ON";
   <hr style="border:0;border-top:1px solid #334155;margin:10px 0;">  
   
   <p><b>Agency:</b> <span id="iAgency"></span></p>  
-  <p><b>Director:</b> <span id="iDirector"></span></p>  
+  <p><b>Authorized Representative:</b> <span id="iRep"></span></p>
   <p><b>Contact:</b> <span id="iContact"></span></p>  
 
   <!-- ❌ Reference No -->
@@ -1047,7 +1047,7 @@ const formError = document.getElementById('formError');
 const step1 = document.getElementById('step1');  
 const step2 = document.getElementById('step2');  
 const sAgency = document.getElementById('sAgency');  
-const sDirector = document.getElementById('sDirector');  
+const sRep = document.getElementById('sRep'); 
 const sContact = document.getElementById('sContact');  
 const sPassword = document.getElementById('sPassword');  
 const sConsentText = document.getElementById('sConsentText');  
@@ -1087,24 +1087,27 @@ function toggleKey(){
   
 /* Form validation state */  
 function checkForm(){  
-  const consent=document.getElementById('consent').checked;  
-  if(agencyEl.value && repEl.value && contactEl.value && keyEl.value && consent)
+  const consent = document.getElementById('consent').checked;  
+
+  if (agencyEl.value && repEl.value && contactEl.value && keyEl.value && consent) {
     submitBtn.classList.remove("disabled");  
     submitBtn.classList.add("ready");  
     formError.style.display="none";  
-  }else{  
+  } else {  
     submitBtn.classList.add("disabled");  
     submitBtn.classList.remove("ready");  
   }  
-}  
+}
+ 
   
 ["input","change"].forEach(evt=>{  
   agencyEl.addEventListener(evt,checkForm);  
-  directorEl.addEventListener(evt,checkForm);  
+  repEl.addEventListener(evt,checkForm);  
   contactEl.addEventListener(evt,checkForm);  
   keyEl.addEventListener(evt,checkForm);  
   document.getElementById("consent").addEventListener(evt,checkForm);  
-});  
+});
+
   
 const phoneInput = document.getElementById("contact");
 const err = document.getElementById("errPhone");
@@ -1261,7 +1264,7 @@ if(data.status !== "success"){
   invalidBox.classList.remove("hidden");
 
   document.getElementById("iAgency").innerText = agencyEl.value;  
-  document.getElementById("iDirector").innerText = directorEl.value;  
+  document.getElementById("iRep").innerText = repEl.value;  
   document.getElementById("iContact").innerText = contactEl.value;  
 
   // ref from server
@@ -1278,7 +1281,7 @@ successBox.classList.remove("hidden");
 document.getElementById("refSuccess").innerText = data.ref || "-";
 
     sAgency.innerText = agencyEl.value;  
-    sDirector.innerText = directorEl.value;  
+    sRep.innerText = repEl.value;
     sContact.innerText = contactEl.value;  
 
     // ===== DYNAMIC PASSWORD RENDER =====  
