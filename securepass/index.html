@@ -1036,7 +1036,7 @@ const SYSTEM_MODE = "ON";
 </div> 
 
   <script>  
-const API_URL = "https://script.google.com/macros/s/AKfycbyXSM3EdKFjPzn6ULYqe-uiySIlAL7owmslxsxy9nl0LuQpAOtg-nMzV8YDlfVzoJtlRQ/exec";  
+const API_URL = "https://script.google.com/macros/s/AKfycbzfKZ2RiGQR1W4GZzWcSziDZTY3Zx-IxANhEMRLqrdbZqbl6FyNmA6Z-wQTaZdkiPeiJQ/exec";  
   
 const agencyEl = document.getElementById('agency');  
 const repEl = document.getElementById('representative');
@@ -1238,86 +1238,76 @@ function verifyKey(){
   
   loading.style.display="flex";  
 
- fetch(`${API_URL}?action=direct_access`
-  + `&agency=${encodeURIComponent(agencyEl.value)}`
-  + `&key=${encodeURIComponent(keyEl.value)}`
-  + `&representative=${encodeURIComponent(repEl.value)}`
-  + `&contact=${encodeURIComponent(contactEl.value)}`
-  + `&ip=${encodeURIComponent(USER_IP || "-")}`
-  + `&geo=${encodeURIComponent(JSON.stringify(USER_GEO || {}))}`
-  + `&consent=${encodeURIComponent(document.querySelector(".consent-text").innerText)}`
-)
-
-  .then(res=>res.json())  
-  .then(data=>{  
-    loading.style.display="none";  
-
-    document.querySelector(".security-bar").style.display = "none";
-
-    if(data.status === "blocked"){
-    alert("Access blocked.\n\n" +
-    "Maximum number of request attempts has been reached.\n" +
-    "Please contact system administrator."
-  );
-  return;
-}
-
-    step1.classList.add('hidden');  
-    step2.classList.remove('hidden');  
-  
-// ===== INVALID =====  
-if(data.status !== "success"){  
-
-  successBox.classList.add("hidden");
-  invalidBox.classList.remove("hidden");
-
-  document.getElementById("iAgency").innerText = agencyEl.value;  
-  document.getElementById("iRep").innerText = repEl.value;  
-  document.getElementById("iContact").innerText = contactEl.value;  
-
-  // ref from server
-  document.getElementById("refInvalid").innerText = data.ref || "-";
-
-  return;  
-}  
-
-// ===== SUCCESS =====  
-invalidBox.classList.add("hidden");
-successBox.classList.remove("hidden");
-
-// ref from server
-document.getElementById("refSuccess").innerText = data.ref || "-";
-
-    sAgency.innerText = agencyEl.value;  
-    sRep.innerText = repEl.value;
-    sContact.innerText = contactEl.value;  
-
-    // ===== DYNAMIC PASSWORD RENDER =====  
-    let output = "";  
-  
-    if(data.assignment){  
-      output += `ASSIGNMENT PASSWORD:\n${data.assignment}\n\n`;  
-    }  
-    if(data.scheme_npl){  
-      output += `NPL SCHEME PASSWORD:\n${data.scheme_npl}\n\n`;  
-    }  
-    if(data.scheme_jv){  
-      output += `JV SCHEME PASSWORD:\n${data.scheme_jv}\n\n`;  
-    }  
-    if(data.extra){  
-      output += `EXTRA PASSWORD:\n${data.extra}\n\n`;  
-    }  
-  
-    sPassword.innerText = output.trim();  
-  
-    sConsentText.innerText =  
-      "Consent Declaration: I hereby confirm that I am an authorized representative of the agency and agree that all access activities will be logged for security, audit and compliance purposes.";  
+fetch(API_URL, {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    action: "direct_access",
+    agency: agencyEl.value,
+    key: keyEl.value,
+    representative: repEl.value,
+    contact: contactEl.value,
+    ip: USER_IP || "-",
+    geo: USER_GEO || {},
+    consent: document.querySelector(".consent-text").innerText
   })
-  .catch(err=>{
-    console.error("API ERROR:", err);
-    loading.style.display="none";
-    alert("System error. Please try again or contact administrator.");
-  });
+})
+.then(res => res.json())
+.then(data => {
+  loading.style.display = "none";
+  document.querySelector(".security-bar").style.display = "none";
+
+  if (data.status === "blocked") {
+    alert(
+      "Access blocked.\n\n" +
+      "Maximum number of request attempts has been reached.\n" +
+      "Please contact system administrator."
+    );
+    return;
+  }
+
+  step1.classList.add("hidden");
+  step2.classList.remove("hidden");
+
+  // ===== INVALID =====
+  if (data.status !== "success") {
+    successBox.classList.add("hidden");
+    invalidBox.classList.remove("hidden");
+
+    document.getElementById("iAgency").innerText = agencyEl.value;
+    document.getElementById("iRep").innerText = repEl.value;
+    document.getElementById("iContact").innerText = contactEl.value;
+    document.getElementById("refInvalid").innerText = data.ref || "-";
+    return;
+  }
+
+  // ===== SUCCESS =====
+  invalidBox.classList.add("hidden");
+  successBox.classList.remove("hidden");
+
+  document.getElementById("refSuccess").innerText = data.ref || "-";
+  sAgency.innerText = agencyEl.value;
+  sRep.innerText = repEl.value;
+  sContact.innerText = contactEl.value;
+
+  let output = "";
+  if (data.assignment) output += `ASSIGNMENT PASSWORD:\n${data.assignment}\n\n`;
+  if (data.scheme_npl) output += `NPL SCHEME PASSWORD:\n${data.scheme_npl}\n\n`;
+  if (data.scheme_jv) output += `JV SCHEME PASSWORD:\n${data.scheme_jv}\n\n`;
+  if (data.extra) output += `EXTRA PASSWORD:\n${data.extra}\n\n`;
+
+  sPassword.innerText = output.trim();
+  sConsentText.innerText =
+    "Consent Declaration: I hereby confirm that I am an authorized representative of the agency and agree that all access activities will be logged for security, audit and compliance purposes.";
+})
+.catch(err => {
+  console.error("API ERROR:", err);
+  loading.style.display = "none";
+  alert("System error. Please try again or contact administrator.");
+});
+
 }
     /* ===== SYSTEM MODE HANDLER ===== */
 (function(){
