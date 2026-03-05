@@ -2,19 +2,99 @@
 <html>
 
 <head>
-<title>Branch Check Lock</title>
+
+<title>Branch Lock Check</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f6f9;
+padding:40px;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:8px;
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
+}
+
+h2{
+text-align:center;
+margin-bottom:25px;
+}
+
+input{
+width:100%;
+padding:12px;
+font-size:16px;
+border:1px solid #ccc;
+border-radius:6px;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:12px;
+background:#007bff;
+color:white;
+border:none;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0056b3;
+}
+
+.result-card{
+margin-top:20px;
+padding:20px;
+border-radius:6px;
+background:#f8f9fa;
+border-left:5px solid #28a745;
+}
+
+.status{
+font-size:18px;
+font-weight:bold;
+color:#28a745;
+}
+
+.amount{
+font-size:20px;
+font-weight:bold;
+color:#000;
+}
+
+.no-lock{
+margin-top:20px;
+padding:15px;
+background:#ffe5e5;
+border-left:5px solid red;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<h2>Check Lock</h2>
+<div class="container">
 
-Account No<br>
-<input type="text" id="acc"><br><br>
+<h2>Branch Lock Check</h2>
 
-<button onclick="checkLock()">Check</button>
+<input type="text" id="acc" placeholder="Enter Account No">
 
-<p id="result"></p>
+<button onclick="checkLock()">Check Lock</button>
+
+<div id="result"></div>
+
+</div>
 
 <script>
 
@@ -22,15 +102,15 @@ const api="https://script.google.com/macros/s/AKfycbwEhbHqFaW6O7qBCGkJj0vgAiumvY
 
 function formatDate(dateStr){
 
-var d = new Date(dateStr);
+var d=new Date(dateStr);
 
-var day = ("0"+d.getDate()).slice(-2);
+var day=("0"+d.getDate()).slice(-2);
 
-var monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-var month = monthNames[d.getMonth()];
+var month=monthNames[d.getMonth()];
 
-var year = d.getFullYear();
+var year=d.getFullYear();
 
 return day+"-"+month+"-"+year;
 
@@ -55,22 +135,33 @@ if(data.status=="LOCKED"){
 
 var formattedDate=formatDate(data.valid);
 
+var amount="RM "+Number(data.amount).toLocaleString();
+
 document.getElementById("result").innerHTML=
-"STATUS : LOCKED<br>"+
-"BRANCH : "+data.branch+"<br>"+
-"LOCK AMOUNT : RM "+data.amount+"<br>"+
-"PROMISE DATE : "+formattedDate;
+"<div class='result-card'>"+
+"<div class='status'>STATUS : LOCKED</div><br>"+
+"<b>BRANCH</b><br>"+data.branch+"<br><br>"+
+"<b>LOCK AMOUNT</b><br><div class='amount'>"+amount+"</div><br>"+
+"<b>PROMISE DATE</b><br>"+formattedDate+
+"</div>";
 
 }
 else{
 
-document.getElementById("result").innerHTML="NO LOCK FOUND";
+document.getElementById("result").innerHTML=
+"<div class='no-lock'><b>NO LOCK FOUND</b></div>";
 
 }
 
 });
 
 }
+
+document.getElementById("acc").addEventListener("keypress",function(e){
+if(e.key==="Enter"){
+checkLock();
+}
+});
 
 </script>
 
