@@ -3,28 +3,79 @@
 
 <head>
 <title>DCA Lock Payment</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f6f9;
+padding:30px;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:8px;
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
+}
+
+input,select,textarea{
+width:100%;
+padding:10px;
+margin-top:5px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:15px;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#007bff;
+color:white;
+border:none;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#0056b3;
+}
+
+</style>
+
 </head>
 
 <body>
+
+<div class="container">
 
 <h2>DCA Lock Payment</h2>
 
 <form id="lockForm">
 
-Account No<br>
-<input type="text" name="acc_no"><br><br>
+Account No
+<input type="text" name="acc_no" required>
 
-Branch<br>
-<select id="branch" name="branch_id"></select><br><br>
+Branch
+<select id="branch" name="branch_id"></select>
 
-Lock Amount<br>
-<input type="number" name="amount"><br><br>
+Lock Amount
+<input type="number" name="amount" required>
 
-Promise Date<br>
-<input type="date" name="promise_date"><br><br>
+Promise Date
+<input type="date" name="promise_date" required>
 
-DCA ID<br>
-<input type="text" name="dca_id"><br><br>
+DCA ID
+<input type="text" name="dca_id" required>
+
+Remarks
+<textarea name="remarks" rows="3" placeholder="Enter remarks"></textarea>
 
 <button type="submit">Submit Lock</button>
 
@@ -32,9 +83,11 @@ DCA ID<br>
 
 <p id="result"></p>
 
+</div>
+
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbwEhbHqFaW6O7qBCGkJj0vgAiumvYQmmbP-tPP-QPV1rh0-8b7Ykksi91vfXtrrbV-T/exec";
+const api="https://script.google.com/macros/s/AKfycbwJ922NCBbRnMOcc3Yz2yJotxM5TVNTWc7u_zpL8lRsTbIc4T2rkwRs_DaaeM49Vazm/exec";
 
 fetch(api+"?action=branches")
 .then(res=>res.json())
@@ -74,7 +127,8 @@ if(data=="ACCOUNT_ALREADY_LOCKED"){
 document.getElementById("result").innerHTML="Account already locked";
 }
 else{
-document.getElementById("result").innerHTML="Lock created";
+document.getElementById("result").innerHTML="Lock created successfully";
+document.getElementById("lockForm").reset();
 }
 
 });
@@ -84,5 +138,4 @@ document.getElementById("result").innerHTML="Lock created";
 </script>
 
 </body>
-
 </html>
