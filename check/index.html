@@ -20,21 +20,46 @@ Account No<br>
 
 const api="https://script.google.com/macros/s/AKfycbwEhbHqFaW6O7qBCGkJj0vgAiumvYQmmbP-tPP-QPV1rh0-8b7Ykksi91vfXtrrbV-T/exec";
 
+function formatDate(dateStr){
+
+var d = new Date(dateStr);
+
+var day = ("0"+d.getDate()).slice(-2);
+
+var monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+var month = monthNames[d.getMonth()];
+
+var year = d.getFullYear();
+
+return day+"/"+month+"/"+year;
+
+}
+
 function checkLock(){
 
 var acc=document.getElementById("acc").value;
 
-fetch(api+"?acc_no="+acc)
-.then(res=>res.json())
-.then(data=>{
+if(!acc){
+alert("Enter Account No");
+return;
+}
+
+fetch(api+"?acc_no="+encodeURIComponent(acc))
+.then(res=>res.text())
+.then(text=>{
+
+var data=JSON.parse(text);
 
 if(data.status=="LOCKED"){
+
+var formattedDate=formatDate(data.valid);
 
 document.getElementById("result").innerHTML=
 "STATUS : LOCKED<br>"+
 "BRANCH : "+data.branch+"<br>"+
-"LOCK AMOUNT : "+data.amount+"<br>"+
-"PTP DATE : "+data.valid;
+"LOCK AMOUNT : RM "+data.amount+"<br>"+
+"VALID UNTIL : "+formattedDate;
 
 }
 else{
