@@ -9,9 +9,7 @@
 
 <style>
 
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 body{
 font-family:Arial;
@@ -42,10 +40,6 @@ margin-bottom:10px;
 border:1px solid #ccc;
 border-radius:6px;
 font-size:15px;
-text-transform:uppercase;
-}
-
-textarea{
 text-transform:uppercase;
 }
 
@@ -84,22 +78,56 @@ border-color:red;
 100%{transform:translateX(0)}
 }
 
+/* SUCCESS CARD */
+
 .success-card{
 margin-top:20px;
-padding:20px;
-border-radius:8px;
+padding:25px;
+border-radius:10px;
 background:#f8f9fa;
 border-left:6px solid #28a745;
+text-align:center;
+}
+
+/* NICE SUCCESS TITLE */
+
+.success-title{
+font-size:26px;
+font-weight:bold;
+color:#28a745;
+letter-spacing:1px;
+margin-bottom:15px;
+}
+
+.success-title span{
+display:inline-block;
+padding:6px 14px;
+background:#28a745;
+color:white;
+border-radius:6px;
+box-shadow:0 3px 8px rgba(0,0,0,0.15);
 }
 
 .amount{
 font-size:22px;
 font-weight:bold;
+margin-top:5px;
 }
 
 .new-btn{
 margin-top:15px;
 background:#6c757d;
+}
+
+.audit-note{
+margin-top:12px;
+font-size:12px;
+color:#666;
+background:#fff3cd;
+padding:10px;
+border-left:4px solid #ffc107;
+border-radius:4px;
+line-height:1.4;
 }
 
 /* PROCESSING OVERLAY */
@@ -182,6 +210,11 @@ Remarks
 
 <button type="submit">Submit Lock</button>
 
+<div class="audit-note">
+⚠ Every submission is recorded for audit and verification purposes.  
+Unauthorized or false lock entries may be subject to investigation.
+</div>
+
 </form>
 
 </div>
@@ -203,7 +236,7 @@ Processing Lock...
 
 const api="https://script.google.com/macros/s/AKfycbwUPcWT10WoDDYE5z2Dcfv4bDtXY2nNF1tL2OL8TMKaYAwxPwHeFxQZtZJI3xgAi-lT/exec";
 
-/* LOAD BRANCH LIST */
+/* LOAD BRANCH */
 
 fetch(api+"?action=branches")
 .then(res=>res.json())
@@ -220,7 +253,7 @@ select.appendChild(option);
 
 });
 
-/* CAPITAL LETTER INPUT */
+/* CAPITAL LETTER */
 
 document.querySelectorAll("input[type=text], textarea").forEach(el=>{
 el.addEventListener("input",()=>{
@@ -241,7 +274,7 @@ input.classList.remove("shake");
 
 }
 
-/* SUBMIT FORM */
+/* SUBMIT */
 
 document.getElementById("lockForm").addEventListener("submit",e=>{
 
@@ -256,37 +289,12 @@ var date=document.getElementById("promise_date");
 var dca=document.getElementById("dca_id");
 var remarks=document.getElementById("remarks");
 
-if(!acc.value){
-showError(acc,"err_acc");
-return;
-}
-
-if(!branch.value){
-showError(branch,"err_branch");
-return;
-}
-
-if(!amount.value){
-showError(amount,"err_amount");
-return;
-}
-
-if(!date.value){
-showError(date,"err_date");
-return;
-}
-
-if(!dca.value){
-showError(dca,"err_dca");
-return;
-}
-
-if(!remarks.value){
-showError(remarks,"err_remarks");
-return;
-}
-
-/* SHOW PROCESSING OVERLAY */
+if(!acc.value){ showError(acc,"err_acc"); return; }
+if(!branch.value){ showError(branch,"err_branch"); return; }
+if(!amount.value){ showError(amount,"err_amount"); return; }
+if(!date.value){ showError(date,"err_date"); return; }
+if(!dca.value){ showError(dca,"err_dca"); return; }
+if(!remarks.value){ showError(remarks,"err_remarks"); return; }
 
 document.getElementById("overlay").style.display="flex";
 
@@ -335,7 +343,7 @@ document.getElementById("formSection").style.display="none";
 document.getElementById("result").innerHTML=
 
 "<div class='success-card'>"+
-"<h3>LOCK CREATED</h3><br>"+
+"<div class='success-title'><span>LOCK CREATED</span></div>"+
 
 "<b>ACCOUNT</b><br>"+acc+"<br><br>"+
 
