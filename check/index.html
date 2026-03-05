@@ -32,7 +32,7 @@ var month = monthNames[d.getMonth()];
 
 var year = d.getFullYear();
 
-return day+"/"+month+"/"+year;
+return day+"-"+month+"-"+year;
 
 }
 
@@ -59,7 +59,7 @@ document.getElementById("result").innerHTML=
 "STATUS : LOCKED<br>"+
 "BRANCH : "+data.branch+"<br>"+
 "LOCK AMOUNT : RM "+data.amount+"<br>"+
-"VALID UNTIL : "+formattedDate;
+"PROMISE DATE : "+formattedDate;
 
 }
 else{
