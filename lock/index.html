@@ -75,7 +75,7 @@ DCA ID
 <input type="text" name="dca_id" required>
 
 Remarks
-<textarea name="remarks" rows="3" placeholder="Enter remarks"></textarea>
+<textarea name="remarks" rows="3" maxlength="100" placeholder="Enter remarks (max 100 characters)"></textarea>
 
 <button type="submit">Submit Lock</button>
 
@@ -87,7 +87,7 @@ Remarks
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbwJ922NCBbRnMOcc3Yz2yJotxM5TVNTWc7u_zpL8lRsTbIc4T2rkwRs_DaaeM49Vazm/exec";
+const api="https://script.google.com/macros/s/AKfycbwUPcWT10WoDDYE5z2Dcfv4bDtXY2nNF1tL2OL8TMKaYAwxPwHeFxQZtZJI3xgAi-lT/exec";
 
 fetch(api+"?action=branches")
 .then(res=>res.json())
