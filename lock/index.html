@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>DCA Lock Payment</title>
+</head>
+
+<body>
+
+<h2>DCA Lock Payment</h2>
+
+<form id="lockForm">
+
+Account No<br>
+<input type="text" name="acc_no"><br><br>
+
+Branch<br>
+<select id="branch" name="branch_id"></select><br><br>
+
+Lock Amount<br>
+<input type="number" name="amount"><br><br>
+
+Promise Date<br>
+<input type="date" name="promise_date"><br><br>
+
+DCA ID<br>
+<input type="text" name="dca_id"><br><br>
+
+<button type="submit">Submit Lock</button>
+
+</form>
+
+<p id="result"></p>
+
+<script>
+
+const api="PASTE_WEB_APP_URL";
+
+fetch(api+"?action=branches")
+.then(res=>res.json())
+.then(data=>{
+
+var select=document.getElementById("branch");
+
+data.forEach(b=>{
+
+var option=document.createElement("option");
+option.value=b.id;
+option.text=b.name;
+
+select.appendChild(option);
+
+});
+
+});
+
+document.getElementById("lockForm").addEventListener("submit",e=>{
+
+e.preventDefault();
+
+var formData=new FormData(e.target);
+
+var branchName=document.getElementById("branch").selectedOptions[0].text;
+formData.append("branch_name",branchName);
+
+fetch(api,{
+method:"POST",
+body:formData
+})
+.then(res=>res.text())
+.then(data=>{
+
+if(data=="ACCOUNT_ALREADY_LOCKED"){
+document.getElementById("result").innerHTML="Account already locked";
+}
+else{
+document.getElementById("result").innerHTML="Lock created";
+}
+
+});
+
+});
+
+</script>
+
+</body>
+
+</html>
