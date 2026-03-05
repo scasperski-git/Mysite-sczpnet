@@ -2,29 +2,42 @@
 <html>
 
 <head>
+
 <title>DCA Lock Payment</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 
+*{
+box-sizing:border-box;
+}
+
 body{
-font-family:Arial;
+font-family:Arial, sans-serif;
 background:#f4f6f9;
-padding:30px;
+margin:0;
+padding:20px;
 }
 
 .container{
 max-width:500px;
+width:100%;
 margin:auto;
 background:white;
 padding:25px;
-border-radius:8px;
-box-shadow:0 3px 10px rgba(0,0,0,0.1);
+border-radius:10px;
+box-shadow:0 3px 12px rgba(0,0,0,0.12);
+}
+
+h2{
+text-align:center;
+margin-bottom:20px;
 }
 
 input,select,textarea{
 width:100%;
-padding:10px;
+padding:12px;
 margin-top:5px;
 margin-bottom:15px;
 border:1px solid #ccc;
@@ -35,16 +48,78 @@ font-size:15px;
 button{
 width:100%;
 padding:12px;
-background:#007bff;
-color:white;
 border:none;
 border-radius:6px;
 font-size:16px;
 cursor:pointer;
 }
 
-button:hover{
+.submit-btn{
+background:#007bff;
+color:white;
+}
+
+.submit-btn:hover{
 background:#0056b3;
+}
+
+.new-btn{
+background:#6c757d;
+color:white;
+margin-top:10px;
+}
+
+.success-card{
+margin-top:20px;
+padding:20px;
+border-radius:8px;
+background:#f8f9fa;
+border-left:6px solid #28a745;
+}
+
+.success-title{
+font-size:20px;
+font-weight:bold;
+color:#28a745;
+}
+
+.amount{
+font-size:22px;
+font-weight:bold;
+}
+
+.loading{
+margin-top:20px;
+text-align:center;
+font-weight:bold;
+}
+
+.spinner{
+margin:auto;
+margin-top:10px;
+width:30px;
+height:30px;
+border:4px solid #ccc;
+border-top:4px solid #007bff;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+@media (max-width:500px){
+
+.container{
+padding:18px;
+}
+
+h2{
+font-size:20px;
+}
+
 }
 
 </style>
@@ -56,6 +131,8 @@ background:#0056b3;
 <div class="container">
 
 <h2>DCA Lock Payment</h2>
+
+<div id="formSection">
 
 <form id="lockForm">
 
@@ -77,17 +154,21 @@ DCA ID
 Remarks
 <textarea name="remarks" rows="3" maxlength="100" placeholder="Enter remarks (max 100 characters)"></textarea>
 
-<button type="submit">Submit Lock</button>
+<button class="submit-btn" id="submitBtn" type="submit">Submit Lock</button>
 
 </form>
 
-<p id="result"></p>
+</div>
+
+<div id="result"></div>
 
 </div>
 
 <script>
 
 const api="https://script.google.com/macros/s/AKfycbwUPcWT10WoDDYE5z2Dcfv4bDtXY2nNF1tL2OL8TMKaYAwxPwHeFxQZtZJI3xgAi-lT/exec";
+
+/* Load Branch List */
 
 fetch(api+"?action=branches")
 .then(res=>res.json())
@@ -107,6 +188,8 @@ select.appendChild(option);
 
 });
 
+/* Submit Lock */
+
 document.getElementById("lockForm").addEventListener("submit",e=>{
 
 e.preventDefault();
@@ -116,6 +199,15 @@ var formData=new FormData(e.target);
 var branchName=document.getElementById("branch").selectedOptions[0].text;
 formData.append("branch_name",branchName);
 
+/* disable button */
+
+document.getElementById("submitBtn").disabled=true;
+
+/* show processing */
+
+document.getElementById("result").innerHTML=
+"<div class='loading'>Processing Lock...<div class='spinner'></div></div>";
+
 fetch(api,{
 method:"POST",
 body:formData
@@ -123,17 +215,66 @@ body:formData
 .then(res=>res.text())
 .then(data=>{
 
+document.getElementById("submitBtn").disabled=false;
+
 if(data=="ACCOUNT_ALREADY_LOCKED"){
-document.getElementById("result").innerHTML="Account already locked";
+
+document.getElementById("result").innerHTML=
+"<div class='success-card' style='border-left:6px solid red'>"+
+"<b>Account already locked</b>"+
+"</div>";
+
 }
 else{
-document.getElementById("result").innerHTML="Lock created successfully";
-document.getElementById("lockForm").reset();
+
+showSuccess(formData);
+
 }
 
 });
 
 });
+
+/* Success Page */
+
+function showSuccess(formData){
+
+var acc=formData.get("acc_no");
+var branch=document.getElementById("branch").selectedOptions[0].text;
+var amount="RM "+Number(formData.get("amount")).toLocaleString();
+var promise=formData.get("promise_date");
+var remarks=formData.get("remarks")||"-";
+
+document.getElementById("formSection").style.display="none";
+
+document.getElementById("result").innerHTML=
+
+"<div class='success-card'>"+
+"<div class='success-title'>LOCK CREATED SUCCESSFULLY</div><br>"+
+
+"<b>ACCOUNT NO</b><br>"+acc+"<br><br>"+
+
+"<b>BRANCH</b><br>"+branch+"<br><br>"+
+
+"<b>LOCK AMOUNT</b><br><div class='amount'>"+amount+"</div><br>"+
+
+"<b>PROMISE DATE</b><br>"+promise+"<br><br>"+
+
+"<b>REMARKS</b><br>"+remarks+
+
+"</div>"+
+
+"<button class='new-btn' onclick='newLock()'>New Lock</button>";
+
+}
+
+/* Reset Page */
+
+function newLock(){
+
+location.reload();
+
+}
 
 </script>
 
