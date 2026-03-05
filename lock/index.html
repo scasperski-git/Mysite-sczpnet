@@ -9,12 +9,10 @@
 
 <style>
 
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 body{
-font-family:Arial, sans-serif;
+font-family:Arial;
 background:#f4f6f9;
 margin:0;
 padding:20px;
@@ -22,7 +20,6 @@ padding:20px;
 
 .container{
 max-width:500px;
-width:100%;
 margin:auto;
 background:white;
 padding:25px;
@@ -39,10 +36,15 @@ input,select,textarea{
 width:100%;
 padding:12px;
 margin-top:5px;
-margin-bottom:15px;
+margin-bottom:12px;
 border:1px solid #ccc;
 border-radius:6px;
 font-size:15px;
+text-transform:uppercase;
+}
+
+textarea{
+text-transform:none;
 }
 
 button{
@@ -52,40 +54,33 @@ border:none;
 border-radius:6px;
 font-size:16px;
 cursor:pointer;
-}
-
-.submit-btn{
 background:#007bff;
 color:white;
 }
 
-.submit-btn:hover{
+button:hover{
 background:#0056b3;
 }
 
-.new-btn{
-background:#6c757d;
-color:white;
-margin-top:10px;
+.error{
+color:red;
+font-size:13px;
+margin-top:-8px;
+margin-bottom:10px;
+display:none;
 }
 
-.success-card{
-margin-top:20px;
-padding:20px;
-border-radius:8px;
-background:#f8f9fa;
-border-left:6px solid #28a745;
+.shake{
+animation:shake 0.3s;
+border-color:red;
 }
 
-.success-title{
-font-size:20px;
-font-weight:bold;
-color:#28a745;
-}
-
-.amount{
-font-size:22px;
-font-weight:bold;
+@keyframes shake{
+0%{transform:translateX(0)}
+25%{transform:translateX(-5px)}
+50%{transform:translateX(5px)}
+75%{transform:translateX(-5px)}
+100%{transform:translateX(0)}
 }
 
 .loading{
@@ -110,16 +105,12 @@ animation:spin 1s linear infinite;
 100%{transform:rotate(360deg);}
 }
 
-@media (max-width:500px){
-
-.container{
-padding:18px;
-}
-
-h2{
-font-size:20px;
-}
-
+.success-card{
+margin-top:20px;
+padding:20px;
+border-radius:8px;
+background:#f8f9fa;
+border-left:6px solid #28a745;
 }
 
 </style>
@@ -137,24 +128,31 @@ font-size:20px;
 <form id="lockForm">
 
 Account No
-<input type="text" name="acc_no" required>
+<input type="text" id="acc_no" name="acc_no">
+<div class="error" id="err_acc">Account No required</div>
 
 Branch
-<select id="branch" name="branch_id"></select>
+<select id="branch" name="branch_id">
+<option value="">SELECT BRANCH</option>
+</select>
+<div class="error" id="err_branch">Please select branch</div>
 
 Lock Amount
-<input type="number" name="amount" required>
+<input type="number" id="amount" name="amount">
+<div class="error" id="err_amount">Amount required</div>
 
 Promise Date
-<input type="date" name="promise_date" required>
+<input type="date" id="promise_date" name="promise_date">
+<div class="error" id="err_date">Promise date required</div>
 
 DCA ID
-<input type="text" name="dca_id" required>
+<input type="text" id="dca_id" name="dca_id">
+<div class="error" id="err_dca">DCA ID required</div>
 
 Remarks
-<textarea name="remarks" rows="3" maxlength="100" placeholder="Enter remarks (max 100 characters)"></textarea>
+<textarea name="remarks" maxlength="100"></textarea>
 
-<button class="submit-btn" id="submitBtn" type="submit">Submit Lock</button>
+<button id="submitBtn" type="submit">Submit Lock</button>
 
 </form>
 
@@ -168,7 +166,7 @@ Remarks
 
 const api="https://script.google.com/macros/s/AKfycbwUPcWT10WoDDYE5z2Dcfv4bDtXY2nNF1tL2OL8TMKaYAwxPwHeFxQZtZJI3xgAi-lT/exec";
 
-/* Load Branch List */
+/* load branch */
 
 fetch(api+"?action=branches")
 .then(res=>res.json())
@@ -177,36 +175,85 @@ fetch(api+"?action=branches")
 var select=document.getElementById("branch");
 
 data.forEach(b=>{
-
 var option=document.createElement("option");
 option.value=b.id;
 option.text=b.name;
-
 select.appendChild(option);
-
 });
 
 });
 
-/* Submit Lock */
+/* uppercase input */
+
+document.querySelectorAll("input[type=text]").forEach(el=>{
+el.addEventListener("input",()=>{
+el.value=el.value.toUpperCase();
+});
+});
+
+/* validation */
+
+function showError(input,errorId){
+
+input.classList.add("shake");
+document.getElementById(errorId).style.display="block";
+
+setTimeout(()=>{
+input.classList.remove("shake");
+},300);
+
+}
+
+/* submit */
 
 document.getElementById("lockForm").addEventListener("submit",e=>{
 
 e.preventDefault();
 
-var formData=new FormData(e.target);
+document.querySelectorAll(".error").forEach(e=>e.style.display="none");
 
-var branchName=document.getElementById("branch").selectedOptions[0].text;
-formData.append("branch_name",branchName);
+var acc=document.getElementById("acc_no");
+var branch=document.getElementById("branch");
+var amount=document.getElementById("amount");
+var date=document.getElementById("promise_date");
+var dca=document.getElementById("dca_id");
 
-/* disable button */
+if(!acc.value){
+showError(acc,"err_acc");
+return;
+}
+
+if(!branch.value){
+showError(branch,"err_branch");
+return;
+}
+
+if(!amount.value){
+showError(amount,"err_amount");
+return;
+}
+
+if(!date.value){
+showError(date,"err_date");
+return;
+}
+
+if(!dca.value){
+showError(dca,"err_dca");
+return;
+}
+
+/* processing */
 
 document.getElementById("submitBtn").disabled=true;
 
-/* show processing */
-
 document.getElementById("result").innerHTML=
-"<div class='loading'>Processing Lock...<div class='spinner'></div></div>";
+"<div class='loading'>Processing Lock<div class='spinner'></div></div>";
+
+var formData=new FormData(e.target);
+
+var branchName=branch.selectedOptions[0].text;
+formData.append("branch_name",branchName);
 
 fetch(api,{
 method:"POST",
@@ -221,7 +268,7 @@ if(data=="ACCOUNT_ALREADY_LOCKED"){
 
 document.getElementById("result").innerHTML=
 "<div class='success-card' style='border-left:6px solid red'>"+
-"<b>Account already locked</b>"+
+"<b>ACCOUNT ALREADY LOCKED</b>"+
 "</div>";
 
 }
@@ -235,7 +282,7 @@ showSuccess(formData);
 
 });
 
-/* Success Page */
+/* success page */
 
 function showSuccess(formData){
 
@@ -250,13 +297,13 @@ document.getElementById("formSection").style.display="none";
 document.getElementById("result").innerHTML=
 
 "<div class='success-card'>"+
-"<div class='success-title'>LOCK CREATED SUCCESSFULLY</div><br>"+
+"<h3>LOCK CREATED</h3><br>"+
 
-"<b>ACCOUNT NO</b><br>"+acc+"<br><br>"+
+"<b>ACCOUNT</b><br>"+acc+"<br><br>"+
 
 "<b>BRANCH</b><br>"+branch+"<br><br>"+
 
-"<b>LOCK AMOUNT</b><br><div class='amount'>"+amount+"</div><br>"+
+"<b>AMOUNT</b><br>"+amount+"<br><br>"+
 
 "<b>PROMISE DATE</b><br>"+promise+"<br><br>"+
 
@@ -264,15 +311,7 @@ document.getElementById("result").innerHTML=
 
 "</div>"+
 
-"<button class='new-btn' onclick='newLock()'>New Lock</button>";
-
-}
-
-/* Reset Page */
-
-function newLock(){
-
-location.reload();
+"<button onclick='location.reload()'>New Lock</button>";
 
 }
 
