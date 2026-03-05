@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Branch Check Lock</title>
+</head>
+
+<body>
+
+<h2>Check Lock</h2>
+
+Account No<br>
+<input type="text" id="acc"><br><br>
+
+<button onclick="checkLock()">Check</button>
+
+<p id="result"></p>
+
+<script>
+
+const api="PASTE_WEB_APP_URL";
+
+function checkLock(){
+
+var acc=document.getElementById("acc").value;
+
+fetch(api+"?acc_no="+acc)
+.then(res=>res.json())
+.then(data=>{
+
+if(data.status=="LOCKED"){
+
+document.getElementById("result").innerHTML=
+"STATUS : LOCKED<br>"+
+"BRANCH : "+data.branch+"<br>"+
+"LOCK AMOUNT : "+data.amount+"<br>"+
+"VALID UNTIL : "+data.valid;
+
+}
+else{
+
+document.getElementById("result").innerHTML="NO LOCK FOUND";
+
+}
+
+});
+
+}
+
+</script>
+
+</body>
+
+</html>
