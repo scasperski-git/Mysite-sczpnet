@@ -88,6 +88,12 @@ border-radius:6px;
 font-size:14px;
 }
 
+.created-meta{
+font-size:12px;
+color:#777;
+margin-top:4px;
+}
+
 .row{
 display:flex;
 justify-content:space-between;
@@ -144,6 +150,15 @@ border:4px solid #ccc;
 border-top:4px solid #007bff;
 border-radius:50%;
 animation:spin 1s linear infinite;
+}
+
+.result-card{
+margin-top:20px;
+padding:20px;
+border-radius:8px;
+background:#f8f9fa;
+border-left:6px solid #28a745;
+line-height:1.4;
 }
 
 @keyframes spin{
@@ -255,17 +270,10 @@ document.getElementById("result").innerHTML=
 
 "<div class='result-card'>"+
 
-"<div class='row'>"+
-
-"<div class='col'>"+
 "<div class='status'>STATUS : LOCKED</div>"+
-"</div>"+
 
-"<div class='col' style='text-align:right'>"+
-"<div style='font-size:13px;color:#666'><b>CREATED BY:</b> "+data.dca_id+" ("+created+")</div>"+
-"</div>"+
-
-"</div>"+
+"<div class='created-meta'>Created by "+data.dca_id+
+" • "+created+"</div>"+
 
 "<div class='row'>"+
 
