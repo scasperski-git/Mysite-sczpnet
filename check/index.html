@@ -167,7 +167,7 @@ flex-direction:column;
 
 <h2>Branch Lock Check</h2>
 
-<input type="text" id="acc" placeholder="Enter Account No">
+<input type="text" id="acc_no" name="acc_no" inputmode="numeric" pattern="[0-9]*" maxlength="20" placeholder="ENTER ACCOUNT NO">
 
 <button class="check-btn" id="checkBtn" onclick="checkLock()">Check Lock</button>
 
@@ -295,6 +295,12 @@ if(e.key==="Enter"){
 checkLock();
 
 }
+
+});
+
+document.getElementById("acc_no").addEventListener("input",function(){
+
+this.value = this.value.replace(/[^0-9]/g,'');
 
 });
 
