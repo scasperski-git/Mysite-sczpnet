@@ -57,11 +57,6 @@ button:hover{
 background:#0056b3;
 }
 
-button:disabled{
-background:#aaa;
-cursor:not-allowed;
-}
-
 .error{
 color:red;
 font-size:13px;
@@ -88,6 +83,43 @@ border-color:red;
 50%{transform:translateX(5px)}
 75%{transform:translateX(-5px)}
 100%{transform:translateX(0)}
+}
+
+.success-card{
+margin-top:20px;
+padding:25px;
+border-radius:10px;
+background:#f8f9fa;
+border-left:6px solid #28a745;
+text-align:center;
+}
+
+.success-title{
+font-size:26px;
+font-weight:bold;
+color:#28a745;
+margin-bottom:15px;
+}
+
+.success-grid{
+display:flex;
+flex-wrap:wrap;
+gap:15px;
+text-align:left;
+}
+
+.success-item{
+width:calc(50% - 8px);
+}
+
+.amount{
+font-size:22px;
+font-weight:bold;
+}
+
+.new-btn{
+margin-top:15px;
+background:#6c757d;
 }
 
 .audit-note{
@@ -146,6 +178,8 @@ margin-top:10px;
 
 <h2>DCA Lock System</h2>
 
+<div id="formSection">
+
 <form id="lockForm">
 
 Account No
@@ -186,13 +220,17 @@ Remarks
 <div style="font-size:12px;color:#666;text-align:right" id="remarkCounter">0 / 100</div>
 <div class="error" id="err_remarks">Remarks required</div>
 
-<button type="submit" id="submitBtn">Submit Lock</button>
+<button type="submit">Submit Lock</button>
 
 <div class="audit-note">
 ⚠ Every submission is recorded for audit and verification purposes.
 </div>
 
 </form>
+
+</div>
+
+<div id="result"></div>
 
 </div>
 
@@ -207,15 +245,14 @@ Processing Lock...
 
 const api="https://script.google.com/macros/s/AKfycbw4toZ5BszdiHoFRhXlBfIVxklH5Dc8rfzq6NqqAh1YMi65rcfKszg8WBgBRNN2-uY4/exec";
 
-const accInput=document.getElementById("acc_no");
-const submitBtn=document.getElementById("submitBtn");
-
 /* LOAD BRANCH */
 
 fetch(api+"?action=branches")
 .then(res=>res.json())
 .then(data=>{
+
 var select=document.getElementById("branch");
+
 select.innerHTML='<option value="">SELECT BRANCH</option>';
 
 data.forEach(b=>{
@@ -224,6 +261,7 @@ option.value=b.id;
 option.text=b.name;
 select.appendChild(option);
 });
+
 });
 
 /* REMARK COUNTER */
@@ -271,54 +309,11 @@ return day+" "+month+" "+year+" "+hours+":"+mins;
 
 }
 
-/* PRE CHECK ACCOUNT LOCK */
-
-accInput.addEventListener("blur",function(){
-
-var acc=this.value.trim();
-
-if(!acc) return;
-
-fetch(api+"?action=check_lock&acc_no="+acc)
-.then(res=>res.text())
-.then(data=>{
-
-if(data=="LOCKED"){
-
-var msg="⚠ ACCOUNT "+acc+" ALREADY LOCKED "+formatDateTime();
-
-var box=document.getElementById("err_locked");
-
-box.innerText=msg;
-box.style.display="block";
-
-submitBtn.disabled=true;
-
-accInput.classList.add("shake");
-
-setTimeout(()=>{
-accInput.classList.remove("shake");
-},300);
-
-}
-else{
-
-document.getElementById("err_locked").style.display="none";
-
-submitBtn.disabled=false;
-
-}
-
-});
-
-});
-
-/* VALIDATION */
+/* SHOW ERROR */
 
 function showError(input,id){
 
 input.classList.add("shake");
-
 document.getElementById(id).style.display="block";
 
 setTimeout(()=>{
@@ -334,6 +329,7 @@ document.getElementById("lockForm").addEventListener("submit",e=>{
 e.preventDefault();
 
 document.querySelectorAll(".error").forEach(e=>e.style.display="none");
+document.getElementById("err_locked").style.display="none";
 
 var acc=document.getElementById("acc_no");
 var branch=document.getElementById("branch");
@@ -364,21 +360,38 @@ body:formData
 
 document.getElementById("overlay").style.display="none";
 
+if(data=="ACCOUNT_ALREADY_LOCKED"){
+
+var msg="⚠ ACCOUNT "+acc.value+" ALREADY LOCKED "+formatDateTime();
+
+var box=document.getElementById("err_locked");
+
+box.innerText=msg;
+box.style.display="block";
+
+acc.classList.add("shake");
+
+setTimeout(()=>{
+acc.classList.remove("shake");
+},300);
+
+return;
+
+}
+
 location.reload();
 
 });
 
 });
 
-/* ACCOUNT NUMERIC */
+/* ACCOUNT NUMERIC ONLY */
 
-accInput.addEventListener("input",function(){
+document.getElementById("acc_no").addEventListener("input",function(){
 
 this.value=this.value.replace(/[^0-9]/g,'');
 
 document.getElementById("err_locked").style.display="none";
-
-submitBtn.disabled=false;
 
 });
 
