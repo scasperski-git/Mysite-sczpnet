@@ -309,15 +309,19 @@ this.value=Number(value).toLocaleString();
 
 });
 
-/* REMARK LIMIT FIX (MOBILE SAFE) */
+/* REMARK LIMIT + COUNTER (MOBILE SAFE) */
 
-document.getElementById("remarks").addEventListener("input",function(){
+const remarkBox = document.getElementById("remarks");
+const remarkCounter = document.getElementById("remarkCounter");
+const maxRemark = 100;
 
-let max = 100;
+remarkBox.addEventListener("input",function(){
 
-if(this.value.length > max){
-this.value = this.value.substring(0, max);
+if(this.value.length > maxRemark){
+this.value = this.value.substring(0, maxRemark);
 }
+
+remarkCounter.textContent = this.value.length + " / " + maxRemark;
 
 });
 
