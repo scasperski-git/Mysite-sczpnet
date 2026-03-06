@@ -232,6 +232,7 @@ DCA ID
 
 Remarks
 <textarea id="remarks" name="remarks" maxlength="100" placeholder="ENTER REMARKS (MAX LENGHT:100)"></textarea>
+<div style="font-size:12px;color:#666;text-align:right" id="remarkCounter">0 / 100</div>
 <div class="error" id="err_remarks">Remarks required</div>
 
 <button type="submit">Submit Lock</button>
@@ -304,6 +305,18 @@ let value=this.value.replace(/,/g,'');
 
 if(!isNaN(value) && value!=""){
 this.value=Number(value).toLocaleString();
+}
+
+});
+
+/* REMARK LIMIT FIX (MOBILE SAFE) */
+
+document.getElementById("remarks").addEventListener("input",function(){
+
+let max = 100;
+
+if(this.value.length > max){
+this.value = this.value.substring(0, max);
 }
 
 });
