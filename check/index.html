@@ -74,35 +74,48 @@ background:#545b62;
 .result-card{
 margin-top:20px;
 padding:20px;
-border-radius:6px;
+border-radius:8px;
 background:#f8f9fa;
 border-left:6px solid #28a745;
 }
 
-.expired-card{
-margin-top:20px;
-padding:20px;
-border-radius:6px;
-background:#fff3cd;
-border-left:6px solid #ff9800;
-}
-
 .status{
-font-size:20px;
+font-size:22px;
 font-weight:bold;
 color:#28a745;
+margin-bottom:15px;
 }
 
-.expired{
-font-size:20px;
+.row{
+display:flex;
+justify-content:space-between;
+gap:15px;
+margin-bottom:15px;
+}
+
+.col{
+flex:1;
+}
+
+.label{
 font-weight:bold;
-color:#ff9800;
+color:#555;
+margin-bottom:3px;
+}
+
+.value{
+font-size:18px;
+font-weight:bold;
 }
 
 .amount{
 font-size:22px;
 font-weight:bold;
+}
+
+.remark{
 margin-top:5px;
+line-height:1.5;
 }
 
 .no-lock{
@@ -138,16 +151,8 @@ animation:spin 1s linear infinite;
 
 @media (max-width:500px){
 
-.container{
-padding:18px;
-}
-
-h2{
-font-size:20px;
-}
-
-.amount{
-font-size:20px;
+.row{
+flex-direction:column;
 }
 
 }
@@ -192,18 +197,6 @@ return day+"-"+month+"-"+year;
 
 }
 
-function isExpired(dateStr){
-
-var today=new Date();
-var promise=new Date(dateStr);
-
-today.setHours(0,0,0,0);
-promise.setHours(0,0,0,0);
-
-return today>promise;
-
-}
-
 function checkLock(){
 
 var acc=document.getElementById("acc").value;
@@ -219,7 +212,9 @@ document.getElementById("result").innerHTML=
 "<div class='loading'>Processing...<div class='spinner'></div></div>";
 
 fetch(api+"?acc_no="+encodeURIComponent(acc))
+
 .then(res=>res.text())
+
 .then(text=>{
 
 document.getElementById("checkBtn").disabled=false;
@@ -229,33 +224,45 @@ var data=JSON.parse(text);
 if(data.status=="LOCKED"){
 
 var formattedDate=formatDate(data.valid);
+
 var amount="RM "+Number(data.amount).toLocaleString();
 
-if(isExpired(data.valid)){
-
 document.getElementById("result").innerHTML=
-"<div class='expired-card'>"+
-"<div class='expired'>LOCK EXPIRED</div><br>"+
-"<b>BRANCH :</b><br>"+data.branch+"<br><br>"+
-"<b>LOCK AMOUNT :</b><br><div class='amount'>"+amount+"</div><br>"+
-"<b>PROMISE DATE :</b><br>"+formattedDate+
+
+"<div class='result-card'>"+
+
+"<div class='status'>STATUS : LOCKED</div>"+
+
+"<div class='row'>"+
+
+"<div class='col'>"+
+"<div class='label'>ACCOUNT NO :</div>"+
+"<div class='value'>"+data.acc_no+"</div>"+
+"</div>"+
+
+"<div class='col'>"+
+"<div class='label'>BRANCH :</div>"+
+"<div class='value'>"+data.branch+"</div>"+
+"</div>"+
+
+"</div>"+
+
+"<div class='label'>LOCK AMOUNT :</div>"+
+"<div class='amount'>"+amount+"</div><br>"+
+
+"<div class='label'>PAYMENT CATEGORY :</div>"+
+"<div class='value'>"+(data.category || "-")+"</div><br>"+
+
+"<div class='label'>PROMISE DATE :</div>"+
+"<div class='value'>"+formattedDate+"</div><br>"+
+
+"<div class='label'>REMARKS :</div>"+
+"<div class='remark'>"+(data.remarks || "-")+"</div>"+
+
 "</div>";
 
 }
-else{
 
-document.getElementById("result").innerHTML=
-"<div class='result-card'>"+
-"<div class='status'>STATUS : LOCKED</div><br>"+
-"<b>BRANCH :</b><br>"+data.branch+"<br><br>"+
-"<b>LOCK AMOUNT :</b><br><div class='amount'>"+amount+"</div><br>"+
-"<b>PROMISE DATE :</b><br>"+formattedDate+"<br><br>"+
-"<b>REMARKS :</b><br>"+(data.remarks || "-")+
-"</div>";;
-
-}
-
-}
 else{
 
 document.getElementById("result").innerHTML=
@@ -274,9 +281,13 @@ location.reload();
 }
 
 document.getElementById("acc").addEventListener("keypress",function(e){
+
 if(e.key==="Enter"){
+
 checkLock();
+
 }
+
 });
 
 </script>
