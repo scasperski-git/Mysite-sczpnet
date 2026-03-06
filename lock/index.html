@@ -4,7 +4,6 @@
 <head>
 
 <title>DCA Lock System</title>
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -110,6 +109,29 @@ font-weight:bold;
 margin-top:5px;
 }
 
+.success-grid{
+display:flex;
+flex-wrap:wrap;
+gap:15px;
+text-align:left;
+margin-top:10px;
+}
+
+.success-item{
+width:calc(50% - 8px);
+}
+
+.success-item b{
+display:block;
+margin-bottom:3px;
+}
+
+.amount{
+font-size:22px;
+font-weight:bold;
+margin-top:3px;
+}
+
 .new-btn{
 margin-top:15px;
 background:#6c757d;
@@ -188,7 +210,7 @@ Branch
 <div class="error" id="err_branch">Please select branch</div>
 
 Lock Amount
-<input type="number" id="amount" name="amount">
+<input type="text" id="amount" name="amount" inputmode="numeric">
 <div class="error" id="err_amount">Amount required</div>
 
 Payment Category
@@ -245,6 +267,7 @@ fetch(api+"?action=branches")
 .then(data=>{
 
 var select=document.getElementById("branch");
+
 select.innerHTML='<option value="">SELECT BRANCH</option>';
 
 data.forEach(b=>{
@@ -256,12 +279,24 @@ select.appendChild(option);
 
 });
 
-/* CAPITAL LETTER */
+/* AUTO CAPITAL */
 
 document.querySelectorAll("input[type=text], textarea").forEach(el=>{
 el.addEventListener("input",()=>{
 el.value=el.value.toUpperCase();
 });
+});
+
+/* FORMAT AMOUNT */
+
+document.getElementById("amount").addEventListener("input",function(){
+
+let value=this.value.replace(/,/g,'');
+
+if(!isNaN(value) && value!=""){
+this.value=Number(value).toLocaleString();
+}
+
 });
 
 /* ERROR */
@@ -377,7 +412,7 @@ function showSuccess(formData){
 
 var acc=formData.get("acc_no");
 var branch=document.getElementById("branch").selectedOptions[0].text;
-var amount="RM "+Number(formData.get("amount")).toLocaleString();
+var amount="RM "+formData.get("amount");
 var category=formData.get("payment_category");
 var promise=formatDate(formData.get("promise_date"));
 var remarks=formData.get("remarks");
@@ -391,19 +426,20 @@ document.getElementById("result").innerHTML=
 "<div class='success-card'>"+
 "<div class='success-title'><span>LOCK CREATED</span></div>"+
 
-"<b>ACCOUNT NO:</b><br>"+acc+"<br><br>"+
+"<div class='success-grid'>"+
 
-"<b>LOCK AT BRANCH:</b><br>"+branch+"<br><br>"+
+"<div class='success-item'><b>ACCOUNT NO:</b>"+acc+"</div>"+
+"<div class='success-item'><b>LOCK AT BRANCH:</b>"+branch+"</div>"+
 
-"<b>LOCK AMOUNT:</b><br><div class='amount'>"+amount+"</div><br>"+
+"<div class='success-item'><b>LOCK AMOUNT:</b><div class='amount'>"+amount+"</div></div>"+
+"<div class='success-item'><b>PAYMENT CATEGORY</b>"+category+"</div>"+
 
-"<b>PAYMENT CATEGORY:</b><br>"+category+"<br><br>"+
+"<div class='success-item'><b>PROMISE DATE:</b>"+promise+"</div>"+
+"<div class='success-item'><b>LOCK CREATED BY:</b>"+dca+" <span style='color:#666;font-size:13px'>("+createdTime+")</span></div>"+
 
-"<b>PROMISE DATE:</b><br>"+promise+"<br><br>"+
+"<div class='success-item' style='width:100%'><b>DCA REMARKS:</b>"+remarks+"</div>"+
 
-"<b>DCA REMARKS:</b><br>"+remarks+"<br><br>"+
-
-"<b>LOCK CREATED BY:</b><br>"+dca+" <span style='color:#666;font-size:13px'>("+createdTime+")</span>"+
+"</div>"+
 
 "</div>"+
 
