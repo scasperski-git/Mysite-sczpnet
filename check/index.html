@@ -51,6 +51,7 @@ border:none;
 border-radius:6px;
 font-size:16px;
 cursor:pointer;
+transition:0.2s;
 }
 
 .check-btn{
@@ -77,6 +78,8 @@ padding:20px;
 border-radius:8px;
 background:#f8f9fa;
 border-left:6px solid #28a745;
+line-height:1.4;
+animation:fadeIn .3s ease;
 }
 
 .status{
@@ -132,6 +135,7 @@ background:#ffe5e5;
 border-left:6px solid red;
 border-radius:6px;
 font-weight:bold;
+animation:fadeIn .3s ease;
 }
 
 .loading{
@@ -151,26 +155,20 @@ border-radius:50%;
 animation:spin 1s linear infinite;
 }
 
-.result-card{
-margin-top:20px;
-padding:20px;
-border-radius:8px;
-background:#f8f9fa;
-border-left:6px solid #28a745;
-line-height:1.4;
-}
-
 @keyframes spin{
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
 }
 
-@media (max-width:500px){
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(5px);}
+to{opacity:1;transform:translateY(0);}
+}
 
+@media (max-width:500px){
 .row{
 flex-direction:column;
 }
-
 }
 
 </style>
@@ -183,11 +181,20 @@ flex-direction:column;
 
 <h2>Branch Lock Check</h2>
 
-<input type="text" id="acc_no" name="acc_no" inputmode="numeric" pattern="[0-9]*" maxlength="20" placeholder="ENTER ACCOUNT NO">
+<input
+type="text"
+id="acc_no"
+inputmode="numeric"
+maxlength="20"
+placeholder="ENTER ACCOUNT NO">
 
-<button class="check-btn" id="checkBtn" onclick="checkLock()">Check Lock</button>
+<button class="check-btn" id="checkBtn">
+Check Lock
+</button>
 
-<button class="reset-btn" onclick="newSearch()">New Search</button>
+<button class="reset-btn" id="resetBtn">
+New Search
+</button>
 
 <div id="result"></div>
 
@@ -197,75 +204,95 @@ flex-direction:column;
 
 const api="https://script.google.com/macros/s/AKfycbwOyuL4w8IpqbGT1PzBizBLnHhUa6V1Wpe6r8TtLEHktOB1hyl1VSYe2GlY8ZQmkMaI/exec";
 
+const input=document.getElementById("acc_no");
+const result=document.getElementById("result");
+const checkBtn=document.getElementById("checkBtn");
+const resetBtn=document.getElementById("resetBtn");
+
+let isLoading=false;
+
+/* AUTO FOCUS */
+
+window.onload=()=>{
+input.focus();
+};
+
+/* FORMAT DATE */
+
 function formatDate(dateStr){
 
-var d=new Date(dateStr);
+const d=new Date(dateStr);
 
-var day=("0"+d.getDate()).slice(-2);
+const day=("0"+d.getDate()).slice(-2);
 
-var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-var month=monthNames[d.getMonth()];
+const month=monthNames[d.getMonth()];
 
-var year=d.getFullYear();
+const year=d.getFullYear();
 
 return day+" "+month+" "+year;
 
 }
 
+/* FORMAT DATETIME */
+
 function formatDateTime(dateStr){
 
-var d=new Date(dateStr);
+const d=new Date(dateStr);
 
-var day=("0"+d.getDate()).slice(-2);
+const day=("0"+d.getDate()).slice(-2);
 
-var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-var month=monthNames[d.getMonth()];
+const month=monthNames[d.getMonth()];
 
-var year=d.getFullYear();
+const year=d.getFullYear();
 
-var hours=("0"+d.getHours()).slice(-2);
+const hours=("0"+d.getHours()).slice(-2);
 
-var mins=("0"+d.getMinutes()).slice(-2);
+const mins=("0"+d.getMinutes()).slice(-2);
 
 return day+" "+month+" "+year+" "+hours+":"+mins;
 
 }
 
-function checkLock(){
+/* SEARCH */
 
-var acc=document.getElementById("acc_no").value;
+async function checkLock(){
+
+const acc=input.value.trim();
 
 if(!acc){
 alert("Enter Account No");
+input.focus();
 return;
 }
 
-document.getElementById("checkBtn").disabled=true;
+if(isLoading) return;
 
-document.getElementById("result").innerHTML=
+isLoading=true;
+
+checkBtn.disabled=true;
+
+result.innerHTML=
 "<div class='loading'>Processing...<div class='spinner'></div></div>";
 
-fetch(api+"?acc_no="+encodeURIComponent(acc))
+try{
 
-.then(res=>res.text())
+const res=await fetch(api+"?acc_no="+encodeURIComponent(acc));
 
-.then(text=>{
+const data=await res.json();
 
-document.getElementById("checkBtn").disabled=false;
+if(data.status==="LOCKED"){
 
-var data=JSON.parse(text);
+const formattedDate=formatDate(data.valid);
 
-if(data.status=="LOCKED"){
+const amount="RM "+Number(data.amount).toLocaleString();
 
-var formattedDate=formatDate(data.valid);
+const created=formatDateTime(data.created);
 
-var amount="RM "+Number(data.amount).toLocaleString();
-
-var created=formatDateTime(data.created);
-
-document.getElementById("result").innerHTML=
+result.innerHTML=
 
 "<div class='result-card'>"+
 
@@ -314,37 +341,57 @@ document.getElementById("result").innerHTML=
 
 else{
 
-document.getElementById("result").innerHTML=
+result.innerHTML=
 "<div class='no-lock'>NO LOCK FOUND</div>";
 
 }
 
-});
+}catch(err){
+
+result.innerHTML=
+"<div class='no-lock'>SYSTEM ERROR. TRY AGAIN.</div>";
 
 }
 
-document.getElementById("acc_no").addEventListener("keypress",function(e){
+checkBtn.disabled=false;
+isLoading=false;
+
+}
+
+/* NEW SEARCH */
+
+function newSearch(){
+
+input.value="";
+result.innerHTML="";
+checkBtn.disabled=false;
+input.focus();
+
+}
+
+/* EVENTS */
+
+checkBtn.addEventListener("click",checkLock);
+
+resetBtn.addEventListener("click",newSearch);
+
+input.addEventListener("keypress",function(e){
 
 if(e.key==="Enter"){
 checkLock();
 }
 
-function newSearch(){
-
-location.reload();
-
-}
-
 });
 
-document.getElementById("acc_no").addEventListener("input",function(){
+/* NUMERIC ONLY */
 
-this.value = this.value.replace(/[^0-9]/g,'');
+input.addEventListener("input",function(){
+
+this.value=this.value.replace(/[^0-9]/g,'');
 
 });
 
 </script>
 
 </body>
-
 </html>
