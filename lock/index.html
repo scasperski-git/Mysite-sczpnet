@@ -345,6 +345,26 @@ var year = d.getFullYear();
 return day+" "+month+" "+year;
 
 }
+
+function formatDateTime(){
+
+var d = new Date();
+
+var day = ("0"+d.getDate()).slice(-2);
+
+var monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+var month = monthNames[d.getMonth()];
+
+var year = d.getFullYear();
+
+var hours = ("0"+d.getHours()).slice(-2);
+
+var mins = ("0"+d.getMinutes()).slice(-2);
+
+return day+" "+month+" "+year+" "+hours+":"+mins;
+
+}
 function showSuccess(formData){
 
 var acc=formData.get("acc_no");
@@ -352,6 +372,8 @@ var branch=document.getElementById("branch").selectedOptions[0].text;
 var amount="RM "+Number(formData.get("amount")).toLocaleString();
 var promise=formatDate(formData.get("promise_date"));
 var remarks=formData.get("remarks");
+var dca = formData.get("dca_id");
+var createdTime = formatDateTime();
 
 document.getElementById("formSection").style.display="none";
 
@@ -363,6 +385,8 @@ document.getElementById("result").innerHTML=
 "<b>ACCOUNT</b><br>"+acc+"<br><br>"+
 
 "<b>BRANCH</b><br>"+branch+"<br><br>"+
+
+"+dca+" <span style='color:#666;font-size:13px'>("+createdTime+")</span><br><br>"+
 
 "<b>AMOUNT</b><br><div class='amount'>"+amount+"</div><br>"+
 
