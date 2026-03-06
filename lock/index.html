@@ -183,7 +183,7 @@ margin-top:10px;
 <form id="lockForm">
 
 Account No
-<input type="text" id="acc_no" name="acc_no" maxlength="20" placeholder="ENTER ACCOUNT NO">
+<input type="text" id="acc_no" name="acc_no" maxlength="9" placeholder="ENTER ACCOUNT NO">
 <div class="error" id="err_acc">Account No required</div>
 <div class="locked-msg" id="err_locked"></div>
 
@@ -201,7 +201,7 @@ Lock Amount
 Payment Category
 <select id="payment_category" name="payment_category">
 <option value="">SELECT PAYMENT CATEGORY</option>
-<option>INSTALMENT PAYMENT</option>
+<option>PARTIAL PAYMENT</option>
 <option>FULL PAYMENT</option>
 <option>UNDER DISCOUNT</option>
 </select>
@@ -362,7 +362,7 @@ document.getElementById("overlay").style.display="none";
 
 if(data=="ACCOUNT_ALREADY_LOCKED"){
 
-var msg="⚠ ACCOUNT "+acc.value+" ALREADY LOCKED "+formatDateTime();
+var msg="⚠ ACCOUNT "+acc.value+" ALREADY LOCKED ON "+formatDateTime();
 
 var box=document.getElementById("err_locked");
 
