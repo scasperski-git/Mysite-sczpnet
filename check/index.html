@@ -296,11 +296,345 @@ const res=await fetch(api+"?acc_no="+encodeURIComponent(acc));
 const data=await res.json();
 
 if(data.status==="LOCKED"){
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Branch Lock Check</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial, sans-serif;
+background:#eef2f7;
+margin:0;
+padding:20px;
+}
+
+/* CONTAINER */
+
+.container{
+max-width:520px;
+width:100%;
+margin:auto;
+background:white;
+border-radius:14px;
+box-shadow:0 10px 30px rgba(0,0,0,0.12);
+overflow:hidden;
+}
+
+/* HEADER */
+
+.header{
+background:linear-gradient(135deg,#007bff,#0047ab);
+color:white;
+padding:18px;
+text-align:center;
+font-size:20px;
+font-weight:bold;
+letter-spacing:0.5px;
+}
+
+.content{
+padding:25px;
+}
+
+/* INPUT */
+
+input{
+width:100%;
+padding:14px;
+font-size:16px;
+border:1px solid #ddd;
+border-radius:8px;
+outline:none;
+transition:0.2s;
+}
+
+input:focus{
+border-color:#007bff;
+box-shadow:0 0 0 3px rgba(0,123,255,0.15);
+}
+
+/* BUTTON */
+
+button{
+width:100%;
+padding:13px;
+margin-top:12px;
+border:none;
+border-radius:8px;
+font-size:16px;
+cursor:pointer;
+font-weight:600;
+transition:0.2s;
+}
+
+.check-btn{
+background:linear-gradient(135deg,#007bff,#0056b3);
+color:white;
+}
+
+.check-btn:hover{
+transform:translateY(-1px);
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
+}
+
+.reset-btn{
+background:#e9ecef;
+color:#333;
+}
+
+.reset-btn:hover{
+background:#dfe3e6;
+}
+
+/* RESULT CARD */
+
+.result-card{
+margin-top:22px;
+padding:22px;
+border-radius:10px;
+background:white;
+border:1px solid #e6e6e6;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+animation:fadeIn .3s ease;
+}
+
+/* STATUS */
+
+.status-box{
+text-align:center;
+margin-bottom:12px;
+}
+
+.status-box span{
+display:inline-block;
+padding:7px 22px;
+background:#dc3545;
+color:white;
+font-weight:700;
+font-size:18px;
+border-radius:30px;
+letter-spacing:1px;
+}
+
+/* META */
+
+.created-meta{
+font-size:12px;
+color:#777;
+text-align:center;
+margin-bottom:15px;
+}
+
+/* GRID */
+
+.row{
+display:flex;
+justify-content:space-between;
+gap:15px;
+margin-bottom:15px;
+}
+
+.col{
+flex:1;
+}
+
+.label{
+font-weight:bold;
+color:#666;
+font-size:13px;
+margin-bottom:3px;
+}
+
+.value{
+font-size:18px;
+font-weight:700;
+}
+
+.amount{
+font-size:26px;
+font-weight:800;
+color:#dc3545;
+}
+
+/* REMARK */
+
+.remark{
+margin-top:6px;
+line-height:1.5;
+}
+
+/* NO LOCK */
+
+.no-lock{
+margin-top:20px;
+padding:18px;
+background:#fff5f5;
+border:1px solid #ffc9c9;
+border-radius:8px;
+text-align:center;
+font-weight:600;
+color:#c92a2a;
+animation:fadeIn .3s ease;
+}
+
+/* LOADING */
+
+.loading{
+margin-top:25px;
+text-align:center;
+font-weight:600;
+color:#444;
+}
+
+.spinner{
+margin:auto;
+margin-top:12px;
+width:35px;
+height:35px;
+border:4px solid #e5e5e5;
+border-top:4px solid #007bff;
+border-radius:50%;
+animation:spin .9s linear infinite;
+}
+
+/* ANIMATION */
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(6px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+/* MOBILE */
+
+@media (max-width:500px){
+
+.row{
+flex-direction:column;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="header">
+<i class="fa fa-lock"></i> Branch Lock Check
+</div>
+
+<div class="content">
+
+<input
+type="text"
+id="acc_no"
+inputmode="numeric"
+maxlength="10"
+placeholder="Enter Account Number">
+
+<button class="check-btn" id="checkBtn">
+<i class="fa fa-search"></i> Check Lock
+</button>
+
+<button class="reset-btn" id="resetBtn">
+<i class="fa fa-rotate-left"></i> New Search
+</button>
+
+<div id="result"></div>
+
+</div>
+
+</div>
+
+<script>
+
+const api="https://script.google.com/macros/s/AKfycbwOyuL4w8IpqbGT1PzBizBLnHhUa6V1Wpe6r8TtLEHktOB1hyl1VSYe2GlY8ZQmkMaI/exec";
+
+const input=document.getElementById("acc_no");
+const result=document.getElementById("result");
+const checkBtn=document.getElementById("checkBtn");
+const resetBtn=document.getElementById("resetBtn");
+
+let isLoading=false;
+
+window.onload=()=>{
+input.focus();
+};
+
+function formatDate(dateStr){
+
+const d=new Date(dateStr);
+const day=("0"+d.getDate()).slice(-2);
+const monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const month=monthNames[d.getMonth()];
+const year=d.getFullYear();
+
+return day+" "+month+" "+year;
+
+}
+
+function formatDateTime(dateStr){
+
+const d=new Date(dateStr);
+const day=("0"+d.getDate()).slice(-2);
+const monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const month=monthNames[d.getMonth()];
+const year=d.getFullYear();
+const hours=("0"+d.getHours()).slice(-2);
+const mins=("0"+d.getMinutes()).slice(-2);
+
+return day+" "+month+" "+year+" "+hours+":"+mins;
+
+}
+
+async function checkLock(){
+
+const acc=input.value.trim();
+
+if(!acc){
+alert("Enter Account No");
+input.focus();
+return;
+}
+
+if(isLoading) return;
+
+isLoading=true;
+checkBtn.disabled=true;
+
+result.innerHTML=
+"<div class='loading'>Checking Lock Status<div class='spinner'></div></div>";
+
+try{
+
+const res=await fetch(api+"?acc_no="+encodeURIComponent(acc));
+const data=await res.json();
+
+if(data.status==="LOCKED"){
 
 const formattedDate=formatDate(data.valid);
-
 const amount="RM "+Number(data.amount).toLocaleString();
-
 const created=formatDateTime(data.created);
 
 result.innerHTML=
@@ -315,12 +649,12 @@ result.innerHTML=
 "<div class='row'>"+
 
 "<div class='col'>"+
-"<div class='label'>ACCOUNT NO:</div>"+
+"<div class='label'>ACCOUNT NO</div>"+
 "<div class='value'>"+data.acc_no+"</div>"+
 "</div>"+
 
 "<div class='col'>"+
-"<div class='label'>LOCK AT BRANCH:</div>"+
+"<div class='label'>BRANCH</div>"+
 "<div class='value'>"+data.branch+"</div>"+
 "</div>"+
 
@@ -329,21 +663,21 @@ result.innerHTML=
 "<div class='row'>"+
 
 "<div class='col'>"+
-"<div class='label'>LOCK AMOUNT:</div>"+
+"<div class='label'>LOCK AMOUNT</div>"+
 "<div class='amount'>"+amount+"</div>"+
 "</div>"+
 
 "<div class='col'>"+
-"<div class='label'>PROMISE DATE:</div>"+
+"<div class='label'>PROMISE DATE</div>"+
 "<div class='value'>"+formattedDate+"</div>"+
 "</div>"+
 
 "</div>"+
 
-"<div class='label'>PAYMENT CATEGORY:</div>"+
+"<div class='label'>PAYMENT CATEGORY</div>"+
 "<div class='value'>"+(data.category || "-")+"</div><br>"+
 
-"<div class='label'>REMARKS:</div>"+
+"<div class='label'>REMARKS</div>"+
 "<div class='remark'>"+(data.remarks || "-")+"</div>"+
 
 "</div>";
@@ -369,8 +703,6 @@ isLoading=false;
 
 }
 
-/* NEW SEARCH */
-
 function newSearch(){
 
 input.value="";
@@ -380,26 +712,17 @@ input.focus();
 
 }
 
-/* EVENTS */
-
 checkBtn.addEventListener("click",checkLock);
-
 resetBtn.addEventListener("click",newSearch);
 
 input.addEventListener("keypress",function(e){
-
 if(e.key==="Enter"){
 checkLock();
 }
-
 });
 
-/* NUMERIC ONLY */
-
 input.addEventListener("input",function(){
-
 this.value=this.value.replace(/[^0-9]/g,'');
-
 });
 
 </script>
