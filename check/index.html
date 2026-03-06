@@ -80,13 +80,6 @@ border-left:6px solid #28a745;
 }
 
 .status{
-font-size:22px;
-font-weight:bold;
-color:#28a745;
-margin-bottom:15px;
-}
-
-.status{
 display:inline-block;
 background:#28a745;
 color:white;
@@ -256,11 +249,11 @@ var formattedDate=formatDate(data.valid);
 
 var amount="RM "+Number(data.amount).toLocaleString();
 
+var created=formatDateTime(data.created);
+
 document.getElementById("result").innerHTML=
 
 "<div class='result-card'>"+
-
-var created=formatDateTime(data.created);
 
 "<div class='row'>"+
 
