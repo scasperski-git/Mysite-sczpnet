@@ -82,11 +82,21 @@ line-height:1.4;
 animation:fadeIn .3s ease;
 }
 
-.status{
-font-size:22px;
-font-weight:bold;
-color:#28a745;
+.status-box{
+text-align:center;
 margin-bottom:15px;
+}
+
+.status-box span{
+display:inline-block;
+padding:6px 16px;
+background:#28a745;
+color:white;
+font-weight:bold;
+font-size:18px;
+border-radius:6px;
+box-shadow:0 3px 8px rgba(0,0,0,0.15);
+letter-spacing:1px;
 }
 
 .created-meta{
@@ -296,7 +306,7 @@ result.innerHTML=
 
 "<div class='result-card'>"+
 
-"<div class='status'>STATUS : LOCKED</div>"+
+"<div class='status-box'><span>LOCKED</span></div>"+
 
 "<div class='created-meta'>Created by "+data.dca_id+
 " • "+created+"</div>"+
