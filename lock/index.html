@@ -282,9 +282,18 @@ select.appendChild(option);
 /* AUTO CAPITAL */
 
 document.querySelectorAll("input[type=text], textarea").forEach(el=>{
-el.addEventListener("input",()=>{
-el.value=el.value.toUpperCase();
+
+el.addEventListener("input",function(){
+
+let start = this.selectionStart;
+let end = this.selectionEnd;
+
+this.value = this.value.toUpperCase();
+
+this.setSelectionRange(start,end);
+
 });
+
 });
 
 /* FORMAT AMOUNT */
