@@ -199,7 +199,7 @@ return day+" "+month+" "+year;
 
 function checkLock(){
 
-var acc=document.getElementById("acc").value;
+var acc=document.getElementById("acc_no").value;
 
 if(!acc){
 alert("Enter Account No");
@@ -282,18 +282,10 @@ document.getElementById("result").innerHTML=
 
 }
 
-function newSearch(){
-
-location.reload();
-
-}
-
-document.getElementById("acc").addEventListener("keypress",function(e){
+document.getElementById("acc_no").addEventListener("keypress",function(e){
 
 if(e.key==="Enter"){
-
 checkLock();
-
 }
 
 });
