@@ -199,7 +199,7 @@ margin-top:10px;
 <form id="lockForm">
 
 Account No
-<input type="text" id="acc_no" name="acc_no">
+<input type="text" id="acc_no" name="acc_no" inputmode="numeric" pattern="[0-9]*" maxlength="20" placeholder="ENTER ACCOUNT NO">
 <div class="error" id="err_acc">Account No required</div>
 
 Branch
@@ -475,6 +475,12 @@ document.getElementById("result").innerHTML=
 "<button class='new-btn' onclick='location.reload()'>New Lock</button>";
 
 }
+
+document.getElementById("acc_no").addEventListener("input",function(){
+
+this.value = this.value.replace(/[^0-9]/g,'');
+
+});
 
 </script>
 
