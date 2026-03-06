@@ -42,6 +42,18 @@ font-size:15px;
 text-transform:uppercase;
 }
 
+select:invalid{
+color:#999;
+}
+
+select option{
+color:black;
+}
+
+select option[value=""]{
+color:#999;
+}
+
 button{
 width:100%;
 padding:12px;
@@ -203,7 +215,7 @@ Account No
 <div class="error" id="err_acc">Account No required</div>
 
 Branch
-<select id="branch" name="branch_id">
+<select id="branch" name="branch_id" required>
 <option value="">SELECT BRANCH</option>
 <option value="" disabled>Loading branch list...</option>
 </select>
@@ -214,7 +226,7 @@ Lock Amount
 <div class="error" id="err_amount">Amount required</div>
 
 Payment Category
-<select id="payment_category" name="payment_category">
+<select id="payment_category" name="payment_category" required>
 <option value="">SELECT PAYMENT CATEGORY</option>
 <option>PARTIAL PAYMENT</option>
 <option>FULL PAYMENT</option>
