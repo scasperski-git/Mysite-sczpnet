@@ -297,15 +297,18 @@ this.setSelectionRange(start,end);
 
 });
 
-/* FORMAT AMOUNT */
+/* AMOUNT - NUMBER ONLY + FORMAT */
 
 document.getElementById("amount").addEventListener("input",function(){
 
-let value=this.value.replace(/,/g,'');
+let value = this.value.replace(/[^\d]/g,'');   // remove non-numbers
 
-if(!isNaN(value) && value!=""){
-this.value=Number(value).toLocaleString();
+if(value===""){
+this.value="";
+return;
 }
+
+this.value = Number(value).toLocaleString();
 
 });
 
