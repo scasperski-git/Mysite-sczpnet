@@ -4,6 +4,7 @@
 <head>
 
 <title>Branch Lock Check</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -13,7 +14,7 @@ box-sizing:border-box;
 }
 
 body{
-font-family:Arial,sans-serif;
+font-family:Arial, sans-serif;
 background:#f4f6f9;
 margin:0;
 padding:20px;
@@ -21,6 +22,7 @@ padding:20px;
 
 .container{
 max-width:500px;
+width:100%;
 margin:auto;
 background:white;
 padding:25px;
@@ -56,9 +58,17 @@ background:#007bff;
 color:white;
 }
 
+.check-btn:hover{
+background:#0056b3;
+}
+
 .reset-btn{
 background:#6c757d;
 color:white;
+}
+
+.reset-btn:hover{
+background:#545b62;
 }
 
 .result-card{
@@ -81,36 +91,18 @@ border-left:6px solid #ff9800;
 font-size:20px;
 font-weight:bold;
 color:#28a745;
-margin-bottom:15px;
 }
 
-.info-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-}
-
-.field{
-background:white;
-padding:10px;
-border-radius:6px;
-border:1px solid #eee;
-}
-
-.label{
-font-size:12px;
-color:#666;
-margin-bottom:4px;
-}
-
-.value{
-font-size:16px;
+.expired{
+font-size:20px;
 font-weight:bold;
+color:#ff9800;
 }
 
 .amount{
 font-size:22px;
-color:#000;
+font-weight:bold;
+margin-top:5px;
 }
 
 .no-lock{
@@ -122,27 +114,19 @@ border-radius:6px;
 font-weight:bold;
 }
 
-/* OVERLAY LOADING */
-
-.loading-overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(255,255,255,0.8);
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-z-index:999;
+.loading{
+margin-top:20px;
+text-align:center;
+font-weight:bold;
 }
 
 .spinner{
-width:40px;
-height:40px;
-border:5px solid #ccc;
-border-top:5px solid #007bff;
+margin:auto;
+margin-top:10px;
+width:30px;
+height:30px;
+border:4px solid #ccc;
+border-top:4px solid #007bff;
 border-radius:50%;
 animation:spin 1s linear infinite;
 }
@@ -150,6 +134,22 @@ animation:spin 1s linear infinite;
 @keyframes spin{
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
+}
+
+@media (max-width:500px){
+
+.container{
+padding:18px;
+}
+
+h2{
+font-size:20px;
+}
+
+.amount{
+font-size:20px;
+}
+
 }
 
 </style>
@@ -170,11 +170,6 @@ animation:spin 1s linear infinite;
 
 <div id="result"></div>
 
-</div>
-
-<div id="loading" style="display:none" class="loading-overlay">
-<div class="spinner"></div>
-<div style="margin-top:10px;font-weight:bold">Processing...</div>
 </div>
 
 <script>
@@ -209,14 +204,6 @@ return today>promise;
 
 }
 
-function showLoading(){
-document.getElementById("loading").style.display="flex";
-}
-
-function hideLoading(){
-document.getElementById("loading").style.display="none";
-}
-
 function checkLock(){
 
 var acc=document.getElementById("acc").value;
@@ -228,13 +215,12 @@ return;
 
 document.getElementById("checkBtn").disabled=true;
 
-showLoading();
+document.getElementById("result").innerHTML=
+"<div class='loading'>Processing...<div class='spinner'></div></div>";
 
 fetch(api+"?acc_no="+encodeURIComponent(acc))
 .then(res=>res.text())
 .then(text=>{
-
-hideLoading();
 
 document.getElementById("checkBtn").disabled=false;
 
@@ -245,32 +231,31 @@ if(data.status=="LOCKED"){
 var formattedDate=formatDate(data.valid);
 var amount="RM "+Number(data.amount).toLocaleString();
 
+if(isExpired(data.valid)){
+
 document.getElementById("result").innerHTML=
-
-"<div class='result-card'>"+
-
-"<div class='status'>STATUS : LOCKED</div>"+
-
-"<div class='info-grid'>"+
-
-"<div class='field'><div class='label'>Branch</div><div class='value'>"+data.branch+"</div></div>"+
-
-"<div class='field'><div class='label'>Promise Date</div><div class='value'>"+formattedDate+"</div></div>"+
-
-"<div class='field'><div class='label'>Lock Amount</div><div class='value amount'>"+amount+"</div></div>"+
-
-"<div class='field'><div class='label'>Payment Category</div><div class='value'>"+(data.category || "-")+"</div></div>"+
-
-"<div class='field'><div class='label'>DCA ID</div><div class='value'>"+(data.dca_id || "-")+"</div></div>"+
-
-"<div class='field'><div class='label'>DCA Remark</div><div class='value'>"+(data.dca_remark || "-")+"</div></div>"+
-
-"</div>"+
-
+"<div class='expired-card'>"+
+"<div class='expired'>LOCK EXPIRED</div><br>"+
+"<b>BRANCH :</b><br>"+data.branch+"<br><br>"+
+"<b>LOCK AMOUNT :</b><br><div class='amount'>"+amount+"</div><br>"+
+"<b>PROMISE DATE :</b><br>"+formattedDate+
 "</div>";
 
 }
+else{
 
+document.getElementById("result").innerHTML=
+"<div class='result-card'>"+
+"<div class='status'>STATUS : LOCKED</div><br>"+
+"<b>BRANCH :</b><br>"+data.branch+"<br><br>"+
+"<b>LOCK AMOUNT :</b><br><div class='amount'>"+amount+"</div><br>"+
+"<b>PROMISE DATE :</b><br>"+formattedDate+"<br><br>"+
+"<b>REMARKS :</b><br>"+(data.remarks || "-")+
+"</div>";;
+
+}
+
+}
 else{
 
 document.getElementById("result").innerHTML=
@@ -283,7 +268,9 @@ document.getElementById("result").innerHTML=
 }
 
 function newSearch(){
+
 location.reload();
+
 }
 
 document.getElementById("acc").addEventListener("keypress",function(e){
@@ -295,4 +282,5 @@ checkLock();
 </script>
 
 </body>
+
 </html>
