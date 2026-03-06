@@ -258,6 +258,21 @@ Processing Lock...
 
 const api="https://script.google.com/macros/s/AKfycbw4toZ5BszdiHoFRhXlBfIVxklH5Dc8rfzq6NqqAh1YMi65rcfKszg8WBgBRNN2-uY4/exec";
 
+/* LOAD BRANCH LIST */
+fetch(api+"?action=branches")
+.then(res=>res.json())
+.then(data=>{
+var select=document.getElementById("branch");
+select.innerHTML='<option value="">SELECT BRANCH</option>';
+
+data.forEach(b=>{
+var option=document.createElement("option");
+option.value=b.id;
+option.text=b.name;
+select.appendChild(option);
+});
+});
+
 /* FORMAT DATETIME */
 
 function formatDateTime(){
