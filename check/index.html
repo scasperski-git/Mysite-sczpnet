@@ -86,6 +86,15 @@ color:#28a745;
 margin-bottom:15px;
 }
 
+.status{
+display:inline-block;
+background:#28a745;
+color:white;
+padding:5px 10px;
+border-radius:6px;
+font-size:14px;
+}
+
 .row{
 display:flex;
 justify-content:space-between;
@@ -179,7 +188,7 @@ flex-direction:column;
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbw4toZ5BszdiHoFRhXlBfIVxklH5Dc8rfzq6NqqAh1YMi65rcfKszg8WBgBRNN2-uY4/exec";
+const api="https://script.google.com/macros/s/AKfycbwOyuL4w8IpqbGT1PzBizBLnHhUa6V1Wpe6r8TtLEHktOB1hyl1VSYe2GlY8ZQmkMaI/exec";
 
 function formatDate(dateStr){
 
@@ -194,6 +203,26 @@ var month=monthNames[d.getMonth()];
 var year=d.getFullYear();
 
 return day+" "+month+" "+year;
+
+}
+
+function formatDateTime(dateStr){
+
+var d=new Date(dateStr);
+
+var day=("0"+d.getDate()).slice(-2);
+
+var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+var month=monthNames[d.getMonth()];
+
+var year=d.getFullYear();
+
+var hours=("0"+d.getHours()).slice(-2);
+
+var mins=("0"+d.getMinutes()).slice(-2);
+
+return day+" "+month+" "+year+" "+hours+":"+mins;
 
 }
 
@@ -231,7 +260,19 @@ document.getElementById("result").innerHTML=
 
 "<div class='result-card'>"+
 
+var created=formatDateTime(data.created);
+
+"<div class='row'>"+
+
+"<div class='col'>"+
 "<div class='status'>STATUS : LOCKED</div>"+
+"</div>"+
+
+"<div class='col' style='text-align:right'>"+
+"<div style='font-size:13px;color:#666'><b>CREATED BY:</b> "+data.dca_id+" ("+created+")</div>"+
+"</div>"+
+
+"</div>"+
 
 "<div class='row'>"+
 
