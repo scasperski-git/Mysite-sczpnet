@@ -64,6 +64,15 @@ margin-bottom:10px;
 display:none;
 }
 
+.locked-msg{
+color:red;
+font-size:14px;
+font-weight:bold;
+margin-top:-5px;
+margin-bottom:10px;
+display:none;
+}
+
 .shake{
 animation:shake 0.3s;
 border-color:red;
@@ -103,12 +112,6 @@ border-radius:6px;
 box-shadow:0 3px 8px rgba(0,0,0,0.15);
 }
 
-.amount{
-font-size:22px;
-font-weight:bold;
-margin-top:5px;
-}
-
 .success-grid{
 display:flex;
 flex-wrap:wrap;
@@ -121,15 +124,9 @@ margin-top:10px;
 width:calc(50% - 8px);
 }
 
-.success-item b{
-display:block;
-margin-bottom:3px;
-}
-
 .amount{
 font-size:22px;
 font-weight:bold;
-margin-top:3px;
 }
 
 .new-btn{
@@ -199,8 +196,9 @@ margin-top:10px;
 <form id="lockForm">
 
 Account No
-<input type="text" id="acc_no" name="acc_no" inputmode="numeric" pattern="[0-9]*" maxlength="20" placeholder="ENTER ACCOUNT NO">
+<input type="text" id="acc_no" name="acc_no" inputmode="numeric" maxlength="20" placeholder="ENTER ACCOUNT NO">
 <div class="error" id="err_acc">Account No required</div>
+<div class="locked-msg" id="err_locked"></div>
 
 Branch
 <select id="branch" name="branch_id">
@@ -231,15 +229,14 @@ DCA ID
 <div class="error" id="err_dca">DCA ID required</div>
 
 Remarks
-<textarea id="remarks" name="remarks" maxlength="100" placeholder="(ENTER REMARKS)"></textarea>
+<textarea id="remarks" name="remarks" maxlength="100"></textarea>
 <div style="font-size:12px;color:#666;text-align:right" id="remarkCounter">0 / 100</div>
 <div class="error" id="err_remarks">Remarks required</div>
 
 <button type="submit">Submit Lock</button>
 
 <div class="audit-note">
-⚠ Every submission is recorded for audit and verification purposes.  
-Unauthorized or false lock entries may be subject to investigation.
+⚠ Every submission is recorded for audit and verification purposes.
 </div>
 
 </form>
@@ -261,83 +258,25 @@ Processing Lock...
 
 const api="https://script.google.com/macros/s/AKfycbw4toZ5BszdiHoFRhXlBfIVxklH5Dc8rfzq6NqqAh1YMi65rcfKszg8WBgBRNN2-uY4/exec";
 
-/* LOAD BRANCH */
+/* FORMAT DATETIME */
 
-fetch(api+"?action=branches")
-.then(res=>res.json())
-.then(data=>{
+function formatDateTime(){
 
-var select=document.getElementById("branch");
+var d=new Date();
 
-select.innerHTML='<option value="">SELECT BRANCH</option>';
+var day=("0"+d.getDate()).slice(-2);
 
-data.forEach(b=>{
-var option=document.createElement("option");
-option.value=b.id;
-option.text=b.name;
-select.appendChild(option);
-});
+var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-});
+var month=monthNames[d.getMonth()];
 
-/* AUTO CAPITAL */
+var year=d.getFullYear();
 
-document.querySelectorAll("input[type=text], textarea").forEach(el=>{
+var hours=("0"+d.getHours()).slice(-2);
 
-el.addEventListener("input",function(){
+var mins=("0"+d.getMinutes()).slice(-2);
 
-let start = this.selectionStart;
-let end = this.selectionEnd;
-
-this.value = this.value.toUpperCase();
-
-this.setSelectionRange(start,end);
-
-});
-
-});
-
-/* AMOUNT - NUMBER ONLY + FORMAT */
-
-document.getElementById("amount").addEventListener("input",function(){
-
-let value = this.value.replace(/[^\d]/g,'');   // remove non-numbers
-
-if(value===""){
-this.value="";
-return;
-}
-
-this.value = Number(value).toLocaleString();
-
-});
-
-/* REMARK LIMIT + COUNTER (MOBILE SAFE) */
-
-const remarkBox = document.getElementById("remarks");
-const remarkCounter = document.getElementById("remarkCounter");
-const maxRemark = 100;
-
-remarkBox.addEventListener("input",function(){
-
-if(this.value.length > maxRemark){
-this.value = this.value.substring(0, maxRemark);
-}
-
-remarkCounter.textContent = this.value.length + " / " + maxRemark;
-
-});
-
-/* ERROR */
-
-function showError(input,errorId){
-
-input.classList.add("shake");
-document.getElementById(errorId).style.display="block";
-
-setTimeout(()=>{
-input.classList.remove("shake");
-},300);
+return day+" "+month+" "+year+" "+hours+":"+mins;
 
 }
 
@@ -348,29 +287,13 @@ document.getElementById("lockForm").addEventListener("submit",e=>{
 e.preventDefault();
 
 document.querySelectorAll(".error").forEach(e=>e.style.display="none");
+document.getElementById("err_locked").style.display="none";
 
 var acc=document.getElementById("acc_no");
-var branch=document.getElementById("branch");
-var amount=document.getElementById("amount");
-var category=document.getElementById("payment_category");
-var date=document.getElementById("promise_date");
-var dca=document.getElementById("dca_id");
-var remarks=document.getElementById("remarks");
-
-if(!acc.value){ showError(acc,"err_acc"); return; }
-if(!branch.value){ showError(branch,"err_branch"); return; }
-if(!amount.value){ showError(amount,"err_amount"); return; }
-if(!category.value){ showError(category,"err_category"); return; }
-if(!date.value){ showError(date,"err_date"); return; }
-if(!dca.value){ showError(dca,"err_dca"); return; }
-if(!remarks.value){ showError(remarks,"err_remarks"); return; }
 
 document.getElementById("overlay").style.display="flex";
 
 var formData=new FormData(e.target);
-
-var branchName=branch.selectedOptions[0].text;
-formData.append("branch_name",branchName);
 
 fetch(api,{
 method:"POST",
@@ -383,13 +306,24 @@ document.getElementById("overlay").style.display="none";
 
 if(data=="ACCOUNT_ALREADY_LOCKED"){
 
-document.getElementById("result").innerHTML=
-"<div class='success-card' style='border-left:6px solid red'><b>ACCOUNT ALREADY LOCKED</b></div>";
+var accNo=acc.value;
 
-}
-else{
+var time=formatDateTime();
 
-showSuccess(formData);
+var msg="⚠ ACCOUNT "+accNo+" ALREADY LOCKED "+time;
+
+var errBox=document.getElementById("err_locked");
+
+errBox.innerText=msg;
+errBox.style.display="block";
+
+acc.classList.add("shake");
+
+setTimeout(()=>{
+acc.classList.remove("shake");
+},300);
+
+return;
 
 }
 
@@ -397,88 +331,13 @@ showSuccess(formData);
 
 });
 
-/* DATE FORMAT */
-
-function formatDate(dateStr){
-
-var d = new Date(dateStr);
-
-var day = ("0"+d.getDate()).slice(-2);
-
-var monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-var month = monthNames[d.getMonth()];
-
-var year = d.getFullYear();
-
-return day+" "+month+" "+year;
-
-}
-
-function formatDateTime(){
-
-var d = new Date();
-
-var day = ("0"+d.getDate()).slice(-2);
-
-var monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-var month = monthNames[d.getMonth()];
-
-var year = d.getFullYear();
-
-var hours = ("0"+d.getHours()).slice(-2);
-
-var mins = ("0"+d.getMinutes()).slice(-2);
-
-return day+" "+month+" "+year+" "+hours+":"+mins;
-
-}
-
-/* SUCCESS */
-
-function showSuccess(formData){
-
-var acc=formData.get("acc_no");
-var branch=document.getElementById("branch").selectedOptions[0].text;
-var amount="RM "+formData.get("amount");
-var category=formData.get("payment_category");
-var promise=formatDate(formData.get("promise_date"));
-var remarks=formData.get("remarks");
-var dca = formData.get("dca_id");
-var createdTime = formatDateTime();
-
-document.getElementById("formSection").style.display="none";
-
-document.getElementById("result").innerHTML=
-
-"<div class='success-card'>"+
-"<div class='success-title'><span>LOCK CREATED</span></div>"+
-
-"<div class='success-grid'>"+
-
-"<div class='success-item'><b>ACCOUNT NO:</b>"+acc+"</div>"+
-"<div class='success-item'><b>LOCK AT BRANCH:</b>"+branch+"</div>"+
-
-"<div class='success-item'><b>LOCK AMOUNT:</b><div class='amount'>"+amount+"</div></div>"+
-"<div class='success-item'><b>PAYMENT CATEGORY</b>"+category+"</div>"+
-
-"<div class='success-item'><b>PROMISE DATE:</b>"+promise+"</div>"+
-"<div class='success-item'><b>LOCK CREATED BY:</b>"+dca+" <span style='color:#666;font-size:13px'>("+createdTime+")</span></div>"+
-
-"<div class='success-item' style='width:100%'><b>DCA REMARKS:</b>"+remarks+"</div>"+
-
-"</div>"+
-
-"</div>"+
-
-"<button class='new-btn' onclick='location.reload()'>New Lock</button>";
-
-}
+/* NUMERIC ONLY */
 
 document.getElementById("acc_no").addEventListener("input",function(){
 
-this.value = this.value.replace(/[^0-9]/g,'');
+this.value=this.value.replace(/[^0-9]/g,'');
+
+document.getElementById("err_locked").style.display="none";
 
 });
 
