@@ -329,6 +329,14 @@ if(e.key==="Enter"){
 checkLock();
 }
 
+function newSearch(){
+
+document.getElementById("acc_no").value="";
+document.getElementById("result").innerHTML="";
+document.getElementById("acc_no").focus();
+
+}
+
 });
 
 document.getElementById("acc_no").addEventListener("input",function(){
