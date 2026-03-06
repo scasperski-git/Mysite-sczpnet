@@ -78,8 +78,6 @@ border-color:red;
 100%{transform:translateX(0)}
 }
 
-/* SUCCESS CARD */
-
 .success-card{
 margin-top:20px;
 padding:25px;
@@ -88,8 +86,6 @@ background:#f8f9fa;
 border-left:6px solid #28a745;
 text-align:center;
 }
-
-/* NICE SUCCESS TITLE */
 
 .success-title{
 font-size:26px;
@@ -129,8 +125,6 @@ border-left:4px solid #ffc107;
 border-radius:4px;
 line-height:1.4;
 }
-
-/* PROCESSING OVERLAY */
 
 #overlay{
 position:fixed;
@@ -197,6 +191,15 @@ Lock Amount
 <input type="number" id="amount" name="amount">
 <div class="error" id="err_amount">Amount required</div>
 
+Payment Category
+<select id="payment_category" name="payment_category">
+<option value="">SELECT PAYMENT CATEGORY</option>
+<option>PARTIAL PAYMENT</option>
+<option>FULL AMOUNT</option>
+<option>FULL AMOUNT WITH DISCOUNT</option>
+</select>
+<div class="error" id="err_category">Payment category required</div>
+
 Promise Date
 <input type="date" id="promise_date" name="promise_date">
 <div class="error" id="err_date">Promise date required</div>
@@ -224,8 +227,6 @@ Unauthorized or false lock entries may be subject to investigation.
 
 </div>
 
-<!-- PROCESSING OVERLAY -->
-
 <div id="overlay">
 <div class="loader-box">
 Processing Lock...
@@ -244,6 +245,7 @@ fetch(api+"?action=branches")
 .then(data=>{
 
 var select=document.getElementById("branch");
+select.innerHTML='<option value="">SELECT BRANCH</option>';
 
 data.forEach(b=>{
 var option=document.createElement("option");
@@ -262,7 +264,7 @@ el.value=el.value.toUpperCase();
 });
 });
 
-/* SHOW ERROR */
+/* ERROR */
 
 function showError(input,errorId){
 
@@ -286,6 +288,7 @@ document.querySelectorAll(".error").forEach(e=>e.style.display="none");
 var acc=document.getElementById("acc_no");
 var branch=document.getElementById("branch");
 var amount=document.getElementById("amount");
+var category=document.getElementById("payment_category");
 var date=document.getElementById("promise_date");
 var dca=document.getElementById("dca_id");
 var remarks=document.getElementById("remarks");
@@ -293,6 +296,7 @@ var remarks=document.getElementById("remarks");
 if(!acc.value){ showError(acc,"err_acc"); return; }
 if(!branch.value){ showError(branch,"err_branch"); return; }
 if(!amount.value){ showError(amount,"err_amount"); return; }
+if(!category.value){ showError(category,"err_category"); return; }
 if(!date.value){ showError(date,"err_date"); return; }
 if(!dca.value){ showError(dca,"err_dca"); return; }
 if(!remarks.value){ showError(remarks,"err_remarks"); return; }
@@ -329,7 +333,8 @@ showSuccess(formData);
 
 });
 
-/* SUCCESS SCREEN */
+/* DATE FORMAT */
+
 function formatDate(dateStr){
 
 var d = new Date(dateStr);
@@ -365,11 +370,15 @@ var mins = ("0"+d.getMinutes()).slice(-2);
 return day+" "+month+" "+year+" "+hours+":"+mins;
 
 }
+
+/* SUCCESS */
+
 function showSuccess(formData){
 
 var acc=formData.get("acc_no");
 var branch=document.getElementById("branch").selectedOptions[0].text;
 var amount="RM "+Number(formData.get("amount")).toLocaleString();
+var category=formData.get("payment_category");
 var promise=formatDate(formData.get("promise_date"));
 var remarks=formData.get("remarks");
 var dca = formData.get("dca_id");
@@ -388,11 +397,13 @@ document.getElementById("result").innerHTML=
 
 "<b>LOCK AMOUNT:</b><br><div class='amount'>"+amount+"</div><br>"+
 
+"<b>PAYMENT CATEGORY:</b><br>"+category+"<br><br>"+
+
 "<b>PROMISE DATE:</b><br>"+promise+"<br><br>"+
 
 "<b>DCA REMARKS:</b><br>"+remarks+"<br><br>"+
 
-"<b>LOCK CREATED BY:</b><br>"+dca+" <span style='color:#666;font-size:13px'>("+createdTime+")"+
+"<b>LOCK CREATED BY:</b><br>"+dca+" <span style='color:#666;font-size:13px'>("+createdTime+")</span>"+
 
 "</div>"+
 
