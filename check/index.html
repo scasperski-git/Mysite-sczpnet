@@ -288,14 +288,21 @@ function formatDate(dateStr){
 
 if(!dateStr) return "-";
 
+dateStr = String(dateStr).trim();
+
+if(!dateStr.includes("/")) return dateStr;
+
 const parts=dateStr.split("/");
+
+if(parts.length!==3) return dateStr;
+
 const day=parts[0];
 const month=parts[1];
 const year=parts[2];
 
 const monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-return day+" "+monthNames[parseInt(month)-1]+" "+year;
+return day+" "+monthNames[parseInt(month,10)-1]+" "+year;
 
 }
 
@@ -303,23 +310,31 @@ function formatDateTime(dateStr){
 
 if(!dateStr) return "-";
 
+dateStr = String(dateStr).trim();
+
 const parts=dateStr.split(" ");
+
+if(parts.length<2) return formatDate(dateStr);
 
 const datePart=parts[0];
 const timePart=parts[1];
 
 const d=datePart.split("/");
+
+if(d.length!==3) return dateStr;
+
 const day=d[0];
 const month=d[1];
 const year=d[2];
 
 const t=timePart.split(":");
+
 const hour=t[0];
 const min=t[1];
 
 const monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-return day+" "+monthNames[parseInt(month)-1]+" "+year+" "+hour+":"+min;
+return day+" "+monthNames[parseInt(month,10)-1]+" "+year+" "+hour+":"+min;
 
 }
 
