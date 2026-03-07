@@ -288,20 +288,47 @@ function formatDate(dateStr){
 
 if(!dateStr) return "-";
 
-const p=dateStr.split("/");
+dateStr=dateStr.trim();
 
-if(p.length!==3) return dateStr;
+/* handle dd/MM/yyyy dari Apps Script */
 
-const day=p[0];
-const month=parseInt(p[1])-1;
-const year=p[2];
+if(dateStr.includes("/")){
 
-const m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var p=dateStr.split("/");
+
+var day=parseInt(p[0]);
+var month=parseInt(p[1])-1;
+var year=p[2];
+
+if(year.length==2){
+year="20"+year;
+}
+
+var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+return ("0"+day).slice(-2)+" "+m[month]+" "+year;
+
+}
+
+/* handle ISO date kalau datang dari sheet */
+
+if(dateStr.includes("T")){
+
+var d=new Date(dateStr);
+
+var day=("0"+d.getDate()).slice(-2);
+var month=d.getMonth();
+var year=d.getFullYear();
+
+var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 return day+" "+m[month]+" "+year;
 
 }
 
+return dateStr;
+
+}
 function formatDateTime(dateStr){
 
 if(!dateStr) return "-";
