@@ -411,7 +411,20 @@ this.setSelectionRange(start,end);
 
 document.getElementById("amount").addEventListener("input",function(){
 
-let value=this.value.replace(/[^\d]/g,'');
+let value=this.value.replace(/[^\d.]/g,'');
+
+/* allow only 1 decimal point */
+let parts=value.split(".");
+if(parts.length>2){
+value=parts[0]+"."+parts.slice(1).join("");
+}
+
+/* format number */
+let num=parseFloat(value);
+
+if(!isNaN(num)){
+this.value=num.toLocaleString("en-MY",{minimumFractionDigits:2,maximumFractionDigits:2});
+}
 
 if(value===""){
 this.value="";
