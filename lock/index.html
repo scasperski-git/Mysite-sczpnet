@@ -323,8 +323,6 @@ margin-bottom:18px;
 
 <label>Promise Date</label>
 <input type="date" id="promise_date" name="promise_date" min="">
-document.getElementById("promise_date").min =
-new Date().toISOString().split("T")[0];
 <div class="error" id="err_date">Promise date required</div>
 
 <label>DCA ID</label>
@@ -380,6 +378,9 @@ select.appendChild(option);
 });
 
 });
+
+document.getElementById("promise_date").min =
+new Date().toISOString().split("T")[0];
 
 /* AUTO CAPITAL */
 
