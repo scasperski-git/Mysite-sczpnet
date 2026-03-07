@@ -341,7 +341,7 @@ margin-bottom:18px;
 <div id="remarkCounter">0 / 100</div>
 <div class="error" id="err_remarks">Remarks required</div>
 
-<button type="submit">
+<button type="submit" id="submitBtn">
 <i class="fa-solid fa-lock" style="margin-right:6px;"></i> Submit Lock
 </button>
 
@@ -409,25 +409,33 @@ this.setSelectionRange(start,end);
 
 /* AMOUNT FORMAT */
 
-document.getElementById("amount").addEventListener("input",function(){
+const amountField = document.getElementById("amount");
 
-let value=this.value.replace(/[^\d.]/g,'');
+/* allow typing normally */
+amountField.addEventListener("input", function(){
 
-/* allow only one decimal */
-let parts=value.split(".");
-if(parts.length>2){
-value=parts[0]+"."+parts.slice(1).join("");
+let value = this.value.replace(/[^\d.]/g,'');
+
+let parts = value.split(".");
+if(parts.length > 2){
+value = parts[0] + "." + parts.slice(1).join("");
 }
 
-if(value===""){
-this.value="";
-return;
-}
+this.value = value;
 
-let num=parseFloat(value);
+});
+
+/* format only when user leaves field */
+amountField.addEventListener("blur", function(){
+
+let value = this.value.replace(/,/g,'');
+
+if(value==="") return;
+
+let num = parseFloat(value);
 
 if(!isNaN(num)){
-this.value=num.toLocaleString("en-MY",{
+this.value = num.toLocaleString("en-MY",{
 minimumFractionDigits:2,
 maximumFractionDigits:2
 });
@@ -486,6 +494,7 @@ if(!dca.value){showError(dca,"err_dca");return;}
 if(!remarks.value){showError(remarks,"err_remarks");return;}
 
 document.getElementById("overlay").style.display="flex";
+document.getElementById("submitBtn").disabled = true;
 
 var formData=new FormData(e.target);
 
