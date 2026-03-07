@@ -341,10 +341,19 @@ margin-bottom:18px;
 <div id="remarkCounter">0 / 100</div>
 <div class="error" id="err_remarks">Remarks required</div>
 
-<button type="submit" id="submitBtn">
-<i class="fa-solid fa-lock" style="margin-right:6px;"></i> Submit Lock
-</button>
+<label style="font-size:11px;display:flex;gap:8px;margin-top:10px;">
+<input type="checkbox" id="confirmTick">
+<span>
+I/We confirm that the lock amount, payment category, and all details entered are accurate. 
+I/we understand that I/We am responsible for any incorrect amount or information submitted.
+</span>
+</label>
 
+<div class="error" id="err_confirm">Please confirm before submitting.</div>
+  
+<button type="submit" id="submitBtn" disabled>
+<i class="fa-solid fa-lock"></i> Submit Lock
+</button>
 <div class="audit-note">
 ⚠ Every submission is recorded for audit and verification purposes.  
 Unauthorized or false lock entries may be subject to investigation.
@@ -463,6 +472,13 @@ this.value=this.value.substring(0,100);
 
 remarkCounter.textContent=this.value.length+" / 100";
 
+});
+
+const confirmTick=document.getElementById("confirmTick");
+const submitBtn=document.getElementById("submitBtn");
+
+confirmTick.addEventListener("change",function(){
+submitBtn.disabled=!this.checked;
 });
 
 /* ERROR */
