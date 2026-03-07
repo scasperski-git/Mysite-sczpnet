@@ -295,10 +295,10 @@ margin-bottom:18px;
 
 <div id="formSection">
 
-<form id="lockForm">
+<form id="lockForm" autocomplete="off">
 
 <label>Account No</label>
-<input type="text" id="acc_no" name="acc_no" inputmode="numeric" maxlength="10" placeholder="ENTER ACCOUNT NO">
+<input type="text" id="acc_no" name="acc_no" autocomplete="off" inputmode="numeric" maxlength="10" placeholder="ENTER ACCOUNT NO">
 <div class="error" id="err_acc">Account No required</div>
 
 <label>Branch</label>
@@ -309,7 +309,7 @@ margin-bottom:18px;
 <div class="error" id="err_branch">Please select branch</div>
 
 <label>Lock Amount</label>
-<input type="text" id="amount" name="amount" inputmode="numeric">
+<input type="text" id="amount" name="amount" autocomplete="off" inputmode="numeric">
 <div class="error" id="err_amount">Amount required</div>
 
 <label>Payment Category</label>
@@ -326,11 +326,11 @@ margin-bottom:18px;
 <div class="error" id="err_date">Promise date required</div>
 
 <label>DCA ID</label>
-<input type="text" id="dca_id" name="dca_id">
+<input type="text" id="dca_id" autocomplete="off" name="dca_id"> 
 <div class="error" id="err_dca">DCA ID required</div>
 
 <label>Remarks</label>
-<textarea id="remarks" name="remarks" maxlength="100" placeholder="ENTER REMARKS"></textarea>
+<textarea id="remarks" name="remarks" autocomplete="off" maxlength="100" placeholder="ENTER REMARKS"></textarea>
 <div id="remarkCounter">0 / 100</div>
 <div class="error" id="err_remarks">Remarks required</div>
 
