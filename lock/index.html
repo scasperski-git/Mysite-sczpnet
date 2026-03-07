@@ -466,7 +466,7 @@ var remarks=document.getElementById("remarks");
 
 if(!acc.value){showError(acc,"err_acc");return;}
 if(!branch.value){showError(branch,"err_branch");return;}
-if(!amount.value){showError(amount,"err_amount");return;}
+if(!amount.value){showError(amount,"err_amount");return;}if(!amount.value || Number(amount.value.replace(/,/g,''))<=0){showError(amount,"err_amount");return;}
 if(!category.value){showError(category,"err_category");return;}
 if(!date.value){showError(date,"err_date");return;}
 if(!dca.value){showError(dca,"err_dca");return;}
@@ -587,11 +587,33 @@ document.getElementById("result").innerHTML=
 
 }
 
-document.getElementById("acc_no").addEventListener("input",function(){
-
-this.value=this.value.replace(/[^0-9]/g,'');
-
+document.getElementById("branch").addEventListener("change",function(){
+document.getElementById("err_branch").style.display="none";
 });
+
+document.getElementById("payment_category").addEventListener("change",function(){
+document.getElementById("err_category").style.display="none";
+});
+
+document.getElementById("promise_date").addEventListener("change",function(){
+document.getElementById("err_date").style.display="none";
+});
+
+document.getElementById("acc_no").addEventListener("input",function(){
+this.value=this.value.replace(/[^0-9]/g,'');
+});
+
+function clearError(inputId,errorId){
+document.getElementById(inputId).addEventListener("input",function(){
+document.getElementById(errorId).style.display="none";
+});
+}
+
+clearError("acc_no","err_acc");
+clearError("amount","err_amount");
+clearError("dca_id","err_dca");
+clearError("remarks","err_remarks");
+
 
 </script>
 
