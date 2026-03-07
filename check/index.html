@@ -271,7 +271,7 @@ placeholder="Enter Account Number">
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbx8CekRZ65EDW5uXUm95GpTRbjSci8Qyrs91GJSePVZ48Z9gur8jjoOg7a1b079eo97/exec";
+const api="https://script.google.com/macros/s/AKfycbznwLuUjw3PYloDyErT5oXYXqg0_WgvtyEBNaOrUz7u7acyNUs6xlm07X5AZm1nwpPy/exec";
 
 const input=document.getElementById("acc_no");
 const result=document.getElementById("result");
@@ -288,9 +288,22 @@ function formatDate(dateStr){
 
 if(!dateStr) return "-";
 
-dateStr=dateStr.trim();
+/* yyyy-MM-dd */
 
-/* handle dd/MM/yyyy dari Apps Script */
+if(dateStr.includes("-") && dateStr.split("-")[0].length==4){
+
+var p=dateStr.split("-");
+var year=p[0];
+var month=parseInt(p[1])-1;
+var day=p[2];
+
+var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+return day+" "+m[month]+" "+year;
+
+}
+
+/* dd/MM/yyyy */
 
 if(dateStr.includes("/")){
 
@@ -300,17 +313,13 @@ var day=parseInt(p[0]);
 var month=parseInt(p[1])-1;
 var year=p[2];
 
-if(year.length==2){
-year="20"+year;
-}
-
 var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 return ("0"+day).slice(-2)+" "+m[month]+" "+year;
 
 }
 
-/* handle ISO date kalau datang dari sheet */
+/* ISO */
 
 if(dateStr.includes("T")){
 
@@ -327,6 +336,8 @@ return day+" "+m[month]+" "+year;
 }
 
 return dateStr;
+
+}
 
 }
   
@@ -379,15 +390,18 @@ const formattedDate=formatDate(data.valid);
 const created=formatDateTime(data.created);
 const amount="RM "+Number(data.amount).toLocaleString();
 
-const promiseParts=data.valid.split("/");
-const pDay=parseInt(promiseParts[0]);
-const pMonth=parseInt(promiseParts[1])-1;
-const pYear=parseInt(promiseParts[2]);
+const parts=data.valid.split("/");
 
-const promiseDate=new Date(pYear,pMonth,pDay);
+const promiseDate=new Date(
+parseInt(parts[2]),
+parseInt(parts[1])-1,
+parseInt(parts[0])
+);
 
 const today=new Date();
 today.setHours(0,0,0,0);
+
+promiseDate.setHours(0,0,0,0);
 
 let statusText="LOCKED";
 let statusColor="#28a745";
