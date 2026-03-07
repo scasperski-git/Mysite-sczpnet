@@ -334,29 +334,21 @@ function formatDateTime(dateStr){
 
 if(!dateStr) return "-";
 
-/* split date dan time */
+const d=new Date(dateStr);
 
-var parts=dateStr.split(" ");
+const day=("0"+d.getDate()).slice(-2);
+const month=d.getMonth();
+const year=d.getFullYear();
 
-var datePart=parts[0];
-var timePart=parts[1] || "00:00";
+const hour=("0"+d.getHours()).slice(-2);
+const min=("0"+d.getMinutes()).slice(-2);
 
-var d=datePart.split("/");
+const m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-var day=parseInt(d[0]);
-var month=parseInt(d[1])-1;
-var year=parseInt(d[2]);
-
-var t=timePart.split(":");
-
-var hour=t[0];
-var min=t[1];
-
-var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-return ("0"+day).slice(-2)+" "+m[month]+" "+year+" "+hour+":"+min;
+return day+" "+m[month]+" "+year+" "+hour+":"+min;
 
 }
+
   
 async function checkLock(){
 
