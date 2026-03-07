@@ -687,9 +687,8 @@ document.getElementById("payment_category").addEventListener("change",function()
 document.getElementById("err_category").style.display="none";
 });
 
-document.getElementById("promise_date").addEventListener("change",function(){
-document.getElementById("err_date").style.display="none";
-});
+var today = new Date().toLocaleDateString('en-CA');
+document.getElementById("promise_date").min = today;
 
 document.getElementById("acc_no").addEventListener("input",function(){
 this.value=this.value.replace(/[^0-9]/g,'');
