@@ -243,6 +243,37 @@ margin:auto;
 margin-top:12px;
 }
 
+.status-box{
+text-align:center;
+margin-bottom:12px;
+}
+
+.status-badge{
+display:inline-block;
+padding:8px 26px;
+border-radius:30px;
+font-weight:bold;
+font-size:18px;
+letter-spacing:1px;
+color:white;
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+
+.badge-success{
+background:#28a745;
+}
+
+.badge-danger{
+background:#dc3545;
+}
+
+.created-meta{
+font-size:13px;
+color:#777;
+text-align:center;
+margin-bottom:18px;
+}
+
 @keyframes spin{
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
@@ -517,7 +548,12 @@ document.getElementById("formSection").style.display="none";
 document.getElementById("result").innerHTML=
 
 "<div class='success-card'>"+
-"<div class='success-title'><span>LOCK CREATED</span></div>"+
+"<div class='status-box'>"+
+"<span class='status-badge badge-success'>LOCK CREATED</span>"+
+"</div>"+
+
+"<div class='created-meta'>Created by "+dca+
+" • "+createdTime+"</div>"+
 
 "<div class='success-grid'>"+
 
@@ -528,7 +564,6 @@ document.getElementById("result").innerHTML=
 "<div class='success-item'><b>PAYMENT CATEGORY</b>"+category+"</div>"+
 
 "<div class='success-item'><b>PROMISE DATE</b>"+promise+"</div>"+
-"<div class='success-item'><b>LOCK CREATED BY</b>"+dca+" <span style='color:#666;font-size:13px'>("+createdTime+")</span></div>"+
 
 "<div class='success-item' style='width:100%'><b>DCA REMARKS</b>"+remarks+"</div>"+
 
