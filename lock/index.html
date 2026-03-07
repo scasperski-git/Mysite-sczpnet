@@ -3,197 +3,235 @@
 
 <head>
 
-<title>DCA Lock System</title>
+<title>Branch Lock Check</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 
-*{box-sizing:border-box;}
+*{
+box-sizing:border-box;
+}
 
 body{
-font-family:Arial;
-background:#f4f6f9;
+font-family:Arial, sans-serif;
+background:#eef2f7;
 margin:0;
 padding:20px;
 }
 
+/* CONTAINER */
+
 .container{
-max-width:500px;
+max-width:520px;
+width:100%;
 margin:auto;
 background:white;
-padding:25px;
-border-radius:10px;
-box-shadow:0 3px 12px rgba(0,0,0,0.12);
+border-radius:14px;
+box-shadow:0 10px 30px rgba(0,0,0,0.12);
+overflow:hidden;
 }
 
-h2{
+/* HEADER */
+
+.header{
+background:linear-gradient(135deg,#007bff,#0047ab);
+color:white;
+padding:18px;
 text-align:center;
-margin-bottom:20px;
+font-size:20px;
+font-weight:bold;
+letter-spacing:0.5px;
 }
 
-input,select,textarea{
+.content{
+padding:25px;
+}
+
+/* INPUT */
+
+input{
 width:100%;
-padding:12px;
-margin-top:5px;
-margin-bottom:10px;
-border:1px solid #ccc;
-border-radius:6px;
-font-size:15px;
-text-transform:uppercase;
+padding:14px;
+font-size:16px;
+border:1px solid #ddd;
+border-radius:8px;
+outline:none;
+transition:0.2s;
 }
 
-select:invalid{
-color:#999;
+input:focus{
+border-color:#007bff;
+box-shadow:0 0 0 3px rgba(0,123,255,0.15);
 }
 
-select option{
-color:black;
-}
-
-select option[value=""]{
-color:#999;
-}
+/* BUTTON */
 
 button{
 width:100%;
-padding:12px;
+padding:13px;
+margin-top:12px;
 border:none;
-border-radius:6px;
+border-radius:8px;
 font-size:16px;
 cursor:pointer;
-background:#007bff;
+font-weight:600;
+transition:0.2s;
+}
+
+.check-btn{
+background:linear-gradient(135deg,#007bff,#0056b3);
 color:white;
 }
 
-button:hover{
-background:#0056b3;
+.check-btn:hover{
+transform:translateY(-1px);
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
 }
 
-.error{
-color:red;
-font-size:13px;
-margin-bottom:10px;
-display:none;
+.reset-btn{
+background:#e9ecef;
+color:#333;
 }
 
-.shake{
-animation:shake 0.3s;
-border-color:red;
+.reset-btn:hover{
+background:#dfe3e6;
 }
 
-@keyframes shake{
-0%{transform:translateX(0)}
-25%{transform:translateX(-5px)}
-50%{transform:translateX(5px)}
-75%{transform:translateX(-5px)}
-100%{transform:translateX(0)}
-}
+/* RESULT CARD */
 
-.success-card{
-margin-top:20px;
-padding:25px;
+.result-card{
+margin-top:22px;
+padding:22px;
 border-radius:10px;
-background:#f8f9fa;
-border-left:6px solid #28a745;
-text-align:center;
+background:white;
+border:1px solid #e6e6e6;
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
+animation:fadeIn .3s ease;
 }
 
-.success-title{
-font-size:26px;
-font-weight:bold;
-color:#28a745;
+/* STATUS */
+
+.status-box{
+text-align:center;
+margin-bottom:12px;
+}
+
+.status-box span{
+display:inline-block;
+padding:7px 22px;
+background:#dc3545;
+color:white;
+font-weight:700;
+font-size:18px;
+border-radius:30px;
 letter-spacing:1px;
+}
+
+/* META */
+
+.created-meta{
+font-size:12px;
+color:#777;
+text-align:center;
 margin-bottom:15px;
 }
 
-.success-title span{
-display:inline-block;
-padding:6px 14px;
-background:#28a745;
-color:white;
-border-radius:6px;
-box-shadow:0 3px 8px rgba(0,0,0,0.15);
-}
+/* GRID */
 
-.amount{
-font-size:22px;
-font-weight:bold;
-margin-top:5px;
-}
-
-.success-grid{
+.row{
 display:flex;
-flex-wrap:wrap;
+justify-content:space-between;
 gap:15px;
-text-align:left;
-margin-top:10px;
+margin-bottom:15px;
 }
 
-.success-item{
-width:calc(50% - 8px);
+.col{
+flex:1;
 }
 
-.success-item b{
-display:block;
+.label{
+font-weight:bold;
+color:#666;
+font-size:13px;
 margin-bottom:3px;
 }
 
+.value{
+font-size:18px;
+font-weight:700;
+}
+
 .amount{
-font-size:22px;
-font-weight:bold;
-margin-top:3px;
+font-size:26px;
+font-weight:800;
+color:#dc3545;
 }
 
-.new-btn{
-margin-top:15px;
-background:#6c757d;
+/* REMARK */
+
+.remark{
+margin-top:6px;
+line-height:1.5;
 }
 
-.audit-note{
-margin-top:12px;
-font-size:12px;
-color:#666;
-background:#fff3cd;
-padding:10px;
-border-left:4px solid #ffc107;
-border-radius:4px;
-line-height:1.4;
-}
+/* NO LOCK */
 
-#overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.5);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:999;
-}
-
-.loader-box{
-background:white;
-padding:30px;
+.no-lock{
+margin-top:20px;
+padding:18px;
+background:#fff5f5;
+border:1px solid #ffc9c9;
 border-radius:8px;
 text-align:center;
+font-weight:600;
+color:#c92a2a;
+animation:fadeIn .3s ease;
+}
+
+/* LOADING */
+
+.loading{
+margin-top:25px;
+text-align:center;
+font-weight:600;
+color:#444;
 }
 
 .spinner{
+margin:auto;
+margin-top:12px;
 width:35px;
 height:35px;
-border:4px solid #ccc;
+border:4px solid #e5e5e5;
 border-top:4px solid #007bff;
 border-radius:50%;
-animation:spin 1s linear infinite;
-margin:auto;
-margin-top:10px;
+animation:spin .9s linear infinite;
 }
+
+/* ANIMATION */
 
 @keyframes spin{
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(6px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+/* MOBILE */
+
+@media (max-width:500px){
+
+.row{
+flex-direction:column;
+}
+
 }
 
 </style>
@@ -204,294 +242,189 @@ margin-top:10px;
 
 <div class="container">
 
-<h2>DCA Lock System</h2>
-
-<div id="formSection">
-
-<form id="lockForm">
-
-Account No
-<input type="text" id="acc_no" name="acc_no" inputmode="numeric" pattern="[0-9]*" maxlength="10" placeholder="ENTER ACCOUNT NO">
-<div class="error" id="err_acc">Account No required</div>
-
-Branch
-<select id="branch" name="branch_id" required>
-<option value="">SELECT BRANCH</option>
-<option value="" disabled>Loading branch list...</option>
-</select>
-<div class="error" id="err_branch">Please select branch</div>
-
-Lock Amount
-<input type="text" id="amount" name="amount" inputmode="numeric">
-<div class="error" id="err_amount">Amount required</div>
-
-Payment Category
-<select id="payment_category" name="payment_category" required>
-<option value="">SELECT PAYMENT CATEGORY</option>
-<option>PARTIAL PAYMENT</option>
-<option>FULL PAYMENT</option>
-<option>UNDER DISCOUNT</option>
-</select>
-<div class="error" id="err_category">Payment category required</div>
-
-Promise Date
-<input type="date" id="promise_date" name="promise_date">
-<div class="error" id="err_date">Promise date required</div>
-
-DCA ID
-<input type="text" id="dca_id" name="dca_id">
-<div class="error" id="err_dca">DCA ID required</div>
-
-Remarks
-<textarea id="remarks" name="remarks" maxlength="100" placeholder="(ENTER REMARKS)"></textarea>
-<div style="font-size:12px;color:#666;text-align:right" id="remarkCounter">0 / 100</div>
-<div class="error" id="err_remarks">Remarks required</div>
-
-<button type="submit">Submit Lock</button>
-
-<div class="audit-note">
-⚠ Every submission is recorded for audit and verification purposes.  
-Unauthorized or false lock entries may be subject to investigation.
+<div class="header">
+<i class="fa fa-lock"></i> Branch Lock Check
 </div>
 
-</form>
+<div class="content">
 
-</div>
+<input
+type="text"
+id="acc_no"
+inputmode="numeric"
+maxlength="10"
+placeholder="Enter Account Number">
+
+<button class="check-btn" id="checkBtn">
+<i class="fa fa-search"></i> Check Lock
+</button>
+
+<button class="reset-btn" id="resetBtn">
+<i class="fa fa-rotate-left"></i> New Search
+</button>
 
 <div id="result"></div>
 
 </div>
 
-<div id="overlay">
-<div class="loader-box">
-Processing Lock...
-<div class="spinner"></div>
-</div>
 </div>
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbw4toZ5BszdiHoFRhXlBfIVxklH5Dc8rfzq6NqqAh1YMi65rcfKszg8WBgBRNN2-uY4/exec";
+const api="https://script.google.com/macros/s/AKfycbwOyuL4w8IpqbGT1PzBizBLnHhUa6V1Wpe6r8TtLEHktOB1hyl1VSYe2GlY8ZQmkMaI/exec";
 
-/* LOAD BRANCH */
+const input=document.getElementById("acc_no");
+const result=document.getElementById("result");
+const checkBtn=document.getElementById("checkBtn");
+const resetBtn=document.getElementById("resetBtn");
 
-fetch(api+"?action=branches")
-.then(res=>res.json())
-.then(data=>{
+let isLoading=false;
 
-var select=document.getElementById("branch");
-
-select.innerHTML='<option value="">SELECT BRANCH</option>';
-
-data.forEach(b=>{
-var option=document.createElement("option");
-option.value=b.id;
-option.text=b.name;
-select.appendChild(option);
-});
-
-});
-
-/* AUTO CAPITAL */
-
-document.querySelectorAll("input[type=text], textarea").forEach(el=>{
-
-el.addEventListener("input",function(){
-
-let start = this.selectionStart;
-let end = this.selectionEnd;
-
-this.value = this.value.toUpperCase();
-
-this.setSelectionRange(start,end);
-
-});
-
-});
-
-/* AMOUNT - NUMBER ONLY + FORMAT */
-
-document.getElementById("amount").addEventListener("input",function(){
-
-let value = this.value.replace(/[^\d]/g,'');   // remove non-numbers
-
-if(value===""){
-this.value="";
-return;
-}
-
-this.value = Number(value).toLocaleString();
-
-});
-
-/* REMARK LIMIT + COUNTER (MOBILE SAFE) */
-
-const remarkBox = document.getElementById("remarks");
-const remarkCounter = document.getElementById("remarkCounter");
-const maxRemark = 100;
-
-remarkBox.addEventListener("input",function(){
-
-if(this.value.length > maxRemark){
-this.value = this.value.substring(0, maxRemark);
-}
-
-remarkCounter.textContent = this.value.length + " / " + maxRemark;
-
-});
-
-/* ERROR */
-
-function showError(input,errorId){
-
-input.classList.add("shake");
-document.getElementById(errorId).style.display="block";
-
-setTimeout(()=>{
-input.classList.remove("shake");
-},300);
-
-}
-
-/* SUBMIT */
-
-document.getElementById("lockForm").addEventListener("submit",e=>{
-
-e.preventDefault();
-
-document.querySelectorAll(".error").forEach(e=>e.style.display="none");
-
-var acc=document.getElementById("acc_no");
-var branch=document.getElementById("branch");
-var amount=document.getElementById("amount");
-var category=document.getElementById("payment_category");
-var date=document.getElementById("promise_date");
-var dca=document.getElementById("dca_id");
-var remarks=document.getElementById("remarks");
-
-if(!acc.value){ showError(acc,"err_acc"); return; }
-if(!branch.value){ showError(branch,"err_branch"); return; }
-if(!amount.value){ showError(amount,"err_amount"); return; }
-if(!category.value){ showError(category,"err_category"); return; }
-if(!date.value){ showError(date,"err_date"); return; }
-if(!dca.value){ showError(dca,"err_dca"); return; }
-if(!remarks.value){ showError(remarks,"err_remarks"); return; }
-
-document.getElementById("overlay").style.display="flex";
-
-var formData=new FormData(e.target);
-
-var branchName=branch.selectedOptions[0].text;
-formData.append("branch_name",branchName);
-
-fetch(api,{
-method:"POST",
-body:formData
-})
-.then(res=>res.text())
-.then(data=>{
-
-document.getElementById("overlay").style.display="none";
-
-if(data=="ACCOUNT_ALREADY_LOCKED"){
-
-document.getElementById("result").innerHTML=
-"<div class='success-card' style='border-left:6px solid red'><b>ACCOUNT ALREADY LOCKED</b></div>";
-
-}
-else{
-
-showSuccess(formData);
-
-}
-
-});
-
-});
-
-/* DATE FORMAT */
+window.onload=()=>{
+input.focus();
+};
 
 function formatDate(dateStr){
 
-var d = new Date(dateStr);
-
-var day = ("0"+d.getDate()).slice(-2);
-
-var monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-var month = monthNames[d.getMonth()];
-
-var year = d.getFullYear();
+const d=new Date(dateStr);
+const day=("0"+d.getDate()).slice(-2);
+const monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const month=monthNames[d.getMonth()];
+const year=d.getFullYear();
 
 return day+" "+month+" "+year;
 
 }
 
-function formatDateTime(){
+function formatDateTime(dateStr){
 
-var d = new Date();
-
-var day = ("0"+d.getDate()).slice(-2);
-
-var monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-var month = monthNames[d.getMonth()];
-
-var year = d.getFullYear();
-
-var hours = ("0"+d.getHours()).slice(-2);
-
-var mins = ("0"+d.getMinutes()).slice(-2);
+const d=new Date(dateStr);
+const day=("0"+d.getDate()).slice(-2);
+const monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const month=monthNames[d.getMonth()];
+const year=d.getFullYear();
+const hours=("0"+d.getHours()).slice(-2);
+const mins=("0"+d.getMinutes()).slice(-2);
 
 return day+" "+month+" "+year+" "+hours+":"+mins;
 
 }
 
-/* SUCCESS */
+async function checkLock(){
 
-function showSuccess(formData){
+const acc=input.value.trim();
 
-var acc=formData.get("acc_no");
-var branch=document.getElementById("branch").selectedOptions[0].text;
-var amount="RM "+formData.get("amount");
-var category=formData.get("payment_category");
-var promise=formatDate(formData.get("promise_date"));
-var remarks=formData.get("remarks");
-var dca = formData.get("dca_id");
-var createdTime = formatDateTime();
+if(!acc){
+alert("Enter Account No");
+input.focus();
+return;
+}
 
-document.getElementById("formSection").style.display="none";
+if(isLoading) return;
 
-document.getElementById("result").innerHTML=
+isLoading=true;
+checkBtn.disabled=true;
 
-"<div class='success-card'>"+
-"<div class='success-title'><span>LOCK CREATED</span></div>"+
+result.innerHTML=
+"<div class='loading'>Checking Lock Status<div class='spinner'></div></div>";
 
-"<div class='success-grid'>"+
+try{
 
-"<div class='success-item'><b>ACCOUNT NO:</b>"+acc+"</div>"+
-"<div class='success-item'><b>LOCK AT BRANCH:</b>"+branch+"</div>"+
+const res=await fetch(api+"?acc_no="+encodeURIComponent(acc));
+const data=await res.json();
 
-"<div class='success-item'><b>LOCK AMOUNT:</b><div class='amount'>"+amount+"</div></div>"+
-"<div class='success-item'><b>PAYMENT CATEGORY</b>"+category+"</div>"+
+if(data.status==="LOCKED"){
 
-"<div class='success-item'><b>PROMISE DATE:</b>"+promise+"</div>"+
-"<div class='success-item'><b>LOCK CREATED BY:</b>"+dca+" <span style='color:#666;font-size:13px'>("+createdTime+")</span></div>"+
+const formattedDate=formatDate(data.valid);
+const amount="RM "+Number(data.amount).toLocaleString();
+const created=formatDateTime(data.created);
 
-"<div class='success-item' style='width:100%'><b>DCA REMARKS:</b>"+remarks+"</div>"+
+result.innerHTML=
 
+"<div class='result-card'>"+
+
+"<div class='status-box'><span>LOCKED</span></div>"+
+
+"<div class='created-meta'>Created by "+data.dca_id+
+" • "+created+"</div>"+
+
+"<div class='row'>"+
+
+"<div class='col'>"+
+"<div class='label'>ACCOUNT NO</div>"+
+"<div class='value'>"+data.acc_no+"</div>"+
+"</div>"+
+
+"<div class='col'>"+
+"<div class='label'>BRANCH</div>"+
+"<div class='value'>"+data.branch+"</div>"+
 "</div>"+
 
 "</div>"+
 
-"<button class='new-btn' onclick='location.reload()'>New Lock</button>";
+"<div class='row'>"+
+
+"<div class='col'>"+
+"<div class='label'>LOCK AMOUNT</div>"+
+"<div class='amount'>"+amount+"</div>"+
+"</div>"+
+
+"<div class='col'>"+
+"<div class='label'>PROMISE DATE</div>"+
+"<div class='value'>"+formattedDate+"</div>"+
+"</div>"+
+
+"</div>"+
+
+"<div class='label'>PAYMENT CATEGORY</div>"+
+"<div class='value'>"+(data.category || "-")+"</div><br>"+
+
+"<div class='label'>REMARKS</div>"+
+"<div class='remark'>"+(data.remarks || "-")+"</div>"+
+
+"</div>";
 
 }
 
-document.getElementById("acc_no").addEventListener("input",function(){
+else{
 
-this.value = this.value.replace(/[^0-9]/g,'');
+result.innerHTML=
+"<div class='no-lock'>NO LOCK FOUND</div>";
 
+}
+
+}catch(err){
+
+result.innerHTML=
+"<div class='no-lock'>SYSTEM ERROR. TRY AGAIN.</div>";
+
+}
+
+checkBtn.disabled=false;
+isLoading=false;
+
+}
+
+function newSearch(){
+
+input.value="";
+result.innerHTML="";
+checkBtn.disabled=false;
+input.focus();
+
+}
+
+checkBtn.addEventListener("click",checkLock);
+resetBtn.addEventListener("click",newSearch);
+
+input.addEventListener("keypress",function(e){
+if(e.key==="Enter"){
+checkLock();
+}
+});
+
+input.addEventListener("input",function(){
+this.value=this.value.replace(/[^0-9]/g,'');
 });
 
 </script>
