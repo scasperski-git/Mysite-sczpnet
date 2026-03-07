@@ -17,7 +17,7 @@ body{
 font-family:Arial, sans-serif;
 background:#eef2f7;
 margin:0;
-padding:16px;
+padding:20px;
 }
 
 /* CONTAINER */
@@ -43,17 +43,10 @@ font-weight:bold;
 letter-spacing:.5px;
 }
 
-button:disabled{
-background:#a0a0a0;
-cursor:not-allowed;
-box-shadow:none;
-transform:none;
-}
-
 /* FORM BODY */
 
 .form-body{
-padding:22px;
+padding:25px;
 }
 
 /* LABEL */
@@ -63,16 +56,16 @@ font-size:13px;
 font-weight:bold;
 color:#555;
 display:block;
-margin-top:8px;
+margin-top:10px;
 }
 
 /* INPUT */
 
 input,select,textarea{
 width:100%;
-padding:11px;
-margin-top:4px;
-margin-bottom:8px;
+padding:13px;
+margin-top:5px;
+margin-bottom:12px;
 border:1px solid #ddd;
 border-radius:8px;
 font-size:15px;
@@ -100,7 +93,7 @@ margin-right:6px;
 
 button{
 width:100%;
-padding:13px;
+padding:14px;
 border:none;
 border-radius:8px;
 font-size:16px;
@@ -121,7 +114,7 @@ box-shadow:0 6px 15px rgba(0,0,0,0.15);
 .error{
 color:red;
 font-size:13px;
-margin-bottom:8px;
+margin-bottom:10px;
 display:none;
 }
 
@@ -199,17 +192,17 @@ background:#6c757d;
 background:#545b62;
 }
 
-/* COMBINED DECLARATION + AUDIT */
+/* AUDIT NOTE */
 
 .audit-note{
-margin-top:12px;
+margin-top:15px;
 font-size:12px;
 color:#666;
 background:#fff8db;
 padding:12px;
 border-left:4px solid #ffc107;
 border-radius:6px;
-line-height:1.35;
+line-height:1.4;
 }
 
 /* REMARK COUNTER */
@@ -218,8 +211,8 @@ line-height:1.35;
 font-size:12px;
 color:#666;
 text-align:right;
-margin-top:-3px;
-margin-bottom:6px;
+margin-top:-5px;
+margin-bottom:10px;
 }
 
 /* LOADING OVERLAY */
@@ -348,24 +341,14 @@ margin-bottom:18px;
 <div id="remarkCounter">0 / 100</div>
 <div class="error" id="err_remarks">Remarks required</div>
 
-<div class="audit-note">
-
-<label style="display:flex;align-items:flex-start;gap:8px;font-weight:normal;margin-bottom:6px;">
-<input type="checkbox" id="confirmCheck" style="width:auto;margin-top:3px;">
-<span>
-I confirm that the <b>lock amount</b>, <b>payment category</b>, and all information entered are accurate and valid.
-</span>
-</label>
-
-<div class="error" id="err_confirm">Please confirm the declaration before submitting</div>
-
-⚠ All submissions are recorded for audit and verification purposes. Unauthorized or false lock entries may be subject to investigation.
-
-</div>
-
-<button type="submit" id="submitBtn" disabled>
-<i class="fa-solid fa-lock"></i> Submit Lock
+<button type="submit" id="submitBtn">
+<i class="fa-solid fa-lock" style="margin-right:6px;"></i> Submit Lock
 </button>
+
+<div class="audit-note">
+⚠ Every submission is recorded for audit and verification purposes.  
+Unauthorized or false lock entries may be subject to investigation.
+</div>
 
 </form>
 
@@ -384,8 +367,6 @@ Processing Lock...
 </div>
 
 <script>
-
-/* === ORIGINAL SCRIPT KEKAL TANPA PERUBAHAN === */
 
 const api="https://script.google.com/macros/s/AKfycbymhAGb9ijuqzrxNvxl69mTJM9KALsytHAtJIcwrNcbiHWBy8Zo3IRu_LsvqRRbjIUs/exec";
 
@@ -430,15 +411,18 @@ this.setSelectionRange(start,end);
 
 const amountField = document.getElementById("amount");
 
+/* allow typing normally */
 amountField.addEventListener("input", function(){
 
 let value = this.value.replace(/[^\d.]/g,'');
 
+/* hanya 1 decimal point */
 let parts = value.split(".");
 if(parts.length > 2){
 value = parts[0] + "." + parts.slice(1).join("");
 }
 
+/* limit 2 decimal sahaja */
 if(parts[1]){
 parts[1] = parts[1].substring(0,2);
 value = parts[0] + "." + parts[1];
@@ -448,6 +432,7 @@ this.value = value;
 
 });
 
+/* format only when user leaves field */
 amountField.addEventListener("blur", function(){
 
 let value = this.value.replace(/,/g,'');
@@ -514,10 +499,6 @@ if(!category.value){showError(category,"err_category");return;}
 if(!date.value){showError(date,"err_date");return;}
 if(!dca.value){showError(dca,"err_dca");return;}
 if(!remarks.value){showError(remarks,"err_remarks");return;}
-if(!confirmCheck.checked){
-document.getElementById("err_confirm").style.display="block";
-return;
-}
 
 document.getElementById("overlay").style.display="flex";
 document.getElementById("submitBtn").disabled = true;
@@ -552,22 +533,116 @@ showSuccess(formData);
 
 });
 
-/* CONFIRMATION CHECK */
+/* DATE FORMAT */
 
-const confirmCheck = document.getElementById("confirmCheck");
-const submitBtn = document.getElementById("submitBtn");
+function formatDate(dateStr){
 
-confirmCheck.addEventListener("change", function(){
+if(!dateStr) return "-";
 
-if(this.checked){
-submitBtn.disabled = false;
-document.getElementById("err_confirm").style.display="none";
+var p=dateStr.split("-");
+
+var year=p[0];
+var month=parseInt(p[1])-1;
+var day=p[2];
+
+var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+return day+" "+monthNames[month]+" "+year;
+
 }
-else{
-submitBtn.disabled = true;
+
+function formatDateTime(){
+
+var d=new Date();
+
+var day=("0"+d.getDate()).slice(-2);
+
+var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+var month=monthNames[d.getMonth()];
+
+var year=d.getFullYear();
+
+var hours=("0"+d.getHours()).slice(-2);
+
+var mins=("0"+d.getMinutes()).slice(-2);
+
+return day+" "+month+" "+year+" "+hours+":"+mins;
+
 }
 
+/* SUCCESS */
+
+function showSuccess(formData){
+
+var acc=formData.get("acc_no");
+var branch=document.getElementById("branch").selectedOptions[0].text;
+var amount="RM "+formData.get("amount");
+var category=formData.get("payment_category");
+var promise=formatDate(formData.get("promise_date"));
+var remarks=formData.get("remarks");
+var dca=formData.get("dca_id");
+var createdTime=formatDateTime();
+
+document.getElementById("formSection").style.display="none";
+
+document.getElementById("result").innerHTML=
+
+"<div class='success-card'>"+
+"<div class='status-box'>"+
+"<span class='status-badge badge-success'>LOCK CREATED</span>"+
+"</div>"+
+
+"<div class='created-meta'>Created by "+dca+
+" • "+createdTime+"</div>"+
+
+"<div class='success-grid'>"+
+
+"<div class='success-item'><b>ACCOUNT NO</b>"+acc+"</div>"+
+"<div class='success-item'><b>LOCK AT BRANCH</b>"+branch+"</div>"+
+
+"<div class='success-item'><b>LOCK AMOUNT</b><div class='amount'>"+amount+"</div></div>"+
+"<div class='success-item'><b>PAYMENT CATEGORY</b>"+category+"</div>"+
+
+"<div class='success-item'><b>PROMISE DATE</b>"+promise+"</div>"+
+
+"<div class='success-item' style='width:100%'><b>DCA REMARKS</b>"+remarks+"</div>"+
+
+"</div>"+
+
+"</div>"+
+
+"<button class='new-btn' onclick='location.reload()'>New Lock</button>";
+
+}
+
+document.getElementById("branch").addEventListener("change",function(){
+document.getElementById("err_branch").style.display="none";
 });
+
+document.getElementById("payment_category").addEventListener("change",function(){
+document.getElementById("err_category").style.display="none";
+});
+
+document.getElementById("promise_date").addEventListener("change",function(){
+document.getElementById("err_date").style.display="none";
+});
+
+document.getElementById("acc_no").addEventListener("input",function(){
+this.value=this.value.replace(/[^0-9]/g,'');
+});
+
+function clearError(inputId,errorId){
+document.getElementById(inputId).addEventListener("input",function(){
+document.getElementById(errorId).style.display="none";
+});
+}
+
+clearError("acc_no","err_acc");
+clearError("amount","err_amount");
+clearError("dca_id","err_dca");
+clearError("remarks","err_remarks");
+
 
 </script>
 
