@@ -338,8 +338,6 @@ return day+" "+m[month]+" "+year;
 return dateStr;
 
 }
-
-}
   
 function formatDateTime(dateStr){
 
@@ -390,13 +388,7 @@ const formattedDate=formatDate(data.valid);
 const created=formatDateTime(data.created);
 const amount="RM "+Number(data.amount).toLocaleString();
 
-const parts=data.valid.split("/");
-
-const promiseDate=new Date(
-parseInt(parts[2]),
-parseInt(parts[1])-1,
-parseInt(parts[0])
-);
+const promiseDate=new Date(data.valid);
 
 const today=new Date();
 today.setHours(0,0,0,0);
