@@ -322,7 +322,9 @@ margin-bottom:18px;
 <div class="error" id="err_category">Payment category required</div>
 
 <label>Promise Date</label>
-<input type="date" id="promise_date" name="promise_date">
+<input type="date" id="promise_date" name="promise_date" min="">
+document.getElementById("promise_date").min =
+new Date().toISOString().split("T")[0];
 <div class="error" id="err_date">Promise date required</div>
 
 <label>DCA ID</label>
@@ -496,17 +498,17 @@ showSuccess(formData);
 
 function formatDate(dateStr){
 
-var d=new Date(dateStr);
+if(!dateStr) return "-";
 
-var day=("0"+d.getDate()).slice(-2);
+var p=dateStr.split("-");
+
+var year=p[0];
+var month=parseInt(p[1])-1;
+var day=p[2];
 
 var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-var month=monthNames[d.getMonth()];
-
-var year=d.getFullYear();
-
-return day+" "+month+" "+year;
+return day+" "+monthNames[month]+" "+year;
 
 }
 
