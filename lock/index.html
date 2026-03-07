@@ -13,17 +13,22 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 *{box-sizing:border-box;}
 
+html{
+font-size:clamp(14px,1.1vw,16px);
+}
+
 body{
 font-family:Arial, sans-serif;
 background:#eef2f7;
 margin:0;
-padding:20px;
+padding:20px 15px;
 }
 
 /* CONTAINER */
 
 .container{
-max-width:520px;
+width:100%;
+max-width:650px;
 margin:auto;
 background:white;
 border-radius:14px;
@@ -168,7 +173,7 @@ margin-top:15px;
 }
 
 .success-item{
-width:calc(50% - 10px);
+flex:1 1 45%;
 font-size:14px;
 }
 
@@ -286,6 +291,47 @@ margin-bottom:18px;
 100%{transform:rotate(360deg);}
 }
 
+/* ========================= */
+/* RESPONSIVE (ADDED ONLY)   */
+/* ========================= */
+
+@media (max-width:600px){
+
+body{
+padding:10px;
+}
+
+.form-body{
+padding:18px;
+}
+
+.success-item{
+flex:1 1 100%;
+}
+
+button{
+font-size:15px;
+padding:13px;
+}
+
+}
+
+@media (min-width:601px) and (max-width:1024px){
+
+.container{
+max-width:600px;
+}
+
+}
+
+@media (min-width:1025px){
+
+.container{
+max-width:700px;
+}
+
+}
+
 </style>
 
 </head>
@@ -342,7 +388,7 @@ margin-bottom:18px;
 <div class="error" id="err_remarks">Remarks required</div>
 
 <button type="submit" id="submitBtn">
-<i class="fa-solid fa-lock" style="margin-right:6px;"></i> Submit Lock
+<i class="fa-solid fa-lock"></i> Submit Lock
 </button>
 
 <div class="audit-note">
@@ -367,6 +413,8 @@ Processing Lock...
 </div>
 
 <script>
+
+/* JS ORIGINAL TAK DIUBAH */
 
 const api="https://script.google.com/macros/s/AKfycbymhAGb9ijuqzrxNvxl69mTJM9KALsytHAtJIcwrNcbiHWBy8Zo3IRu_LsvqRRbjIUs/exec";
 
@@ -411,18 +459,16 @@ this.setSelectionRange(start,end);
 
 const amountField = document.getElementById("amount");
 
-/* allow typing normally */
 amountField.addEventListener("input", function(){
 
 let value = this.value.replace(/[^\d.]/g,'');
 
-/* hanya 1 decimal point */
 let parts = value.split(".");
+
 if(parts.length > 2){
 value = parts[0] + "." + parts.slice(1).join("");
 }
 
-/* limit 2 decimal sahaja */
 if(parts[1]){
 parts[1] = parts[1].substring(0,2);
 value = parts[0] + "." + parts[1];
@@ -432,7 +478,6 @@ this.value = value;
 
 });
 
-/* format only when user leaves field */
 amountField.addEventListener("blur", function(){
 
 let value = this.value.replace(/,/g,'');
@@ -449,7 +494,7 @@ maximumFractionDigits:2
 }
 
 });
-  
+
 /* REMARK LIMIT */
 
 const remarkBox=document.getElementById("remarks");
@@ -642,7 +687,6 @@ clearError("acc_no","err_acc");
 clearError("amount","err_amount");
 clearError("dca_id","err_dca");
 clearError("remarks","err_remarks");
-
 
 </script>
 
