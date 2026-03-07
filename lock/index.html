@@ -3,18 +3,12 @@
 
 <head>
 
-<title>Branch Lock Check</title>
-
+<title>DCA Lock System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 
-*{
-box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 body{
 font-family:Arial, sans-serif;
@@ -27,7 +21,6 @@ padding:20px;
 
 .container{
 max-width:520px;
-width:100%;
 margin:auto;
 background:white;
 border-radius:14px;
@@ -44,125 +37,137 @@ padding:18px;
 text-align:center;
 font-size:20px;
 font-weight:bold;
-letter-spacing:0.5px;
+letter-spacing:.5px;
 }
 
-.content{
+/* FORM BODY */
+
+.form-body{
 padding:25px;
+}
+
+/* LABEL */
+
+label{
+font-size:13px;
+font-weight:bold;
+color:#555;
+display:block;
+margin-top:10px;
 }
 
 /* INPUT */
 
-input{
+input,select,textarea{
 width:100%;
-padding:14px;
-font-size:16px;
+padding:13px;
+margin-top:5px;
+margin-bottom:12px;
 border:1px solid #ddd;
 border-radius:8px;
-outline:none;
-transition:0.2s;
+font-size:15px;
+transition:.2s;
+text-transform:uppercase;
 }
 
-input:focus{
+input:focus,
+select:focus,
+textarea:focus{
 border-color:#007bff;
 box-shadow:0 0 0 3px rgba(0,123,255,0.15);
+outline:none;
+}
+
+select:invalid{
+color:#999;
 }
 
 /* BUTTON */
 
 button{
 width:100%;
-padding:13px;
-margin-top:12px;
+padding:14px;
 border:none;
 border-radius:8px;
 font-size:16px;
 cursor:pointer;
-font-weight:600;
-transition:0.2s;
-}
-
-.check-btn{
 background:linear-gradient(135deg,#007bff,#0056b3);
 color:white;
+font-weight:600;
+transition:.2s;
 }
 
-.check-btn:hover{
+button:hover{
 transform:translateY(-1px);
 box-shadow:0 6px 15px rgba(0,0,0,0.15);
 }
 
-.reset-btn{
-background:#e9ecef;
-color:#333;
+/* ERROR */
+
+.error{
+color:red;
+font-size:13px;
+margin-bottom:10px;
+display:none;
 }
 
-.reset-btn:hover{
-background:#dfe3e6;
+.shake{
+animation:shake .3s;
+border-color:red;
 }
 
-/* RESULT CARD */
+@keyframes shake{
+0%{transform:translateX(0)}
+25%{transform:translateX(-5px)}
+50%{transform:translateX(5px)}
+75%{transform:translateX(-5px)}
+100%{transform:translateX(0)}
+}
 
-.result-card{
-margin-top:22px;
-padding:22px;
+/* SUCCESS CARD */
+
+.success-card{
+margin-top:25px;
+padding:25px;
 border-radius:10px;
 background:white;
 border:1px solid #e6e6e6;
 box-shadow:0 6px 18px rgba(0,0,0,0.08);
-animation:fadeIn .3s ease;
-}
-
-/* STATUS */
-
-.status-box{
 text-align:center;
-margin-bottom:12px;
 }
 
-.status-box span{
+.success-title{
+font-size:24px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.success-title span{
 display:inline-block;
 padding:7px 22px;
-background:#dc3545;
+background:#28a745;
 color:white;
-font-weight:700;
-font-size:18px;
 border-radius:30px;
+font-weight:700;
 letter-spacing:1px;
 }
 
-/* META */
-
-.created-meta{
-font-size:12px;
-color:#777;
-text-align:center;
-margin-bottom:15px;
-}
-
-/* GRID */
-
-.row{
+.success-grid{
 display:flex;
-justify-content:space-between;
-gap:15px;
-margin-bottom:15px;
+flex-wrap:wrap;
+gap:18px;
+text-align:left;
+margin-top:15px;
 }
 
-.col{
-flex:1;
+.success-item{
+width:calc(50% - 10px);
+font-size:14px;
 }
 
-.label{
-font-weight:bold;
-color:#666;
-font-size:13px;
+.success-item b{
+display:block;
 margin-bottom:3px;
-}
-
-.value{
-font-size:18px;
-font-weight:700;
 }
 
 .amount{
@@ -171,67 +176,76 @@ font-weight:800;
 color:#dc3545;
 }
 
-/* REMARK */
-
-.remark{
-margin-top:6px;
-line-height:1.5;
-}
-
-/* NO LOCK */
-
-.no-lock{
+.new-btn{
 margin-top:20px;
-padding:18px;
-background:#fff5f5;
-border:1px solid #ffc9c9;
-border-radius:8px;
-text-align:center;
-font-weight:600;
-color:#c92a2a;
-animation:fadeIn .3s ease;
+background:#6c757d;
 }
 
-/* LOADING */
+.new-btn:hover{
+background:#545b62;
+}
 
-.loading{
-margin-top:25px;
+/* AUDIT NOTE */
+
+.audit-note{
+margin-top:15px;
+font-size:12px;
+color:#666;
+background:#fff8db;
+padding:12px;
+border-left:4px solid #ffc107;
+border-radius:6px;
+line-height:1.4;
+}
+
+/* REMARK COUNTER */
+
+#remarkCounter{
+font-size:12px;
+color:#666;
+text-align:right;
+margin-top:-5px;
+margin-bottom:10px;
+}
+
+/* LOADING OVERLAY */
+
+#overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.55);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:999;
+}
+
+.loader-box{
+background:white;
+padding:35px;
+border-radius:10px;
 text-align:center;
-font-weight:600;
-color:#444;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+font-weight:bold;
 }
 
 .spinner{
-margin:auto;
-margin-top:12px;
-width:35px;
-height:35px;
-border:4px solid #e5e5e5;
+width:38px;
+height:38px;
+border:4px solid #eee;
 border-top:4px solid #007bff;
 border-radius:50%;
 animation:spin .9s linear infinite;
+margin:auto;
+margin-top:12px;
 }
-
-/* ANIMATION */
 
 @keyframes spin{
 0%{transform:rotate(0deg);}
 100%{transform:rotate(360deg);}
-}
-
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(6px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-/* MOBILE */
-
-@media (max-width:500px){
-
-.row{
-flex-direction:column;
-}
-
 }
 
 </style>
@@ -243,188 +257,293 @@ flex-direction:column;
 <div class="container">
 
 <div class="header">
-<i class="fa fa-lock"></i> Branch Lock Check
+🔒 DCA Lock System
 </div>
 
-<div class="content">
+<div class="form-body">
 
-<input
-type="text"
-id="acc_no"
-inputmode="numeric"
-maxlength="10"
-placeholder="Enter Account Number">
+<div id="formSection">
 
-<button class="check-btn" id="checkBtn">
-<i class="fa fa-search"></i> Check Lock
-</button>
+<form id="lockForm">
 
-<button class="reset-btn" id="resetBtn">
-<i class="fa fa-rotate-left"></i> New Search
-</button>
+<label>Account No</label>
+<input type="text" id="acc_no" name="acc_no" inputmode="numeric" maxlength="10" placeholder="ENTER ACCOUNT NO">
+<div class="error" id="err_acc">Account No required</div>
+
+<label>Branch</label>
+<select id="branch" name="branch_id" required>
+<option value="">SELECT BRANCH</option>
+<option value="" disabled>Loading branch list...</option>
+</select>
+<div class="error" id="err_branch">Please select branch</div>
+
+<label>Lock Amount</label>
+<input type="text" id="amount" name="amount" inputmode="numeric">
+<div class="error" id="err_amount">Amount required</div>
+
+<label>Payment Category</label>
+<select id="payment_category" name="payment_category" required>
+<option value="">SELECT PAYMENT CATEGORY</option>
+<option>PARTIAL PAYMENT</option>
+<option>FULL PAYMENT</option>
+<option>UNDER DISCOUNT</option>
+</select>
+<div class="error" id="err_category">Payment category required</div>
+
+<label>Promise Date</label>
+<input type="date" id="promise_date" name="promise_date">
+<div class="error" id="err_date">Promise date required</div>
+
+<label>DCA ID</label>
+<input type="text" id="dca_id" name="dca_id">
+<div class="error" id="err_dca">DCA ID required</div>
+
+<label>Remarks</label>
+<textarea id="remarks" name="remarks" maxlength="100" placeholder="ENTER REMARKS"></textarea>
+<div id="remarkCounter">0 / 100</div>
+<div class="error" id="err_remarks">Remarks required</div>
+
+<button type="submit">Submit Lock</button>
+
+<div class="audit-note">
+⚠ Every submission is recorded for audit and verification purposes.  
+Unauthorized or false lock entries may be subject to investigation.
+</div>
+
+</form>
+
+</div>
 
 <div id="result"></div>
 
 </div>
+</div>
 
+<div id="overlay">
+<div class="loader-box">
+Processing Lock...
+<div class="spinner"></div>
+</div>
 </div>
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbwOyuL4w8IpqbGT1PzBizBLnHhUa6V1Wpe6r8TtLEHktOB1hyl1VSYe2GlY8ZQmkMaI/exec";
+const api="https://script.google.com/macros/s/AKfycbw4toZ5BszdiHoFRhXlBfIVxklH5Dc8rfzq6NqqAh1YMi65rcfKszg8WBgBRNN2-uY4/exec";
 
-const input=document.getElementById("acc_no");
-const result=document.getElementById("result");
-const checkBtn=document.getElementById("checkBtn");
-const resetBtn=document.getElementById("resetBtn");
+/* LOAD BRANCH */
 
-let isLoading=false;
+fetch(api+"?action=branches")
+.then(res=>res.json())
+.then(data=>{
 
-window.onload=()=>{
-input.focus();
-};
+var select=document.getElementById("branch");
+select.innerHTML='<option value="">SELECT BRANCH</option>';
+
+data.forEach(b=>{
+var option=document.createElement("option");
+option.value=b.id;
+option.text=b.name;
+select.appendChild(option);
+});
+
+});
+
+/* AUTO CAPITAL */
+
+document.querySelectorAll("input[type=text], textarea").forEach(el=>{
+
+el.addEventListener("input",function(){
+
+let start=this.selectionStart;
+let end=this.selectionEnd;
+
+this.value=this.value.toUpperCase();
+this.setSelectionRange(start,end);
+
+});
+
+});
+
+/* AMOUNT FORMAT */
+
+document.getElementById("amount").addEventListener("input",function(){
+
+let value=this.value.replace(/[^\d]/g,'');
+
+if(value===""){
+this.value="";
+return;
+}
+
+this.value=Number(value).toLocaleString();
+
+});
+
+/* REMARK LIMIT */
+
+const remarkBox=document.getElementById("remarks");
+const remarkCounter=document.getElementById("remarkCounter");
+
+remarkBox.addEventListener("input",function(){
+
+if(this.value.length>100){
+this.value=this.value.substring(0,100);
+}
+
+remarkCounter.textContent=this.value.length+" / 100";
+
+});
+
+/* ERROR */
+
+function showError(input,errorId){
+
+input.classList.add("shake");
+document.getElementById(errorId).style.display="block";
+
+setTimeout(()=>{input.classList.remove("shake");},300);
+
+}
+
+/* SUBMIT */
+
+document.getElementById("lockForm").addEventListener("submit",e=>{
+
+e.preventDefault();
+
+document.querySelectorAll(".error").forEach(e=>e.style.display="none");
+
+var acc=document.getElementById("acc_no");
+var branch=document.getElementById("branch");
+var amount=document.getElementById("amount");
+var category=document.getElementById("payment_category");
+var date=document.getElementById("promise_date");
+var dca=document.getElementById("dca_id");
+var remarks=document.getElementById("remarks");
+
+if(!acc.value){showError(acc,"err_acc");return;}
+if(!branch.value){showError(branch,"err_branch");return;}
+if(!amount.value){showError(amount,"err_amount");return;}
+if(!category.value){showError(category,"err_category");return;}
+if(!date.value){showError(date,"err_date");return;}
+if(!dca.value){showError(dca,"err_dca");return;}
+if(!remarks.value){showError(remarks,"err_remarks");return;}
+
+document.getElementById("overlay").style.display="flex";
+
+var formData=new FormData(e.target);
+
+var branchName=branch.selectedOptions[0].text;
+formData.append("branch_name",branchName);
+
+fetch(api,{
+method:"POST",
+body:formData
+})
+.then(res=>res.text())
+.then(data=>{
+
+document.getElementById("overlay").style.display="none";
+
+if(data=="ACCOUNT_ALREADY_LOCKED"){
+
+document.getElementById("result").innerHTML=
+"<div class='success-card' style='border-left:6px solid red'><b>ACCOUNT ALREADY LOCKED</b></div>";
+
+}
+else{
+
+showSuccess(formData);
+
+}
+
+});
+
+});
+
+/* DATE FORMAT */
 
 function formatDate(dateStr){
 
-const d=new Date(dateStr);
-const day=("0"+d.getDate()).slice(-2);
-const monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const month=monthNames[d.getMonth()];
-const year=d.getFullYear();
+var d=new Date(dateStr);
+
+var day=("0"+d.getDate()).slice(-2);
+
+var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+var month=monthNames[d.getMonth()];
+
+var year=d.getFullYear();
 
 return day+" "+month+" "+year;
 
 }
 
-function formatDateTime(dateStr){
+function formatDateTime(){
 
-const d=new Date(dateStr);
-const day=("0"+d.getDate()).slice(-2);
-const monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const month=monthNames[d.getMonth()];
-const year=d.getFullYear();
-const hours=("0"+d.getHours()).slice(-2);
-const mins=("0"+d.getMinutes()).slice(-2);
+var d=new Date();
+
+var day=("0"+d.getDate()).slice(-2);
+
+var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+var month=monthNames[d.getMonth()];
+
+var year=d.getFullYear();
+
+var hours=("0"+d.getHours()).slice(-2);
+
+var mins=("0"+d.getMinutes()).slice(-2);
 
 return day+" "+month+" "+year+" "+hours+":"+mins;
 
 }
 
-async function checkLock(){
+/* SUCCESS */
 
-const acc=input.value.trim();
+function showSuccess(formData){
 
-if(!acc){
-alert("Enter Account No");
-input.focus();
-return;
-}
+var acc=formData.get("acc_no");
+var branch=document.getElementById("branch").selectedOptions[0].text;
+var amount="RM "+formData.get("amount");
+var category=formData.get("payment_category");
+var promise=formatDate(formData.get("promise_date"));
+var remarks=formData.get("remarks");
+var dca=formData.get("dca_id");
+var createdTime=formatDateTime();
 
-if(isLoading) return;
+document.getElementById("formSection").style.display="none";
 
-isLoading=true;
-checkBtn.disabled=true;
+document.getElementById("result").innerHTML=
 
-result.innerHTML=
-"<div class='loading'>Checking Lock Status<div class='spinner'></div></div>";
+"<div class='success-card'>"+
+"<div class='success-title'><span>LOCK CREATED</span></div>"+
 
-try{
+"<div class='success-grid'>"+
 
-const res=await fetch(api+"?acc_no="+encodeURIComponent(acc));
-const data=await res.json();
+"<div class='success-item'><b>ACCOUNT NO</b>"+acc+"</div>"+
+"<div class='success-item'><b>LOCK AT BRANCH</b>"+branch+"</div>"+
 
-if(data.status==="LOCKED"){
+"<div class='success-item'><b>LOCK AMOUNT</b><div class='amount'>"+amount+"</div></div>"+
+"<div class='success-item'><b>PAYMENT CATEGORY</b>"+category+"</div>"+
 
-const formattedDate=formatDate(data.valid);
-const amount="RM "+Number(data.amount).toLocaleString();
-const created=formatDateTime(data.created);
+"<div class='success-item'><b>PROMISE DATE</b>"+promise+"</div>"+
+"<div class='success-item'><b>LOCK CREATED BY</b>"+dca+" <span style='color:#666;font-size:13px'>("+createdTime+")</span></div>"+
 
-result.innerHTML=
+"<div class='success-item' style='width:100%'><b>DCA REMARKS</b>"+remarks+"</div>"+
 
-"<div class='result-card'>"+
-
-"<div class='status-box'><span>LOCKED</span></div>"+
-
-"<div class='created-meta'>Created by "+data.dca_id+
-" • "+created+"</div>"+
-
-"<div class='row'>"+
-
-"<div class='col'>"+
-"<div class='label'>ACCOUNT NO</div>"+
-"<div class='value'>"+data.acc_no+"</div>"+
-"</div>"+
-
-"<div class='col'>"+
-"<div class='label'>BRANCH</div>"+
-"<div class='value'>"+data.branch+"</div>"+
 "</div>"+
 
 "</div>"+
 
-"<div class='row'>"+
-
-"<div class='col'>"+
-"<div class='label'>LOCK AMOUNT</div>"+
-"<div class='amount'>"+amount+"</div>"+
-"</div>"+
-
-"<div class='col'>"+
-"<div class='label'>PROMISE DATE</div>"+
-"<div class='value'>"+formattedDate+"</div>"+
-"</div>"+
-
-"</div>"+
-
-"<div class='label'>PAYMENT CATEGORY</div>"+
-"<div class='value'>"+(data.category || "-")+"</div><br>"+
-
-"<div class='label'>REMARKS</div>"+
-"<div class='remark'>"+(data.remarks || "-")+"</div>"+
-
-"</div>";
+"<button class='new-btn' onclick='location.reload()'>New Lock</button>";
 
 }
 
-else{
+document.getElementById("acc_no").addEventListener("input",function(){
 
-result.innerHTML=
-"<div class='no-lock'>NO LOCK FOUND</div>";
-
-}
-
-}catch(err){
-
-result.innerHTML=
-"<div class='no-lock'>SYSTEM ERROR. TRY AGAIN.</div>";
-
-}
-
-checkBtn.disabled=false;
-isLoading=false;
-
-}
-
-function newSearch(){
-
-input.value="";
-result.innerHTML="";
-checkBtn.disabled=false;
-input.focus();
-
-}
-
-checkBtn.addEventListener("click",checkLock);
-resetBtn.addEventListener("click",newSearch);
-
-input.addEventListener("keypress",function(e){
-if(e.key==="Enter"){
-checkLock();
-}
-});
-
-input.addEventListener("input",function(){
 this.value=this.value.replace(/[^0-9]/g,'');
+
 });
 
 </script>
