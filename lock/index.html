@@ -43,6 +43,13 @@ font-weight:bold;
 letter-spacing:.5px;
 }
 
+button:disabled{
+background:#a0a0a0;
+cursor:not-allowed;
+box-shadow:none;
+transform:none;
+}
+
 /* FORM BODY */
 
 .form-body{
@@ -341,7 +348,18 @@ margin-bottom:18px;
 <div id="remarkCounter">0 / 100</div>
 <div class="error" id="err_remarks">Remarks required</div>
 
-<button type="submit" id="submitBtn">
+<div style="margin-top:10px;font-size:13px;">
+<label style="display:flex;align-items:flex-start;gap:8px;font-weight:normal;">
+<input type="checkbox" id="confirmCheck" style="width:auto;margin-top:3px;">
+<span>
+I confirm that the <b>lock amount</b>, <b>payment category</b>, and all information entered are accurate and valid.
+</span>
+</label>
+</div>
+
+<div class="error" id="err_confirm">Please confirm the declaration before submitting</div>
+
+<button type="submit" id="submitBtn" disabled>
 <i class="fa-solid fa-lock" style="margin-right:6px;"></i> Submit Lock
 </button>
 
@@ -499,6 +517,10 @@ if(!category.value){showError(category,"err_category");return;}
 if(!date.value){showError(date,"err_date");return;}
 if(!dca.value){showError(dca,"err_dca");return;}
 if(!remarks.value){showError(remarks,"err_remarks");return;}
+if(!confirmCheck.checked){
+document.getElementById("err_confirm").style.display="block";
+return;
+}
 
 document.getElementById("overlay").style.display="flex";
 document.getElementById("submitBtn").disabled = true;
@@ -642,6 +664,23 @@ clearError("acc_no","err_acc");
 clearError("amount","err_amount");
 clearError("dca_id","err_dca");
 clearError("remarks","err_remarks");
+
+/* CONFIRMATION CHECK */
+
+const confirmCheck = document.getElementById("confirmCheck");
+const submitBtn = document.getElementById("submitBtn");
+
+confirmCheck.addEventListener("change", function(){
+
+if(this.checked){
+submitBtn.disabled = false;
+document.getElementById("err_confirm").style.display="none";
+}
+else{
+submitBtn.disabled = true;
+}
+
+});
 
 
 </script>
