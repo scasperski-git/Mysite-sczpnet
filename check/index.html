@@ -372,6 +372,10 @@ const data=await res.json();
 
 if(data.status==="LOCKED"){
 
+const formattedDate=formatDate(data.valid);
+const created=formatDateTime(data.created);
+const amount="RM "+Number(data.amount).toLocaleString();
+
 const promiseParts=data.valid.split("/");
 const pDay=parseInt(promiseParts[0]);
 const pMonth=parseInt(promiseParts[1])-1;
@@ -383,13 +387,17 @@ const today=new Date();
 today.setHours(0,0,0,0);
 
 let statusText="LOCKED";
-let statusColor="#28a745"; // hijau
+let statusColor="#28a745";
 
 if(today>promiseDate){
 statusText="EXPIRED";
-statusColor="#dc3545"; // merah
+statusColor="#dc3545";
 }
-  
+
+result.innerHTML=
+
+"<div class='result-card'>"+
+
 "<div class='status-box'><span style='background:"+statusColor+"'>"+statusText+"</span></div>"+
 
 "<div class='created-meta'>Created by "+data.dca_id+
