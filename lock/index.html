@@ -535,7 +535,17 @@ function showError(input,errorId){
 input.classList.add("shake");
 document.getElementById(errorId).style.display="block";
 
-setTimeout(()=>{input.classList.remove("shake");},300);
+/* SCROLL KE FIELD */
+input.scrollIntoView({
+behavior:"smooth",
+block:"center"
+});
+
+/* AUTO FOCUS */
+setTimeout(()=>{
+input.focus();
+input.classList.remove("shake");
+},300);
 
 }
 
