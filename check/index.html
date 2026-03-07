@@ -329,24 +329,35 @@ return day+" "+m[month]+" "+year;
 return dateStr;
 
 }
+  
 function formatDateTime(dateStr){
 
 if(!dateStr) return "-";
 
-const d=new Date(dateStr);
+/* split date dan time */
 
-const day=("0"+d.getDate()).slice(-2);
-const month=d.getMonth();
-const year=d.getFullYear();
+var parts=dateStr.split(" ");
 
-const hour=("0"+d.getHours()).slice(-2);
-const min=("0"+d.getMinutes()).slice(-2);
+var datePart=parts[0];
+var timePart=parts[1] || "00:00";
 
-const m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var d=datePart.split("/");
 
-return day+" "+m[month]+" "+year+" "+hour+":"+min;
+var day=parseInt(d[0]);
+var month=parseInt(d[1])-1;
+var year=parseInt(d[2]);
+
+var t=timePart.split(":");
+
+var hour=t[0];
+var min=t[1];
+
+var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+return ("0"+day).slice(-2)+" "+m[month]+" "+year+" "+hour+":"+min;
 
 }
+  
 async function checkLock(){
 
 const acc=input.value.trim();
