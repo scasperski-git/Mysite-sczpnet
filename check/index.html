@@ -272,6 +272,12 @@ placeholder="Enter Account Number">
 
 <script>
 
+/* CHECK LOGIN */
+
+if(!localStorage.getItem("user")){
+window.location="login.html";
+}
+
 /* AUTO LOGOUT SYSTEM */
 
 const TIMEOUT_MINUTES = Number(localStorage.getItem("timeout")) || 10;
@@ -320,12 +326,6 @@ document.addEventListener("keypress",resetTimer);
 document.addEventListener("mousemove",resetTimer);
 
 resetTimer();
-
-/* CHECK LOGIN */
-
-if(!localStorage.getItem("user")){
-window.location="login.html";
-}
 
 const api="https://script.google.com/macros/s/AKfycbymhAGb9ijuqzrxNvxl69mTJM9KALsytHAtJIcwrNcbiHWBy8Zo3IRu_LsvqRRbjIUs/exec";
 
