@@ -216,6 +216,8 @@ if(loginType=="LOCK"){
 window.location="/lock/";
 }
   
+}
+  
 /* SESSION TIMEOUT */
 
 const SESSION_TIMEOUT = 1;
@@ -235,7 +237,7 @@ return;
 document.getElementById("overlay").style.display="flex";
 document.getElementById("loginBtn").disabled=true;
 
-fetch(api+"?action=login&system=CHECK&user="+user+"&pass="+pass)
+fetch(api+"?action=login&system=CHECK&user="+encodeURIComponent(user)+"&pass="+encodeURIComponent(pass))
 
 .then(res=>res.json())
 
@@ -282,10 +284,22 @@ showError("Please check your User ID or Password.");
 }
 
 });
+
+}
+function logout(){
+
+localStorage.removeItem("user");
+localStorage.removeItem("role");
+localStorage.removeItem("branch");
+localStorage.removeItem("loginType");
+localStorage.removeItem("lastActivity");
+localStorage.removeItem("timeout");
+
+window.location="/";
   
 }
 
-function showError(msg){
+function showError(msg="Please fill in User ID and Password."){
 
 const err=document.getElementById("err");
 
@@ -296,7 +310,7 @@ err.style.display="block";
 
 /* ENTER KEY LOGIN */
 
-document.addEventListener("keypress",function(e){
+document.addEventListener("keydown",function(e){
 
 if(e.key==="Enter"){
 login();
