@@ -203,15 +203,17 @@ localStorage.clear();
   
 /* BLOCK LOGIN PAGE IF SESSION EXISTS */
 
-const user = localStorage.getItem("user");
+/* IF ALREADY LOGIN, GO TO PORTAL */
+
+const sessionUser = localStorage.getItem("user");
 const loginType = localStorage.getItem("loginType");
 
-if(!user){
-window.location="../logincheck/";
+if(sessionUser){
+
+if(loginType=="CHECK" || loginType=="MASTER"){
+window.location="/check/";
 }
 
-if(loginType!="CHECK" && loginType!="MASTER"){
-window.location="../lock/";
 }
 
 /* SESSION TIMEOUT */
