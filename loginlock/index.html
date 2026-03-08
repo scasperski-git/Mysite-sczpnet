@@ -195,6 +195,11 @@ Authenticating...
 <script>
 
 const api="https://script.google.com/macros/s/AKfycbzybAoNsPT1K9f8_uT3k5jWE54ccSqLF42EEWHV9Y6sjsmuhetEB5dV0iD6OvrCXJhN/exec";
+  
+/* CLEAR OLD SESSION */
+if(localStorage.getItem("user") && !localStorage.getItem("loginType")){
+localStorage.clear();
+}
 
 /* BLOCK LOGIN PAGE IF SESSION EXISTS */
 
