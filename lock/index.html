@@ -507,22 +507,17 @@ Processing Lock...
 <script>
 
 /* CHECK LOGIN */
-
-/* CHECK LOGIN */
-
 const user = localStorage.getItem("user");
-const role = localStorage.getItem("role");
+const loginType = localStorage.getItem("loginType");
 
 if(!user){
 window.location="../loginlock/";
+return;
 }
 
-/* BLOCK WRONG SYSTEM ACCESS */
-
-const loginType = localStorage.getItem("loginType");
-
-if(loginType !== "LOCK" && loginType !== "MASTER"){
-window.location="../check/";
+if(loginType!="LOCK" && loginType!="MASTER"){
+window.location="../logincheck/";
+return;
 }
   
 /* AUTO LOGOUT SYSTEM */
@@ -755,8 +750,10 @@ document.getElementById("overlay").style.display="none";
 
 if(data=="ACCOUNT_ALREADY_LOCKED"){
 
+document.getElementById("submitBtn").disabled=false;
+
 document.getElementById("result").innerHTML=
-"<div class='success-card' style='border-left:6px solid red'><b>ACCOUNT ALREADY LOCKED</b></div>";
+"<div class='success-card' style='border-left:6px solid red;margin-top:20px'><b>ACCOUNT ALREADY LOCKED</b></div>";
 
 }
 else{
@@ -764,6 +761,13 @@ else{
 showSuccess(formData);
 
 }
+
+})
+.catch(()=>{
+
+document.getElementById("overlay").style.display="none";
+document.getElementById("submitBtn").disabled=false;
+alert("System error. Please try again.");
 
 });
 
@@ -875,8 +879,16 @@ document.getElementById(errorId).style.display="none";
 
 clearError("acc_no","err_acc");
 clearError("amount","err_amount");
-clearError("dca_id","err_dca");
 clearError("remarks","err_remarks");
+
+/* ENTER KEY SUBMIT FORM */
+
+document.getElementById("lockForm").addEventListener("keydown",function(e){
+if(e.key==="Enter"){
+e.preventDefault();
+document.getElementById("submitBtn").click();
+}
+});
 
 </script>
 
