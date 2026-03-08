@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Check Lock Portal</title>
+<title>Branch Lock Check</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -17,8 +17,8 @@ box-sizing:border-box;
 }
 
 body{
-font-family:Segoe UI, Arial, sans-serif;
-background:linear-gradient(135deg,#eef2f7,#dfe7f2);
+font-family:Arial, sans-serif;
+background:#eef2f7;
 margin:0;
 padding:20px;
 }
@@ -27,138 +27,78 @@ padding:20px;
 
 .container{
 max-width:520px;
+width:100%;
 margin:auto;
 background:white;
-border-radius:16px;
-box-shadow:0 15px 40px rgba(0,0,0,0.15);
+border-radius:14px;
+box-shadow:0 10px 30px rgba(0,0,0,0.12);
 overflow:hidden;
 }
 
 /* HEADER */
 
 .header{
-background:linear-gradient(135deg,#0066ff,#003cb3);
+background:linear-gradient(135deg,#007bff,#0047ab);
 color:white;
-padding:16px 20px;
-display:flex;
-align-items:center;
-justify-content:space-between;
+padding:18px;
+text-align:center;
 font-size:20px;
-font-weight:700;
+font-weight:bold;
+letter-spacing:0.5px;
 }
-
-.header-title{
-display:flex;
-align-items:center;
-gap:8px;
-}
-
-.header-right{
-display:flex;
-align-items:center;
-gap:12px;
-}
-
-/* USER BADGE */
-
-.user-badge{
-background:rgba(255,255,255,0.18);
-padding:6px 12px;
-border-radius:20px;
-font-size:13px;
-display:flex;
-align-items:center;
-gap:6px;
-}
-
-/* LOGOUT BUTTON */
-
-.logout-btn{
-background:#ffffff22;
-border:none;
-color:white;
-padding:6px 12px;
-border-radius:8px;
-cursor:pointer;
-font-weight:600;
-}
-
-.logout-btn:hover{
-background:#ffffff40;
-}
-
-/* CONTENT */
 
 .content{
-padding:28px;
+padding:25px;
 }
 
 /* INPUT */
 
-.input-group{
-position:relative;
-}
-
-.input-group i{
-position:absolute;
-top:50%;
-left:14px;
-transform:translateY(-50%);
-color:#777;
-}
-
 input{
 width:100%;
-padding:14px 14px 14px 40px;
+padding:14px;
 font-size:16px;
 border:1px solid #ddd;
-border-radius:10px;
+border-radius:8px;
 outline:none;
-transition:0.25s;
+transition:0.2s;
 }
 
 input:focus{
-border-color:#0066ff;
-box-shadow:0 0 0 3px rgba(0,102,255,0.15);
+border-color:#007bff;
+box-shadow:0 0 0 3px rgba(0,123,255,0.15);
 }
 
-/* BUTTON GROUP */
-
-.btn-group{
-display:flex;
-gap:10px;
-margin-top:14px;
-}
+/* BUTTON */
 
 button{
-flex:1;
+width:100%;
 padding:13px;
+margin-top:12px;
 border:none;
-border-radius:10px;
-font-size:15px;
+border-radius:8px;
+font-size:16px;
 cursor:pointer;
 font-weight:600;
-transition:.2s;
+transition:0.2s;
 }
 
 .check-btn{
-background:linear-gradient(135deg,#0066ff,#003cb3);
+background:linear-gradient(135deg,#007bff,#0056b3);
 color:white;
 }
 
 .check-btn:hover{
-transform:translateY(-2px);
-box-shadow:0 8px 18px rgba(0,0,0,0.18);
+transform:translateY(-1px);
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
 }
 
 .reset-btn{
-flex:0 0 50px;
-background:#f1f3f5;
+background:#e9ecef;
 color:#333;
 }
 
 .reset-btn:hover{
-background:#e5e7ea;
+background:#dfe3e6;
 }
 
 /* RESULT CARD */
@@ -166,12 +106,14 @@ background:#e5e7ea;
 .result-card{
 margin-top:22px;
 padding:22px;
-border-radius:12px;
+border-radius:10px;
 background:white;
 border:1px solid #e6e6e6;
-box-shadow:0 8px 22px rgba(0,0,0,0.08);
+box-shadow:0 6px 18px rgba(0,0,0,0.08);
 animation:fadeIn .3s ease;
 }
+
+/* STATUS */
 
 .status-box{
 text-align:center;
@@ -180,23 +122,29 @@ margin-bottom:12px;
 
 .status-box span{
 display:inline-block;
-padding:7px 24px;
+padding:7px 22px;
+background:#dc3545;
 color:white;
 font-weight:700;
-font-size:17px;
+font-size:18px;
 border-radius:30px;
 letter-spacing:1px;
 }
+
+/* META */
 
 .created-meta{
 font-size:12px;
 color:#777;
 text-align:center;
-margin-bottom:16px;
+margin-bottom:15px;
 }
+
+/* GRID */
 
 .row{
 display:flex;
+justify-content:space-between;
 gap:15px;
 margin-bottom:15px;
 }
@@ -206,10 +154,10 @@ flex:1;
 }
 
 .label{
-font-weight:600;
-color:#777;
-font-size:12px;
-margin-bottom:4px;
+font-weight:bold;
+color:#666;
+font-size:13px;
+margin-bottom:3px;
 }
 
 .value{
@@ -218,27 +166,33 @@ font-weight:700;
 }
 
 .amount{
-font-size:28px;
+font-size:26px;
 font-weight:800;
 color:#dc3545;
 }
 
+/* REMARK */
+
 .remark{
 margin-top:6px;
 line-height:1.5;
-color:#444;
 }
+
+/* NO LOCK */
 
 .no-lock{
 margin-top:20px;
 padding:18px;
 background:#fff5f5;
 border:1px solid #ffc9c9;
-border-radius:10px;
+border-radius:8px;
 text-align:center;
 font-weight:600;
 color:#c92a2a;
+animation:fadeIn .3s ease;
 }
+
+/* LOADING */
 
 .loading{
 margin-top:25px;
@@ -253,10 +207,12 @@ margin-top:12px;
 width:35px;
 height:35px;
 border:4px solid #e5e5e5;
-border-top:4px solid #0066ff;
+border-top:4px solid #007bff;
 border-radius:50%;
 animation:spin .9s linear infinite;
 }
+
+/* ANIMATION */
 
 @keyframes spin{
 0%{transform:rotate(0deg);}
@@ -264,19 +220,18 @@ animation:spin .9s linear infinite;
 }
 
 @keyframes fadeIn{
-from{opacity:0;transform:translateY(8px);}
+from{opacity:0;transform:translateY(6px);}
 to{opacity:1;transform:translateY(0);}
 }
 
-@media(max-width:500px){
+/* MOBILE */
+
+@media (max-width:500px){
+
 .row{
 flex-direction:column;
 }
-.header{
-flex-direction:column;
-align-items:flex-start;
-gap:10px;
-}
+
 }
 
 </style>
@@ -288,30 +243,11 @@ gap:10px;
 <div class="container">
 
 <div class="header">
-
-<div class="header-title">
-<i class="fa fa-search"></i> Check Lock System
-</div>
-
-<div class="header-right">
-
-<div class="user-badge">
-<i class="fa fa-user"></i>
-<span id="userName"></span>
-</div>
-
-<button class="logout-btn" onclick="logout('manual')">
-<i class="fa fa-sign-out-alt"></i> Logout
-</button>
-
-</div>
-
+<i class="fa fa-search"></i> Branch Lock Check
 </div>
 
 <div class="content">
 
-<div class="input-group">
-<i class="fa fa-credit-card"></i>
 <input
 type="text"
 id="acc_no"
@@ -319,19 +255,14 @@ autocomplete="off"
 inputmode="numeric"
 maxlength="10"
 placeholder="Enter Account Number">
-</div>
-
-<div class="btn-group">
 
 <button class="check-btn" id="checkBtn">
 <i class="fa fa-search"></i> Check Lock
 </button>
 
 <button class="reset-btn" id="resetBtn">
-<i class="fa fa-rotate-left"></i>
+<i class="fa fa-rotate-left"></i> New Search
 </button>
-
-</div>
 
 <div id="result"></div>
 
@@ -341,100 +272,7 @@ placeholder="Enter Account Number">
 
 <script>
 
-/* API URL */
-
-const api="https://script.google.com/macros/s/AKfycbwN2t68rn6Mt5N1JtFDfjBy88aslBJSQRMWfvQRTsYLT4FzKE3FMfaxFJvN3epSJWw0/exec";
-
-/* SESSION VALIDATION */
-
-async function validateSession(){
-
-const user = localStorage.getItem("user");
-
-if(!user){
-window.location="../logincheck/";
-return;
-}
-
-try{
-
-const res = await fetch(api+"?action=session&user="+user+"&t="+Date.now());
-const data = await res.json();
-
-if(!data.valid){
-logout("expired");
-}
-
-}catch(err){
-
-logout("expired");
-
-}
-
-}
-
-validateSession();
-
-/* AUTO LOGOUT TIMER */
-
-const TIMEOUT_MINUTES = Number(localStorage.getItem("timeout")) || 1;
-
-function resetTimer(){
-localStorage.setItem("lastActivity",Date.now());
-}
-
-function checkSession(){
-
-const last = localStorage.getItem("lastActivity");
-
-if(!last){
-logout("expired");
-return;
-}
-
-const diff = (Date.now() - last) / 60000;
-
-if(diff > TIMEOUT_MINUTES){
-logout("expired");
-}
-
-}
-
-function logout(type){
-
-localStorage.clear();
-
-if(type === "manual"){
-alert("You have logged out successfully!");
-}
-
-else{
-alert("Session expired! Please login again.");
-}
-
-window.location="../logincheck/";
-
-}
-
-setInterval(checkSession,30000);
-
-document.addEventListener("click",resetTimer);
-document.addEventListener("keypress",resetTimer);
-document.addEventListener("mousemove",resetTimer);
-
-resetTimer();
-
-/* USER INFO */
-
-const loggedUser = localStorage.getItem("user");
-const role = localStorage.getItem("role");
-
-if(loggedUser){
-document.getElementById("userName").innerText =
-loggedUser + " (" + role + ")";
-}
-
-/* ELEMENTS */
+const api="https://script.google.com/macros/s/AKfycbyCVpZgbsb4I3sXFf03P6KtFAu4D6cGsI1AelbdRpajBJvWQ9tpeIoGJniVzubdbPaD/exec";
 
 const input=document.getElementById("acc_no");
 const result=document.getElementById("result");
@@ -443,8 +281,85 @@ const resetBtn=document.getElementById("resetBtn");
 
 let isLoading=false;
 
-window.onload=()=>{ input.focus(); };
+window.onload=()=>{
+input.focus();
+};
 
+function formatDate(dateStr){
+
+if(!dateStr) return "-";
+
+/* yyyy-MM-dd */
+
+if(dateStr.includes("-") && dateStr.split("-")[0].length==4){
+
+var p=dateStr.split("-");
+var year=p[0];
+var month=parseInt(p[1])-1;
+var day=p[2];
+
+var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+return day+" "+m[month]+" "+year;
+
+}
+
+/* dd/MM/yyyy */
+
+if(dateStr.includes("/")){
+
+var p=dateStr.split("/");
+
+var day=parseInt(p[0]);
+var month=parseInt(p[1])-1;
+var year=p[2];
+
+var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+return ("0"+day).slice(-2)+" "+m[month]+" "+year;
+
+}
+
+/* ISO */
+
+if(dateStr.includes("T")){
+
+var d=new Date(dateStr);
+
+var day=("0"+d.getDate()).slice(-2);
+var month=d.getMonth();
+var year=d.getFullYear();
+
+var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+return day+" "+m[month]+" "+year;
+
+}
+
+return dateStr;
+
+}
+  
+function formatDateTime(dateStr){
+
+if(!dateStr) return "-";
+
+const d=new Date(dateStr);
+
+const day=("0"+d.getDate()).slice(-2);
+const month=d.getMonth();
+const year=d.getFullYear();
+
+const hour=("0"+d.getHours()).slice(-2);
+const min=("0"+d.getMinutes()).slice(-2);
+
+const m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+return day+" "+m[month]+" "+year+" "+hour+":"+min;
+
+}
+
+  
 async function checkLock(){
 
 const acc=input.value.trim();
@@ -465,20 +380,38 @@ result.innerHTML=
 
 try{
 
-const res=await fetch(api+"?acc_no="+encodeURIComponent(acc)+"&t="+Date.now());
+const res=await fetch(api+"?acc_no="+encodeURIComponent(acc));
 const data=await res.json();
 
 if(data.status==="LOCKED"){
 
+const formattedDate=formatDate(data.valid);
+const created=formatDateTime(data.created);
 const amount="RM "+Number(data.amount).toLocaleString();
+
+const promiseDate=new Date(data.valid);
+
+const today=new Date();
+today.setHours(0,0,0,0);
+
+promiseDate.setHours(0,0,0,0);
+
+let statusText="LOCKED";
+let statusColor="#28a745";
+
+if(today>promiseDate){
+statusText="EXPIRED";
+statusColor="#dc3545";
+}
 
 result.innerHTML=
 
 "<div class='result-card'>"+
 
-"<div class='status-box'><span style='background:#28a745'>LOCKED</span></div>"+
+"<div class='status-box'><span style='background:"+statusColor+"'>"+statusText+"</span></div>"+
 
-"<div class='created-meta'>Created by "+data.dca_id+"</div>"+
+"<div class='created-meta'>Created by "+data.dca_id+
+" • "+created+"</div>"+
 
 "<div class='row'>"+
 
@@ -503,10 +436,13 @@ result.innerHTML=
 
 "<div class='col'>"+
 "<div class='label'>PROMISE DATE</div>"+
-"<div class='value'>"+data.valid+"</div>"+
+"<div class='value'>"+formattedDate+"</div>"+
 "</div>"+
 
 "</div>"+
+
+"<div class='label'>PAYMENT CATEGORY</div>"+
+"<div class='value'>"+(data.category || "-")+"</div><br>"+
 
 "<div class='label'>REMARKS</div>"+
 "<div class='remark'>"+(data.remarks || "-")+"</div>"+
@@ -517,14 +453,15 @@ result.innerHTML=
 
 else{
 
-result.innerHTML="<div class='no-lock'>NO LOCK FOUND</div>";
+result.innerHTML=
+"<div class='no-lock'>NO LOCK FOUND</div>";
 
 }
 
 }catch(err){
 
 result.innerHTML=
-"<div class='no-lock'>Unable to connect to server. Please try again.</div>";
+"<div class='no-lock'>SYSTEM ERROR. TRY AGAIN.</div>";
 
 }
 
@@ -546,7 +483,7 @@ checkBtn.addEventListener("click",checkLock);
 resetBtn.addEventListener("click",newSearch);
 
 input.addEventListener("keypress",function(e){
-if(e.key==="Enter" && !isLoading){
+if(e.key==="Enter"){
 checkLock();
 }
 });
