@@ -346,8 +346,16 @@ placeholder="Enter Account Number">
 
 /* CHECK LOGIN */
 
-if(!localStorage.getItem("user")){
+const user = localStorage.getItem("user");
+
+if(!user){
 window.location="../logincheck/";
+}
+
+const loginType = localStorage.getItem("loginType");
+
+if(loginType !== "CHECK" && loginType !== "MASTER"){
+window.location="../lock/";
 }
 
 /* AUTO LOGOUT SYSTEM */
@@ -405,7 +413,7 @@ document.addEventListener("mousemove",resetTimer);
 
 resetTimer();
 
-const api="https://script.google.com/macros/s/AKfycbxTAqM0ClczOumCOkkkWDRwdQgqhp4zXNJRLJOLOFjvdp-SnrgMjjjKxRyss6kRvCPH/exec";
+const api="https://script.google.com/macros/s/AKfycbzybAoNsPT1K9f8_uT3k5jWE54ccSqLF42EEWHV9Y6sjsmuhetEB5dV0iD6OvrCXJhN/exec";
 
 const loggedUser = localStorage.getItem("user");
 const role = localStorage.getItem("role");
