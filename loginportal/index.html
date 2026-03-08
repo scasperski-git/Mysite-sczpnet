@@ -24,7 +24,7 @@ border-radius:10px;
 box-shadow:0 10px 25px rgba(0,0,0,0.15);
 }
 
-input,select,textarea{
+input,textarea{
 width:100%;
 padding:12px;
 margin-bottom:10px;
@@ -70,7 +70,6 @@ display:none;
 
 </div>
 
-
 <div class="box" id="portal" style="display:none">
 
 <h3>DCA Portal</h3>
@@ -104,7 +103,6 @@ display:none;
 
 </div>
 
-
 <div id="checkSection" class="section">
 
 <h4>Check Lock</h4>
@@ -121,10 +119,9 @@ display:none;
 
 </div>
 
-
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbw6u-f3sfrB9OXEqmGt3CoG1QbPqc0HJOt6IYId57E1VMnSiEHPoEgu3dzduFTaKskW/exec";
+const api="https://script.google.com/macros/s/AKfycbwWWs4A4yEW7UYv40M0W_K8XqkiXQtUJNku8JEocjZWxhRkeZZ2SjWiJI0hkX9WJRw/exec";
 
 var token;
 
@@ -148,20 +145,19 @@ startSessionTimer();
 
 else if(res.status=="INACTIVE"){
 
-msg.innerHTML="User inactive";
+document.getElementById("msg").innerHTML="User inactive";
 
 }
 
 else{
 
-msg.innerHTML="Invalid login";
+document.getElementById("msg").innerHTML="Invalid login";
 
 }
 
 }).login(u,p);
 
 }
-
 
 function showLock(){
 
@@ -176,7 +172,6 @@ document.getElementById("lockSection").style.display="none";
 document.getElementById("checkSection").style.display="block";
 
 }
-
 
 function submitLock(){
 
@@ -198,7 +193,6 @@ document.getElementById("lockResult").innerHTML=res;
 });
 
 }
-
 
 function checkLock(){
 
@@ -227,25 +221,18 @@ document.getElementById("checkResult").innerHTML="NO LOCK";
 
 }
 
-
 function logout(){
-
 location.reload();
-
 }
-
-
-/* SESSION TIMEOUT */
 
 function startSessionTimer(){
 
 setTimeout(function(){
 
 alert("Session expired");
-
 location.reload();
 
-},20*60*1000);
+},60000);
 
 }
 
