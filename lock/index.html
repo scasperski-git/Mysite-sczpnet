@@ -432,6 +432,55 @@ Processing Lock...
 
 <script>
 
+/* AUTO LOGOUT SYSTEM */
+
+const TIMEOUT_MINUTES = Number(localStorage.getItem("timeout")) || 10;
+
+function resetTimer(){
+
+localStorage.setItem("lastActivity",Date.now());
+
+}
+
+function checkSession(){
+
+const last = localStorage.getItem("lastActivity");
+
+if(!last){
+logout();
+return;
+}
+
+const diff = (Date.now() - last) / 60000;
+
+if(diff > TIMEOUT_MINUTES){
+logout();
+}
+
+}
+
+function logout(){
+
+localStorage.clear();
+
+alert("Session expired. Please login again.");
+
+window.location="login.html";
+
+}
+
+/* CHECK EVERY 30 SEC */
+
+setInterval(checkSession,30000);
+
+/* TRACK USER ACTIVITY */
+
+document.addEventListener("click",resetTimer);
+document.addEventListener("keypress",resetTimer);
+document.addEventListener("mousemove",resetTimer);
+
+resetTimer();
+
 /* JS ORIGINAL TAK DIUBAH */
 
 const api="https://script.google.com/macros/s/AKfycbymhAGb9ijuqzrxNvxl69mTJM9KALsytHAtJIcwrNcbiHWBy8Zo3IRu_LsvqRRbjIUs/exec";
