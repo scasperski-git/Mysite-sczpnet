@@ -201,17 +201,21 @@ if(localStorage.getItem("user") && !localStorage.getItem("loginType")){
 localStorage.clear();
 }
 
-/* BLOCK LOGIN PAGE IF SESSION EXISTS */
+/* BLOCK LOGIN PAGE IF ALREADY LOGIN */
 
-const user = localStorage.getItem("user");
+const currentUser = localStorage.getItem("user");
 const loginType = localStorage.getItem("loginType");
 
-if(!user){
-window.location="../loginlock/";
+if(currentUser){
+
+if(loginType=="CHECK" || loginType=="MASTER"){
+window.location="/check/";
 }
 
-if(loginType!="LOCK" && loginType!="MASTER"){
-window.location="../check/";
+if(loginType=="LOCK"){
+window.location="/lock/";
+}
+
 }
 
 /* SESSION TIMEOUT */
@@ -222,6 +226,7 @@ function login(){
 
 const user=document.getElementById("user").value.trim();
 const pass=document.getElementById("pass").value.trim();
+document.getElementById("err").style.display="none";
 
 if(!user || !pass){
 showError();
