@@ -194,7 +194,7 @@ Authenticating...
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbxTAqM0ClczOumCOkkkWDRwdQgqhp4zXNJRLJOLOFjvdp-SnrgMjjjKxRyss6kRvCPH/exec";
+const api="https://script.google.com/macros/s/AKfycbzybAoNsPT1K9f8_uT3k5jWE54ccSqLF42EEWHV9Y6sjsmuhetEB5dV0iD6OvrCXJhN/exec";
 
 /* BLOCK LOGIN PAGE IF SESSION EXISTS */
 
@@ -230,7 +230,7 @@ if(data.status=="OK"){
 localStorage.setItem("user",data.user);
 localStorage.setItem("role",data.role);
 localStorage.setItem("branch",data.branch);
-
+localStorage.setItem("loginType",data.loginType);
 localStorage.setItem("lastActivity",Date.now());
 localStorage.setItem("timeout",SESSION_TIMEOUT);
 
