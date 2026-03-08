@@ -113,6 +113,58 @@ box-shadow:0 6px 18px rgba(0,0,0,0.08);
 animation:fadeIn .3s ease;
 }
 
+.header{
+background:linear-gradient(135deg,#007bff,#0047ab);
+color:white;
+padding:16px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+font-size:20px;
+font-weight:bold;
+}
+
+.header-title{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.header-right{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.user-badge{
+background:rgba(255,255,255,0.18);
+padding:6px 12px;
+border-radius:20px;
+font-size:13px;
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.logout-btn{
+background:rgba(255,255,255,0.15);
+border:none;
+color:white;
+padding:7px 14px;
+border-radius:6px;
+font-size:13px;
+cursor:pointer;
+display:flex;
+align-items:center;
+gap:6px;
+transition:.2s;
+}
+
+.logout-btn:hover{
+background:rgba(255,255,255,0.25);
+transform:translateY(-1px);
+}
+
 /* STATUS */
 
 .status-box{
@@ -243,7 +295,24 @@ flex-direction:column;
 <div class="container">
 
 <div class="header">
-<i class="fa fa-search"></i> Branch Lock Check
+
+<div class="header-title">
+<i class="fa fa-search"></i> Lock Check Portal
+</div>
+
+<div class="header-right">
+
+<div class="user-badge">
+<i class="fa fa-user"></i>
+<span id="userName"></span>
+</div>
+
+<button class="logout-btn" onclick="logout()">
+<i class="fa fa-sign-out-alt"></i> Logout
+</button>
+
+</div>
+
 </div>
 
 <div class="content">
@@ -280,7 +349,7 @@ window.location="login.html";
 
 /* AUTO LOGOUT SYSTEM */
 
-const TIMEOUT_MINUTES = Number(localStorage.getItem("timeout")) || 10;
+const TIMEOUT_MINUTES = Number(localStorage.getItem("timeout")) || 1;
 
 function resetTimer(){
 
@@ -309,9 +378,9 @@ function logout(){
 
 localStorage.clear();
 
-alert("Session expired. Please login again.");
+alert("Logged out successfully");
 
-window.location="login.html";
+window.location="../logincheck/";
 
 }
 
@@ -328,6 +397,14 @@ document.addEventListener("mousemove",resetTimer);
 resetTimer();
 
 const api="https://script.google.com/macros/s/AKfycbymhAGb9ijuqzrxNvxl69mTJM9KALsytHAtJIcwrNcbiHWBy8Zo3IRu_LsvqRRbjIUs/exec";
+
+const loggedUser = localStorage.getItem("user");
+const role = localStorage.getItem("role");
+
+if(loggedUser){
+document.getElementById("userName").innerText =
+loggedUser + " (" + role + ")";
+}
 
 const input=document.getElementById("acc_no");
 const result=document.getElementById("result");
