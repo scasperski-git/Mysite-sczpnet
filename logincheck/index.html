@@ -194,30 +194,14 @@ Authenticating...
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbzybAoNsPT1K9f8_uT3k5jWE54ccSqLF42EEWHV9Y6sjsmuhetEB5dV0iD6OvrCXJhN/exec";
+const api="https://script.google.com/macros/s/AKfycbz8UqMjTBYaJ_o-1qOCKgOm3FasL1P1MA_n4wSeBRGc67LRneHX1elXjYiybZAvqnNy/exec";
 
-/* CLEAR OLD SESSION */
-if(localStorage.getItem("user") && !localStorage.getItem("loginType")){
-localStorage.clear();
-}
+/* BLOCK LOGIN PAGE IF SESSION EXISTS */
 
-/* BLOCK LOGIN PAGE IF ALREADY LOGIN */
-
-const currentUser = localStorage.getItem("user");
-const loginType = localStorage.getItem("loginType");
-
-if(currentUser){
-
-if(loginType=="CHECK" || loginType=="MASTER"){
+if(localStorage.getItem("user")){
 window.location="/check/";
 }
 
-if(loginType=="LOCK"){
-window.location="/lock/";
-}
-  
-}
-  
 /* SESSION TIMEOUT */
 
 const SESSION_TIMEOUT = 1;
@@ -227,8 +211,6 @@ function login(){
 const user=document.getElementById("user").value.trim();
 const pass=document.getElementById("pass").value.trim();
 
-document.getElementById("err").style.display="none";
-
 if(!user || !pass){
 showError();
 return;
@@ -237,7 +219,7 @@ return;
 document.getElementById("overlay").style.display="flex";
 document.getElementById("loginBtn").disabled=true;
 
-fetch(api+"?action=login&system=CHECK&user="+encodeURIComponent(user)+"&pass="+encodeURIComponent(pass))
+fetch(api+"?action=login&system=CHECK&user="+user+"&pass="+pass)
 
 .then(res=>res.json())
 
@@ -248,7 +230,7 @@ if(data.status=="OK"){
 localStorage.setItem("user",data.user);
 localStorage.setItem("role",data.role);
 localStorage.setItem("branch",data.branch);
-localStorage.setItem("loginType",data.loginType);
+
 localStorage.setItem("lastActivity",Date.now());
 localStorage.setItem("timeout",SESSION_TIMEOUT);
 
@@ -284,22 +266,10 @@ showError("Please check your User ID or Password.");
 }
 
 });
-
-}
-function logout(){
-
-localStorage.removeItem("user");
-localStorage.removeItem("role");
-localStorage.removeItem("branch");
-localStorage.removeItem("loginType");
-localStorage.removeItem("lastActivity");
-localStorage.removeItem("timeout");
-
-window.location="/";
   
 }
 
-function showError(msg="Please fill in User ID and Password."){
+function showError(msg){
 
 const err=document.getElementById("err");
 
@@ -310,7 +280,7 @@ err.style.display="block";
 
 /* ENTER KEY LOGIN */
 
-document.addEventListener("keydown",function(e){
+document.addEventListener("keypress",function(e){
 
 if(e.key==="Enter"){
 login();
