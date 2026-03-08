@@ -305,7 +305,7 @@ gap:10px;
 <span id="userName"></span>
 </div>
 
-<button class="logout-btn" onclick="logout()">
+<button class="logout-btn" onclick="logout('manual')">
 <i class="fa fa-sign-out-alt"></i> Logout
 </button>
 
@@ -365,23 +365,29 @@ function checkSession(){
 const last = localStorage.getItem("lastActivity");
 
 if(!last){
-logout();
+logout("expired");
 return;
 }
 
 const diff = (Date.now() - last) / 60000;
 
 if(diff > TIMEOUT_MINUTES){
-logout();
+logout("expired");
 }
 
 }
 
-function logout(){
+function logout(type){
 
 localStorage.clear();
 
-alert("Logged out successfully");
+if(type === "manual"){
+alert("You have logged out successfully!");
+}
+
+else if(type === "expired"){
+alert("Session expired! Please login again.");
+}
 
 window.location="../logincheck/";
 
