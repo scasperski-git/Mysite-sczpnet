@@ -198,7 +198,10 @@ const api="https://script.google.com/macros/s/AKfycbzybAoNsPT1K9f8_uT3k5jWE54ccS
 
 /* BLOCK LOGIN PAGE IF SESSION EXISTS */
 
-if(localStorage.getItem("user")){
+const user = localStorage.getItem("user");
+const loginType = localStorage.getItem("loginType");
+
+if(user && (loginType === "LOCK" || loginType === "MASTER")){
 window.location="/lock/";
 }
 
