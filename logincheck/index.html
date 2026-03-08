@@ -225,6 +225,8 @@ function login(){
 const user=document.getElementById("user").value.trim();
 const pass=document.getElementById("pass").value.trim();
 
+document.getElementById("err").style.display="none";
+
 if(!user || !pass){
 showError();
 return;
