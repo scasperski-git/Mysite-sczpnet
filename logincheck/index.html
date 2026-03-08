@@ -206,8 +206,12 @@ localStorage.clear();
 const user = localStorage.getItem("user");
 const loginType = localStorage.getItem("loginType");
 
-if(user && (loginType === "CHECK" || loginType === "MASTER")){
-window.location="/check/";
+if(!user){
+window.location="../logincheck/";
+}
+
+if(loginType!="CHECK" && loginType!="MASTER"){
+window.location="../lock/";
 }
 
 /* SESSION TIMEOUT */
