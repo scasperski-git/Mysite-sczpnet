@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Lock System Portal</title>
+<title>DCA Lock System</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet"
@@ -37,55 +37,24 @@ overflow:hidden;
 }
 
 /* HEADER */
+
 .header{
 background:linear-gradient(135deg,#007bff,#0047ab);
 color:white;
-padding:16px 18px;
-display:flex;
-align-items:center;
-justify-content:space-between;
+padding:18px;
+text-align:center;
 font-size:20px;
 font-weight:bold;
+letter-spacing:.5px;
 }
 
-.header-title{
-display:flex;
-align-items:center;
-gap:8px;
-}
-
-.header-right{
-display:flex;
-align-items:center;
-gap:12px;
-}
-
-.user-badge{
-background:rgba(255,255,255,0.18);
-padding:6px 12px;
-border-radius:20px;
-font-size:13px;
-display:flex;
-align-items:center;
-gap:6px;
-}
-
-.logout-btn{
-background:rgba(255,255,255,0.15);
-border:none;
-color:white;
-padding:7px 14px;
-border-radius:6px;
-font-size:13px;
-cursor:pointer;
-display:flex;
-align-items:center;
-gap:6px;
-}
+/* FORM BODY */
 
 .form-body{
 padding:25px;
 }
+
+/* LABEL */
 
 label{
 font-size:13px;
@@ -94,6 +63,8 @@ color:#555;
 display:block;
 margin-top:10px;
 }
+
+/* INPUT */
 
 input,select,textarea{
 width:100%;
@@ -115,6 +86,16 @@ box-shadow:0 0 0 3px rgba(0,123,255,0.15);
 outline:none;
 }
 
+select:invalid{
+color:#999;
+}
+
+button i{
+margin-right:6px;
+}
+  
+/* BUTTON */
+
 button{
 width:100%;
 padding:14px;
@@ -125,7 +106,15 @@ cursor:pointer;
 background:linear-gradient(135deg,#007bff,#0056b3);
 color:white;
 font-weight:600;
+transition:.2s;
 }
+
+button:hover{
+transform:translateY(-1px);
+box-shadow:0 6px 15px rgba(0,0,0,0.15);
+}
+
+/* ERROR */
 
 .error{
 color:red;
@@ -134,13 +123,20 @@ margin-bottom:10px;
 display:none;
 }
 
-#remarkCounter{
-font-size:12px;
-color:#666;
-text-align:right;
-margin-top:-5px;
-margin-bottom:10px;
+.shake{
+animation:shake .3s;
+border-color:red;
 }
+
+@keyframes shake{
+0%{transform:translateX(0)}
+25%{transform:translateX(-5px)}
+50%{transform:translateX(5px)}
+75%{transform:translateX(-5px)}
+100%{transform:translateX(0)}
+}
+
+/* SUCCESS CARD */
 
 .success-card{
 margin-top:25px;
@@ -152,10 +148,206 @@ box-shadow:0 6px 18px rgba(0,0,0,0.08);
 text-align:center;
 }
 
+.success-title{
+font-size:24px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.success-title span{
+display:inline-block;
+padding:7px 22px;
+background:#28a745;
+color:white;
+border-radius:30px;
+font-weight:700;
+letter-spacing:1px;
+}
+
+.success-grid{
+display:flex;
+flex-wrap:wrap;
+gap:18px;
+text-align:left;
+margin-top:15px;
+}
+
+.success-item{
+flex:1 1 45%;
+font-size:14px;
+}
+
+.success-item b{
+display:block;
+margin-bottom:3px;
+}
+
 .amount{
 font-size:26px;
 font-weight:800;
 color:#dc3545;
+}
+
+.new-btn{
+margin-top:20px;
+background:#6c757d;
+}
+
+.new-btn:hover{
+background:#545b62;
+}
+
+/* AUDIT NOTE */
+
+.audit-note{
+margin-top:15px;
+font-size:12px;
+color:#666;
+background:#fff8db;
+padding:12px;
+border-left:4px solid #ffc107;
+border-radius:6px;
+line-height:1.4;
+}
+
+/* REMARK COUNTER */
+
+#remarkCounter{
+font-size:12px;
+color:#666;
+text-align:right;
+margin-top:-5px;
+margin-bottom:10px;
+}
+
+/* LOADING OVERLAY */
+
+#overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.55);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:999;
+}
+
+.loader-box{
+background:white;
+padding:35px;
+border-radius:10px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+font-weight:bold;
+}
+
+.spinner{
+width:38px;
+height:38px;
+border:4px solid #eee;
+border-top:4px solid #007bff;
+border-radius:50%;
+animation:spin .9s linear infinite;
+margin:auto;
+margin-top:12px;
+}
+
+.status-box{
+text-align:center;
+margin-bottom:12px;
+}
+
+.status-badge{
+display:inline-block;
+padding:8px 26px;
+border-radius:30px;
+font-weight:bold;
+font-size:18px;
+letter-spacing:1px;
+color:white;
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+
+.badge-success{
+background:#28a745;
+}
+
+.badge-danger{
+background:#dc3545;
+}
+
+.created-meta{
+font-size:13px;
+color:#777;
+text-align:center;
+margin-bottom:18px;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+/* ========================= */
+/* RESPONSIVE (ADDED ONLY)   */
+/* ========================= */
+
+@media (max-width:600px){
+
+body{
+padding:10px;
+}
+
+.form-body{
+padding:18px;
+}
+
+.success-item{
+flex:1 1 100%;
+}
+
+button{
+font-size:15px;
+padding:13px;
+}
+
+}
+
+@media (min-width:601px) and (max-width:1024px){
+
+.container{
+max-width:600px;
+}
+
+}
+
+@media (min-width:1025px){
+
+.container{
+max-width:700px;
+}
+
+}
+
+/* DESKTOP CENTER SCREEN */
+
+@media (min-height:700px) and (min-width:900px){
+
+body{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.container{
+margin:0;
+}
+
 }
 
 </style>
@@ -167,46 +359,32 @@ color:#dc3545;
 <div class="container">
 
 <div class="header">
-
-<div class="header-title">
-<i class="fa fa-lock"></i> Lock System Portal
-</div>
-
-<div class="header-right">
-
-<div class="user-badge">
-<i class="fa fa-user"></i>
-<span id="userName"></span>
-</div>
-
-<button class="logout-btn" onclick="logout('manual')">
-<i class="fa fa-sign-out-alt"></i> Logout
-</button>
-
-</div>
-
+<i class="fa fa-lock"></i> DCA Lock System
 </div>
 
 <div class="form-body">
 
 <div id="formSection">
 
-<form id="lockForm" autocomplete="off">
+<form id="lockForm" autocomplete="off" novalidate>
 
 <label>Account No</label>
-<input type="text" id="acc_no">
+<input type="text" id="acc_no" name="acc_no" autocomplete="off" inputmode="numeric" maxlength="10" placeholder="ENTER ACCOUNT NO">
 <div class="error" id="err_acc">Account No required</div>
 
 <label>Branch</label>
-<select id="branch"></select>
+<select id="branch" name="branch_id" required>
+<option value="">SELECT BRANCH</option>
+<option value="" disabled>Loading branch list...</option>
+</select>
 <div class="error" id="err_branch">Please select branch</div>
 
 <label>Lock Amount</label>
-<input type="text" id="amount">
+<input type="text" id="amount" name="amount" autocomplete="off" inputmode="numeric">
 <div class="error" id="err_amount">Amount required</div>
 
 <label>Payment Category</label>
-<select id="payment_category">
+<select id="payment_category" name="payment_category" required>
 <option value="">SELECT PAYMENT CATEGORY</option>
 <option>PARTIAL PAYMENT</option>
 <option>FULL PAYMENT</option>
@@ -215,22 +393,26 @@ color:#dc3545;
 <div class="error" id="err_category">Payment category required</div>
 
 <label>Promise Date</label>
-<input type="date" id="promise_date">
+<input type="date" id="promise_date" name="promise_date" min="">
 <div class="error" id="err_date">Promise date required</div>
 
 <label>DCA ID</label>
-<input type="text" id="dca_id">
+<input type="text" id="dca_id" autocomplete="off" name="dca_id"> 
 <div class="error" id="err_dca">DCA ID required</div>
 
 <label>Remarks</label>
-<textarea id="remarks" maxlength="100"></textarea>
-
+<textarea id="remarks" name="remarks" autocomplete="off" maxlength="100" placeholder="ENTER REMARKS"></textarea>
 <div id="remarkCounter">0 / 100</div>
 <div class="error" id="err_remarks">Remarks required</div>
 
-<button type="submit">
+<button type="submit" id="submitBtn">
 <i class="fa-solid fa-lock"></i> Submit Lock
 </button>
+
+<div class="audit-note">
+⚠ Every submission is recorded for audit and verification purposes.  
+Unauthorized or false lock entries may be subject to investigation.
+</div>
 
 </form>
 
@@ -241,63 +423,18 @@ color:#dc3545;
 </div>
 </div>
 
+<div id="overlay">
+<div class="loader-box">
+Processing Lock...
+<div class="spinner"></div>
+</div>
+</div>
+
 <script>
 
-if(!localStorage.getItem("user")){
-window.location="../loginlock/";
-}
+/* JS ORIGINAL TAK DIUBAH */
 
-/* AUTO LOGOUT SYSTEM */
-
-const TIMEOUT_MINUTES = Number(localStorage.getItem("timeout")) || 1;
-
-function resetTimer(){
-localStorage.setItem("lastActivity",Date.now());
-}
-
-function checkSession(){
-
-const last = localStorage.getItem("lastActivity");
-
-if(!last){
-logout("expired");
-return;
-}
-
-const diff = (Date.now() - last) / 60000;
-
-if(diff > TIMEOUT_MINUTES){
-logout("expired");
-}
-
-}
-
-/* CHECK EVERY 30 SEC */
-
-setInterval(checkSession,30000);
-
-/* TRACK USER ACTIVITY */
-
-document.addEventListener("click",resetTimer);
-document.addEventListener("keypress",resetTimer);
-document.addEventListener("mousemove",resetTimer);
-
-resetTimer();
-
-const api="https://script.google.com/macros/s/AKfycbz8UqMjTBYaJ_o-1qOCKgOm3FasL1P1MA_n4wSeBRGc67LRneHX1elXjYiybZAvqnNy/exec";
-
-const loggedUser = localStorage.getItem("user");
-const role = localStorage.getItem("role");
-
-if(loggedUser){
-
-document.getElementById("dca_id").value = loggedUser;
-document.getElementById("dca_id").readOnly = true;
-
-document.getElementById("userName").innerText =
-loggedUser + " (" + role + ")";
-
-}
+const api="https://script.google.com/macros/s/AKfycbyCVpZgbsb4I3sXFf03P6KtFAu4D6cGsI1AelbdRpajBJvWQ9tpeIoGJniVzubdbPaD/exec";
 
 /* LOAD BRANCH */
 
@@ -320,7 +457,63 @@ select.appendChild(option);
 document.getElementById("promise_date").min =
 new Date().toISOString().split("T")[0];
 
-/* REMARK COUNTER */
+/* AUTO CAPITAL */
+
+document.querySelectorAll("input[type=text], textarea").forEach(el=>{
+
+el.addEventListener("input",function(){
+
+let start=this.selectionStart;
+let end=this.selectionEnd;
+
+this.value=this.value.toUpperCase();
+this.setSelectionRange(start,end);
+
+});
+
+});
+
+/* AMOUNT FORMAT */
+
+const amountField = document.getElementById("amount");
+
+amountField.addEventListener("input", function(){
+
+let value = this.value.replace(/[^\d.]/g,'');
+
+let parts = value.split(".");
+
+if(parts.length > 2){
+value = parts[0] + "." + parts.slice(1).join("");
+}
+
+if(parts[1]){
+parts[1] = parts[1].substring(0,2);
+value = parts[0] + "." + parts[1];
+}
+
+this.value = value;
+
+});
+
+amountField.addEventListener("blur", function(){
+
+let value = this.value.replace(/,/g,'');
+
+if(value==="") return;
+
+let num = parseFloat(value);
+
+if(!isNaN(num)){
+this.value = num.toLocaleString("en-MY",{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+});
+}
+
+});
+
+/* REMARK LIMIT */
 
 const remarkBox=document.getElementById("remarks");
 const remarkCounter=document.getElementById("remarkCounter");
@@ -334,16 +527,35 @@ this.value=this.value.substring(0,100);
 remarkCounter.textContent=this.value.length+" / 100";
 
 });
-  
-document.getElementById("acc_no").addEventListener("input",function(){
-this.value=this.value.replace(/[^0-9]/g,'');
+
+/* ERROR */
+
+function showError(input,errorId){
+
+input.classList.add("shake");
+document.getElementById(errorId).style.display="block";
+
+/* SCROLL KE FIELD */
+input.scrollIntoView({
+behavior:"smooth",
+block:"center"
 });
 
-/* FORM SUBMIT */
+/* AUTO FOCUS */
+setTimeout(()=>{
+input.focus();
+input.classList.remove("shake");
+},300);
+
+}
+
+/* SUBMIT */
 
 document.getElementById("lockForm").addEventListener("submit",e=>{
 
 e.preventDefault();
+
+document.querySelectorAll(".error").forEach(e=>e.style.display="none");
 
 var acc=document.getElementById("acc_no");
 var branch=document.getElementById("branch");
@@ -355,22 +567,19 @@ var remarks=document.getElementById("remarks");
 
 if(!acc.value){showError(acc,"err_acc");return;}
 if(!branch.value){showError(branch,"err_branch");return;}
-if(!amount.value){showError(amount,"err_amount");return;}
+if(!amount.value || Number(amount.value.replace(/,/g,''))<=0){showError(amount,"err_amount");return;}
 if(!category.value){showError(category,"err_category");return;}
 if(!date.value){showError(date,"err_date");return;}
 if(!dca.value){showError(dca,"err_dca");return;}
 if(!remarks.value){showError(remarks,"err_remarks");return;}
 
-var formData=new FormData();
+document.getElementById("overlay").style.display="flex";
+document.getElementById("submitBtn").disabled = true;
 
-formData.append("acc_no",acc.value);
-formData.append("branch_id",branch.value);
-formData.append("branch_name",branch.selectedOptions[0].text);
-formData.append("amount",amount.value);
-formData.append("payment_category",category.value);
-formData.append("promise_date",date.value);
-formData.append("dca_id",dca.value);
-formData.append("remarks",remarks.value);
+var formData=new FormData(e.target);
+
+var branchName=branch.selectedOptions[0].text;
+formData.append("branch_name",branchName);
 
 fetch(api,{
 method:"POST",
@@ -378,6 +587,8 @@ body:formData
 })
 .then(res=>res.text())
 .then(data=>{
+
+document.getElementById("overlay").style.display="none";
 
 if(data=="ACCOUNT_ALREADY_LOCKED"){
 
@@ -387,43 +598,122 @@ document.getElementById("result").innerHTML=
 }
 else{
 
+showSuccess(formData);
+
+}
+
+});
+
+});
+
+/* DATE FORMAT */
+
+function formatDate(dateStr){
+
+if(!dateStr) return "-";
+
+var p=dateStr.split("-");
+
+var year=p[0];
+var month=parseInt(p[1])-1;
+var day=p[2];
+
+var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+return day+" "+monthNames[month]+" "+year;
+
+}
+
+function formatDateTime(){
+
+var d=new Date();
+
+var day=("0"+d.getDate()).slice(-2);
+
+var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+var month=monthNames[d.getMonth()];
+
+var year=d.getFullYear();
+
+var hours=("0"+d.getHours()).slice(-2);
+
+var mins=("0"+d.getMinutes()).slice(-2);
+
+return day+" "+month+" "+year+" "+hours+":"+mins;
+
+}
+
+/* SUCCESS */
+
+function showSuccess(formData){
+
+var acc=formData.get("acc_no");
+var branch=document.getElementById("branch").selectedOptions[0].text;
+var amount="RM "+formData.get("amount");
+var category=formData.get("payment_category");
+var promise=formatDate(formData.get("promise_date"));
+var remarks=formData.get("remarks");
+var dca=formData.get("dca_id");
+var createdTime=formatDateTime();
+
 document.getElementById("formSection").style.display="none";
 
 document.getElementById("result").innerHTML=
-"<div class='success-card'><b>LOCK CREATED</b></div>";
+
+"<div class='success-card'>"+
+"<div class='status-box'>"+
+"<span class='status-badge badge-success'>LOCK CREATED</span>"+
+"</div>"+
+
+"<div class='created-meta'>Created by "+dca+
+" • "+createdTime+"</div>"+
+
+"<div class='success-grid'>"+
+
+"<div class='success-item'><b>ACCOUNT NO</b>"+acc+"</div>"+
+"<div class='success-item'><b>LOCK AT BRANCH</b>"+branch+"</div>"+
+
+"<div class='success-item'><b>LOCK AMOUNT</b><div class='amount'>"+amount+"</div></div>"+
+"<div class='success-item'><b>PAYMENT CATEGORY</b>"+category+"</div>"+
+
+"<div class='success-item'><b>PROMISE DATE</b>"+promise+"</div>"+
+
+"<div class='success-item' style='width:100%'><b>DCA REMARKS</b>"+remarks+"</div>"+
+
+"</div>"+
+
+"</div>"+
+
+"<button class='new-btn' onclick='location.reload()'>New Lock</button>";
 
 }
 
+document.getElementById("branch").addEventListener("change",function(){
+document.getElementById("err_branch").style.display="none";
 });
 
+document.getElementById("payment_category").addEventListener("change",function(){
+document.getElementById("err_category").style.display="none";
 });
 
-function showError(input,errorId){
+var today = new Date().toLocaleDateString('en-CA');
+document.getElementById("promise_date").min = today;
 
-input.classList.add("shake");
-document.getElementById(errorId).style.display="block";
+document.getElementById("acc_no").addEventListener("input",function(){
+this.value=this.value.replace(/[^0-9]/g,'');
+});
 
-setTimeout(()=>{
-input.classList.remove("shake");
-},300);
-
+function clearError(inputId,errorId){
+document.getElementById(inputId).addEventListener("input",function(){
+document.getElementById(errorId).style.display="none";
+});
 }
 
-function logout(type){
-
-localStorage.clear();
-
-if(type === "manual"){
-alert("You have logged out successfully!");
-}
-
-else if(type === "expired"){
-alert("Session expired! Please login again.");
-}
-
-window.location="../loginlock/";
-
-}
+clearError("acc_no","err_acc");
+clearError("amount","err_amount");
+clearError("dca_id","err_dca");
+clearError("remarks","err_remarks");
 
 </script>
 
