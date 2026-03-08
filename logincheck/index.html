@@ -200,22 +200,22 @@ const api="https://script.google.com/macros/s/AKfycbzybAoNsPT1K9f8_uT3k5jWE54ccS
 if(localStorage.getItem("user") && !localStorage.getItem("loginType")){
 localStorage.clear();
 }
-  
-/* BLOCK LOGIN PAGE IF SESSION EXISTS */
 
-/* IF ALREADY LOGIN, GO TO PORTAL */
+/* BLOCK LOGIN PAGE IF ALREADY LOGIN */
 
-const sessionUser = localStorage.getItem("user");
+const currentUser = localStorage.getItem("user");
 const loginType = localStorage.getItem("loginType");
 
-if(sessionUser){
+if(currentUser){
 
 if(loginType=="CHECK" || loginType=="MASTER"){
 window.location="/check/";
 }
 
+if(loginType=="LOCK"){
+window.location="/lock/";
 }
-
+  
 /* SESSION TIMEOUT */
 
 const SESSION_TIMEOUT = 1;
