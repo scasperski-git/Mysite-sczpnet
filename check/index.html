@@ -321,6 +321,12 @@ document.addEventListener("mousemove",resetTimer);
 
 resetTimer();
 
+/* CHECK LOGIN */
+
+if(!localStorage.getItem("user")){
+window.location="login.html";
+}
+
 const api="https://script.google.com/macros/s/AKfycbymhAGb9ijuqzrxNvxl69mTJM9KALsytHAtJIcwrNcbiHWBy8Zo3IRu_LsvqRRbjIUs/exec";
 
 const input=document.getElementById("acc_no");
