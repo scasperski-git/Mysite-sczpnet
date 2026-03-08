@@ -37,15 +37,50 @@ overflow:hidden;
 }
 
 /* HEADER */
-
 .header{
 background:linear-gradient(135deg,#007bff,#0047ab);
 color:white;
-padding:18px;
-text-align:center;
+padding:16px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
 font-size:20px;
 font-weight:bold;
-letter-spacing:.5px;
+}
+
+.header-title{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.header-right{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.user-badge{
+background:rgba(255,255,255,0.18);
+padding:6px 12px;
+border-radius:20px;
+font-size:13px;
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.logout-btn{
+background:rgba(255,255,255,0.15);
+border:none;
+color:white;
+padding:7px 14px;
+border-radius:6px;
+font-size:13px;
+cursor:pointer;
+display:flex;
+align-items:center;
+gap:6px;
 }
 
 .form-body{
@@ -132,7 +167,24 @@ color:#dc3545;
 <div class="container">
 
 <div class="header">
+
+<div class="header-title">
 <i class="fa fa-lock"></i> Lock System Portal
+</div>
+
+<div class="header-right">
+
+<div class="user-badge">
+<i class="fa fa-user"></i>
+<span id="userName"></span>
+</div>
+
+<button class="logout-btn" onclick="logout('manual')">
+<i class="fa fa-sign-out-alt"></i> Logout
+</button>
+
+</div>
+
 </div>
 
 <div class="form-body">
@@ -191,13 +243,60 @@ color:#dc3545;
 
 <script>
 
+if(!localStorage.getItem("user")){
+window.location="../loginlock/";
+}
+
+/* AUTO LOGOUT SYSTEM */
+
+const TIMEOUT_MINUTES = Number(localStorage.getItem("timeout")) || 1;
+
+function resetTimer(){
+localStorage.setItem("lastActivity",Date.now());
+}
+
+function checkSession(){
+
+const last = localStorage.getItem("lastActivity");
+
+if(!last){
+logout("expired");
+return;
+}
+
+const diff = (Date.now() - last) / 60000;
+
+if(diff > TIMEOUT_MINUTES){
+logout("expired");
+}
+
+}
+
+/* CHECK EVERY 30 SEC */
+
+setInterval(checkSession,30000);
+
+/* TRACK USER ACTIVITY */
+
+document.addEventListener("click",resetTimer);
+document.addEventListener("keypress",resetTimer);
+document.addEventListener("mousemove",resetTimer);
+
+resetTimer();
+
 const api="https://script.google.com/macros/s/AKfycbz8UqMjTBYaJ_o-1qOCKgOm3FasL1P1MA_n4wSeBRGc67LRneHX1elXjYiybZAvqnNy/exec";
 
 const loggedUser = localStorage.getItem("user");
+const role = localStorage.getItem("role");
 
 if(loggedUser){
+
 document.getElementById("dca_id").value = loggedUser;
 document.getElementById("dca_id").readOnly = true;
+
+document.getElementById("userName").innerText =
+loggedUser + " (" + role + ")";
+
 }
 
 /* LOAD BRANCH */
@@ -234,6 +333,10 @@ this.value=this.value.substring(0,100);
 
 remarkCounter.textContent=this.value.length+" / 100";
 
+});
+  
+document.getElementById("acc_no").addEventListener("input",function(){
+this.value=this.value.replace(/[^0-9]/g,'');
 });
 
 /* FORM SUBMIT */
@@ -303,6 +406,22 @@ document.getElementById(errorId).style.display="block";
 setTimeout(()=>{
 input.classList.remove("shake");
 },300);
+
+}
+
+function logout(type){
+
+localStorage.clear();
+
+if(type === "manual"){
+alert("You have logged out successfully!");
+}
+
+else if(type === "expired"){
+alert("Session expired! Please login again.");
+}
+
+window.location="../loginlock/";
 
 }
 
