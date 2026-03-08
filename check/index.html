@@ -256,23 +256,6 @@ border-radius:50%;
 animation:spin .9s linear infinite;
 }
 
-.logout-btn{
-background:rgba(255,255,255,0.15);
-border:none;
-color:white;
-padding:7px 14px;
-border-radius:6px;
-font-size:13px;
-cursor:pointer;
-display:flex;
-align-items:center;
-gap:6px;
-}
-
-.logout-btn:hover{
-background:rgba(255,255,255,0.25);
-}
-
 /* ANIMATION */
 
 @keyframes spin{
@@ -363,17 +346,8 @@ placeholder="Enter Account Number">
 
 /* CHECK LOGIN */
 
-const user = localStorage.getItem("user");
-const loginType = localStorage.getItem("loginType");
-
-if(!user){
+if(!localStorage.getItem("user")){
 window.location="../logincheck/";
-return;
-}
-
-if(loginType!="CHECK" && loginType!="MASTER"){
-window.location="../loginlock/";
-return;
 }
 
 /* AUTO LOGOUT SYSTEM */
@@ -381,9 +355,7 @@ return;
 const TIMEOUT_MINUTES = Number(localStorage.getItem("timeout")) || 1;
 
 function resetTimer(){
-
 localStorage.setItem("lastActivity",Date.now());
-
 }
 
 function checkSession(){
@@ -431,7 +403,7 @@ document.addEventListener("mousemove",resetTimer);
 
 resetTimer();
 
-const api="https://script.google.com/macros/s/AKfycbzybAoNsPT1K9f8_uT3k5jWE54ccSqLF42EEWHV9Y6sjsmuhetEB5dV0iD6OvrCXJhN/exec";
+const api="https://script.google.com/macros/s/AKfycbz8UqMjTBYaJ_o-1qOCKgOm3FasL1P1MA_n4wSeBRGc67LRneHX1elXjYiybZAvqnNy/exec";
 
 const loggedUser = localStorage.getItem("user");
 const role = localStorage.getItem("role");
