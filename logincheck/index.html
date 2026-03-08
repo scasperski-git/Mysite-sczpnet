@@ -196,7 +196,7 @@ Authenticating...
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbz2mgpUgLrmt7YbxoPqLD8c5A5zhmvMZKmnQnnyHnbsHBLYbXS-r9HA20HNuR8il7jS/exec";
+const api="https://script.google.com/macros/s/AKfycbyKQvIPnLQEoROPvqpkLzI2pLJuuQHftVJlulk0xhy6etSWFDg9zUM6_Z2UU57MgysI/exec";
 
 /* SESSION TIMEOUT */
 
@@ -215,13 +215,27 @@ return;
 document.getElementById("overlay").style.display="flex";
 document.getElementById("loginBtn").disabled=true;
 
-fetch(api+"?action=login&user="+user+"&pass="+pass)
+fetch(api+"?action=login&system=CHECK&user="+user+"&pass="+pass)
 
 .then(res=>res.json())
 
 .then(data=>{
 
 if(data.status=="OK"){
+// login success
+}
+
+else if(data.status=="INACTIVE"){
+showError("User ID is not active.");
+}
+
+else if(data.status=="NO_ACCESS"){
+showError("You are not allowed to access this system.");
+}
+
+else{
+showError("Please check your User ID or Password.");
+}
 
 localStorage.setItem("user",data.user);
 localStorage.setItem("role",data.role);
