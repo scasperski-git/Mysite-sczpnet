@@ -508,8 +508,21 @@ Processing Lock...
 
 /* CHECK LOGIN */
 
-if(!localStorage.getItem("user")){
+/* CHECK LOGIN */
+
+const user = localStorage.getItem("user");
+const role = localStorage.getItem("role");
+
+if(!user){
 window.location="../loginlock/";
+}
+
+/* BLOCK WRONG SYSTEM ACCESS */
+
+const loginType = localStorage.getItem("loginType");
+
+if(loginType !== "LOCK" && loginType !== "MASTER"){
+window.location="../check/";
 }
   
 /* AUTO LOGOUT SYSTEM */
@@ -569,7 +582,7 @@ resetTimer();
 
 /* JS ORIGINAL TAK DIUBAH */
 
-const api="https://script.google.com/macros/s/AKfycbxTAqM0ClczOumCOkkkWDRwdQgqhp4zXNJRLJOLOFjvdp-SnrgMjjjKxRyss6kRvCPH/exec";
+const api="https://script.google.com/macros/s/AKfycbzybAoNsPT1K9f8_uT3k5jWE54ccSqLF42EEWHV9Y6sjsmuhetEB5dV0iD6OvrCXJhN/exec";
 
 /* AUTO FILL DCA */
 
