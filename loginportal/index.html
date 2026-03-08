@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>DCA Lock Portal</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+
+body{
+font-family:Arial;
+background:#eef2f7;
+margin:0;
+}
+
+.box{
+max-width:600px;
+margin:auto;
+background:white;
+padding:30px;
+margin-top:60px;
+border-radius:10px;
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+input,select,textarea{
+width:100%;
+padding:12px;
+margin-bottom:10px;
+border:1px solid #ddd;
+border-radius:6px;
+}
+
+button{
+padding:12px;
+border:none;
+background:#007bff;
+color:white;
+width:100%;
+margin-top:5px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.menu button{
+width:48%;
+}
+
+.section{
+display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="box" id="loginBox">
+
+<h3>DCA LOCK PORTAL</h3>
+
+<input id="user" placeholder="USER ID">
+<input id="pass" type="password" placeholder="PASSWORD">
+
+<button onclick="login()">LOGIN</button>
+
+<div id="msg"></div>
+
+</div>
+
+
+<div class="box" id="portal" style="display:none">
+
+<h3>DCA Portal</h3>
+
+<div class="menu">
+
+<button onclick="showLock()">LOCK PAYMENT</button>
+<button onclick="showCheck()">CHECK LOCK</button>
+
+</div>
+
+<hr>
+
+<div id="lockSection" class="section">
+
+<h4>Lock Payment</h4>
+
+<input id="acc_lock" placeholder="Account No">
+
+<input id="amount" placeholder="Amount">
+
+<input type="date" id="date">
+
+<input id="dca" placeholder="DCA ID">
+
+<textarea id="remarks" placeholder="Remarks"></textarea>
+
+<button onclick="submitLock()">Submit Lock</button>
+
+<div id="lockResult"></div>
+
+</div>
+
+
+<div id="checkSection" class="section">
+
+<h4>Check Lock</h4>
+
+<input id="acc_check" placeholder="Account No">
+
+<button onclick="checkLock()">Check</button>
+
+<div id="checkResult"></div>
+
+</div>
+
+<button onclick="logout()">Logout</button>
+
+</div>
+
+
+<script>
+
+const api="https://script.google.com/macros/s/AKfycbw6u-f3sfrB9OXEqmGt3CoG1QbPqc0HJOt6IYId57E1VMnSiEHPoEgu3dzduFTaKskW/exec";
+
+var token;
+
+function login(){
+
+var u=document.getElementById("user").value;
+var p=document.getElementById("pass").value;
+
+google.script.run.withSuccessHandler(function(res){
+
+if(res.status=="SUCCESS"){
+
+token=res.token;
+
+document.getElementById("loginBox").style.display="none";
+document.getElementById("portal").style.display="block";
+
+startSessionTimer();
+
+}
+
+else if(res.status=="INACTIVE"){
+
+msg.innerHTML="User inactive";
+
+}
+
+else{
+
+msg.innerHTML="Invalid login";
+
+}
+
+}).login(u,p);
+
+}
+
+
+function showLock(){
+
+document.getElementById("lockSection").style.display="block";
+document.getElementById("checkSection").style.display="none";
+
+}
+
+function showCheck(){
+
+document.getElementById("lockSection").style.display="none";
+document.getElementById("checkSection").style.display="block";
+
+}
+
+
+function submitLock(){
+
+var data=new FormData();
+
+data.append("acc_no",document.getElementById("acc_lock").value);
+data.append("amount",document.getElementById("amount").value);
+data.append("promise_date",document.getElementById("date").value);
+data.append("dca_id",document.getElementById("dca").value);
+data.append("remarks",document.getElementById("remarks").value);
+
+fetch(api,{
+method:"POST",
+body:data
+})
+.then(r=>r.text())
+.then(res=>{
+document.getElementById("lockResult").innerHTML=res;
+});
+
+}
+
+
+function checkLock(){
+
+var acc=document.getElementById("acc_check").value;
+
+fetch(api+"?acc_no="+acc)
+.then(r=>r.json())
+.then(res=>{
+
+if(res.status=="LOCKED"){
+
+document.getElementById("checkResult").innerHTML=
+
+"LOCKED<br>"+
+"Branch: "+res.branch+"<br>"+
+"Amount: "+res.amount;
+
+}
+else{
+
+document.getElementById("checkResult").innerHTML="NO LOCK";
+
+}
+
+});
+
+}
+
+
+function logout(){
+
+location.reload();
+
+}
+
+
+/* SESSION TIMEOUT */
+
+function startSessionTimer(){
+
+setTimeout(function(){
+
+alert("Session expired");
+
+location.reload();
+
+},20*60*1000);
+
+}
+
+</script>
+
+</body>
+</html>
