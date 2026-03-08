@@ -162,7 +162,7 @@ to{opacity:1;transform:translateY(0);}
 <div class="box">
 
 <div class="title">
-<i class="fa fa-lock"></i> Lock System Login
+<i class="fa fa-lock"></i> Lock System Portal
 </div>
 
 <div class="input-group">
@@ -194,28 +194,12 @@ Authenticating...
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbzybAoNsPT1K9f8_uT3k5jWE54ccSqLF42EEWHV9Y6sjsmuhetEB5dV0iD6OvrCXJhN/exec";
-  
-/* CLEAR OLD SESSION */
-if(localStorage.getItem("user") && !localStorage.getItem("loginType")){
-localStorage.clear();
-}
+const api="https://script.google.com/macros/s/AKfycbz8UqMjTBYaJ_o-1qOCKgOm3FasL1P1MA_n4wSeBRGc67LRneHX1elXjYiybZAvqnNy/exec";
 
-/* BLOCK LOGIN PAGE IF ALREADY LOGIN */
+/* BLOCK LOGIN PAGE IF SESSION EXISTS */
 
-const currentUser = localStorage.getItem("user");
-const loginType = localStorage.getItem("loginType");
-
-if(currentUser){
-
-if(loginType=="CHECK" || loginType=="MASTER"){
-window.location="/check/";
-}
-
-if(loginType=="LOCK"){
+if(localStorage.getItem("user")){
 window.location="/lock/";
-}
-
 }
 
 /* SESSION TIMEOUT */
@@ -226,7 +210,6 @@ function login(){
 
 const user=document.getElementById("user").value.trim();
 const pass=document.getElementById("pass").value.trim();
-document.getElementById("err").style.display="none";
 
 if(!user || !pass){
 showError();
@@ -247,7 +230,7 @@ if(data.status=="OK"){
 localStorage.setItem("user",data.user);
 localStorage.setItem("role",data.role);
 localStorage.setItem("branch",data.branch);
-localStorage.setItem("loginType",data.loginType);
+
 localStorage.setItem("lastActivity",Date.now());
 localStorage.setItem("timeout",SESSION_TIMEOUT);
 
