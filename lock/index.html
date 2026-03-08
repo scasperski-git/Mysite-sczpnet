@@ -64,6 +64,7 @@ display:block;
 margin-top:10px;
 }
 
+
 /* INPUT */
 
 input,select,textarea{
@@ -260,6 +261,62 @@ text-align:center;
 margin-bottom:12px;
 }
 
+.header{
+background:linear-gradient(135deg,#007bff,#0047ab);
+color:white;
+padding:16px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+font-size:20px;
+font-weight:bold;
+}
+
+.header-title{
+display:flex;
+align-items:center;
+gap:8px;
+}
+
+.header-right{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+/* USER BADGE */
+
+.user-badge{
+background:rgba(255,255,255,0.18);
+padding:6px 12px;
+border-radius:20px;
+font-size:13px;
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+/* LOGOUT BUTTON */
+
+.logout-btn{
+background:rgba(255,255,255,0.15);
+border:none;
+color:white;
+padding:7px 14px;
+border-radius:6px;
+font-size:13px;
+cursor:pointer;
+display:flex;
+align-items:center;
+gap:6px;
+transition:.2s;
+}
+
+.logout-btn:hover{
+background:rgba(255,255,255,0.25);
+transform:translateY(-1px);
+}
+
 .status-badge{
 display:inline-block;
 padding:8px 26px;
@@ -359,7 +416,24 @@ margin:0;
 <div class="container">
 
 <div class="header">
+
+<div class="header-title">
 <i class="fa fa-lock"></i> DCA Lock System
+</div>
+
+<div class="header-right">
+
+<div class="user-badge" id="userBadge">
+<i class="fa fa-user"></i>
+<span id="userName"></span>
+</div>
+
+<button class="logout-btn" onclick="logout()">
+<i class="fa fa-sign-out-alt"></i> Logout
+</button>
+
+</div>
+
 </div>
 
 <div class="form-body">
@@ -440,7 +514,7 @@ window.location="../login/";
   
 /* AUTO LOGOUT SYSTEM */
 
-const TIMEOUT_MINUTES = Number(localStorage.getItem("timeout")) || 10;
+const TIMEOUT_MINUTES = Number(localStorage.getItem("timeout")) || 1;
 
 function resetTimer(){
 
@@ -469,7 +543,7 @@ function logout(){
 
 localStorage.clear();
 
-alert("Session expired. Please login again.");
+alert("Logged out successfully");
 
 window.location="../login/";
 
@@ -494,10 +568,16 @@ const api="https://script.google.com/macros/s/AKfycbz2mgpUgLrmt7YbxoPqLD8c5A5zhm
 /* AUTO FILL DCA */
 
 const loggedUser = localStorage.getItem("user");
+const role = localStorage.getItem("role");
 
 if(loggedUser){
+
 document.getElementById("dca_id").value = loggedUser;
 document.getElementById("dca_id").readOnly = true;
+
+document.getElementById("userName").innerText =
+loggedUser + " (" + role + ")";
+
 }
 
 /* LOAD BRANCH */
