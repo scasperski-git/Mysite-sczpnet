@@ -432,6 +432,12 @@ Processing Lock...
 
 <script>
 
+/* CHECK LOGIN */
+
+if(!localStorage.getItem("user")){
+window.location="login.html";
+}
+  
 /* AUTO LOGOUT SYSTEM */
 
 const TIMEOUT_MINUTES = Number(localStorage.getItem("timeout")) || 10;
@@ -484,6 +490,15 @@ resetTimer();
 /* JS ORIGINAL TAK DIUBAH */
 
 const api="https://script.google.com/macros/s/AKfycbymhAGb9ijuqzrxNvxl69mTJM9KALsytHAtJIcwrNcbiHWBy8Zo3IRu_LsvqRRbjIUs/exec";
+
+/* AUTO FILL DCA */
+
+const loggedUser = localStorage.getItem("user");
+
+if(loggedUser){
+document.getElementById("dca_id").value = loggedUser;
+document.getElementById("dca_id").readOnly = true;
+}
 
 /* LOAD BRANCH */
 
