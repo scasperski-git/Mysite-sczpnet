@@ -179,9 +179,7 @@ to{opacity:1;transform:translateY(0);}
 <i class="fa fa-sign-in-alt"></i> Login
 </button>
 
-<div class="error" id="err">
-Invalid Login
-</div>
+<div class="error" id="err"></div>
 
 </div>
 
@@ -197,6 +195,12 @@ Authenticating...
 <script>
 
 const api="https://script.google.com/macros/s/AKfycbyKQvIPnLQEoROPvqpkLzI2pLJuuQHftVJlulk0xhy6etSWFDg9zUM6_Z2UU57MgysI/exec";
+
+/* BLOCK LOGIN PAGE IF SESSION EXISTS */
+
+if(localStorage.getItem("user")){
+window.location="/check/";
+}
 
 /* SESSION TIMEOUT */
 
@@ -222,47 +226,55 @@ fetch(api+"?action=login&system=CHECK&user="+user+"&pass="+pass)
 .then(data=>{
 
 if(data.status=="OK"){
-// login success
-}
-
-else if(data.status=="INACTIVE"){
-showError("User ID is not active.");
-}
-
-else if(data.status=="NO_ACCESS"){
-showError("You are not allowed to access this system.");
-}
-
-else{
-showError("Please check your User ID or Password.");
-}
 
 localStorage.setItem("user",data.user);
 localStorage.setItem("role",data.role);
 localStorage.setItem("branch",data.branch);
 
 localStorage.setItem("lastActivity",Date.now());
-
 localStorage.setItem("timeout",SESSION_TIMEOUT);
 
 window.location="/check/";
 
-}else{
+}
+
+else if(data.status=="INACTIVE"){
 
 document.getElementById("overlay").style.display="none";
 document.getElementById("loginBtn").disabled=false;
 
-showError();
+showError("User ID is not active.");
+
+}
+
+else if(data.status=="NO_ACCESS"){
+
+document.getElementById("overlay").style.display="none";
+document.getElementById("loginBtn").disabled=false;
+
+showError("You are not allowed to access this system.");
+
+}
+
+else{
+
+document.getElementById("overlay").style.display="none";
+document.getElementById("loginBtn").disabled=false;
+
+showError("Please check your User ID or Password.");
 
 }
 
 });
-
+  
 }
 
-function showError(){
+function showError(msg){
 
-document.getElementById("err").style.display="block";
+const err=document.getElementById("err");
+
+err.innerText = msg;
+err.style.display="block";
 
 }
 
