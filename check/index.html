@@ -256,6 +256,23 @@ border-radius:50%;
 animation:spin .9s linear infinite;
 }
 
+.logout-btn{
+background:rgba(255,255,255,0.15);
+border:none;
+color:white;
+padding:7px 14px;
+border-radius:6px;
+font-size:13px;
+cursor:pointer;
+display:flex;
+align-items:center;
+gap:6px;
+}
+
+.logout-btn:hover{
+background:rgba(255,255,255,0.25);
+}
+
 /* ANIMATION */
 
 @keyframes spin{
@@ -347,15 +364,16 @@ placeholder="Enter Account Number">
 /* CHECK LOGIN */
 
 const user = localStorage.getItem("user");
+const loginType = localStorage.getItem("loginType");
 
 if(!user){
 window.location="../logincheck/";
+return;
 }
 
-const loginType = localStorage.getItem("loginType");
-
-if(loginType !== "CHECK" && loginType !== "MASTER"){
-window.location="../lock/";
+if(loginType!="CHECK" && loginType!="MASTER"){
+window.location="../loginlock/";
+return;
 }
 
 /* AUTO LOGOUT SYSTEM */
