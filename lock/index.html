@@ -360,6 +360,7 @@ margin:0;
 
 <div class="header">
 <i class="fa fa-lock"></i> DCA Lock System
+<div id="userInfo"></div>
 </div>
 
 <div class="form-body">
@@ -431,8 +432,25 @@ Processing Lock...
 </div>
 
 <script>
+  
+const user = localStorage.getItem("lock_user");
+const role = localStorage.getItem("lock_role");
+
+document.getElementById("userInfo").innerHTML =
+"User: "+user+" | Role: "+role;
 
 /* JS ORIGINAL TAK DIUBAH */
+  
+const type = localStorage.getItem("lock_type");
+
+if(!type){
+window.location="login.html";
+}
+
+if(type=="check"){
+alert("Access denied");
+window.location="check.html";
+}
 
 const api="https://script.google.com/macros/s/AKfycbwTC2tYdYym_dbp7xGZ6mxw20ihor5Ei8Ce-n-Uaqn8MLNS-8KRbhXNfWGmNxs4jrnh/exec";
 
@@ -643,7 +661,12 @@ var mins=("0"+d.getMinutes()).slice(-2);
 return day+" "+month+" "+year+" "+hours+":"+mins;
 
 }
+function logout(){
 
+localStorage.clear();
+window.location="login.html";
+
+}
 /* SUCCESS */
 
 function showSuccess(formData){
