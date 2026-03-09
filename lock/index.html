@@ -444,15 +444,16 @@ Processing Lock...
 </div>
 
 <script>
-  
+
 const user = localStorage.getItem("lock_user");
 const role = localStorage.getItem("lock_role");
+const token = localStorage.getItem("session_token");
 
 document.getElementById("userInfo").innerHTML =
 "User: "+user+" | Role: "+role;
 
-/* JS ORIGINAL TAK DIUBAH */
-  
+/* ACCESS CONTROL */
+
 const type = localStorage.getItem("lock_type");
 
 if(!type){
@@ -464,13 +465,20 @@ alert("Access denied");
 window.location="../check/";
 }
 
-const api="https://script.google.com/macros/s/AKfycbx6eLQs1fTLHF2MwzaUBL7vRCuqNHYZ-JNJ9w-GZ6TNKvMiUm50ihSs8B5e52OzEwp3/exec";
+const api="https://script.google.com/macros/s/AKfycby2MScT9ggFDIpe4YKzeD3HWtWQYQJjZQ1KoWGRk9xvmfr9146WabswRhAnwNoAFl0o/exec";
 
 /* LOAD BRANCH */
 
-fetch(api+"?action=branches")
+fetch(api+"?action=branches&token="+token)
 .then(res=>res.json())
 .then(data=>{
+
+if(data.status=="UNAUTHORIZED"){
+alert("Session expired. Please login again.");
+localStorage.clear();
+window.location="../logincheck/";
+return;
+}
 
 var select=document.getElementById("branch");
 select.innerHTML='<option value="">SELECT BRANCH</option>';
@@ -484,9 +492,13 @@ select.appendChild(option);
 
 });
 
+/* AUTO DCA */
+
 document.getElementById("dca_id").value =
-localStorage.getItem("lock_user");
-  
+localStorage.getItem("lock_user") || "";
+
+/* MIN DATE */
+
 document.getElementById("promise_date").min =
 new Date().toISOString().split("T")[0];
 
@@ -568,13 +580,11 @@ function showError(input,errorId){
 input.classList.add("shake");
 document.getElementById(errorId).style.display="block";
 
-/* SCROLL KE FIELD */
 input.scrollIntoView({
 behavior:"smooth",
 block:"center"
 });
 
-/* AUTO FOCUS */
 setTimeout(()=>{
 input.focus();
 input.classList.remove("shake");
@@ -582,7 +592,7 @@ input.classList.remove("shake");
 
 }
 
-/* SUBMIT */
+/* SUBMIT LOCK */
 
 document.getElementById("lockForm").addEventListener("submit",e=>{
 
@@ -614,6 +624,11 @@ var formData=new FormData(e.target);
 var branchName=branch.selectedOptions[0].text;
 formData.append("branch_name",branchName);
 
+/* TOKEN + USER */
+
+formData.append("token",token);
+formData.append("user",user);
+
 fetch(api,{
 method:"POST",
 body:formData
@@ -622,6 +637,15 @@ body:formData
 .then(data=>{
 
 document.getElementById("overlay").style.display="none";
+
+if(data=="UNAUTHORIZED"){
+
+alert("Session expired. Please login again.");
+localStorage.clear();
+window.location="../logincheck/";
+return;
+
+}
 
 if(data=="ACCOUNT_ALREADY_LOCKED"){
 
@@ -646,7 +670,6 @@ function formatDate(dateStr){
 if(!dateStr) return "-";
 
 var p=dateStr.split("-");
-
 var year=p[0];
 var month=parseInt(p[1])-1;
 var day=p[2];
@@ -662,25 +685,21 @@ function formatDateTime(){
 var d=new Date();
 
 var day=("0"+d.getDate()).slice(-2);
-
 var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
 var month=monthNames[d.getMonth()];
-
 var year=d.getFullYear();
-
 var hours=("0"+d.getHours()).slice(-2);
-
 var mins=("0"+d.getMinutes()).slice(-2);
 
 return day+" "+month+" "+year+" "+hours+":"+mins;
 
 }
+
 function logout(){
 localStorage.clear();
 window.location="../logincheck/";
 }
-  
+
 /* SUCCESS */
 
 function showSuccess(formData){
@@ -693,9 +712,6 @@ var promise=formatDate(formData.get("promise_date"));
 var remarks=formData.get("remarks");
 var dca=formData.get("dca_id");
 var createdTime=formatDateTime();
-
-document.getElementById("dca_id").value =
-localStorage.getItem("lock_user") || "";
 
 document.getElementById("formSection").style.display="none";
 
@@ -722,27 +738,13 @@ document.getElementById("result").innerHTML=
 "<div class='success-item' style='width:100%'><b>DCA REMARKS</b>"+remarks+"</div>"+
 
 "</div>"+
-
 "</div>"+
 
 "<button class='new-btn' onclick='location.reload()'>New Lock</button>";
 
 }
 
-document.getElementById("branch").addEventListener("change",function(){
-document.getElementById("err_branch").style.display="none";
-});
-
-document.getElementById("payment_category").addEventListener("change",function(){
-document.getElementById("err_category").style.display="none";
-});
-
-var today = new Date().toLocaleDateString('en-CA');
-document.getElementById("promise_date").min = today;
-
-document.getElementById("acc_no").addEventListener("input",function(){
-this.value=this.value.replace(/[^0-9]/g,'');
-});
+/* CLEAR ERROR */
 
 function clearError(inputId,errorId){
 document.getElementById(inputId).addEventListener("input",function(){
