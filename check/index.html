@@ -299,11 +299,12 @@ window.location="../lock/";
 
 const user = localStorage.getItem("lock_user");
 const role = localStorage.getItem("lock_role");
+const token = localStorage.getItem("session_token");
 
 document.getElementById("userInfo").innerHTML =
 "User: "+user+" | Role: "+role;
 
-const api="https://script.google.com/macros/s/AKfycbx6eLQs1fTLHF2MwzaUBL7vRCuqNHYZ-JNJ9w-GZ6TNKvMiUm50ihSs8B5e52OzEwp3/exec";
+const api="https://script.google.com/macros/s/AKfycby2MScT9ggFDIpe4YKzeD3HWtWQYQJjZQ1KoWGRk9xvmfr9146WabswRhAnwNoAFl0o/exec";
 
 const input=document.getElementById("acc_no");
 const result=document.getElementById("result");
@@ -320,8 +321,6 @@ function formatDate(dateStr){
 
 if(!dateStr) return "-";
 
-/* yyyy-MM-dd */
-
 if(dateStr.includes("-") && dateStr.split("-")[0].length==4){
 
 var p=dateStr.split("-");
@@ -334,8 +333,6 @@ var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 return day+" "+m[month]+" "+year;
 
 }
-
-/* dd/MM/yyyy */
 
 if(dateStr.includes("/")){
 
@@ -350,8 +347,6 @@ var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 return ("0"+day).slice(-2)+" "+m[month]+" "+year;
 
 }
-
-/* ISO */
 
 if(dateStr.includes("T")){
 
@@ -370,7 +365,7 @@ return day+" "+m[month]+" "+year;
 return dateStr;
 
 }
-  
+
 function formatDateTime(dateStr){
 
 if(!dateStr) return "-";
@@ -390,7 +385,6 @@ return day+" "+m[month]+" "+year+" "+hour+":"+min;
 
 }
 
-  
 async function checkLock(){
 
 const acc=input.value.trim();
@@ -411,8 +405,18 @@ result.innerHTML=
 
 try{
 
-const res=await fetch(api+"?acc_no="+encodeURIComponent(acc));
+const res = await fetch(api+"?acc_no="+encodeURIComponent(acc)+"&token="+token);
+
 const data=await res.json();
+
+if(data.status=="UNAUTHORIZED"){
+
+alert("Session expired. Please login again.");
+localStorage.clear();
+window.location="../logincheck/";
+return;
+
+}
 
 if(data.status==="LOCKED"){
 
@@ -481,7 +485,6 @@ result.innerHTML=
 "</div>";
 
 }
-
 else{
 
 result.innerHTML=
