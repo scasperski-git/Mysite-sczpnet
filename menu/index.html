@@ -8,34 +8,68 @@
 <style>
 
 body{
-font-family:Arial;
+*{
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial, sans-serif;
 background:#eef2f7;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+min-height:100vh;
 margin:0;
+padding:20px;
 }
+
+/* MAIN CARD */
 
 .box{
 background:white;
 padding:40px;
-border-radius:12px;
+border-radius:14px;
 box-shadow:0 10px 30px rgba(0,0,0,0.15);
 text-align:center;
-width:300px;
+width:100%;
+max-width:420px;
 }
+
+/* TITLE */
+
+h2{
+margin-top:0;
+margin-bottom:15px;
+}
+
+/* USER INFO */
+
+#userInfo{
+font-size:14px;
+color:#666;
+margin-bottom:20px;
+}
+
+/* BUTTON */
 
 button{
 width:100%;
-padding:14px;
-margin-top:12px;
+padding:16px;
+margin-top:14px;
 border:none;
-border-radius:8px;
-font-size:16px;
+border-radius:10px;
+font-size:17px;
 cursor:pointer;
 font-weight:bold;
+transition:.2s;
 }
+
+button:hover{
+transform:translateY(-1px);
+box-shadow:0 5px 12px rgba(0,0,0,0.15);
+}
+
+/* COLORS */
 
 .check{
 background:#007bff;
@@ -52,6 +86,42 @@ background:#dc3545;
 color:white;
 }
 
+/* MOBILE */
+
+@media (max-width:600px){
+
+body{
+padding:15px;
+align-items:flex-start;
+}
+
+.box{
+max-width:100%;
+padding:25px;
+margin-top:40px;
+}
+
+button{
+padding:18px;
+font-size:18px;
+}
+
+}
+
+/* LARGE DESKTOP */
+
+@media (min-width:1200px){
+
+.box{
+max-width:460px;
+padding:50px;
+}
+
+button{
+font-size:18px;
+}
+
+}
 </style>
 
 </head>
