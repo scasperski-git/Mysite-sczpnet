@@ -444,12 +444,12 @@ document.getElementById("userInfo").innerHTML =
 const type = localStorage.getItem("lock_type");
 
 if(!type){
-window.location="login.html";
+window.location="../logincheck/";
 }
 
 if(type=="check"){
 alert("Access denied");
-window.location="check.html";
+window.location="../check/";
 }
 
 const api="https://script.google.com/macros/s/AKfycbx6eLQs1fTLHF2MwzaUBL7vRCuqNHYZ-JNJ9w-GZ6TNKvMiUm50ihSs8B5e52OzEwp3/exec";
@@ -665,11 +665,10 @@ return day+" "+month+" "+year+" "+hours+":"+mins;
 
 }
 function logout(){
-
 localStorage.clear();
-window.location="login.html";
-
+window.location="../logincheck/";
 }
+  
 /* SUCCESS */
 
 function showSuccess(formData){
