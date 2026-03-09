@@ -445,8 +445,6 @@ Processing Lock...
 
 <script>
 
-<script>
-
 const api="https://script.google.com/macros/s/AKfycbwJo8QKarRWWY8u09uTDuCAT-gmBsiuueSdUd7Xpb5q8Q0N9ZksJn79IXCVl_rJcDMu/exec";
 
 const user = localStorage.getItem("lock_user");
@@ -476,10 +474,6 @@ console.log("session check error");
 }
 
 setInterval(checkSession,5000);
-
-const user = localStorage.getItem("lock_user");
-const role = localStorage.getItem("lock_role");
-const token = localStorage.getItem("session_token");
 
 document.getElementById("userInfo").innerHTML =
 "User: "+user+" | Role: "+role;
