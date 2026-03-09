@@ -5,6 +5,8 @@
 
 <title>DCA System Menu</title>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 
 *{
@@ -16,10 +18,10 @@ font-family:Arial, sans-serif;
 background:#eef2f7;
 display:flex;
 justify-content:center;
-align-items:center;
+align-items:flex-start;
 min-height:100vh;
 margin:0;
-padding:20px;
+padding:30px 20px;
 }
 
 /* MAIN CARD */
@@ -103,6 +105,30 @@ margin-top:40px;
 button{
 padding:18px;
 font-size:18px;
+}
+
+@media (max-width:600px){
+
+.box{
+width:100%;
+max-width:100%;
+padding:30px;
+margin-top:60px;
+}
+
+button{
+padding:20px;
+font-size:18px;
+}
+
+h2{
+font-size:22px;
+}
+
+#userInfo{
+font-size:15px;
+}
+
 }
 
 }
