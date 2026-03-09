@@ -194,29 +194,58 @@ localStorage.clear();
 window.location="../logincheck/";
 }
 
-/* =======================
-IDLE SESSION TIMER
-======================= */
+/* =========================
+STABLE IDLE SESSION SYSTEM
+========================= */
 
 let idleTimer;
-const IDLE_LIMIT = 60000; // 1 minutes idle
+const IDLE_LIMIT = 60000; // 1 minutes
+
+let isUserActive = false;
+
+/* reset idle timer */
 
 function resetIdleTimer(){
+
+isUserActive = true;
 
 clearTimeout(idleTimer);
 
 idleTimer = setTimeout(()=>{
-alert("Session expired due to inactivity.");
+
+if(isUserActive){
 logout();
+}
+
 }, IDLE_LIMIT);
 
 }
 
 /* detect activity */
 
-["click","mousemove","keypress","scroll","touchstart","mousedown"]
-.forEach(event=>{
-document.addEventListener(event, resetIdleTimer);
+[
+"touchstart",
+"touchmove",
+"click",
+"scroll",
+"keydown"
+].forEach(event=>{
+document.addEventListener(event, resetIdleTimer, {passive:true});
+});
+
+/* detect focus back to page */
+
+document.addEventListener("visibilitychange",()=>{
+if(!document.hidden){
+resetIdleTimer();
+}
+});
+
+/* detect typing inside inputs */
+
+document.querySelectorAll("input,textarea,select").forEach(el=>{
+el.addEventListener("focus",()=>{ isUserActive=false; });
+el.addEventListener("blur",()=>{ resetIdleTimer(); });
 });
 
 /* start timer */
