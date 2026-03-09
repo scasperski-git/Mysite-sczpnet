@@ -325,6 +325,10 @@ alert("Access denied");
 window.location="../lock/";
 }
 
+if(!token){
+logout();
+}
+
 const user = localStorage.getItem("lock_user");
 const role = localStorage.getItem("lock_role");
 const token = localStorage.getItem("session_token");
@@ -448,7 +452,7 @@ if(data.status==="LOCKED"){
 
 const formattedDate=formatDate(data.valid);
 const created=formatDateTime(data.created);
-const amount="RM "+Number(data.amount).toLocaleString();
+const amount="RM "+Number(data.amount || 0).toLocaleString();
 
 const promiseDate=new Date(data.valid);
 
