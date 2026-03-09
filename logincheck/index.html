@@ -46,6 +46,16 @@ margin-bottom:25px;
 color:#333;
 }
 
+/* ERROR MESSAGE */
+
+#errorMsg{
+color:#dc3545;
+font-size:14px;
+margin-bottom:10px;
+text-align:center;
+display:none;
+}
+
 /* INPUT GROUP */
 
 .input-group{
@@ -53,7 +63,9 @@ position:relative;
 margin-bottom:15px;
 }
 
-.input-group i{
+/* LEFT ICON */
+
+.input-group i.left{
 position:absolute;
 top:50%;
 left:12px;
@@ -61,9 +73,11 @@ transform:translateY(-50%);
 color:#777;
 }
 
+/* INPUT FIELD */
+
 .input-group input{
 width:100%;
-padding:14px 14px 14px 38px;
+padding:14px 45px 14px 38px;
 border:1px solid #ccc;
 border-radius:8px;
 font-size:15px;
@@ -85,6 +99,11 @@ top:50%;
 transform:translateY(-50%);
 cursor:pointer;
 color:#777;
+font-size:15px;
+}
+
+.toggle-pass:hover{
+color:#007bff;
 }
 
 /* BUTTON */
@@ -107,16 +126,6 @@ transform:translateY(-1px);
 box-shadow:0 6px 15px rgba(0,0,0,0.2);
 }
 
-/* ERROR MESSAGE */
-
-#errorMsg{
-color:#dc3545;
-font-size:14px;
-margin-bottom:10px;
-text-align:center;
-display:none;
-}
-
 /* OVERLAY */
 
 #overlay{
@@ -132,7 +141,7 @@ justify-content:center;
 z-index:999;
 }
 
-/* LOADER */
+/* LOADER BOX */
 
 .loader-box{
 background:white;
@@ -142,6 +151,8 @@ text-align:center;
 font-weight:bold;
 box-shadow:0 10px 30px rgba(0,0,0,0.25);
 }
+
+/* SPINNER */
 
 .spinner{
 width:40px;
@@ -187,12 +198,12 @@ font-size:17px;
 <div id="errorMsg"></div>
 
 <div class="input-group">
-<i class="fa fa-user"></i>
+<i class="fa fa-user left"></i>
 <input id="user" placeholder="User ID">
 </div>
 
 <div class="input-group">
-<i class="fa fa-lock"></i>
+<i class="fa fa-lock left"></i>
 <input type="password" id="pass" placeholder="Password">
 <i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
 </div>
@@ -214,17 +225,26 @@ Authenticating...
 
 const api="https://script.google.com/macros/s/AKfycby2MScT9ggFDIpe4YKzeD3HWtWQYQJjZQ1KoWGRk9xvmfr9146WabswRhAnwNoAFl0o/exec";
 
-/* SHOW HIDE PASSWORD */
+/* AUTO FOCUS USER */
+
+document.getElementById("user").focus();
+
+/* SHOW / HIDE PASSWORD */
 
 function togglePass(){
 
 const pass=document.getElementById("pass");
+const icon=document.querySelector(".toggle-pass");
 
 if(pass.type==="password"){
 pass.type="text";
+icon.classList.remove("fa-eye");
+icon.classList.add("fa-eye-slash");
 }
 else{
 pass.type="password";
+icon.classList.remove("fa-eye-slash");
+icon.classList.add("fa-eye");
 }
 
 }
@@ -293,10 +313,10 @@ err.innerText="Invalid login credentials";
 err.style.display="block";
 }
 
-}catch(err){
+}catch(e){
 
-document.getElementById("errorMsg").innerText="System error. Please try again.";
-document.getElementById("errorMsg").style.display="block";
+err.innerText="System error. Please try again.";
+err.style.display="block";
 
 }
 
