@@ -74,32 +74,6 @@ color:white;
 
 <script>
 
-async function checkSession(){
-
-const token = localStorage.getItem("session_token");
-
-if(!token){
-logout();
-return;
-}
-
-try{
-
-const res = await fetch(api+"?action=session&token="+token);
-const data = await res.json();
-
-if(data.status=="EXPIRED"){
-logout();
-}
-
-}catch(e){
-console.log("session check error");
-}
-
-}
-
-setInterval(checkSession,5000);
-
 const token = localStorage.getItem("session_token");
 
 if(!token){
@@ -110,7 +84,7 @@ const user = localStorage.getItem("lock_user");
 const role = localStorage.getItem("lock_role");
 
 document.getElementById("userInfo").innerHTML =
-"User: "+user+" | Role: "+role;
+"User: "+(user || "-")+" | Role: "+(role || "-");
 
 function goCheck(){
 window.location="../check/";
@@ -124,6 +98,35 @@ function logout(){
 localStorage.clear();
 window.location="../logincheck/";
 }
+
+/* =======================
+IDLE SESSION TIMER
+======================= */
+
+let idleTimer;
+const IDLE_LIMIT = 600000; // 10 minutes idle
+
+function resetIdleTimer(){
+
+clearTimeout(idleTimer);
+
+idleTimer = setTimeout(()=>{
+alert("Session expired due to inactivity.");
+logout();
+}, IDLE_LIMIT);
+
+}
+
+/* detect activity */
+
+["click","mousemove","keypress","scroll","touchstart","mousedown"]
+.forEach(event=>{
+document.addEventListener(event, resetIdleTimer);
+});
+
+/* start timer */
+
+resetIdleTimer();
 
 </script>
   
