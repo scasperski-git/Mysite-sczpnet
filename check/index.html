@@ -286,33 +286,11 @@ placeholder="Enter Account Number">
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbwJo8QKarRWWY8u09uTDuCAT-gmBsiuueSdUd7Xpb5q8Q0N9ZksJn79IXCVl_rJcDMu/exec";
+const api="https://script.google.com/macros/s/AKfycbzeBJspI1di8psuk2_2CeoC_yabJh7GZK6VpzR6iKODhTZPMt5vMFVxw0jKPIWU0FDZ/exec";
 
-async function checkSession(){
-
+const user = localStorage.getItem("lock_user");
+const role = localStorage.getItem("lock_role");
 const token = localStorage.getItem("session_token");
-
-if(!token){
-logout();
-return;
-}
-
-try{
-
-const res = await fetch(api+"?action=session&token="+token);
-const data = await res.json();
-
-if(data.status=="EXPIRED"){
-logout();
-}
-
-}catch(e){
-console.log("session check error");
-}
-
-}
-
-setInterval(checkSession,5000);
 
 const type = localStorage.getItem("lock_type");
 
@@ -329,12 +307,8 @@ if(!token){
 logout();
 }
 
-const user = localStorage.getItem("lock_user");
-const role = localStorage.getItem("lock_role");
-const token = localStorage.getItem("session_token");
-
 document.getElementById("userInfo").innerHTML =
-"User: "+user+" | Role: "+role;
+"User: "+(user || "-")+" | Role: "+(role || "-");
 
 const input=document.getElementById("acc_no");
 const result=document.getElementById("result");
@@ -560,7 +534,36 @@ checkLock();
 input.addEventListener("input",function(){
 this.value=this.value.replace(/[^0-9]/g,'');
 });
+  
+/* =======================
+IDLE SESSION TIMER
+======================= */
 
+let idleTimer;
+const IDLE_LIMIT = 60000; // 1 minute idle
+
+function resetIdleTimer(){
+
+clearTimeout(idleTimer);
+
+idleTimer = setTimeout(()=>{
+alert("Session expired due to inactivity.");
+logout();
+}, IDLE_LIMIT);
+
+}
+
+/* detect activity */
+
+["click","mousemove","keypress","scroll","touchstart","mousedown"]
+.forEach(event=>{
+document.addEventListener(event, resetIdleTimer);
+});
+
+/* start timer */
+
+resetIdleTimer();
+  
 </script>
 
 </body>
