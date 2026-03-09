@@ -445,9 +445,15 @@ Processing Lock...
 
 <script>
 
-async function checkSession(){
+<script>
 
+const api="https://script.google.com/macros/s/AKfycbwJo8QKarRWWY8u09uTDuCAT-gmBsiuueSdUd7Xpb5q8Q0N9ZksJn79IXCVl_rJcDMu/exec";
+
+const user = localStorage.getItem("lock_user");
+const role = localStorage.getItem("lock_role");
 const token = localStorage.getItem("session_token");
+
+async function checkSession(){
 
 if(!token){
 logout();
@@ -490,8 +496,6 @@ if(type=="check"){
 alert("Access denied");
 window.location="../check/";
 }
-
-const api="https://script.google.com/macros/s/AKfycbwJo8QKarRWWY8u09uTDuCAT-gmBsiuueSdUd7Xpb5q8Q0N9ZksJn79IXCVl_rJcDMu/exec";
 
 /* LOAD BRANCH */
 
