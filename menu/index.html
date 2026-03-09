@@ -177,7 +177,7 @@ const user = localStorage.getItem("lock_user");
 const role = localStorage.getItem("lock_role");
 
 document.getElementById("userInfo").innerHTML =
-"<b>"+(user || "-")+"</b> &nbsp;|&nbsp; "+(role || "-");
+"<i class='fa fa-user'></i> <b>"+(user || "-")+"</b> &nbsp;|&nbsp; "+(role || "-");
 
 function goCheck(){
 window.location="../check/";
