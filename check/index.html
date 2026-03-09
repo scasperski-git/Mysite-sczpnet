@@ -286,6 +286,32 @@ placeholder="Enter Account Number">
 
 <script>
 
+async function checkSession(){
+
+const token = localStorage.getItem("session_token");
+
+if(!token){
+logout();
+return;
+}
+
+try{
+
+const res = await fetch(api+"?action=session&token="+token);
+const data = await res.json();
+
+if(data.status=="EXPIRED"){
+logout();
+}
+
+}catch(e){
+console.log("session check error");
+}
+
+}
+
+setInterval(checkSession,5000);
+
 const type = localStorage.getItem("lock_type");
 
 if(!type){
@@ -304,7 +330,7 @@ const token = localStorage.getItem("session_token");
 document.getElementById("userInfo").innerHTML =
 "User: "+user+" | Role: "+role;
 
-const api="https://script.google.com/macros/s/AKfycby2MScT9ggFDIpe4YKzeD3HWtWQYQJjZQ1KoWGRk9xvmfr9146WabswRhAnwNoAFl0o/exec";
+const api="https://script.google.com/macros/s/AKfycbwJo8QKarRWWY8u09uTDuCAT-gmBsiuueSdUd7Xpb5q8Q0N9ZksJn79IXCVl_rJcDMu/exec";
 
 const input=document.getElementById("acc_no");
 const result=document.getElementById("result");
