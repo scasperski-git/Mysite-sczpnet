@@ -244,6 +244,7 @@ flex-direction:column;
 
 <div class="header">
 <i class="fa fa-search"></i> Branch Lock Check
+<div id="userInfo"></div>
 </div>
 
 <div class="content">
@@ -271,6 +272,23 @@ placeholder="Enter Account Number">
 </div>
 
 <script>
+
+const type = localStorage.getItem("lock_type");
+
+if(!type){
+window.location="login.html";
+}
+
+if(type=="lock"){
+alert("Access denied");
+window.location="lock.html";
+}
+
+const user = localStorage.getItem("lock_user");
+const role = localStorage.getItem("lock_role");
+
+document.getElementById("userInfo").innerHTML =
+"User: "+user+" | Role: "+role;
 
 const api="https://script.google.com/macros/s/AKfycbwTC2tYdYym_dbp7xGZ6mxw20ihor5Ei8Ce-n-Uaqn8MLNS-8KRbhXNfWGmNxs4jrnh/exec";
 
@@ -476,6 +494,13 @@ input.value="";
 result.innerHTML="";
 checkBtn.disabled=false;
 input.focus();
+
+}
+
+function logout(){
+
+localStorage.clear();
+window.location="login.html";
 
 }
 
