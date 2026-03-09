@@ -276,12 +276,12 @@ placeholder="Enter Account Number">
 const type = localStorage.getItem("lock_type");
 
 if(!type){
-window.location="login.html";
+window.location="../logincheck/";
 }
 
 if(type=="lock"){
 alert("Access denied");
-window.location="lock.html";
+window.location="../lock/";
 }
 
 const user = localStorage.getItem("lock_user");
