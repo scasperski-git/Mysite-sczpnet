@@ -7,6 +7,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
 
 *{
@@ -40,15 +43,15 @@ max-width:420px;
 
 h2{
 margin-top:0;
-margin-bottom:15px;
+margin-bottom:12px;
 }
 
 /* USER INFO */
 
 #userInfo{
-font-size:14px;
+font-size:13px;
 color:#666;
-margin-bottom:20px;
+margin-bottom:24px;
 }
 
 /* BUTTON */
@@ -59,10 +62,14 @@ padding:16px;
 margin-top:14px;
 border:none;
 border-radius:10px;
-font-size:17px;
+font-size:16px;
 cursor:pointer;
 font-weight:bold;
 transition:.2s;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
 }
 
 button:hover{
@@ -73,17 +80,17 @@ box-shadow:0 5px 12px rgba(0,0,0,0.15);
 /* COLORS */
 
 .check{
-background:#007bff;
+background:linear-gradient(135deg,#007bff,#0056b3);
 color:white;
 }
 
 .lock{
-background:#28a745;
+background:linear-gradient(135deg,#28a745,#1f7a33);
 color:white;
 }
 
 .logout{
-background:#dc3545;
+background:linear-gradient(135deg,#dc3545,#b02a37);
 color:white;
 }
 
@@ -104,21 +111,7 @@ margin-top:40px;
 
 button{
 padding:18px;
-font-size:18px;
-}
-
-@media (max-width:600px){
-
-.box{
-width:100%;
-max-width:100%;
-padding:30px;
-margin-top:60px;
-}
-
-button{
-padding:20px;
-font-size:18px;
+font-size:17px;
 }
 
 h2{
@@ -126,9 +119,7 @@ font-size:22px;
 }
 
 #userInfo{
-font-size:15px;
-}
-
+font-size:14px;
 }
 
 }
@@ -147,6 +138,7 @@ font-size:18px;
 }
 
 }
+
 </style>
 
 </head>
@@ -159,11 +151,17 @@ font-size:18px;
 
 <div id="userInfo"></div>
 
-<button class="check" onclick="goCheck()">Check Lock</button>
+<button class="check" onclick="goCheck()">
+<i class="fa fa-search"></i> Check Lock
+</button>
 
-<button class="lock" onclick="goLock()">Create Lock</button>
+<button class="lock" onclick="goLock()">
+<i class="fa fa-lock"></i> Create Lock
+</button>
 
-<button class="logout" onclick="logout()">Logout</button>
+<button class="logout" onclick="logout()">
+<i class="fa fa-right-from-bracket"></i> Logout
+</button>
 
 </div>
 
@@ -179,7 +177,7 @@ const user = localStorage.getItem("lock_user");
 const role = localStorage.getItem("lock_role");
 
 document.getElementById("userInfo").innerHTML =
-"User: "+(user || "-")+" | Role: "+(role || "-");
+"<b>"+(user || "-")+"</b> &nbsp;|&nbsp; "+(role || "-");
 
 function goCheck(){
 window.location="../check/";
