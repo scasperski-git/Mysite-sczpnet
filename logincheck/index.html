@@ -7,52 +7,171 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
 <style>
 
+*{
+box-sizing:border-box;
+}
+
 body{
-font-family:Arial;
-background:#eef2f7;
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#e9eef6,#dce5f2);
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+min-height:100vh;
 margin:0;
+padding:20px;
 }
+
+/* LOGIN CARD */
 
 .box{
 background:white;
-padding:30px;
-border-radius:12px;
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
-width:320px;
+padding:40px;
+border-radius:14px;
+box-shadow:0 15px 40px rgba(0,0,0,0.15);
+width:100%;
+max-width:360px;
 }
+
+/* TITLE */
 
 h2{
 text-align:center;
-margin-bottom:20px;
+margin-bottom:25px;
+color:#333;
 }
 
-input{
-width:100%;
-padding:12px;
-margin-bottom:12px;
-border:1px solid #ccc;
-border-radius:6px;
+/* INPUT GROUP */
+
+.input-group{
+position:relative;
+margin-bottom:15px;
 }
+
+.input-group i{
+position:absolute;
+top:50%;
+left:12px;
+transform:translateY(-50%);
+color:#777;
+}
+
+.input-group input{
+width:100%;
+padding:14px 14px 14px 38px;
+border:1px solid #ccc;
+border-radius:8px;
+font-size:15px;
+transition:.2s;
+}
+
+.input-group input:focus{
+outline:none;
+border-color:#007bff;
+box-shadow:0 0 0 3px rgba(0,123,255,0.15);
+}
+
+/* PASSWORD TOGGLE */
+
+.toggle-pass{
+position:absolute;
+right:12px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+color:#777;
+}
+
+/* BUTTON */
 
 button{
 width:100%;
-padding:12px;
-background:#007bff;
+padding:14px;
+background:linear-gradient(135deg,#007bff,#0056b3);
 color:white;
 border:none;
-border-radius:6px;
+border-radius:8px;
+font-size:16px;
 font-weight:bold;
 cursor:pointer;
+transition:.2s;
 }
 
 button:hover{
-background:#0056b3;
+transform:translateY(-1px);
+box-shadow:0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* ERROR MESSAGE */
+
+#errorMsg{
+color:#dc3545;
+font-size:14px;
+margin-bottom:10px;
+text-align:center;
+display:none;
+}
+
+/* OVERLAY */
+
+#overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:999;
+}
+
+/* LOADER */
+
+.loader-box{
+background:white;
+padding:35px;
+border-radius:12px;
+text-align:center;
+font-weight:bold;
+box-shadow:0 10px 30px rgba(0,0,0,0.25);
+}
+
+.spinner{
+width:40px;
+height:40px;
+border:4px solid #eee;
+border-top:4px solid #007bff;
+border-radius:50%;
+animation:spin 1s linear infinite;
+margin:auto;
+margin-top:15px;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg);}
+100%{transform:rotate(360deg);}
+}
+
+/* MOBILE */
+
+@media (max-width:600px){
+
+.box{
+padding:30px;
+}
+
+button{
+padding:16px;
+font-size:17px;
+}
+
 }
 
 </style>
@@ -65,26 +184,69 @@ background:#0056b3;
 
 <h2>Login Portal</h2>
 
+<div id="errorMsg"></div>
+
+<div class="input-group">
+<i class="fa fa-user"></i>
 <input id="user" placeholder="User ID">
+</div>
+
+<div class="input-group">
+<i class="fa fa-lock"></i>
 <input type="password" id="pass" placeholder="Password">
+<i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
+</div>
 
 <button onclick="login()">Login</button>
 
+</div>
+
+<!-- LOADING OVERLAY -->
+
+<div id="overlay">
+<div class="loader-box">
+Authenticating...
+<div class="spinner"></div>
+</div>
 </div>
 
 <script>
 
 const api="https://script.google.com/macros/s/AKfycby2MScT9ggFDIpe4YKzeD3HWtWQYQJjZQ1KoWGRk9xvmfr9146WabswRhAnwNoAFl0o/exec";
 
+/* SHOW HIDE PASSWORD */
+
+function togglePass(){
+
+const pass=document.getElementById("pass");
+
+if(pass.type==="password"){
+pass.type="text";
+}
+else{
+pass.type="password";
+}
+
+}
+
+/* LOGIN */
+
 async function login(){
 
 const user=document.getElementById("user").value.trim();
 const pass=document.getElementById("pass").value.trim();
 
+const err=document.getElementById("errorMsg");
+
+err.style.display="none";
+
 if(!user || !pass){
-alert("Enter User ID and Password");
+err.innerText="Enter User ID and Password";
+err.style.display="block";
 return;
 }
+
+document.getElementById("overlay").style.display="flex";
 
 try{
 
@@ -122,18 +284,23 @@ window.location="../menu/";
 }
 
 else if(data.status==="INACTIVE"){
-alert("User ID inactive");
+err.innerText="User ID inactive";
+err.style.display="block";
 }
 
 else{
-alert("Invalid login");
+err.innerText="Invalid login credentials";
+err.style.display="block";
 }
 
 }catch(err){
 
-alert("System error. Please try again.");
+document.getElementById("errorMsg").innerText="System error. Please try again.";
+document.getElementById("errorMsg").style.display="block";
 
 }
+
+document.getElementById("overlay").style.display="none";
 
 }
 
