@@ -99,8 +99,6 @@ localStorage.setItem("lock_type",data.type);
 localStorage.setItem("lock_role",data.role);
 localStorage.setItem("lock_name",data.name);
 
-/* redirect ikut type */
-
 if(data.type=="check"){
 window.location="../check/";
 }
@@ -113,7 +111,9 @@ else{
 window.location="../check/";
 }
 
-else if(data.status=="INACTIVE"){
+}
+
+else if(data.status==="INACTIVE"){
 alert("User ID inactive");
 }
 
@@ -122,7 +122,6 @@ alert("Invalid login");
 }
 
 }
-
 </script>
 
 </body>
