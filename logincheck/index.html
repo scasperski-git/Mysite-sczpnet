@@ -3,154 +3,56 @@
 
 <head>
 
-<title>Check System Login</title>
+<title>Branch Lock Login</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <style>
 
-*{
-box-sizing:border-box;
-}
-
 body{
-font-family:Segoe UI, Arial;
-background:linear-gradient(135deg,#eef2f7,#dfe7f2);
+font-family:Arial;
+background:#eef2f7;
 display:flex;
-align-items:center;
 justify-content:center;
+align-items:center;
 height:100vh;
 margin:0;
 }
 
-/* LOGIN BOX */
-
 .box{
 background:white;
-padding:38px;
-border-radius:14px;
-width:330px;
-box-shadow:0 15px 35px rgba(0,0,0,0.15);
-animation:fadeIn .4s ease;
+padding:30px;
+border-radius:12px;
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+width:320px;
 }
 
-.title{
+h2{
 text-align:center;
-font-size:20px;
-font-weight:700;
-margin-bottom:25px;
-color:#333;
-}
-
-/* INPUT GROUP */
-
-.input-group{
-position:relative;
-margin-bottom:14px;
-}
-
-.input-group i{
-position:absolute;
-left:12px;
-top:50%;
-transform:translateY(-50%);
-color:#888;
-font-size:14px;
+margin-bottom:20px;
 }
 
 input{
 width:100%;
-padding:12px 12px 12px 35px;
-border:1px solid #ddd;
-border-radius:8px;
-font-size:14px;
-outline:none;
-transition:.2s;
+padding:12px;
+margin-bottom:12px;
+border:1px solid #ccc;
+border-radius:6px;
 }
-
-input:focus{
-border-color:#007bff;
-box-shadow:0 0 0 3px rgba(0,123,255,0.15);
-}
-
-/* BUTTON */
 
 button{
 width:100%;
 padding:12px;
-margin-top:5px;
-background:linear-gradient(135deg,#007bff,#0056b3);
-border:none;
-border-radius:8px;
+background:#007bff;
 color:white;
-font-weight:600;
-font-size:15px;
+border:none;
+border-radius:6px;
+font-weight:bold;
 cursor:pointer;
-transition:.2s;
 }
 
 button:hover{
-transform:translateY(-1px);
-box-shadow:0 6px 15px rgba(0,0,0,0.18);
-}
-
-/* ERROR */
-
-.error{
-color:#dc3545;
-font-size:13px;
-text-align:center;
-margin-top:12px;
-display:none;
-font-weight:600;
-}
-
-/* LOADING OVERLAY */
-
-#overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.55);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:999;
-}
-
-.loader-box{
-background:white;
-padding:35px;
-border-radius:12px;
-text-align:center;
-box-shadow:0 12px 25px rgba(0,0,0,0.25);
-font-weight:600;
-}
-
-.spinner{
-width:38px;
-height:38px;
-border:4px solid #eee;
-border-top:4px solid #007bff;
-border-radius:50%;
-animation:spin .9s linear infinite;
-margin:auto;
-margin-top:12px;
-}
-
-@keyframes spin{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
-}
-
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(8px);}
-to{opacity:1;transform:translateY(0);}
+background:#0056b3;
 }
 
 </style>
@@ -161,132 +63,67 @@ to{opacity:1;transform:translateY(0);}
 
 <div class="box">
 
-<div class="title">
-<i class="fa fa-search"></i> Check System Login
-</div>
+<h2>Branch Lock Login</h2>
 
-<div class="input-group">
-<i class="fa fa-user"></i>
 <input id="user" placeholder="User ID">
-</div>
+<input type="password" id="pass" placeholder="Password">
 
-<div class="input-group">
-<i class="fa fa-lock"></i>
-<input id="pass" type="password" placeholder="Password">
-</div>
+<button onclick="login()">Login</button>
 
-<button id="loginBtn" onclick="login()">
-<i class="fa fa-sign-in-alt"></i> Login
-</button>
-
-<div class="error" id="err"></div>
-
-</div>
-
-<!-- LOADING -->
-
-<div id="overlay">
-<div class="loader-box">
-Authenticating...
-<div class="spinner"></div>
-</div>
 </div>
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbwN2t68rn6Mt5N1JtFDfjBy88aslBJSQRMWfvQRTsYLT4FzKE3FMfaxFJvN3epSJWw0/exec";
+const api="YOUR_API_URL";
 
-/* BLOCK LOGIN PAGE IF SESSION EXISTS */
+async function login(){
 
-if(localStorage.getItem("user")){
-window.location="/check/";
+const user=document.getElementById("user").value;
+const pass=document.getElementById("pass").value;
+
+const res=await fetch(api,{
+method:"POST",
+body:new URLSearchParams({
+action:"login",
+user:user,
+pass:pass
+})
+});
+
+const data=await res.json();
+
+if(data.status==="SUCCESS"){
+
+localStorage.setItem("lock_user",data.user);
+localStorage.setItem("lock_type",data.type);
+localStorage.setItem("lock_role",data.role);
+localStorage.setItem("lock_name",data.name);
+
+/* redirect ikut type */
+
+if(data.type=="check"){
+window.location="check.html";
 }
 
-/* SESSION TIMEOUT */
-
-const SESSION_TIMEOUT = 1;
-
-function login(){
-
-const user=document.getElementById("user").value.trim();
-const pass=document.getElementById("pass").value.trim();
-
-if(!user || !pass){
-showError();
-return;
+else if(data.type=="lock"){
+window.location="lock.html";
 }
 
-document.getElementById("overlay").style.display="flex";
-document.getElementById("loginBtn").disabled=true;
-
-fetch(api+"?action=login&system=CHECK&user="+user+"&pass="+pass)
-
-.then(res=>res.json())
-
-.then(data=>{
-
-if(data.status=="OK"){
-
-localStorage.setItem("user",data.user);
-localStorage.setItem("role",data.role);
-localStorage.setItem("branch",data.branch);
-
-localStorage.setItem("lastActivity",Date.now());
-localStorage.setItem("timeout",SESSION_TIMEOUT);
-
-window.location="/check/";
+else{
+window.location="check.html";
+}
 
 }
 
 else if(data.status=="INACTIVE"){
-
-document.getElementById("overlay").style.display="none";
-document.getElementById("loginBtn").disabled=false;
-
-showError("User ID is not active.");
-
-}
-
-else if(data.status=="NO_ACCESS"){
-
-document.getElementById("overlay").style.display="none";
-document.getElementById("loginBtn").disabled=false;
-
-showError("You are not allowed to access this system.");
-
+alert("User ID inactive");
 }
 
 else{
-
-document.getElementById("overlay").style.display="none";
-document.getElementById("loginBtn").disabled=false;
-
-showError("Please check your User ID or Password.");
-
+alert("Invalid login");
 }
 
-});
-  
 }
-
-function showError(msg){
-
-const err=document.getElementById("err");
-
-err.innerText = msg;
-err.style.display="block";
-
-}
-
-/* ENTER KEY LOGIN */
-
-document.addEventListener("keypress",function(e){
-
-if(e.key==="Enter"){
-login();
-}
-
-});
 
 </script>
 
