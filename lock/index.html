@@ -398,7 +398,7 @@ margin:0;
 <div class="error" id="err_date">Promise date required</div>
 
 <label>DCA ID</label>
-<input type="text" id="dca_id" autocomplete="off" name="dca_id"> 
+<input type="text" id="dca_id" name="dca_id" readonly>
 <div class="error" id="err_dca">DCA ID required</div>
 
 <label>Remarks</label>
@@ -480,7 +480,7 @@ new Date().toISOString().split("T")[0];
 
 /* AUTO CAPITAL */
 
-document.querySelectorAll("input[type=text], textarea").forEach(el=>{
+document.querySelectorAll("input[type=text]:not(#dca_id), textarea").forEach(el=>{
 
 el.addEventListener("input",function(){
 
@@ -681,6 +681,9 @@ var promise=formatDate(formData.get("promise_date"));
 var remarks=formData.get("remarks");
 var dca=formData.get("dca_id");
 var createdTime=formatDateTime();
+
+document.getElementById("dca_id").value =
+localStorage.getItem("lock_user") || "";
 
 document.getElementById("formSection").style.display="none";
 
