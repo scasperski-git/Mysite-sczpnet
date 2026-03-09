@@ -74,12 +74,19 @@ background:#0056b3;
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbx6eLQs1fTLHF2MwzaUBL7vRCuqNHYZ-JNJ9w-GZ6TNKvMiUm50ihSs8B5e52OzEwp3/exec";
+const api="https://script.google.com/macros/s/AKfycby2MScT9ggFDIpe4YKzeD3HWtWQYQJjZQ1KoWGRk9xvmfr9146WabswRhAnwNoAFl0o/exec";
 
 async function login(){
 
-const user=document.getElementById("user").value;
-const pass=document.getElementById("pass").value;
+const user=document.getElementById("user").value.trim();
+const pass=document.getElementById("pass").value.trim();
+
+if(!user || !pass){
+alert("Enter User ID and Password");
+return;
+}
+
+try{
 
 const res=await fetch(api,{
 method:"POST",
@@ -94,6 +101,7 @@ const data=await res.json();
 
 if(data.status==="SUCCESS"){
 
+localStorage.setItem("session_token",data.token);
 localStorage.setItem("lock_user",data.user);
 localStorage.setItem("lock_type",data.type);
 localStorage.setItem("lock_role",data.role);
@@ -110,7 +118,7 @@ window.location="../lock/";
 else if(data.type=="master"){
 window.location="../menu/";
 }
-  
+
 }
 
 else if(data.status==="INACTIVE"){
@@ -121,7 +129,24 @@ else{
 alert("Invalid login");
 }
 
+}catch(err){
+
+alert("System error. Please try again.");
+
 }
+
+}
+
+/* ENTER KEY LOGIN */
+
+document.getElementById("pass").addEventListener("keypress",function(e){
+
+if(e.key==="Enter"){
+login();
+}
+
+});
+
 </script>
 
 </body>
