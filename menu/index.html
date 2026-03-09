@@ -74,6 +74,12 @@ color:white;
 
 <script>
 
+const token = localStorage.getItem("session_token");
+
+if(!token){
+window.location="../logincheck/";
+}
+
 const user = localStorage.getItem("lock_user");
 const role = localStorage.getItem("lock_role");
 
@@ -94,6 +100,6 @@ window.location="../logincheck/";
 }
 
 </script>
-
+  
 </body>
 </html>
