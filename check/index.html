@@ -286,6 +286,8 @@ placeholder="Enter Account Number">
 
 <script>
 
+const api="https://script.google.com/macros/s/AKfycbwJo8QKarRWWY8u09uTDuCAT-gmBsiuueSdUd7Xpb5q8Q0N9ZksJn79IXCVl_rJcDMu/exec";
+
 async function checkSession(){
 
 const token = localStorage.getItem("session_token");
@@ -329,8 +331,6 @@ const token = localStorage.getItem("session_token");
 
 document.getElementById("userInfo").innerHTML =
 "User: "+user+" | Role: "+role;
-
-const api="https://script.google.com/macros/s/AKfycbwJo8QKarRWWY8u09uTDuCAT-gmBsiuueSdUd7Xpb5q8Q0N9ZksJn79IXCVl_rJcDMu/exec";
 
 const input=document.getElementById("acc_no");
 const result=document.getElementById("result");
