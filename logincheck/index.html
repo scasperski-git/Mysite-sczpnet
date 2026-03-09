@@ -32,7 +32,7 @@ padding:20px;
 .box{
 background:white;
 padding:40px;
-border-radius:14px;
+border-radius:16px;
 box-shadow:0 15px 40px rgba(0,0,0,0.15);
 width:100%;
 max-width:360px;
@@ -46,7 +46,7 @@ margin-bottom:25px;
 color:#333;
 }
 
-/* ERROR MESSAGE */
+/* ERROR */
 
 #errorMsg{
 color:#dc3545;
@@ -73,7 +73,7 @@ transform:translateY(-50%);
 color:#777;
 }
 
-/* INPUT FIELD */
+/* INPUT */
 
 .input-group input{
 width:100%;
@@ -90,7 +90,7 @@ border-color:#007bff;
 box-shadow:0 0 0 3px rgba(0,123,255,0.15);
 }
 
-/* PASSWORD TOGGLE */
+/* PASSWORD EYE */
 
 .toggle-pass{
 position:absolute;
@@ -99,14 +99,13 @@ top:50%;
 transform:translateY(-50%);
 cursor:pointer;
 color:#777;
-font-size:15px;
 }
 
 .toggle-pass:hover{
 color:#007bff;
 }
 
-/* BUTTON */
+/* LOGIN BUTTON */
 
 button{
 width:100%;
@@ -126,7 +125,9 @@ transform:translateY(-1px);
 box-shadow:0 6px 15px rgba(0,0,0,0.2);
 }
 
-/* OVERLAY */
+/* =========================
+BLUR OVERLAY
+========================= */
 
 #overlay{
 position:fixed;
@@ -134,35 +135,36 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.5);
 display:none;
 align-items:center;
 justify-content:center;
 z-index:999;
+
+/* blur background */
+
+backdrop-filter:blur(8px);
+background:rgba(0,0,0,0.35);
 }
 
-/* LOADER BOX */
+/* LOADER */
 
-.loader-box{
-background:white;
-padding:35px;
-border-radius:12px;
+.loader{
 text-align:center;
-font-weight:bold;
-box-shadow:0 10px 30px rgba(0,0,0,0.25);
+color:white;
+font-size:22px;
+font-weight:600;
 }
 
 /* SPINNER */
 
 .spinner{
-width:40px;
-height:40px;
-border:4px solid #eee;
-border-top:4px solid #007bff;
+width:55px;
+height:55px;
+border:4px solid rgba(255,255,255,0.35);
+border-top:4px solid white;
 border-radius:50%;
 animation:spin 1s linear infinite;
-margin:auto;
-margin-top:15px;
+margin:20px auto 0;
 }
 
 @keyframes spin{
@@ -212,10 +214,10 @@ font-size:17px;
 
 </div>
 
-<!-- LOADING OVERLAY -->
+<!-- BLUR LOADING OVERLAY -->
 
 <div id="overlay">
-<div class="loader-box">
+<div class="loader">
 Authenticating...
 <div class="spinner"></div>
 </div>
@@ -225,11 +227,11 @@ Authenticating...
 
 const api="https://script.google.com/macros/s/AKfycby2MScT9ggFDIpe4YKzeD3HWtWQYQJjZQ1KoWGRk9xvmfr9146WabswRhAnwNoAFl0o/exec";
 
-/* AUTO FOCUS USER */
+/* AUTO FOCUS */
 
 document.getElementById("user").focus();
 
-/* SHOW / HIDE PASSWORD */
+/* PASSWORD TOGGLE */
 
 function togglePass(){
 
@@ -238,13 +240,11 @@ const icon=document.querySelector(".toggle-pass");
 
 if(pass.type==="password"){
 pass.type="text";
-icon.classList.remove("fa-eye");
-icon.classList.add("fa-eye-slash");
+icon.classList.replace("fa-eye","fa-eye-slash");
 }
 else{
 pass.type="password";
-icon.classList.remove("fa-eye-slash");
-icon.classList.add("fa-eye");
+icon.classList.replace("fa-eye-slash","fa-eye");
 }
 
 }
@@ -265,6 +265,8 @@ err.innerText="Enter User ID and Password";
 err.style.display="block";
 return;
 }
+
+/* SHOW OVERLAY */
 
 document.getElementById("overlay").style.display="flex";
 
@@ -319,6 +321,8 @@ err.innerText="System error. Please try again.";
 err.style.display="block";
 
 }
+
+/* HIDE OVERLAY */
 
 document.getElementById("overlay").style.display="none";
 
