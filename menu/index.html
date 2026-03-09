@@ -193,33 +193,25 @@ window.location="../logincheck/";
 }
 
 /* =========================
-STABLE IDLE SESSION SYSTEM
+MOBILE SAFE IDLE LOGOUT
 ========================= */
 
-let idleTimer;
-const IDLE_LIMIT = 60000; // 1 minutes
+let lastActivity = Date.now();
+const IDLE_LIMIT = 60000; // 1 min
 
-let isUserActive = false;
+function updateActivity(){
+lastActivity = Date.now();
+}
 
-/* reset idle timer */
+function checkIdle(){
 
-function resetIdleTimer(){
-
-isUserActive = true;
-
-clearTimeout(idleTimer);
-
-idleTimer = setTimeout(()=>{
-
-if(isUserActive){
+if(Date.now() - lastActivity > IDLE_LIMIT){
 logout();
 }
 
-}, IDLE_LIMIT);
-
 }
 
-/* detect activity */
+setInterval(checkIdle, 5000);
 
 [
 "touchstart",
@@ -228,27 +220,20 @@ logout();
 "scroll",
 "keydown"
 ].forEach(event=>{
-document.addEventListener(event, resetIdleTimer, {passive:true});
+document.addEventListener(event, updateActivity, {passive:true});
 });
-
-/* detect focus back to page */
 
 document.addEventListener("visibilitychange",()=>{
+
 if(!document.hidden){
-resetIdleTimer();
+
+if(Date.now() - lastActivity > IDLE_LIMIT){
+logout();
 }
+
+}
+
 });
-
-/* detect typing inside inputs */
-
-document.querySelectorAll("input,textarea,select").forEach(el=>{
-el.addEventListener("focus",()=>{ isUserActive=false; });
-el.addEventListener("blur",()=>{ resetIdleTimer(); });
-});
-
-/* start timer */
-
-resetIdleTimer();
 
 </script>
   
