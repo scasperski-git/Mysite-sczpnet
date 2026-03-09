@@ -445,38 +445,18 @@ Processing Lock...
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbwJo8QKarRWWY8u09uTDuCAT-gmBsiuueSdUd7Xpb5q8Q0N9ZksJn79IXCVl_rJcDMu/exec";
+const api="https://script.google.com/macros/s/AKfycbzeBJspI1di8psuk2_2CeoC_yabJh7GZK6VpzR6iKODhTZPMt5vMFVxw0jKPIWU0FDZ/exec";
 
 const user = localStorage.getItem("lock_user");
 const role = localStorage.getItem("lock_role");
 const token = localStorage.getItem("session_token");
 
-async function checkSession(){
-
 if(!token){
 logout();
-return;
 }
-
-try{
-
-const res = await fetch(api+"?action=session&token="+token);
-const data = await res.json();
-
-if(data.status=="EXPIRED"){
-logout();
-}
-
-}catch(e){
-console.log("session check error");
-}
-
-}
-
-setInterval(checkSession,5000);
 
 document.getElementById("userInfo").innerHTML =
-"User: "+user+" | Role: "+role;
+"User: "+(user || "-")+" | Role: "+(role || "-");
 
 /* ACCESS CONTROL */
 
@@ -780,6 +760,35 @@ clearError("acc_no","err_acc");
 clearError("amount","err_amount");
 clearError("dca_id","err_dca");
 clearError("remarks","err_remarks");
+
+/* =======================
+IDLE SESSION TIMER
+======================= */
+
+let idleTimer;
+const IDLE_LIMIT = 600000; // 10 minutes idle
+
+function resetIdleTimer(){
+
+clearTimeout(idleTimer);
+
+idleTimer = setTimeout(()=>{
+alert("Session expired due to inactivity.");
+logout();
+}, IDLE_LIMIT);
+
+}
+
+/* detect activity */
+
+["click","mousemove","keypress","scroll","touchstart","mousedown"]
+.forEach(event=>{
+document.addEventListener(event, resetIdleTimer);
+});
+
+/* start timer */
+
+resetIdleTimer();
 
 </script>
 
