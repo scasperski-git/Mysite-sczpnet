@@ -48,6 +48,50 @@ font-weight:bold;
 letter-spacing:.5px;
 }
 
+/* ===== HEADER PRO+ ===== */
+
+.header{
+padding:16px 20px;
+}
+
+.header-title{
+font-size:20px;
+font-weight:bold;
+text-align:center;
+margin-bottom:8px;
+}
+
+.header-bar{
+display:flex;
+align-items:center;
+justify-content:space-between;
+font-size:13px;
+}
+
+.user-box{
+display:flex;
+align-items:center;
+gap:6px;
+opacity:0.95;
+}
+
+.logout-btn{
+padding:5px 12px;
+border:none;
+border-radius:6px;
+background:#dc3545;
+color:white;
+cursor:pointer;
+font-size:13px;
+font-weight:600;
+width:auto;
+transition:.2s;
+}
+
+.logout-btn:hover{
+background:#bb2d3b;
+}
+
 /* FORM BODY */
 
 .form-body{
@@ -359,20 +403,25 @@ margin:0;
 <div class="container">
 
 <div class="header">
-<i class="fa fa-lock"></i> Lock Portal
-<div id="userInfo"></div>
 
-<button onclick="logout()" style="
-margin-top:10px;
-padding:6px 12px;
-border:none;
-border-radius:6px;
-background:#dc3545;
-color:white;
-cursor:pointer;
-">
-Logout
+<div class="header-title">
+<i class="fa fa-lock"></i> Lock Portal
+</div>
+
+<div class="header-bar">
+
+<div class="user-box">
+<i class="fa fa-user"></i>
+<span id="userInfo"></span>
+</div>
+
+<button onclick="logout()" class="logout-btn">
+<i class="fa fa-right-from-bracket"></i> Logout
 </button>
+
+</div>
+
+</div>
 
 </div>
 <div class="form-body">
@@ -456,7 +505,7 @@ logout();
 }
 
 document.getElementById("userInfo").innerHTML =
-"User: "+(user || "-")+" | Role: "+(role || "-");
+"<b>"+(user || "-")+"</b> &nbsp;|&nbsp; "+(role || "-");
 
 /* ACCESS CONTROL */
 
