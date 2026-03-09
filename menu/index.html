@@ -74,6 +74,32 @@ color:white;
 
 <script>
 
+async function checkSession(){
+
+const token = localStorage.getItem("session_token");
+
+if(!token){
+logout();
+return;
+}
+
+try{
+
+const res = await fetch(api+"?action=session&token="+token);
+const data = await res.json();
+
+if(data.status=="EXPIRED"){
+logout();
+}
+
+}catch(e){
+console.log("session check error");
+}
+
+}
+
+setInterval(checkSession,5000);
+
 const token = localStorage.getItem("session_token");
 
 if(!token){
