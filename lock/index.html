@@ -66,7 +66,7 @@ margin-top:10px;
 
 /* INPUT */
 
-input,select,textarea{
+input,select{
 width:100%;
 padding:13px;
 margin-top:5px;
@@ -508,7 +508,7 @@ new Date().toISOString().split("T")[0];
 
 /* AUTO CAPITAL */
 
-document.querySelectorAll("input[type=text]:not(#dca_id), textarea").forEach(el=>{
+document.querySelectorAll("input[type=text]:not(#dca_id)").forEach(el=>{
 
 el.addEventListener("input",function(){
 
@@ -618,6 +618,7 @@ if(!amount.value || Number(amount.value.replace(/,/g,''))<=0){showError(amount,"
 if(!category.value){showError(category,"err_category");return;}
 if(!date.value){showError(date,"err_date");return;}
 if(!dca.value){showError(dca,"err_dca");return;}
+remarks.value = remarks.value.toUpperCase();
 if(!remarks.value){showError(remarks,"err_remarks");return;}
 
 document.getElementById("overlay").style.display="flex";
