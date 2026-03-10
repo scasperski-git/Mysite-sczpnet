@@ -151,6 +151,25 @@ font-size:18px;
 
 <div id="userInfo"></div>
 
+<div class="dashboard">
+
+<h3>Lock Dashboard</h3>
+
+<label>DCA ID</label>
+<input id="dcaFilter" placeholder="Optional">
+
+<label>Start Date</label>
+<input type="date" id="startDate">
+
+<label>End Date</label>
+<input type="date" id="endDate">
+
+<button onclick="loadDashboard()">Load Dashboard</button>
+
+<div id="dashResult" style="margin-top:15px;font-size:20px;font-weight:bold"></div>
+
+</div>
+
 <button class="check" onclick="goCheck()">
 <i class="fa fa-search"></i> Check Lock
 </button>
@@ -166,6 +185,42 @@ font-size:18px;
 </div>
 
 <script>
+
+const api="https://script.google.com/macros/s/AKfycbyuKcxCrJE6oyqKsG1VxJoL4jTD25fX165zqe3qt_kwq6t0MObnpSaE5tR4RLs18Ler/exec";
+
+function loadDashboard(){
+
+var dca=document.getElementById("dcaFilter").value;
+var start=document.getElementById("startDate").value;
+var end=document.getElementById("endDate").value;
+
+var url=api+"?action=dashboard";
+
+if(dca) url+="&dca="+encodeURIComponent(dca);
+if(start) url+="&start="+start;
+if(end) url+="&end="+end;
+
+fetch(url)
+.then(res=>res.json())
+.then(data=>{
+
+document.getElementById("dashResult").innerHTML=
+"Total Lock : "+data.total;
+
+});
+
+}
+
+window.onload = function(){
+
+var today = new Date().toISOString().split("T")[0];
+
+document.getElementById("startDate").value = today;
+document.getElementById("endDate").value = today;
+
+loadDashboard();
+
+};
 
 const token = localStorage.getItem("session_token");
 
