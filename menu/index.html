@@ -190,11 +190,13 @@ const api="https://script.google.com/macros/s/AKfycbwPq44mgtXFY7I8l6iRXIvLqRjaIh
 
 function loadDashboard(){
 
+var token = localStorage.getItem("session_token");
+
 var dca=document.getElementById("dcaFilter").value;
 var start=document.getElementById("startDate").value;
 var end=document.getElementById("endDate").value;
 
-var url=api+"?action=dashboard";
+var url=api+"?action=dashboard&token="+token;
 
 if(dca) url+="&dca="+encodeURIComponent(dca);
 if(start) url+="&start="+start;
@@ -204,13 +206,19 @@ fetch(url)
 .then(res=>res.json())
 .then(data=>{
 
-document.getElementById("dashResult").innerHTML=
+if(data.status=="UNAUTHORIZED"){
+alert("Session expired");
+logout();
+return;
+}
+
+document.getElementById("dashResult").innerHTML =
 "Total Lock : "+data.total;
 
 });
 
 }
-
+  
 window.onload = function(){
 
 var today = new Date().toISOString().split("T")[0];
