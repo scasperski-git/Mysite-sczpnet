@@ -169,6 +169,7 @@ font-weight:700;
 font-size:26px;
 font-weight:800;
 color:#dc3545;
+letter-spacing:1px;
 }
 
 /* REMARK */
@@ -426,7 +427,10 @@ if(data.status==="LOCKED"){
 
 const formattedDate=formatDate(data.valid);
 const created=formatDateTime(data.created);
-const amount="RM "+Number(data.amount || 0).toLocaleString();
+const amount = "RM " + Number(data.amount || 0).toLocaleString("en-MY",{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+});
 
 const promiseDate=new Date(data.valid);
 
