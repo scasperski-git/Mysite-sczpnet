@@ -108,12 +108,22 @@ margin-bottom:10px;
 
 .box-card{
 background:#ffffff;
-border:1px solid #e2e6ea;
+border:1px solid #e4e7ec;
+padding:10px;
+border-radius:8px;
+font-size:12px;
 }
 
 .box-card div:first-child{
-color:#666;
-margin-bottom:4px;
+color:#777;
+font-size:11px;
+margin-bottom:2px;
+}
+
+#topUser,
+#topBranch{
+font-size:12px;
+line-height:1.4;
 }
 
 .dashboard{
@@ -123,29 +133,81 @@ text-align:left;
 
 .dash-grid{
 display:grid;
-grid-template-columns:1fr 1fr 1fr;
+grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
 gap:10px;
-margin-bottom:15px;
+margin-bottom:12px;
+}
+
+.dash-grid label{
+font-size:12px;
+color:#555;
+}
+
+.dash-grid select,
+.dash-grid input{
+width:100%;
+padding:6px;
+font-size:13px;
+border-radius:6px;
+border:1px solid #ccc;
 }
 
 .dash-card{
-margin-top:20px;
-background:#f4f7fb;
-padding:20px;
+margin-top:15px;
+background:linear-gradient(135deg,#eef4ff,#dbe8ff);
+padding:14px;
 border-radius:10px;
 text-align:center;
+font-size:13px;
+border:1px solid #cfdcff;
 }
 
-.dash-title{
-font-size:14px;
-color:#666;
+.dash-card div{
+margin-top:4px;
 }
 
-.dash-number{
-font-size:20px;
+#dashTotal{
 font-weight:bold;
-color:#007bff;
-margin-top:5px;
+font-size:20px;
+color:#003c9e;
+}
+
+#dashAmount{
+font-weight:bold;
+font-size:18px;
+color:#0a7d35;
+}
+
+.action-buttons{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:15px;
+}
+
+.action-buttons button{
+width:100%;
+padding:14px;
+font-size:14px;
+}
+
+h3{
+font-size:16px;
+margin-bottom:10px;
+border-bottom:1px solid #eee;
+padding-bottom:4px;
+}
+
+@media (min-width:900px){
+
+.box{
+max-width:520px;
+}
+
+.summary-grid{
+grid-template-columns:1fr 1fr;
+}
+
 }
   
 /* MOBILE */
@@ -276,6 +338,8 @@ font-size:18px;
 
 </div>
 
+<div class="action-buttons">
+
 <button class="check" onclick="goCheck()">
 <i class="fa fa-search"></i> Check Lock
 </button>
@@ -283,6 +347,8 @@ font-size:18px;
 <button class="lock" onclick="goLock()">
 <i class="fa fa-lock"></i> Create Lock
 </button>
+
+</div>
 
 <button class="logout" onclick="logout()">
 <i class="fa fa-right-from-bracket"></i> Logout
