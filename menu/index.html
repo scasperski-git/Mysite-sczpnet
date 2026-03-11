@@ -441,7 +441,7 @@ return year + "-" + month + "-" + day;
   
 function loadUsers(){
 
-fetch(api+"?action=users&token="+token)
+return fetch(api+"?action=users&token="+token)
 .then(r=>r.json())
 .then(list=>{
 
@@ -561,9 +561,12 @@ document.getElementById("endDate").value=today;
 document.getElementById("startDate").max=today;
 document.getElementById("endDate").max=today;
 
-loadUsers();
+loadUsers().then(()=>{
+
 loadDashboard();
 loadSummary();
+
+});
 
 setInterval(loadSummary,30000);
 
