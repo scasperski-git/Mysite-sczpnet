@@ -94,6 +94,38 @@ background:linear-gradient(135deg,#dc3545,#b02a37);
 color:white;
 }
 
+.dashboard{
+margin-bottom:25px;
+text-align:left;
+}
+
+.dash-grid{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:10px;
+margin-bottom:15px;
+}
+
+.dash-card{
+margin-top:20px;
+background:#f4f7fb;
+padding:20px;
+border-radius:10px;
+text-align:center;
+}
+
+.dash-title{
+font-size:14px;
+color:#666;
+}
+
+.dash-number{
+font-size:32px;
+font-weight:bold;
+color:#007bff;
+margin-top:5px;
+}
+  
 /* MOBILE */
 
 @media (max-width:600px){
@@ -155,18 +187,33 @@ font-size:18px;
 
 <h3>Lock Dashboard</h3>
 
-<label>DCA ID</label>
-<input id="dcaFilter" placeholder="Optional">
+<div class="dash-grid">
 
+<div>
+<label>User ID</label>
+<select id="dcaFilter"></select>
+</div>
+
+<div>
 <label>Start Date</label>
 <input type="date" id="startDate">
+</div>
 
+<div>
 <label>End Date</label>
 <input type="date" id="endDate">
+</div>
+
+</div>
 
 <button onclick="loadDashboard()">Load Dashboard</button>
 
-<div id="dashResult" style="margin-top:15px;font-size:20px;font-weight:bold"></div>
+<div class="dash-card">
+
+<div class="dash-title">TOTAL LOCK</div>
+<div id="dashTotal" class="dash-number">0</div>
+
+</div>
 
 </div>
 
@@ -186,11 +233,34 @@ font-size:18px;
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbwSgR_E1fkyj41E3RL4AkgGTZEatqZ91uLILwfKUA5tIITE6oaclFt82SmQeI1lqlWN/exec";
+const api="https://script.google.com/macros/s/AKfycbzqdxlBZ8nBZ9C5gJxBZnW1MZU7KhFiPbgnkFi1wgTGTuVnzlHupuVa3HF6m-qLbV1a/exec";
+function loadUsers(){
 
+fetch(api+"?action=users&token="+token)
+.then(r=>r.json())
+.then(list=>{
+
+var select=document.getElementById("dcaFilter");
+
+select.innerHTML="";
+
+list.forEach(function(u){
+
+var opt=document.createElement("option");
+opt.value=u;
+opt.text=u;
+
+select.appendChild(opt);
+
+});
+
+});
+
+}
+  
 function loadDashboard(){
 
-var token = localStorage.getItem("session_token");
+var token=localStorage.getItem("session_token");
 
 var dca=document.getElementById("dcaFilter").value;
 var start=document.getElementById("startDate").value;
@@ -198,38 +268,32 @@ var end=document.getElementById("endDate").value;
 
 var url=api+"?action=dashboard&token="+token;
 
-if(dca) url+="&dca="+encodeURIComponent(dca);
+if(dca) url+="&dca="+dca;
 if(start) url+="&start="+start;
 if(end) url+="&end="+end;
 
 fetch(url)
-.then(res=>res.json())
+.then(r=>r.json())
 .then(data=>{
 
-if(data.status=="UNAUTHORIZED"){
-alert("Session expired");
-logout();
-return;
-}
-
-document.getElementById("dashResult").innerHTML =
-"Total Lock : "+data.total;
+document.getElementById("dashTotal").innerText=data.total;
 
 });
 
 }
   
-window.onload = function(){
+window.onload=function(){
 
-var today = new Date().toISOString().split("T")[0];
+var today=new Date().toISOString().split("T")[0];
 
-document.getElementById("startDate").value = today;
-document.getElementById("endDate").value = today;
+document.getElementById("startDate").value=today;
+document.getElementById("endDate").value=today;
 
+loadUsers();
 loadDashboard();
 
 };
-
+  
 const token = localStorage.getItem("session_token");
 
 if(!token){
