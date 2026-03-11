@@ -542,22 +542,21 @@ btn.innerHTML='<i class="fa fa-chart-line"></i> Load Dashboard';
   
 window.onload=function(){
 
-var today=new Date().toISOString().split("T")[0];
+var today=getTodayLocal();
 
 document.getElementById("startDate").value=today;
 document.getElementById("endDate").value=today;
 
 document.getElementById("startDate").max=today;
 document.getElementById("endDate").max=today;
-  
+
 loadUsers();
 loadDashboard();
 loadSummary();
 
-setInterval(loadSummary,30000);  
+setInterval(loadSummary,30000);
 
 };
-
 
 const user = localStorage.getItem("lock_user");
 const role = localStorage.getItem("lock_role");
@@ -596,6 +595,28 @@ logout();
 }
 
 }
+
+setInterval(function(){
+
+var today=getTodayLocal();
+
+var start=document.getElementById("startDate");
+var end=document.getElementById("endDate");
+
+if(start.value!=today){
+
+start.value=today;
+end.value=today;
+
+start.max=today;
+end.max=today;
+
+loadDashboard();
+loadSummary();
+
+}
+
+},60000);
 
 setInterval(checkIdle, 5000);
 
