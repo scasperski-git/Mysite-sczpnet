@@ -94,6 +94,28 @@ background:linear-gradient(135deg,#dc3545,#b02a37);
 color:white;
 }
 
+.summary{
+margin-bottom:25px;
+text-align:left;
+}
+
+.summary-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-bottom:10px;
+}
+
+.box-card{
+background:#ffffff;
+border:1px solid #e2e6ea;
+}
+
+.box-card div:first-child{
+color:#666;
+margin-bottom:4px;
+}
+
 .dashboard{
 margin-bottom:25px;
 text-align:left;
@@ -120,7 +142,7 @@ color:#666;
 }
 
 .dash-number{
-font-size:32px;
+font-size:20px;
 font-weight:bold;
 color:#007bff;
 margin-top:5px;
@@ -210,8 +232,45 @@ font-size:18px;
 
 <div class="dash-card">
 
-<div class="dash-title">TOTAL LOCK</div>
-<div id="dashTotal" class="dash-number">0</div>
+<div>Total Lock</div>
+<div id="dashTotal">0</div>
+
+<div style="margin-top:8px">Total Amount</div>
+<div id="dashAmount">RM0</div>
+
+</div>
+
+</div>
+
+<div class="summary">
+
+<h3>Today Summary</h3>
+
+<div class="summary-grid">
+
+<div class="box-card">
+<div>Total Lock</div>
+<div id="sumLock">0</div>
+</div>
+
+<div class="box-card">
+<div>Total Amount</div>
+<div id="sumAmount">RM0</div>
+</div>
+
+</div>
+
+<div class="summary-grid">
+
+<div class="box-card">
+<div>Top User</div>
+<div id="topUser"></div>
+</div>
+
+<div class="box-card">
+<div>Top Branch</div>
+<div id="topBranch"></div>
+</div>
 
 </div>
 
@@ -233,7 +292,13 @@ font-size:18px;
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbzqdxlBZ8nBZ9C5gJxBZnW1MZU7KhFiPbgnkFi1wgTGTuVnzlHupuVa3HF6m-qLbV1a/exec";
+const token = localStorage.getItem("session_token");
+
+if(!token){
+window.location="../lockcheck-login/";
+}
+
+const api="https://script.google.com/macros/s/AKfycbzimr6MBBV-Yl2yumyTrRufwx3E3vE7B4bKPp8S3mjNnJ39ZG8SYy7tX8hft9hTPMSi/exec";
 function loadUsers(){
 
 fetch(api+"?action=users&token="+token)
@@ -257,6 +322,40 @@ select.appendChild(opt);
 });
 
 }
+
+function loadSummary(){
+
+fetch(api+"?action=summary&token="+token)
+.then(r=>r.json())
+.then(data=>{
+
+document.getElementById("sumLock").innerText=data.totalLock;
+
+document.getElementById("sumAmount").innerText=
+"RM "+Number(data.totalAmount).toLocaleString("en-MY");
+
+var userHTML="";
+
+data.topUser.forEach(function(u){
+
+userHTML += u.user+" ("+u.count+")<br>";
+
+});
+
+document.getElementById("topUser").innerHTML=userHTML;
+
+var branchHTML="";
+
+data.topBranch.forEach(function(b){
+
+branchHTML += b.branch+" ("+b.count+")<br>";
+
+});
+
+document.getElementById("topBranch").innerHTML=branchHTML;
+
+});
+}
   
 function loadDashboard(){
 
@@ -278,6 +377,9 @@ fetch(url)
 
 document.getElementById("dashTotal").innerText=data.total;
 
+document.getElementById("dashAmount").innerText =
+"RM "+Number(data.amount).toLocaleString("en-MY");
+
 });
 
 }
@@ -291,14 +393,10 @@ document.getElementById("endDate").value=today;
 
 loadUsers();
 loadDashboard();
+loadSummary();
 
 };
-  
-const token = localStorage.getItem("session_token");
 
-if(!token){
-window.location="../lockcheck-login/";
-}
 
 const user = localStorage.getItem("lock_user");
 const role = localStorage.getItem("lock_role");
