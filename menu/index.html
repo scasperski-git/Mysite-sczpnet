@@ -443,7 +443,10 @@ fetch(api+"?action=summary&token="+token)
 document.getElementById("sumLock").innerText=data.totalLock;
 
 document.getElementById("sumAmount").innerText=
-"RM "+Number(data.totalAmount).toLocaleString("en-MY");
+"RM "+Number(data.totalAmount).toLocaleString("en-MY",{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+})
 
 var userHTML="";
 
@@ -494,7 +497,10 @@ fetch(url)
 document.getElementById("dashTotal").innerText=data.total;
 
 document.getElementById("dashAmount").innerText =
-"RM "+Number(data.amount).toLocaleString("en-MY");
+"RM "+Number(data.amount).toLocaleString("en-MY",{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+});
 
 })
 .finally(()=>{
@@ -512,6 +518,9 @@ var today=new Date().toISOString().split("T")[0];
 
 document.getElementById("startDate").value=today;
 document.getElementById("endDate").value=today;
+
+document.getElementById("startDate").max=today;
+document.getElementById("endDate").max=today;
 
 loadUsers();
 loadDashboard();
