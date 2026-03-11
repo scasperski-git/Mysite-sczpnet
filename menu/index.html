@@ -353,6 +353,22 @@ Load Dashboard
 
 <h3>Today Summary</h3>
 
+<div id="refreshInfo" style="
+font-size:11px;
+color:#888;
+margin-bottom:8px;
+">
+⟳ auto refresh every 30s
+</div>
+
+<div id="lastUpdate" style="
+font-size:11px;
+color:#999;
+margin-bottom:10px;
+">
+Last update: -
+</div>
+
 <div class="summary-grid">
 
 <div class="box-card">
@@ -467,6 +483,18 @@ branchHTML += b.branch+" ("+b.count+")<br>";
 });
 
 document.getElementById("topBranch").innerHTML=branchHTML;
+
+/* update last refresh time */
+
+var now=new Date();
+
+var time=now.toLocaleTimeString("en-MY",{
+hour:'2-digit',
+minute:'2-digit',
+second:'2-digit'
+});
+
+document.getElementById("lastUpdate").innerText="Last update: "+time;
 
 });
 }
