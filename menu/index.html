@@ -428,6 +428,18 @@ window.location="../lockcheck-login/";
 const api="https://script.google.com/macros/s/AKfycbzimr6MBBV-Yl2yumyTrRufwx3E3vE7B4bKPp8S3mjNnJ39ZG8SYy7tX8hft9hTPMSi/exec";
 function loadUsers(){
 
+function getTodayLocal(){
+
+var now = new Date();
+
+var year = now.getFullYear();
+var month = ("0" + (now.getMonth()+1)).slice(-2);
+var day = ("0" + now.getDate()).slice(-2);
+
+return year + "-" + month + "-" + day;
+
+}
+
 fetch(api+"?action=users&token="+token)
 .then(r=>r.json())
 .then(list=>{
@@ -505,8 +517,6 @@ var btn=document.getElementById("loadBtn");
 
 btn.disabled=true;
 btn.innerHTML='<div class="spinner"></div> Please wait...';
-
-var token=localStorage.getItem("session_token");
 
 var dca=document.getElementById("dcaFilter").value;
 var start=document.getElementById("startDate").value;
