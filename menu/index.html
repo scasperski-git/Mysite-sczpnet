@@ -478,7 +478,7 @@ if(!token){
 window.location="../lockcheck-login/";
 }
 
-const api="https://script.google.com/macros/s/AKfycbzimr6MBBV-Yl2yumyTrRufwx3E3vE7B4bKPp8S3mjNnJ39ZG8SYy7tX8hft9hTPMSi/exec";
+const api="https://script.google.com/macros/s/AKfycbzeD-n3Ir2gMcx1AyGewRrzDFEw6bmwm5miFbNqrZaYIb8Q7Y9vVxUBByKnFYJSKlYT/exec";
 
 function getTodayLocal(){
 
@@ -505,8 +505,8 @@ select.innerHTML="";
 list.forEach(function(u){
 
 var opt=document.createElement("option");
-opt.value=u;
-opt.text=u;
+opt.value=u.id;
+opt.text=u.name;
 
 select.appendChild(opt);
 
