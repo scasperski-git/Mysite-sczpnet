@@ -106,6 +106,13 @@ color:#999;
 button i{
 margin-right:6px;
 }
+
+#userSummary{
+font-size:12px;
+margin-top:4px;
+opacity:.85;
+letter-spacing:.3px;
+}
   
 /* BUTTON */
 
@@ -374,6 +381,13 @@ margin:0;
 <div class="header">
 <i class="fa fa-lock"></i> Lock Portal
 <div id="userInfo"></div>
+<div id="userSummary" style="
+font-size:12px;
+margin-top:3px;
+opacity:0.9;
+">
+Today: 0 Locks | RM 0
+</div>
 
 <button onclick="logout()" style="
 margin-top:10px;
@@ -470,7 +484,8 @@ logout();
 
 document.getElementById("userInfo").innerHTML =
 "User: "+(user || "-")+" | Role: "+(role || "-");
-
+loadUserSummary();
+setInterval(loadUserSummary,60000);
 /* ACCESS CONTROL */
 
 const type = localStorage.getItem("lock_type");
@@ -610,6 +625,33 @@ this.value=this.value.substring(0,100);
 remarkCounter.textContent=this.value.length+" / 100";
 
 });
+
+function loadUserSummary(){
+
+var dca = localStorage.getItem("lock_user");
+
+fetch(api+"?action=dashboard&token="+token+"&dca="+dca)
+.then(r=>r.json())
+.then(data=>{
+
+var total = data.total || 0;
+var amount = Number(data.amount || 0).toLocaleString("en-MY",{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+});
+
+document.getElementById("userSummary").innerText =
+"Today: "+total+" Locks | RM "+amount;
+
+})
+.catch(()=>{
+
+document.getElementById("userSummary").innerText =
+"Today: - | RM -";
+
+});
+
+}
 
 /* ERROR */
 
