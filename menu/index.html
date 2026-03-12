@@ -478,7 +478,7 @@ if(!token){
 window.location="../lockcheck-login/";
 }
 
-const api="https://script.google.com/macros/s/AKfycbxAklZiCbuAY5mDw4qwD68jZmDjDqLhtD2U-GjemWK7YFPYMRI8t_uUw_o4ALgAsV6K/exec";
+const api="https://script.google.com/macros/s/AKfycbwpJDJOGx0hKb2yOfHuJtawEciqwTVSG3TcodjKUypwBypg45s45acdvxR8t7bQWXgl/exec";
 
 function getTodayLocal(){
 
@@ -600,13 +600,13 @@ fetch(url,{signal:controller.signal})
 .then(r=>r.json())
 .then(data=>{
 
-document.getElementById("dashTotal").innerText=data.total;
+document.getElementById("dashTotal").innerText=data.total || 0;
 
 document.getElementById("dashAmount").innerText =
-"RM "+Number(data.amount).toLocaleString("en-MY",{
+"RM "+Number(data.amount || 0).toLocaleString("en-MY",{
 minimumFractionDigits:2,
 maximumFractionDigits:2
-});
+});;
 
 status.innerText="";
 
