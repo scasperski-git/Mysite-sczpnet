@@ -472,7 +472,7 @@ Processing Lock...
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbzimr6MBBV-Yl2yumyTrRufwx3E3vE7B4bKPp8S3mjNnJ39ZG8SYy7tX8hft9hTPMSi/exec";
+const api="https://script.google.com/macros/s/AKfycbzeD-n3Ir2gMcx1AyGewRrzDFEw6bmwm5miFbNqrZaYIb8Q7Y9vVxUBByKnFYJSKlYT/exec";
 
 const user = localStorage.getItem("lock_user");
 const role = localStorage.getItem("lock_role");
@@ -485,7 +485,7 @@ logout();
 document.getElementById("userInfo").innerHTML =
 "User: "+(user || "-")+" | Role: "+(role || "-");
 loadUserSummary();
-setInterval(loadUserSummary,60000);
+setInterval(loadUserSummary,30000);
 /* ACCESS CONTROL */
 
 const type = localStorage.getItem("lock_type");
@@ -557,7 +557,7 @@ this.value = this.value.replace(/\D/g,'');
 
 });
   
-document.querySelectorAll("input[type=text]:not(#dca_id)").forEach(el=>{
+document.querySelectorAll("input[type=text]:not(#dca_id):not(#acc_no)").forEach(el=>{
 
 el.addEventListener("input",function(){
 
@@ -630,6 +630,9 @@ function loadUserSummary(){
 
 var dca = localStorage.getItem("lock_user");
 
+document.getElementById("userSummary").innerText =
+"Today: loading...";
+
 fetch(api+"?action=dashboard&token="+token+"&dca="+dca)
 .then(r=>r.json())
 .then(data=>{
@@ -640,8 +643,9 @@ minimumFractionDigits:2,
 maximumFractionDigits:2
 });
 
-document.getElementById("userSummary").innerText =
-"Today: "+total+" Locks | RM "+amount;
+document.getElementById("userSummary").innerHTML =
+'<i class="fa fa-chart-line"></i> Today: '+total+
+' Locks | RM '+amount;
 
 })
 .catch(()=>{
