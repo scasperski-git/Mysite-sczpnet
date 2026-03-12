@@ -470,6 +470,8 @@ Last update: -
 
 </div>
 
+<script src="../lockconfig.js"></script>
+
 <script>
 
 const token = localStorage.getItem("session_token");
@@ -478,8 +480,8 @@ if(!token){
 window.location="../lockcheck-login/";
 }
 
-const api="https://script.google.com/macros/s/AKfycbwxxWuLGQH5Tw9tJ8NP_WFTJyD8Ok4NJ4R8z4NTWeSoUsQoN8ttQQJBrllcXBoOxiYV/exec";
-
+const api = API_URL;
+  
 function getTodayLocal(){
 
 var now = new Date();
