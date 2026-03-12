@@ -501,7 +501,7 @@ window.location="../check/";
 
 /* LOAD BRANCH */
 
-fetch(api+"?action=branches")
+fetch(api+"?action=branches&token="+token)
 .then(res=>res.json())
 .then(data=>{
 
