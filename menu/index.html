@@ -339,8 +339,9 @@ Load Dashboard
 
 <div class="dash-card">
 
-<div>Total Lock</div>
-<div id="dashTotal">0</div>
+<div id="dashTotal">-</div>
+<div id="dashAmount">RM -</div>
+<div id="dashStatus" style="font-size:11px;color:#777;margin-top:5px;"></div>
 
 <div style="margin-top:8px">Total Amount</div>
 <div id="dashAmount">RM0</div>
@@ -515,9 +516,12 @@ document.getElementById("lastUpdate").innerText="Last update: "+time;
 function loadDashboard(){
 
 var btn=document.getElementById("loadBtn");
+var status=document.getElementById("dashStatus");
 
 btn.disabled=true;
 btn.innerHTML='<div class="spinner"></div> Please wait...';
+
+status.innerText="Loading dashboard...";
 
 var dca=document.getElementById("dcaFilter").value;
 var start=document.getElementById("startDate").value;
@@ -529,7 +533,12 @@ if(dca) url+="&dca="+dca;
 if(start) url+="&start="+start;
 if(end) url+="&end="+end;
 
-fetch(url)
+/* timeout protection */
+
+var controller = new AbortController();
+var timeout = setTimeout(()=>controller.abort(),8000);
+
+fetch(url,{signal:controller.signal})
 .then(r=>r.json())
 .then(data=>{
 
@@ -541,8 +550,28 @@ minimumFractionDigits:2,
 maximumFractionDigits:2
 });
 
+status.innerText="";
+
+})
+.catch(err=>{
+
+if(err.name==="AbortError"){
+
+status.innerText="Server slow. Please try again.";
+
+}else{
+
+status.innerText="Error loading dashboard.";
+
+}
+
+document.getElementById("dashTotal").innerText="-";
+document.getElementById("dashAmount").innerText="RM -";
+
 })
 .finally(()=>{
+
+clearTimeout(timeout);
 
 btn.disabled=false;
 btn.innerHTML='<i class="fa fa-chart-line"></i> Load Dashboard';
