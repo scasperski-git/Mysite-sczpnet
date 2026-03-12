@@ -208,6 +208,46 @@ border:1px solid #cfdcff;
 margin-top:4px;
 }
 
+.dash-stats{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:5px;
+}
+
+.stat-box{
+background:white;
+border-radius:8px;
+padding:10px;
+border:1px solid #dfe5f1;
+}
+
+.stat-label{
+font-size:11px;
+color:#666;
+margin-bottom:4px;
+}
+
+.stat-number{
+font-weight:bold;
+font-size:20px;
+}
+
+.stat-number.lock{
+color:#003c9e;
+}
+
+.stat-number.amount{
+color:#0a7d35;
+}
+
+.dash-status{
+font-size:11px;
+color:#777;
+margin-top:8px;
+text-align:center;
+}
+
 #dashTotal{
 font-weight:bold;
 font-size:20px;
@@ -339,13 +379,21 @@ Load Dashboard
 
 <div class="dash-card">
 
-<div>Total Lock</div>
-<div id="dashTotal">-</div>
-<div id="dashAmount">RM -</div>
-<div id="dashStatus" style="font-size:11px;color:#777;margin-top:5px;"></div>
+<div class="dash-stats">
 
-<div style="margin-top:8px">Total Amount</div>
-<div id="dashAmount">RM0</div>
+<div class="stat-box">
+<div class="stat-label">Total Lock</div>
+<div id="dashTotal" class="stat-number lock">0</div>
+</div>
+
+<div class="stat-box">
+<div class="stat-label">Total Amount</div>
+<div id="dashAmount" class="stat-number amount">RM0</div>
+</div>
+
+</div>
+
+<div id="dashStatus" class="dash-status"></div>
 
 </div>
 
