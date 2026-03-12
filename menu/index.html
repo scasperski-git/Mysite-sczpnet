@@ -478,7 +478,7 @@ if(!token){
 window.location="../lockcheck-login/";
 }
 
-const api="https://script.google.com/macros/s/AKfycbwpJDJOGx0hKb2yOfHuJtawEciqwTVSG3TcodjKUypwBypg45s45acdvxR8t7bQWXgl/exec";
+const api="https://script.google.com/macros/s/AKfycbwldLXHJQpyFG98Wspv1X0MUPlDbLmKGOr8hLVDQCCQWn2gFhtsiDp8oWazMECWCks/exec";
 
 function getTodayLocal(){
 
@@ -599,6 +599,11 @@ var timeout = setTimeout(()=>controller.abort(),8000);
 fetch(url,{signal:controller.signal})
 .then(r=>r.json())
 .then(data=>{
+
+if(data.status){
+status.innerText="Access denied";
+return;
+}
 
 document.getElementById("dashTotal").innerText=data.total || 0;
 
