@@ -520,7 +520,28 @@ document.getElementById("promise_date").min =
 new Date().toISOString().split("T")[0];
 
 /* AUTO CAPITAL */
+/* ACCOUNT NO - ONLY NUMBERS */
 
+const accField = document.getElementById("acc_no");
+
+/* block typing letters */
+
+accField.addEventListener("keypress", function(e){
+
+if(!/[0-9]/.test(e.key)){
+e.preventDefault();
+}
+
+});
+
+/* block paste letters */
+
+accField.addEventListener("input", function(){
+
+this.value = this.value.replace(/\D/g,'');
+
+});
+  
 document.querySelectorAll("input[type=text]:not(#dca_id)").forEach(el=>{
 
 el.addEventListener("input",function(){
