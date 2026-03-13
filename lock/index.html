@@ -798,7 +798,13 @@ var category=formData.get("payment_category");
 var promise=formatDate(formData.get("promise_date"));
 var remarks=formData.get("remarks");
 var dca=formData.get("dca_id");
-var createdTime=formatDateTime();
+var createdTime = new Date().toLocaleString("en-MY",{
+day:"2-digit",
+month:"short",
+year:"numeric",
+hour:"2-digit",
+minute:"2-digit"
+});
 
 document.getElementById("formSection").style.display="none";
 
