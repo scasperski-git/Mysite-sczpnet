@@ -521,6 +521,14 @@ alert("Access denied");
 window.location="../check/";
 }
 
+if(type === "master"){
+document.getElementById("masterBtn").style.display = "inline-block";
+}
+
+function goMaster(){
+window.location = "../menu/";
+}
+
 /* LOAD BRANCH */
 
 fetch(api+"?action=branches&token="+token)
@@ -570,16 +578,6 @@ e.preventDefault();
 }
 
 });
-
-const type = localStorage.getItem("lock_type");
-
-if(type === "master"){
-document.getElementById("masterBtn").style.display = "inline-block";
-}
-
-function goMaster(){
-window.location = "../menu/";
-}
 
 /* block paste letters */
 
