@@ -213,6 +213,13 @@ margin-top:20px;
 background:#6c757d;
 }
 
+.master-btn{
+margin-top:8px;
+background:#6c63ff;
+font-size:13px;
+padding:5px 10px;
+}
+
 .new-btn:hover{
 background:#545b62;
 }
@@ -401,6 +408,19 @@ cursor:pointer;
 Logout
 </button>
 
+<button id="masterBtn" onclick="goMaster()" style="
+margin-top:6px;
+padding:6px 12px;
+border:none;
+border-radius:6px;
+background:#6c63ff;
+color:white;
+cursor:pointer;
+display:none;
+">
+<i class="fa fa-arrow-left"></i> Master Menu
+</button>
+
 </div>
 <div class="form-body">
 
@@ -550,6 +570,16 @@ e.preventDefault();
 }
 
 });
+
+const type = localStorage.getItem("lock_type");
+
+if(type === "master"){
+document.getElementById("masterBtn").style.display = "inline-block";
+}
+
+function goMaster(){
+window.location = "../menu/";
+}
 
 /* block paste letters */
 
