@@ -36,6 +36,35 @@ box-shadow:0 10px 30px rgba(0,0,0,0.12);
 overflow:hidden;
 }
 
+.header-buttons{
+display:flex;
+gap:8px;
+margin-top:10px;
+}
+
+.header-buttons button{
+flex:1;
+padding:8px;
+font-size:13px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+color:white;
+}
+
+.logout-btn{
+background:#dc3545;
+}
+
+.master-btn{
+background:#6c63ff;
+}
+
+.header-buttons button:hover{
+opacity:0.9;
+transform:translateY(-1px);
+}
+
 /* HEADER */
 
 .header{
@@ -420,29 +449,17 @@ Today: 0 Locks | RM 0
 </div>
 
 <button onclick="logout()" style="
-margin-top:10px;
-padding:6px 12px;
-border:none;
-border-radius:6px;
-background:#dc3545;
-color:white;
-cursor:pointer;
-">
-Logout
+<div class="header-buttons">
+
+<button class="logout-btn" onclick="logout()">
+<i class="fa fa-right-from-bracket"></i> Logout
 </button>
 
-<button id="masterBtn" onclick="goMaster()" style="
-margin-top:6px;
-padding:6px 12px;
-border:none;
-border-radius:6px;
-background:#6c63ff;
-color:white;
-cursor:pointer;
-display:none;
-">
+<button id="masterBtn" class="master-btn" onclick="goMaster()" style="display:none">
 <i class="fa fa-arrow-left"></i> Master Menu
 </button>
+
+</div>
 
 </div>
 <div class="form-body">
