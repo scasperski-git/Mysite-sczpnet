@@ -1,121 +1,151 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <title>Collection Dashboard</title>
 
 <style>
+
 body{
-    font-family: Arial;
-    background:#f4f6f9;
-    margin:20px;
+font-family:Arial;
+background:#f4f6f9;
+padding:30px;
 }
 
-.card{
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    box-shadow:0 2px 6px rgba(0,0,0,0.1);
-    margin-bottom:20px;
+table{
+border-collapse:collapse;
+background:white;
 }
 
-.title{
-    font-size:20px;
-    font-weight:bold;
-    margin-bottom:10px;
+td,th{
+border:1px solid #999;
+padding:8px;
+text-align:center;
+min-width:100px;
 }
 
-.progress{
-    width:100%;
-    background:#ddd;
-    border-radius:20px;
-}
-
-.bar{
-    height:20px;
-    background:#28a745;
-    border-radius:20px;
-}
-
-button{
-    padding:8px 15px;
-    background:#007bff;
-    color:white;
-    border:none;
-    border-radius:5px;
+th{
+background:#e9ecef;
 }
 
 input{
-    padding:5px;
+width:90px;
+border:none;
+text-align:center;
 }
+
+button{
+margin-top:20px;
+padding:10px 20px;
+background:#2c7be5;
+color:white;
+border:none;
+border-radius:5px;
+}
+
 </style>
+
 </head>
 
 <body>
 
-<h1>Collection Dashboard</h1>
+<h2>Batch 1</h2>
+Start : 8/12/26 – 7/4/26
 
-<div class="card">
-<div class="title">Cycle Information</div>
-Cycle Period : <b>8hb - 7hb</b><br>
-Cycle Length : <b>4 Months</b>
-</div>
+<table>
 
-<div class="card">
-<div class="title">Collection Target</div>
+<tr>
+<th>Batch Name</th>
+<th>20/12</th>
+<th>28/12</th>
+<th>7/3</th>
+<th>18/3</th>
+<th>20/3</th>
+</tr>
 
-Target Collection :
-<input type="number" id="target"><br><br>
+<tr>
+<td>B1-ICS</td>
+<td><input id="ics1"></td>
+<td><input id="ics2"></td>
+<td><input id="ics3"></td>
+<td><input id="ics4"></td>
+<td><input id="ics5"></td>
+</tr>
 
-Actual Collection :
-<input type="number" id="actual"><br><br>
+<tr>
+<td>B1-COOP</td>
+<td><input id="coop1"></td>
+<td><input id="coop2"></td>
+<td><input id="coop3"></td>
+<td><input id="coop4"></td>
+<td><input id="coop5"></td>
+</tr>
 
-<button onclick="updateCollection()">Update</button>
+<tr>
+<td><b>TOTAL</b></td>
+<td id="t1"></td>
+<td id="t2"></td>
+<td id="t3"></td>
+<td id="t4"></td>
+<td id="t5"></td>
+</tr>
 
-<h3 id="percent"></h3>
+</table>
 
-<div class="progress">
-<div id="bar" class="bar" style="width:0%"></div>
-</div>
-
-</div>
-
-<div class="card">
-<div class="title">Update Milestone</div>
-
-<ul>
-<li>7hb – Cycle Closing</li>
-<li>20hb – Mid Month Review</li>
-<li>30hb – Month End Update</li>
-</ul>
-
-</div>
+<button onclick="save()">SAVE</button>
 
 <script>
 
-function updateCollection(){
+function calc(){
 
-let target = document.getElementById("target").value
-let actual = document.getElementById("actual").value
+let a1=Number(document.getElementById("ics1").value)||0
+let a2=Number(document.getElementById("ics2").value)||0
+let a3=Number(document.getElementById("ics3").value)||0
+let a4=Number(document.getElementById("ics4").value)||0
+let a5=Number(document.getElementById("ics5").value)||0
 
-let percent = (actual/target)*100
+let b1=Number(document.getElementById("coop1").value)||0
+let b2=Number(document.getElementById("coop2").value)||0
+let b3=Number(document.getElementById("coop3").value)||0
+let b4=Number(document.getElementById("coop4").value)||0
+let b5=Number(document.getElementById("coop5").value)||0
 
-document.getElementById("percent").innerHTML =
-"Progress : " + percent.toFixed(2) + "%"
-
-document.getElementById("bar").style.width = percent + "%"
-
-localStorage.setItem("target",target)
-localStorage.setItem("actual",actual)
+document.getElementById("t1").innerHTML=a1+b1
+document.getElementById("t2").innerHTML=a2+b2
+document.getElementById("t3").innerHTML=a3+b3
+document.getElementById("t4").innerHTML=a4+b4
+document.getElementById("t5").innerHTML=a5+b5
 
 }
 
-window.onload = function(){
+document.querySelectorAll("input").forEach(i=>{
+i.addEventListener("input",calc)
+})
 
-document.getElementById("target").value =
-localStorage.getItem("target") || ""
+function save(){
 
-document.getElementById("actual").value =
-localStorage.getItem("actual") || ""
+let data = {
+
+ics1:ics1.value,
+ics2:ics2.value,
+ics3:ics3.value,
+ics4:ics4.value,
+ics5:ics5.value,
+
+coop1:coop1.value,
+coop2:coop2.value,
+coop3:coop3.value,
+coop4:coop4.value,
+coop5:coop5.value
+
+}
+
+fetch("YOUR_GOOGLE_SCRIPT_URL",{
+
+method:"POST",
+body:JSON.stringify(data)
+
+})
 
 }
 
