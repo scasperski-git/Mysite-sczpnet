@@ -639,11 +639,12 @@ logout();
 setInterval(checkIdle, 5000);
 
 [
+"touchstart",
+"touchmove",
 "click",
-"mousemove",
 "scroll",
-"keydown",
-"touchstart"
+"keydown"
+"mousemove"
 ].forEach(event=>{
 document.addEventListener(event, updateActivity, {passive:true});
 });
