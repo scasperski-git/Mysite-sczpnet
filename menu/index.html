@@ -18,7 +18,7 @@ box-sizing:border-box;
 
 body{
 font-family:Arial, sans-serif;
-background:linear-gradient(180deg,#eef2f7,#e6edf5);
+background:#eef2f7;
 display:flex;
 justify-content:center;
 align-items:flex-start;
@@ -39,12 +39,8 @@ width:100%;
 max-width:520px;
 }
 
-.box-header{
-border-bottom:1px solid #e6eaf0;
-padding-bottom:10px;
-margin-bottom:12px;
-}
-  
+/* SECTION CARD */
+
 .section{
 background:white;
 border-radius:12px;
@@ -54,9 +50,13 @@ box-shadow:0 6px 18px rgba(0,0,0,0.08);
 border:1px solid #eef1f6;
 }
 
-.section h3{
-margin-top:2px;
+.section:hover{
+transform:translateY(-2px);
+box-shadow:0 8px 20px rgba(0,0,0,0.08);
+transition:0.2s;
 }
+
+/* SECTION COLORS */
 
 .dashboard.section{
 background:linear-gradient(135deg,#f3f6ff,#e8efff);
@@ -64,38 +64,8 @@ border:1px solid #d9e3ff;
 }
 
 .summary.section{
-background:#ffffff;
-}
-
-.summary.section{
 background:linear-gradient(135deg,#f3fff6,#e8fff0);
 border:1px solid #cfeedd;
-}
-
-.section:hover{
-transform:translateY(-2px);
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-transition:0.2s;
-}
-
-.box-card:hover{
-transform:translateY(-2px);
-box-shadow:0 6px 14px rgba(0,0,0,0.08);
-transition:0.2s;
-}
-  
-.spinner{
-width:16px;
-height:16px;
-border:3px solid rgba(255,255,255,0.4);
-border-top:3px solid white;
-border-radius:50%;
-animation:spin 0.7s linear infinite;
-}
-
-@keyframes spin{
-0%{transform:rotate(0deg)}
-100%{transform:rotate(360deg)}
 }
 
 /* TITLE */
@@ -103,6 +73,21 @@ animation:spin 0.7s linear infinite;
 h2{
 margin-top:0;
 margin-bottom:6px;
+}
+
+/* FIX ICON ALIGN */
+
+h3{
+display:flex;
+align-items:center;
+gap:6px;
+font-size:15px;
+font-weight:700;
+margin-bottom:4px;
+}
+
+h3 i{
+font-size:14px;
 }
 
 /* USER INFO */
@@ -113,54 +98,18 @@ color:#777;
 margin-bottom:10px;
 }
 
-.load-btn{
-width:100%;
-padding:14px;
-margin-top:10px;
-border:none;
-border-radius:10px;
-font-size:15px;
-cursor:pointer;
-font-weight:bold;
-background:linear-gradient(135deg,#6c63ff,#5148d8);
-color:white;
-transition:0.2s;
-display:flex;
-align-items:center;
-justify-content:center;
-gap:8px;
-}
-
-.load-btn:hover{
-transform:translateY(-1px);
-box-shadow:0 6px 14px rgba(0,0,0,0.15);
-}
-
-.load-btn:disabled{
-opacity:0.7;
-cursor:not-allowed;
-}
-  
-.section{
-transition:0.2s;
-}
-
-/* BUTTON */
+/* BUTTONS */
 
 button{
-width:100%;
-padding:16px;
-margin-top:14px;
 border:none;
 border-radius:10px;
-font-size:16px;
 cursor:pointer;
 font-weight:bold;
-transition:.2s;
 display:flex;
 align-items:center;
 justify-content:center;
 gap:8px;
+transition:.2s;
 }
 
 button:hover{
@@ -176,13 +125,12 @@ margin-bottom:20px;
 }
 
 .top-buttons button{
-width:auto;
 padding:8px 14px;
 font-size:13px;
 border-radius:8px;
 }
 
-/* COLORS */
+/* BUTTON COLORS */
 
 .check{
 background:linear-gradient(135deg,#007bff,#0056b3);
@@ -199,59 +147,7 @@ background:linear-gradient(135deg,#dc3545,#b02a37);
 color:white;
 }
 
-.top-buttons .logout{
-padding:8px 14px;
-}
-  
-.summary{
-margin-bottom:12px;
-text-align:left;
-}
-
-.summary-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:10px;
-}
-
-.box-card{
-background:#ffffff;
-border:1px solid #e4e7ec;
-padding:10px;
-border-radius:8px;
-font-size:12px;
-}
-
-.box-card div:first-child{
-color:#777;
-font-size:11px;
-margin-bottom:2px;
-}
-
-#topUser,
-#topBranch{
-font-size:12px;
-line-height:1.4;
-}
-
-.stat-box{
-background:white;
-border-radius:8px;
-padding:10px;
-border:1px solid #dfe5f1;
-transition:0.2s;
-}
-
-.stat-box:hover{
-transform:translateY(-2px);
-box-shadow:0 6px 14px rgba(0,0,0,0.1);
-}
-  
-.dashboard{
-margin-bottom:18px;
-text-align:left;
-}
+/* DASHBOARD GRID */
 
 .dash-grid{
 display:grid;
@@ -274,26 +170,34 @@ border-radius:6px;
 border:1px solid #ccc;
 }
 
+/* LOAD BUTTON */
+
+.load-btn{
+width:100%;
+padding:14px;
+margin-top:10px;
+font-size:15px;
+background:linear-gradient(135deg,#6c63ff,#5148d8);
+color:white;
+}
+
+/* DASH CARD */
+
 .dash-card{
 margin-top:15px;
 background:linear-gradient(135deg,#eef4ff,#dbe8ff);
 padding:14px;
 border-radius:10px;
-text-align:center;
-font-size:13px;
 border:1px solid #cfdcff;
-}
-
-.dash-card div{
-margin-top:4px;
 }
 
 .dash-stats{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:10px;
-margin-top:5px;
 }
+
+/* STAT BOX */
 
 .stat-box{
 background:white;
@@ -308,20 +212,17 @@ color:#666;
 margin-bottom:4px;
 }
 
-.stat-number.lock{
-color:#003c9e !important;
-background:none !important;
-}
-
 .stat-number{
-letter-spacing:0.5px;
 font-weight:bold;
 font-size:clamp(16px,4vw,22px);
 white-space:nowrap;
 }
-  
+
+.stat-number.lock{
+color:#003c9e;
+}
+
 .stat-number.amount{
-font-weight:700;
 color:#0a7d35;
 }
 
@@ -332,51 +233,55 @@ margin-top:8px;
 text-align:center;
 }
 
-.action-buttons{
+/* SUMMARY */
+
+.summary-grid{
 display:grid;
 grid-template-columns:1fr 1fr;
 gap:10px;
-margin-top:15px;
+margin-bottom:10px;
 }
 
-.action-buttons button{
-width:100%;
-padding:14px;
-font-size:14px;
+.box-card{
+background:white;
+border:1px solid #e4e7ec;
+padding:10px;
+border-radius:8px;
+font-size:12px;
 }
 
-h3{
-font-size:15px;
-font-weight:700;
-margin-bottom:4px;
-padding-bottom:0;
+.box-card div:first-child{
+color:#777;
+font-size:11px;
+margin-bottom:2px;
 }
 
-@media (min-width:900px){
+/* SPINNER */
 
-.box{
-max-width:520px;
+.spinner{
+width:16px;
+height:16px;
+border:3px solid rgba(255,255,255,0.4);
+border-top:3px solid white;
+border-radius:50%;
+animation:spin 0.7s linear infinite;
 }
 
-.summary-grid{
-grid-template-columns:1fr 1fr;
+@keyframes spin{
+0%{transform:rotate(0deg)}
+100%{transform:rotate(360deg)}
 }
 
-}
-  
 /* MOBILE */
 
 @media (max-width:600px){
 
 body{
 padding:15px;
-align-items:flex-start;
 }
 
 .box{
-max-width:100%;
 padding:25px;
-margin-top:5px;
 }
 
 button{
@@ -394,17 +299,13 @@ font-size:14px;
 
 }
 
-/* LARGE DESKTOP */
+/* DESKTOP LARGE */
 
 @media (min-width:1200px){
 
 .box{
 max-width:600px;
 padding:32px;
-}
-  
-button{
-font-size:18px;
 }
 
 }
@@ -415,7 +316,7 @@ font-size:18px;
 
 <body>
 
-<div class="box-header">
+<div class="box">
 
 <h2><i class="fa fa-table"></i> Master Menu</h2>
 
@@ -436,7 +337,7 @@ font-size:18px;
 </button>
 
 </div>
-  
+
 <div class="section dashboard">
 
 <h3><i class="fa fa-chart-line"></i> Lock Dashboard</h3>
@@ -487,24 +388,15 @@ Load Dashboard
 
 </div>
 
-
 <div class="section summary">
 
 <h3><i class="fa fa-calendar"></i> Today Summary</h3>
 
-<div id="refreshInfo" style="
-font-size:11px;
-color:#888;
-margin-bottom:8px;
-">
+<div id="refreshInfo" style="font-size:11px;color:#888;margin-bottom:8px;">
 ⟳ auto refresh every 30s
 </div>
 
-<div id="lastUpdate" style="
-font-size:11px;
-color:#999;
-margin-bottom:10px;
-">
+<div id="lastUpdate" style="font-size:11px;color:#999;margin-bottom:10px;">
 Last update: -
 </div>
 
@@ -541,6 +433,7 @@ Last update: -
 </div>
 
 <script src="../lockconfig.js"></script>
+<script>
 
 <script>
 
