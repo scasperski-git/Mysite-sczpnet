@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Login Portal</title>
+<title>Secure Login Portal</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -18,7 +18,9 @@ box-sizing:border-box;
 
 body{
 font-family:Arial, sans-serif;
-background:linear-gradient(135deg,#e9eef6,#dce5f2);
+background:
+linear-gradient(135deg,#eef3fb,#dfe7f5),
+radial-gradient(circle at top right,#ffffff55,transparent 60%);
 display:flex;
 justify-content:center;
 align-items:center;
@@ -33,17 +35,34 @@ padding:20px;
 background:white;
 padding:40px;
 border-radius:16px;
-box-shadow:0 15px 40px rgba(0,0,0,0.15);
+box-shadow:0 18px 45px rgba(0,0,0,0.15);
 width:100%;
 max-width:360px;
 }
 
-/* TITLE */
+/* HEADER */
 
-h2{
+.login-header{
 text-align:center;
-margin-bottom:25px;
-color:#333;
+margin-bottom:24px;
+}
+
+.login-header i{
+font-size:36px;
+color:#007bff;
+margin-bottom:6px;
+}
+
+.login-title{
+font-size:20px;
+font-weight:700;
+color:#1f3c88;
+}
+
+.login-sub{
+font-size:12px;
+color:#777;
+margin-top:2px;
 }
 
 /* ERROR */
@@ -63,8 +82,6 @@ position:relative;
 margin-bottom:15px;
 }
 
-/* LEFT ICON */
-
 .input-group i.left{
 position:absolute;
 top:50%;
@@ -78,16 +95,18 @@ color:#777;
 .input-group input{
 width:100%;
 padding:14px 45px 14px 38px;
-border:1px solid #ccc;
-border-radius:8px;
+border:1px solid #d9dee7;
+border-radius:10px;
 font-size:15px;
+background:#f9fbff;
 transition:.2s;
 }
 
 .input-group input:focus{
 outline:none;
+background:white;
 border-color:#007bff;
-box-shadow:0 0 0 3px rgba(0,123,255,0.15);
+box-shadow:0 0 0 3px rgba(0,123,255,0.12);
 }
 
 /* PASSWORD EYE */
@@ -109,25 +128,40 @@ color:#007bff;
 
 button{
 width:100%;
-padding:14px;
-background:linear-gradient(135deg,#007bff,#0056b3);
+padding:15px;
+background:linear-gradient(135deg,#007bff,#0047ab);
 color:white;
 border:none;
-border-radius:8px;
+border-radius:10px;
 font-size:16px;
-font-weight:bold;
+font-weight:600;
 cursor:pointer;
 transition:.2s;
+letter-spacing:.4px;
 }
 
 button:hover{
-transform:translateY(-1px);
-box-shadow:0 6px 15px rgba(0,0,0,0.2);
+transform:translateY(-2px);
+box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* SECURITY NOTE */
+
+.login-note{
+margin-top:14px;
+font-size:11px;
+color:#888;
+text-align:center;
+}
+
+.login-note i{
+margin-right:4px;
 }
 
 /* =========================
-BLUR OVERLAY
+AUTHENTICATION OVERLAY
 ========================= */
+
 #overlay{
 position:fixed;
 top:0;
@@ -143,18 +177,19 @@ background:rgba(0,0,0,0.35);
 }
 
 .auth-card{
-background:rgba(255,255,255,0.9);
+background:rgba(255,255,255,0.92);
 padding:35px 40px;
 border-radius:16px;
 text-align:center;
-box-shadow:0 20px 40px rgba(0,0,0,0.2);
+box-shadow:0 20px 40px rgba(0,0,0,0.25);
 min-width:220px;
+animation:fadeIn .25s ease;
 }
 
 .auth-icon{
-font-size:28px;
+font-size:30px;
 color:#007bff;
-margin-bottom:12px;
+margin-bottom:10px;
 animation:pulse 1.4s infinite;
 }
 
@@ -191,25 +226,9 @@ animation-delay:0.2s;
 animation-delay:0.4s;
 }
 
-.auth-card{
-background:rgba(255,255,255,0.9);
-padding:35px 40px;
-border-radius:16px;
-text-align:center;
-box-shadow:0 20px 40px rgba(0,0,0,0.2);
-min-width:220px;
-animation:fadeIn .25s ease;
-}
-
 @keyframes fadeIn{
-from{
-transform:scale(.9);
-opacity:0;
-}
-to{
-transform:scale(1);
-opacity:1;
-}
+from{transform:scale(.9);opacity:0;}
+to{transform:scale(1);opacity:1;}
 }
 
 @keyframes pulse{
@@ -221,11 +240,6 @@ opacity:1;
 @keyframes dots{
 0%,80%,100%{opacity:0}
 40%{opacity:1}
-}
-
-@keyframes spin{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
 }
 
 /* MOBILE */
@@ -251,7 +265,14 @@ font-size:17px;
 
 <div class="box">
 
-<h2>Login Portal</h2>
+<div class="login-header">
+
+<i class="fa fa-shield-halved"></i>
+
+<div class="login-title">Lock Management</div>
+<div class="login-sub">Secure Access Portal</div>
+
+</div>
 
 <div id="errorMsg"></div>
 
@@ -268,11 +289,16 @@ font-size:17px;
 
 <button onclick="login()">Login</button>
 
+<div class="login-note">
+<i class="fa fa-lock"></i> Secure internal access
 </div>
 
-<!-- BLUR LOADING OVERLAY -->
+</div>
+
+<!-- AUTH OVERLAY -->
 
 <div id="overlay">
+
 <div class="auth-card">
 
 <i class="fa-solid fa-shield-halved auth-icon"></i>
@@ -287,6 +313,7 @@ font-size:17px;
 </div>
 
 </div>
+
 </div>
 
 <script src="../lockconfig.js"></script>
@@ -296,6 +323,7 @@ font-size:17px;
 const api = API_URL;
 
 /* AUTO FOCUS */
+
 document.getElementById("user").focus();
 
 /* PASSWORD TOGGLE */
@@ -308,8 +336,7 @@ const icon=document.querySelector(".toggle-pass");
 if(pass.type==="password"){
 pass.type="text";
 icon.classList.replace("fa-eye","fa-eye-slash");
-}
-else{
+}else{
 pass.type="password";
 icon.classList.replace("fa-eye-slash","fa-eye");
 }
@@ -332,8 +359,6 @@ err.innerText="Enter User ID and Password";
 err.style.display="block";
 return;
 }
-
-/* SHOW OVERLAY */
 
 document.getElementById("overlay").style.display="flex";
 
@@ -361,22 +386,18 @@ localStorage.setItem("lock_name",data.name);
 if(data.type=="check"){
 window.location="../check/";
 }
-
 else if(data.type=="lock"){
 window.location="../lock/";
 }
-
 else if(data.type=="master"){
 window.location="../menu/";
 }
 
 }
-
 else if(data.status==="INACTIVE"){
 err.innerText="User ID inactive";
 err.style.display="block";
 }
-
 else{
 err.innerText="Invalid login credentials";
 err.style.display="block";
@@ -389,8 +410,6 @@ err.style.display="block";
 
 }
 
-/* HIDE OVERLAY */
-
 document.getElementById("overlay").style.display="none";
 
 }
@@ -398,11 +417,9 @@ document.getElementById("overlay").style.display="none";
 /* ENTER KEY LOGIN */
 
 document.getElementById("pass").addEventListener("keypress",function(e){
-
 if(e.key==="Enter"){
 login();
 }
-
 });
 
 </script>
