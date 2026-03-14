@@ -690,7 +690,7 @@ loadUsers();
 loadDashboard();
 loadSummary();
 
-setInterval(()=>runIfVisible(loadSummary),30000);
+setInterval(loadSummary,30000);
 
 };
 
@@ -713,12 +713,6 @@ localStorage.clear();
 window.location="../lockcheck-login/";
 }
 
-function runIfVisible(fn){
-if(!document.hidden){
-fn();
-}
-}
-  
 function showSessionPopup(type){
 
 let title="Session Expired";
