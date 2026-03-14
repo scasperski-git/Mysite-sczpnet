@@ -690,7 +690,7 @@ loadUsers();
 loadDashboard();
 loadSummary();
 
-setInterval(loadSummary,30000);
+setInterval(()=>runIfVisible(loadSummary),30000);
 
 };
 
@@ -713,6 +713,12 @@ localStorage.clear();
 window.location="../lockcheck-login/";
 }
 
+function runIfVisible(fn){
+if(!document.hidden){
+fn();
+}
+}
+  
 function showSessionPopup(type){
 
 let title="Session Expired";
@@ -758,20 +764,11 @@ setInterval(function(){
 
 var today=getTodayLocal();
 
-var start=document.getElementById("startDate");
-var end=document.getElementById("endDate");
+var start=document.getElementById("startDate").value;
+var end=document.getElementById("endDate").value;
 
-if(start.value!=today){
-
-start.value=today;
-end.value=today;
-
-start.max=today;
-end.max=today;
-
+if(start===today && end===today){
 loadDashboard();
-loadSummary();
-
 }
 
 },60000);
