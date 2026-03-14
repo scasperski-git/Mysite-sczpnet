@@ -14,15 +14,15 @@ padding:30px;
 
 table{
 border-collapse:collapse;
-background:white;
 margin-bottom:40px;
+background:white;
 }
 
 td,th{
 border:1px solid #999;
 padding:8px;
 text-align:center;
-min-width:100px;
+min-width:90px;
 }
 
 th{
@@ -30,13 +30,17 @@ background:#e9ecef;
 }
 
 input{
-width:90px;
+width:80px;
 border:none;
 text-align:center;
 }
 
-h2{
-margin-top:40px;
+button{
+padding:10px 20px;
+background:#2c7be5;
+color:white;
+border:none;
+border-radius:5px;
 }
 
 </style>
@@ -45,183 +49,97 @@ margin-top:40px;
 
 <body>
 
-<h1>Batch 1</h1>
-Start : 8/12/26 – 7/4/26
+<h1>Collection Dashboard</h1>
 
+<div id="tables"></div>
 
-<!-- CYCLE 1 -->
-<h2>Cycle 1</h2>
-
-<table>
-
-<tr>
-<th>Batch Name</th>
-<th>20/12</th>
-<th>28/12</th>
-<th>7/1</th>
-</tr>
-
-<tr>
-<td>B1-ICS</td>
-<td><input class="c1"></td>
-<td><input class="c1"></td>
-<td><input class="c1"></td>
-</tr>
-
-<tr>
-<td>B1-COOP</td>
-<td><input class="c1"></td>
-<td><input class="c1"></td>
-<td><input class="c1"></td>
-</tr>
-
-<tr>
-<td><b>TOTAL</b></td>
-<td id="c1t1"></td>
-<td id="c1t2"></td>
-<td id="c1t3"></td>
-</tr>
-
-</table>
-
-
-<!-- CYCLE 2 -->
-<h2>Cycle 2</h2>
-
-<table>
-
-<tr>
-<th>Batch Name</th>
-<th>18/1</th>
-<th>20/1</th>
-<th>30/1</th>
-</tr>
-
-<tr>
-<td>B1-ICS</td>
-<td><input class="c2"></td>
-<td><input class="c2"></td>
-<td><input class="c2"></td>
-</tr>
-
-<tr>
-<td>B1-COOP</td>
-<td><input class="c2"></td>
-<td><input class="c2"></td>
-<td><input class="c2"></td>
-</tr>
-
-<tr>
-<td><b>TOTAL</b></td>
-<td id="c2t1"></td>
-<td id="c2t2"></td>
-<td id="c2t3"></td>
-</tr>
-
-</table>
-
-
-<!-- CYCLE 3 -->
-<h2>Cycle 3</h2>
-
-<table>
-
-<tr>
-<th>Batch Name</th>
-<th>7/2</th>
-<th>20/2</th>
-<th>30/2</th>
-</tr>
-
-<tr>
-<td>B1-ICS</td>
-<td><input class="c3"></td>
-<td><input class="c3"></td>
-<td><input class="c3"></td>
-</tr>
-
-<tr>
-<td>B1-COOP</td>
-<td><input class="c3"></td>
-<td><input class="c3"></td>
-<td><input class="c3"></td>
-</tr>
-
-<tr>
-<td><b>TOTAL</b></td>
-<td id="c3t1"></td>
-<td id="c3t2"></td>
-<td id="c3t3"></td>
-</tr>
-
-</table>
-
-
-<!-- CYCLE 4 -->
-<h2>Cycle 4</h2>
-
-<table>
-
-<tr>
-<th>Batch Name</th>
-<th>7/3</th>
-<th>20/3</th>
-<th>30/3</th>
-</tr>
-
-<tr>
-<td>B1-ICS</td>
-<td><input class="c4"></td>
-<td><input class="c4"></td>
-<td><input class="c4"></td>
-</tr>
-
-<tr>
-<td>B1-COOP</td>
-<td><input class="c4"></td>
-<td><input class="c4"></td>
-<td><input class="c4"></td>
-</tr>
-
-<tr>
-<td><b>TOTAL</b></td>
-<td id="c4t1"></td>
-<td id="c4t2"></td>
-<td id="c4t3"></td>
-</tr>
-
-</table>
-
+<button onclick="save()">SAVE</button>
 
 <script>
 
-function calcCycle(className,t1,t2,t3){
+const api="YOUR_SCRIPT_URL"
 
-let inputs=document.querySelectorAll("."+className)
+let batches=[]
 
-let a1=Number(inputs[0].value)||0
-let a2=Number(inputs[1].value)||0
-let a3=Number(inputs[2].value)||0
-let b1=Number(inputs[3].value)||0
-let b2=Number(inputs[4].value)||0
-let b3=Number(inputs[5].value)||0
+async function loadBatches(){
 
-document.getElementById(t1).innerHTML=a1+b1
-document.getElementById(t2).innerHTML=a2+b2
-document.getElementById(t3).innerHTML=a3+b3
+let res=await fetch(api)
+batches=await res.json()
+
+createTables()
 
 }
 
+function createTables(){
+
+let html=""
+
+for(let c=1;c<=4;c++){
+
+html+=`<h2>Cycle ${c}</h2>`
+
+html+=`<table>
+<tr>
+<th>Batch</th>
+<th>7hb</th>
+<th>20hb</th>
+<th>30hb</th>
+</tr>`
+
+batches.forEach(b=>{
+
+let name=b[0]
+
+html+=`<tr>
+<td>${name}</td>
+<td><input data-cycle="${c}" data-batch="${name}" data-date="7"></td>
+<td><input data-cycle="${c}" data-batch="${name}" data-date="20"></td>
+<td><input data-cycle="${c}" data-batch="${name}" data-date="30"></td>
+</tr>`
+
+})
+
+html+="</table>"
+
+}
+
+document.getElementById("tables").innerHTML=html
+
+}
+
+function save(){
+
+let rows=[]
+
 document.querySelectorAll("input").forEach(i=>{
-i.addEventListener("input",()=>{
 
-calcCycle("c1","c1t1","c1t2","c1t3")
-calcCycle("c2","c2t1","c2t2","c2t3")
-calcCycle("c3","c3t1","c3t2","c3t3")
-calcCycle("c4","c4t1","c4t2","c4t3")
+if(i.value!=""){
+
+rows.push({
+
+cycle:i.dataset.cycle,
+batch:i.dataset.batch,
+date:i.dataset.date,
+amount:i.value
 
 })
+
+}
+
 })
+
+fetch(api,{
+
+method:"POST",
+body:JSON.stringify(rows)
+
+})
+
+alert("Saved")
+
+}
+
+loadBatches()
 
 </script>
 
