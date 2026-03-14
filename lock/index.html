@@ -987,6 +987,7 @@ setInterval(checkIdle, 5000);
 "click",
 "scroll",
 "keydown"
+"mousemove"
 ].forEach(event=>{
 document.addEventListener(event, updateActivity, {passive:true});
 });
