@@ -472,7 +472,13 @@ const data=await res.json();
 
 if(data.status=="UNAUTHORIZED"){
 
+if(data.reason=="SESSION_REPLACED"){
+alert("Your account has been logged in from another device.");
+}
+else{
 alert("Session expired. Please login again.");
+}
+
 localStorage.clear();
 window.location="../lockcheck-login/";
 return;
