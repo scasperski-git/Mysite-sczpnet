@@ -531,6 +531,29 @@ document.getElementById("lastUpdate").innerText="Last update: "+time;
 
 });
 }
+
+async function checkSession(){
+
+try{
+
+const res = await fetch(api+"?action=session&token="+token);
+const data = await res.json();
+
+if(data.status !== "ACTIVE"){
+
+alert("Your account has been logged in from another device.");
+
+localStorage.clear();
+window.location="../lockcheck-login/";
+
+}
+
+}catch(e){
+console.log("Session check error");
+}
+
+}
+setInterval(checkSession,10000);
   
 function loadDashboard(){
 
