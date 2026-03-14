@@ -15,6 +15,7 @@ padding:30px;
 table{
 border-collapse:collapse;
 background:white;
+margin-bottom:40px;
 }
 
 td,th{
@@ -34,13 +35,8 @@ border:none;
 text-align:center;
 }
 
-button{
-margin-top:20px;
-padding:10px 20px;
-background:#2c7be5;
-color:white;
-border:none;
-border-radius:5px;
+h2{
+margin-top:40px;
 }
 
 </style>
@@ -49,8 +45,12 @@ border-radius:5px;
 
 <body>
 
-<h2>Batch 1</h2>
+<h1>Batch 1</h1>
 Start : 8/12/26 – 7/4/26
+
+
+<!-- CYCLE 1 -->
+<h2>Cycle 1</h2>
 
 <table>
 
@@ -58,96 +58,170 @@ Start : 8/12/26 – 7/4/26
 <th>Batch Name</th>
 <th>20/12</th>
 <th>28/12</th>
-<th>7/3</th>
-<th>18/3</th>
-<th>20/3</th>
+<th>7/1</th>
 </tr>
 
 <tr>
 <td>B1-ICS</td>
-<td><input id="ics1"></td>
-<td><input id="ics2"></td>
-<td><input id="ics3"></td>
-<td><input id="ics4"></td>
-<td><input id="ics5"></td>
+<td><input class="c1"></td>
+<td><input class="c1"></td>
+<td><input class="c1"></td>
 </tr>
 
 <tr>
 <td>B1-COOP</td>
-<td><input id="coop1"></td>
-<td><input id="coop2"></td>
-<td><input id="coop3"></td>
-<td><input id="coop4"></td>
-<td><input id="coop5"></td>
+<td><input class="c1"></td>
+<td><input class="c1"></td>
+<td><input class="c1"></td>
 </tr>
 
 <tr>
 <td><b>TOTAL</b></td>
-<td id="t1"></td>
-<td id="t2"></td>
-<td id="t3"></td>
-<td id="t4"></td>
-<td id="t5"></td>
+<td id="c1t1"></td>
+<td id="c1t2"></td>
+<td id="c1t3"></td>
 </tr>
 
 </table>
 
-<button onclick="save()">SAVE</button>
+
+<!-- CYCLE 2 -->
+<h2>Cycle 2</h2>
+
+<table>
+
+<tr>
+<th>Batch Name</th>
+<th>18/1</th>
+<th>20/1</th>
+<th>30/1</th>
+</tr>
+
+<tr>
+<td>B1-ICS</td>
+<td><input class="c2"></td>
+<td><input class="c2"></td>
+<td><input class="c2"></td>
+</tr>
+
+<tr>
+<td>B1-COOP</td>
+<td><input class="c2"></td>
+<td><input class="c2"></td>
+<td><input class="c2"></td>
+</tr>
+
+<tr>
+<td><b>TOTAL</b></td>
+<td id="c2t1"></td>
+<td id="c2t2"></td>
+<td id="c2t3"></td>
+</tr>
+
+</table>
+
+
+<!-- CYCLE 3 -->
+<h2>Cycle 3</h2>
+
+<table>
+
+<tr>
+<th>Batch Name</th>
+<th>7/2</th>
+<th>20/2</th>
+<th>30/2</th>
+</tr>
+
+<tr>
+<td>B1-ICS</td>
+<td><input class="c3"></td>
+<td><input class="c3"></td>
+<td><input class="c3"></td>
+</tr>
+
+<tr>
+<td>B1-COOP</td>
+<td><input class="c3"></td>
+<td><input class="c3"></td>
+<td><input class="c3"></td>
+</tr>
+
+<tr>
+<td><b>TOTAL</b></td>
+<td id="c3t1"></td>
+<td id="c3t2"></td>
+<td id="c3t3"></td>
+</tr>
+
+</table>
+
+
+<!-- CYCLE 4 -->
+<h2>Cycle 4</h2>
+
+<table>
+
+<tr>
+<th>Batch Name</th>
+<th>7/3</th>
+<th>20/3</th>
+<th>30/3</th>
+</tr>
+
+<tr>
+<td>B1-ICS</td>
+<td><input class="c4"></td>
+<td><input class="c4"></td>
+<td><input class="c4"></td>
+</tr>
+
+<tr>
+<td>B1-COOP</td>
+<td><input class="c4"></td>
+<td><input class="c4"></td>
+<td><input class="c4"></td>
+</tr>
+
+<tr>
+<td><b>TOTAL</b></td>
+<td id="c4t1"></td>
+<td id="c4t2"></td>
+<td id="c4t3"></td>
+</tr>
+
+</table>
+
 
 <script>
 
-function calc(){
+function calcCycle(className,t1,t2,t3){
 
-let a1=Number(document.getElementById("ics1").value)||0
-let a2=Number(document.getElementById("ics2").value)||0
-let a3=Number(document.getElementById("ics3").value)||0
-let a4=Number(document.getElementById("ics4").value)||0
-let a5=Number(document.getElementById("ics5").value)||0
+let inputs=document.querySelectorAll("."+className)
 
-let b1=Number(document.getElementById("coop1").value)||0
-let b2=Number(document.getElementById("coop2").value)||0
-let b3=Number(document.getElementById("coop3").value)||0
-let b4=Number(document.getElementById("coop4").value)||0
-let b5=Number(document.getElementById("coop5").value)||0
+let a1=Number(inputs[0].value)||0
+let a2=Number(inputs[1].value)||0
+let a3=Number(inputs[2].value)||0
+let b1=Number(inputs[3].value)||0
+let b2=Number(inputs[4].value)||0
+let b3=Number(inputs[5].value)||0
 
-document.getElementById("t1").innerHTML=a1+b1
-document.getElementById("t2").innerHTML=a2+b2
-document.getElementById("t3").innerHTML=a3+b3
-document.getElementById("t4").innerHTML=a4+b4
-document.getElementById("t5").innerHTML=a5+b5
+document.getElementById(t1).innerHTML=a1+b1
+document.getElementById(t2).innerHTML=a2+b2
+document.getElementById(t3).innerHTML=a3+b3
 
 }
 
 document.querySelectorAll("input").forEach(i=>{
-i.addEventListener("input",calc)
-})
+i.addEventListener("input",()=>{
 
-function save(){
-
-let data = {
-
-ics1:ics1.value,
-ics2:ics2.value,
-ics3:ics3.value,
-ics4:ics4.value,
-ics5:ics5.value,
-
-coop1:coop1.value,
-coop2:coop2.value,
-coop3:coop3.value,
-coop4:coop4.value,
-coop5:coop5.value
-
-}
-
-fetch("YOUR_GOOGLE_SCRIPT_URL",{
-
-method:"POST",
-body:JSON.stringify(data)
+calcCycle("c1","c1t1","c1t2","c1t3")
+calcCycle("c2","c2t1","c2t2","c2t3")
+calcCycle("c3","c3t1","c3t2","c3t3")
+calcCycle("c4","c4t1","c4t2","c4t3")
 
 })
-
-}
+})
 
 </script>
 
