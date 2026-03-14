@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Collection Dashboard</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#f4f6f9;
+    margin:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+    margin-bottom:20px;
+}
+
+.title{
+    font-size:20px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.progress{
+    width:100%;
+    background:#ddd;
+    border-radius:20px;
+}
+
+.bar{
+    height:20px;
+    background:#28a745;
+    border-radius:20px;
+}
+
+button{
+    padding:8px 15px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:5px;
+}
+
+input{
+    padding:5px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Collection Dashboard</h1>
+
+<div class="card">
+<div class="title">Cycle Information</div>
+Cycle Period : <b>8hb - 7hb</b><br>
+Cycle Length : <b>4 Months</b>
+</div>
+
+<div class="card">
+<div class="title">Collection Target</div>
+
+Target Collection :
+<input type="number" id="target"><br><br>
+
+Actual Collection :
+<input type="number" id="actual"><br><br>
+
+<button onclick="updateCollection()">Update</button>
+
+<h3 id="percent"></h3>
+
+<div class="progress">
+<div id="bar" class="bar" style="width:0%"></div>
+</div>
+
+</div>
+
+<div class="card">
+<div class="title">Update Milestone</div>
+
+<ul>
+<li>7hb – Cycle Closing</li>
+<li>20hb – Mid Month Review</li>
+<li>30hb – Month End Update</li>
+</ul>
+
+</div>
+
+<script>
+
+function updateCollection(){
+
+let target = document.getElementById("target").value
+let actual = document.getElementById("actual").value
+
+let percent = (actual/target)*100
+
+document.getElementById("percent").innerHTML =
+"Progress : " + percent.toFixed(2) + "%"
+
+document.getElementById("bar").style.width = percent + "%"
+
+localStorage.setItem("target",target)
+localStorage.setItem("actual",actual)
+
+}
+
+window.onload = function(){
+
+document.getElementById("target").value =
+localStorage.getItem("target") || ""
+
+document.getElementById("actual").value =
+localStorage.getItem("actual") || ""
+
+}
+
+</script>
+
+</body>
+</html>
