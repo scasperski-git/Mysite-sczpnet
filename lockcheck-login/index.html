@@ -16,11 +16,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 box-sizing:border-box;
 }
 
+/* ANIMATED BACKGROUND */
+
 body{
 font-family:Arial, sans-serif;
-background:
-linear-gradient(135deg,#eef3fb,#dfe7f5),
-radial-gradient(circle at top right,#ffffff55,transparent 60%);
+background:linear-gradient(135deg,#4f6df5,#6c63ff,#3c8ce7,#00c6ff);
+background-size:400% 400%;
+animation:bgMove 12s ease infinite;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -29,15 +31,28 @@ margin:0;
 padding:20px;
 }
 
-/* LOGIN CARD */
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+/* GLASS LOGIN CARD */
 
 .box{
-background:white;
-padding:40px;
-border-radius:16px;
-box-shadow:0 18px 45px rgba(0,0,0,0.15);
+background:rgba(255,255,255,0.92);
+backdrop-filter:blur(10px);
+padding:42px;
+border-radius:18px;
+box-shadow:0 20px 50px rgba(0,0,0,0.25);
 width:100%;
-max-width:360px;
+max-width:370px;
+animation:fadeIn .4s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
 }
 
 /* HEADER */
@@ -49,7 +64,7 @@ margin-bottom:24px;
 
 .login-header i{
 font-size:36px;
-color:#007bff;
+color:#0047ab;
 margin-bottom:6px;
 }
 
@@ -61,8 +76,7 @@ color:#1f3c88;
 
 .login-sub{
 font-size:12px;
-color:#777;
-margin-top:2px;
+color:#666;
 }
 
 /* ERROR */
@@ -79,7 +93,7 @@ display:none;
 
 .input-group{
 position:relative;
-margin-bottom:15px;
+margin-bottom:16px;
 }
 
 .input-group i.left{
@@ -98,7 +112,7 @@ padding:14px 45px 14px 38px;
 border:1px solid #d9dee7;
 border-radius:10px;
 font-size:15px;
-background:#f9fbff;
+background:#f8fbff;
 transition:.2s;
 }
 
@@ -142,7 +156,16 @@ letter-spacing:.4px;
 
 button:hover{
 transform:translateY(-2px);
-box-shadow:0 8px 20px rgba(0,0,0,0.2);
+box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* ATTEMPT INDICATOR */
+
+.attempt{
+margin-top:10px;
+font-size:11px;
+color:#888;
+text-align:center;
 }
 
 /* SECURITY NOTE */
@@ -150,16 +173,12 @@ box-shadow:0 8px 20px rgba(0,0,0,0.2);
 .login-note{
 margin-top:14px;
 font-size:11px;
-color:#888;
+color:#777;
 text-align:center;
 }
 
-.login-note i{
-margin-right:4px;
-}
-
 /* =========================
-AUTHENTICATION OVERLAY
+AUTH OVERLAY
 ========================= */
 
 #overlay{
@@ -172,24 +191,23 @@ display:none;
 align-items:center;
 justify-content:center;
 z-index:999;
-backdrop-filter:blur(10px);
-background:rgba(0,0,0,0.35);
+backdrop-filter:blur(12px);
+background:rgba(0,0,0,0.4);
 }
 
 .auth-card{
-background:rgba(255,255,255,0.92);
-padding:35px 40px;
+background:white;
+padding:38px;
 border-radius:16px;
 text-align:center;
 box-shadow:0 20px 40px rgba(0,0,0,0.25);
-min-width:220px;
-animation:fadeIn .25s ease;
+min-width:240px;
 }
 
 .auth-icon{
-font-size:30px;
+font-size:32px;
 color:#007bff;
-margin-bottom:10px;
+margin-bottom:12px;
 animation:pulse 1.4s infinite;
 }
 
@@ -226,11 +244,6 @@ animation-delay:0.2s;
 animation-delay:0.4s;
 }
 
-@keyframes fadeIn{
-from{transform:scale(.9);opacity:0;}
-to{transform:scale(1);opacity:1;}
-}
-
 @keyframes pulse{
 0%{transform:scale(1)}
 50%{transform:scale(1.15)}
@@ -247,7 +260,7 @@ to{transform:scale(1);opacity:1;}
 @media (max-width:600px){
 
 .box{
-padding:30px;
+padding:32px;
 }
 
 button{
@@ -289,8 +302,12 @@ font-size:17px;
 
 <button onclick="login()">Login</button>
 
+<div class="attempt">
+Secure authentication system
+</div>
+
 <div class="login-note">
-<i class="fa fa-lock"></i> Secure internal access
+<i class="fa fa-lock"></i> Authorized personnel only
 </div>
 
 </div>
@@ -321,8 +338,6 @@ font-size:17px;
 <script>
 
 const api = API_URL;
-
-/* AUTO FOCUS */
 
 document.getElementById("user").focus();
 
@@ -414,12 +429,14 @@ document.getElementById("overlay").style.display="none";
 
 }
 
-/* ENTER KEY LOGIN */
+/* ENTER KEY */
 
 document.getElementById("pass").addEventListener("keypress",function(e){
+
 if(e.key==="Enter"){
 login();
 }
+
 });
 
 </script>
