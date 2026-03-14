@@ -18,7 +18,7 @@ box-sizing:border-box;
 
 body{
 font-family:Arial, sans-serif;
-background:#eef2f7;
+background:linear-gradient(180deg,#eef2f7,#e6edf5);
 display:flex;
 justify-content:center;
 align-items:flex-start;
@@ -39,6 +39,12 @@ width:100%;
 max-width:520px;
 }
 
+.box-header{
+border-bottom:1px solid #e6eaf0;
+padding-bottom:10px;
+margin-bottom:12px;
+}
+  
 .section{
 background:white;
 border-radius:12px;
@@ -69,6 +75,12 @@ border:1px solid #cfeedd;
 .section:hover{
 transform:translateY(-2px);
 box-shadow:0 8px 20px rgba(0,0,0,0.08);
+transition:0.2s;
+}
+
+.box-card:hover{
+transform:translateY(-2px);
+box-shadow:0 6px 14px rgba(0,0,0,0.08);
 transition:0.2s;
 }
   
@@ -127,6 +139,10 @@ box-shadow:0 6px 14px rgba(0,0,0,0.15);
 .load-btn:disabled{
 opacity:0.7;
 cursor:not-allowed;
+}
+  
+.section{
+transition:0.2s;
 }
 
 /* BUTTON */
@@ -298,12 +314,14 @@ background:none !important;
 }
 
 .stat-number{
+letter-spacing:0.5px;
 font-weight:bold;
 font-size:clamp(16px,4vw,22px);
 white-space:nowrap;
 }
   
 .stat-number.amount{
+font-weight:700;
 color:#0a7d35;
 }
 
@@ -397,7 +415,7 @@ font-size:18px;
 
 <body>
 
-<div class="box">
+<div class="box-header">
 
 <h2><i class="fa fa-table"></i> Master Menu</h2>
 
@@ -421,7 +439,7 @@ font-size:18px;
   
 <div class="section dashboard">
 
-<h3>Lock Dashboard</h3>
+<h3><i class="fa fa-chart-line"></i> Lock Dashboard</h3>
 
 <div class="dash-grid">
 
@@ -472,7 +490,7 @@ Load Dashboard
 
 <div class="section summary">
 
-<h3>Today Summary</h3>
+<h3><i class="fa fa-calendar"></i> Today Summary</h3>
 
 <div id="refreshInfo" style="
 font-size:11px;
