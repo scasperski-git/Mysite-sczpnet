@@ -1,80 +1,145 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Daily Collection Update</title>
-<style>
-body{
-    font-family: Arial;
-    margin:40px;
-}
 
-input,button{
-    padding:8px;
-    margin:5px;
+<title>Collection Dashboard</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:40px;
 }
 
 table{
-    border-collapse: collapse;
-    margin-top:20px;
+border-collapse:collapse;
+margin-top:20px;
 }
 
-table,th,td{
-    border:1px solid black;
-    padding:8px;
+td,th{
+border:1px solid #444;
+padding:8px;
+text-align:center;
 }
 
-th{
-    background:#f0f0f0;
+input{
+width:80px;
 }
+
+select{
+padding:5px;
+}
+
+button{
+padding:10px 20px;
+margin-top:20px;
+}
+
 </style>
+
 </head>
 
 <body>
 
-<h2>Daily Collection Update</h2>
+<h2>Collection Update Portal</h2>
 
-<label>Date:</label>
-<input type="date" id="date">
+<label>DCA Name:</label>
 
-<label>Total Collection:</label>
-<input type="number" id="amount">
+<select id="dca">
+<option>abc debt</option>
+<option>def debt</option>
+</select>
 
-<button onclick="addData()">Add</button>
+<h3>Cycle 1</h3>
 
-<table id="dataTable">
-<thead>
+<table>
+
 <tr>
-<th>Date</th>
-<th>Total Collection</th>
+<th>Batch</th>
+<th>20/2</th>
+<th>28/2</th>
+<th>7/3</th>
+<th>Total</th>
 </tr>
-</thead>
-<tbody></tbody>
+
+<tr>
+
+<td>batch 9a</td>
+
+<td><input type="number" class="amt"></td>
+<td><input type="number" class="amt"></td>
+<td><input type="number" class="amt"></td>
+
+<td class="total">0</td>
+
+</tr>
+
+<tr>
+
+<td>batch 9a-tcs</td>
+
+<td><input type="number" class="amt"></td>
+<td><input type="number" class="amt"></td>
+<td><input type="number" class="amt"></td>
+
+<td class="total">0</td>
+
+</tr>
+
+<tr>
+
+<td>batch 9a-coop</td>
+
+<td><input type="number" class="amt"></td>
+<td><input type="number" class="amt"></td>
+<td><input type="number" class="amt"></td>
+
+<td class="total">0</td>
+
+</tr>
+
 </table>
+
+<button onclick="submitData()">Submit</button>
 
 <script>
 
-function addData(){
+let inputs=document.querySelectorAll(".amt")
 
-let date = document.getElementById("date").value
-let amount = document.getElementById("amount").value
+inputs.forEach(i=>{
+i.addEventListener("input",calc)
+})
 
-if(date=="" || amount==""){
-alert("Please fill all fields")
-return
+function calc(){
+
+let rows=document.querySelectorAll("table tr")
+
+rows.forEach((row,i)=>{
+
+if(i==0)return
+
+let cells=row.querySelectorAll("input")
+
+let total=0
+
+cells.forEach(c=>{
+total+=Number(c.value)
+})
+
+row.querySelector(".total").innerText=total
+
+})
+
 }
 
-let table = document.getElementById("dataTable").getElementsByTagName('tbody')[0]
+function submitData(){
 
-let row = table.insertRow()
-
-row.insertCell(0).innerHTML = date
-row.insertCell(1).innerHTML = amount
-
-document.getElementById("amount").value=""
+alert("Collection submitted!")
 
 }
 
 </script>
 
 </body>
+
 </html>
