@@ -2,37 +2,38 @@
 <html>
 <head>
 
-<title>Collection Dashboard</title>
+<title>Collection Portal</title>
 
 <style>
 
 body{
 font-family:Arial;
-margin:40px;
+margin:60px;
+background:#f4f6f8;
 }
 
-table{
-border-collapse:collapse;
-margin-top:20px;
+.container{
+background:white;
+padding:30px;
+width:400px;
+border-radius:8px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-td,th{
-border:1px solid #444;
+input,select{
+width:100%;
 padding:8px;
-text-align:center;
-}
-
-input{
-width:80px;
-}
-
-select{
-padding:5px;
+margin-top:5px;
+margin-bottom:15px;
 }
 
 button{
-padding:10px 20px;
-margin-top:20px;
+background:#2e7d32;
+color:white;
+padding:10px;
+border:none;
+width:100%;
+font-size:16px;
 }
 
 </style>
@@ -41,96 +42,46 @@ margin-top:20px;
 
 <body>
 
-<h2>Collection Update Portal</h2>
+<div class="container">
 
-<label>DCA Name:</label>
+<h2>Collection Update</h2>
 
-<select id="dca">
+<label>DCA Name</label>
+<select>
 <option>abc debt</option>
 <option>def debt</option>
 </select>
 
-<h3>Cycle 1</h3>
+<label>Cycle</label>
+<select>
+<option>Cycle 1</option>
+<option>Cycle 2</option>
+<option>Cycle 3</option>
+<option>Cycle 4</option>
+</select>
 
-<table>
+<label>Batch</label>
+<select>
+<option>batch 9a</option>
+<option>batch 9a-tcs</option>
+<option>batch 9a-coop</option>
+</select>
 
-<tr>
-<th>Batch</th>
-<th>20/2</th>
-<th>28/2</th>
-<th>7/3</th>
-<th>Total</th>
-</tr>
+<label>Date</label>
+<select>
+<option>20/2/2026</option>
+<option>28/2/2026</option>
+<option>7/3/2026</option>
+</select>
 
-<tr>
-
-<td>batch 9a</td>
-
-<td><input type="number" class="amt"></td>
-<td><input type="number" class="amt"></td>
-<td><input type="number" class="amt"></td>
-
-<td class="total">0</td>
-
-</tr>
-
-<tr>
-
-<td>batch 9a-tcs</td>
-
-<td><input type="number" class="amt"></td>
-<td><input type="number" class="amt"></td>
-<td><input type="number" class="amt"></td>
-
-<td class="total">0</td>
-
-</tr>
-
-<tr>
-
-<td>batch 9a-coop</td>
-
-<td><input type="number" class="amt"></td>
-<td><input type="number" class="amt"></td>
-<td><input type="number" class="amt"></td>
-
-<td class="total">0</td>
-
-</tr>
-
-</table>
+<label>Collection Amount</label>
+<input type="number">
 
 <button onclick="submitData()">Submit</button>
 
+</div>
+
 <script>
-
-let inputs=document.querySelectorAll(".amt")
-
-inputs.forEach(i=>{
-i.addEventListener("input",calc)
-})
-
-function calc(){
-
-let rows=document.querySelectorAll("table tr")
-
-rows.forEach((row,i)=>{
-
-if(i==0)return
-
-let cells=row.querySelectorAll("input")
-
-let total=0
-
-cells.forEach(c=>{
-total+=Number(c.value)
-})
-
-row.querySelector(".total").innerText=total
-
-})
-
-}
 
 function submitData(){
 
@@ -141,5 +92,4 @@ alert("Collection submitted!")
 </script>
 
 </body>
-
 </html>
