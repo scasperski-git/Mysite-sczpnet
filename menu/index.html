@@ -690,7 +690,13 @@ loadUsers();
 loadDashboard();
 loadSummary();
 
-setInterval(loadSummary,30000);
+setInterval(function(){
+
+if(!document.hidden){
+loadSummary();
+}
+
+},30000);
 
 };
 
