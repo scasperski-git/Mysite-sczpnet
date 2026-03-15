@@ -1,145 +1,78 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-<title>Collection Dashboard</title>
-
+<title>Daily Collection Update</title>
 <style>
-
 body{
-font-family:Arial;
-background:#f4f6f9;
-padding:30px;
+    font-family: Arial;
+    margin:40px;
+}
+
+input,button{
+    padding:8px;
+    margin:5px;
 }
 
 table{
-border-collapse:collapse;
-margin-bottom:40px;
-background:white;
+    border-collapse: collapse;
+    margin-top:20px;
 }
 
-td,th{
-border:1px solid #999;
-padding:8px;
-text-align:center;
-min-width:90px;
+table,th,td{
+    border:1px solid black;
+    padding:8px;
 }
 
 th{
-background:#e9ecef;
+    background:#f0f0f0;
 }
-
-input{
-width:80px;
-border:none;
-text-align:center;
-}
-
-button{
-padding:10px 20px;
-background:#2c7be5;
-color:white;
-border:none;
-border-radius:5px;
-}
-
 </style>
-
 </head>
 
 <body>
 
-<h1>Collection Dashboard</h1>
+<h2>Daily Collection Update</h2>
 
-<div id="tables"></div>
+<label>Date:</label>
+<input type="date" id="date">
 
-<button onclick="save()">SAVE</button>
+<label>Total Collection:</label>
+<input type="number" id="amount">
+
+<button onclick="addData()">Add</button>
+
+<table id="dataTable">
+<thead>
+<tr>
+<th>Date</th>
+<th>Total Collection</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
 
 <script>
 
-const api="https://script.google.com/macros/s/AKfycbz9qxg8j2yLHLJV5Vw3jM6QKVAzRWza146JWd2ZPSJkuST1UmtZZYhkthtk80p9RmDJ/exec"
+function addData(){
 
-let batches=[]
+let date = document.getElementById("date").value
+let amount = document.getElementById("amount").value
 
-async function loadBatches(){
-
-let res=await fetch(api)
-batches=await res.json()
-
-createTables()
-
+if(date=="" || amount==""){
+alert("Please fill all fields")
+return
 }
 
-function createTables(){
+let table = document.getElementById("dataTable").getElementsByTagName('tbody')[0]
 
-let html=""
+let row = table.insertRow()
 
-for(let c=1;c<=4;c++){
+row.insertCell(0).innerHTML = date
+row.insertCell(1).innerHTML = amount
 
-html+=`<h2>Cycle ${c}</h2>`
-
-html+=`<table>
-<tr>
-<th>Batch</th>
-<th>7hb</th>
-<th>20hb</th>
-<th>30hb</th>
-</tr>`
-
-batches.forEach(b=>{
-
-let name=b[0]
-
-html+=`<tr>
-<td>${name}</td>
-<td><input data-cycle="${c}" data-batch="${name}" data-date="7"></td>
-<td><input data-cycle="${c}" data-batch="${name}" data-date="20"></td>
-<td><input data-cycle="${c}" data-batch="${name}" data-date="30"></td>
-</tr>`
-
-})
-
-html+="</table>"
+document.getElementById("amount").value=""
 
 }
-
-document.getElementById("tables").innerHTML=html
-
-}
-
-function save(){
-
-let rows=[]
-
-document.querySelectorAll("input").forEach(i=>{
-
-if(i.value!=""){
-
-rows.push({
-
-cycle:i.dataset.cycle,
-batch:i.dataset.batch,
-date:i.dataset.date,
-amount:i.value
-
-})
-
-}
-
-})
-
-fetch(api,{
-
-method:"POST",
-body:JSON.stringify(rows)
-
-})
-
-alert("Saved")
-
-}
-
-loadBatches()
 
 </script>
 
