@@ -513,8 +513,6 @@ window.onload=function(){
   }
 };
 
-let touchedFields = {};
-  
 const mandatoryFields=[
   {id:"agency",err:"err_agency"},
   {id:"pic1",err:"err_pic1"},
@@ -525,18 +523,11 @@ const mandatoryFields=[
 mandatoryFields.forEach(f=>{
   const el=document.getElementById(f.id);
   if(el){
-
-    el.addEventListener("input",()=>{
-      updateState(false);
-    });
-
-    el.addEventListener("blur",()=>{
-      touchedFields[f.id] = true;
-      updateState(true);
-    });
-
+    el.addEventListener("input",()=>updateState(false));
+    el.addEventListener("blur",()=>updateState(true));
   }
 });
+
 ["contact1","contact2","whatsapp"].forEach(id=>{
   const el=document.getElementById(id);
   if(el){
@@ -547,55 +538,56 @@ mandatoryFields.forEach(f=>{
 function showProcessing(){
   processingOverlay.style.display="flex";
 }
+
 function hideProcessing(){
   processingOverlay.style.display="none";
 }
 
 function formatPhone(el){
-  let raw = el.value.replace(/\D/g, '');
 
-  const errId =
-    el.id === "contact1" ? "err_contact1_format" :
-    el.id === "contact2" ? "err_contact2_format" :
-    el.id === "whatsapp" ? "err_whatsapp_format" : null;
+  let raw=el.value.replace(/\D/g,'');
 
-  if (errId) document.getElementById(errId).style.display = "none";
+  const errId=
+    el.id==="contact1"?"err_contact1_format":
+    el.id==="contact2"?"err_contact2_format":
+    el.id==="whatsapp"?"err_whatsapp_format":null;
+
+  if(errId) document.getElementById(errId).style.display="none";
+
   el.classList.remove("error");
 
-  if (!raw) return;
+  if(!raw) return;
 
-  // ❌ JIKA TAK MULA DENGAN 0
-  if (!raw.startsWith("0")) {
-    if (errId) {
-      document.getElementById(errId).style.display = "block";
+  if(!raw.startsWith("0")){
+    if(errId){
+      document.getElementById(errId).style.display="block";
       el.classList.add("error");
     }
-    return; // STOP – jangan format
+    return;
   }
 
-  // ✅ FORMAT BILA SAH
-  if (raw.startsWith("01")) {
-    // Mobile
-    if (raw.length <= 10)
-      el.value = raw.replace(/(\d{3})(\d+)/, "$1-$2");
+  if(raw.startsWith("01")){
+    if(raw.length<=10)
+      el.value=raw.replace(/(\d{3})(\d+)/,"$1-$2");
     else
-      el.value = raw.replace(/(\d{3})(\d{4})(\d+)/, "$1-$2$3");
-  } else {
-    // Landline
-    el.value = raw.replace(/(\d{2})(\d+)/, "$1-$2");
+      el.value=raw.replace(/(\d{3})(\d{4})(\d+)/,"$1-$2$3");
+  }
+  else{
+    el.value=raw.replace(/(\d{2})(\d+)/,"$1-$2");
   }
 }
 
 function blockNonNumeric(e){
-  const key = e.key;
+
+  const key=e.key;
 
   if(
     !/[0-9]/.test(key) &&
-    key !== "Backspace" &&
-    key !== "Delete" &&
-    key !== "ArrowLeft" &&
-    key !== "ArrowRight" &&
-    key !== "Tab"
+    key!=="Backspace" &&
+    key!=="Delete" &&
+    key!=="ArrowLeft" &&
+    key!=="ArrowRight" &&
+    key!=="Tab"
   ){
     e.preventDefault();
   }
@@ -606,43 +598,48 @@ function updateState(showErrors=false){
   let ok=true;
 
   mandatoryFields.forEach(f=>{
+
     const i=document.getElementById(f.id);
     const e=document.getElementById(f.err);
 
     if(!i.value.trim()){
+
       ok=false;
 
-      if(showErrors && touchedFields[f.id]){
+      if(showErrors){
         i.classList.add("error");
         e.style.display="block";
       }
 
     }else{
+
       i.classList.remove("error");
       e.style.display="none";
+
     }
 
   });
 
   ["contact1","whatsapp"].forEach(id=>{
+
     const el=document.getElementById(id);
+
     if(el.value && !el.value.trim().startsWith("0")){
       ok=false;
-      if(showErrors){
-        el.classList.add("error");
-      }
+      if(showErrors) el.classList.add("error");
     }
+
   });
 
   if(ok && consent.checked){
     submitBtn.disabled=false;
     submitBtn.classList.add("enabled");
-    helperText.innerText="";
-  }else{
+  }
+  else{
     submitBtn.disabled=true;
     submitBtn.classList.remove("enabled");
-    helperText.innerText="";
   }
+
 }
 
 function focusFirstError(){
@@ -653,7 +650,7 @@ function focusFirstError(){
 
     if(!el.value.trim()){
 
-      const wrap = el.closest(".input-wrap") || el;
+      const wrap=el.closest(".input-wrap") || el;
 
       wrap.scrollIntoView({
         behavior:"smooth",
@@ -666,7 +663,7 @@ function focusFirstError(){
 
       setTimeout(()=>{
         wrap.classList.remove("shake");
-      },400);
+      },450);
 
       el.focus();
 
@@ -678,21 +675,20 @@ function focusFirstError(){
 }
 
 function submitForm(){
-mandatoryFields.forEach(f=>{
-  touchedFields[f.id]=true;
-});
 
-updateState(true);
+  updateState(true);
 
-if(submitBtn.disabled){
-  focusFirstError();
-  return false;
-}
+  if(submitBtn.disabled){
+    focusFirstError();
+    return false;
+  }
 
   showProcessing();
 
   const ref=generateRef();
+
   const data=new URLSearchParams();
+
   data.append("ref",ref);
   data.append("agency",agency.value.toUpperCase());
   data.append("pic1",pic1.value.toUpperCase());
@@ -703,76 +699,93 @@ if(submitBtn.disabled){
   data.append("consent","YES");
   data.append("update","NO");
 
-fetch(SCRIPT_URL,{method:"POST",body:data})
-.then(r=>r.json())
-.then(res=>{
+  fetch(SCRIPT_URL,{method:"POST",body:data})
+  .then(r=>r.json())
+  .then(res=>{
+
     if(res.status==="DUPLICATE"){
+
       hideProcessing();
+
       if(confirm("Agency record already exists.\nDo you want to update the information?")){
+
         showProcessing();
+
         data.set("update","YES");
+
         fetch(SCRIPT_URL,{method:"POST",body:data})
         .then(r=>r.json())
         .then(res2=>{
+
           hideProcessing();
+
           if(res2.status==="UPDATED"){
-            showSuccess(res2.ref,res2.updateInfo||"UPDATED");
-          }else{
+            showSuccess(res2.ref,res2.updateInfo || "UPDATED");
+          }
+          else{
             alert("Update limit reached. Please contact Cik Syah@HQ Singer");
             location.reload();
           }
+
         });
+
       }
+
       return;
+
     }
+
     hideProcessing();
     showSuccess(res.ref,"NEW SUBMISSION");
+
   });
 
   return false;
 }
 
 function showSuccess(ref,statusText){
+
   formBox.style.display="none";
   successBox.style.display="block";
   watermark.style.display="block";
+
   refDisplay.innerText="REFERENCE NO: "+ref;
+
   summaryBox.innerHTML=
-    `<div><b>AGENCY NAME:</b> ${agency.value.toUpperCase()}</div>
-     <div><b>OFFICER NAME 1:</b> ${pic1.value.toUpperCase()}</div>
-     ${pic2.value?`<div><b>OFFICER NAME 2 (OPTIONAL):</b> ${pic2.value.toUpperCase()}</div>`:""}
-     <div><b>CONTACT NO:</b> ${contact1.value}</div>
-     ${contact2.value?`<div><b>CONTACT NO (OPTIONAL):</b> ${contact2.value}</div>`:""}
-     <div><b>WHATSAPP NO:</b> ${whatsapp.value}</div>
-     <div><b>STATUS:</b> ${statusText}</div>`;
+  `<div><b>AGENCY NAME:</b> ${agency.value.toUpperCase()}</div>
+   <div><b>OFFICER NAME 1:</b> ${pic1.value.toUpperCase()}</div>
+   ${pic2.value?`<div><b>OFFICER NAME 2 (OPTIONAL):</b> ${pic2.value.toUpperCase()}</div>`:""}
+   <div><b>CONTACT NO:</b> ${contact1.value}</div>
+   ${contact2.value?`<div><b>CONTACT NO (OPTIONAL):</b> ${contact2.value}</div>`:""}
+   <div><b>WHATSAPP NO:</b> ${whatsapp.value}</div>
+   <div><b>STATUS:</b> ${statusText}</div>`;
+
 }
 
 function generateRef(){
-  const d = new Date();
 
-  // ambil perkataan pertama agency
-  let agy = agency.value
-    .trim()
-    .split(/\s+/)[0]            // FIRST WORD
-    .replace(/[^A-Z0-9]/gi,"")  // buang simbol
-    .toUpperCase();
+  const d=new Date();
 
-  if(!agy) agy = "AGY"; // fallback keselamatan
+  let agy=agency.value
+  .trim()
+  .split(/\s+/)[0]
+  .replace(/[^A-Z0-9]/gi,"")
+  .toUpperCase();
 
-  return agy + "-"
-    + d.getFullYear()
-    + String(d.getMonth()+1).padStart(2,"0")
-    + String(d.getDate()).padStart(2,"0") + "-"
-    + String(d.getHours()).padStart(2,"0")
-    + String(d.getMinutes()).padStart(2,"0")
-    + String(d.getSeconds()).padStart(2,"0");
+  if(!agy) agy="AGY";
+
+  return agy+"-"
+  +d.getFullYear()
+  +String(d.getMonth()+1).padStart(2,"0")
+  +String(d.getDate()).padStart(2,"0")+"-"
+  +String(d.getHours()).padStart(2,"0")
+  +String(d.getMinutes()).padStart(2,"0")
+  +String(d.getSeconds()).padStart(2,"0");
 }
-
 
 function returnToMain(){
   location.reload();
 }
-
 </script>
 
 </body>
