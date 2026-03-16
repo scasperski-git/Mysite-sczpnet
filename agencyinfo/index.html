@@ -103,6 +103,7 @@ input.error{
 
 .shake{
   animation:shake .35s;
+  border-color:#e53935;
 }
 
 /* ===== SECTION ===== */
@@ -671,6 +672,10 @@ function focusFirstError(){
 }
 
 function submitForm(){
+mandatoryFields.forEach(f=>{
+  touchedFields[f.id]=true;
+});
+
 updateState(true);
 
 if(submitBtn.disabled){
