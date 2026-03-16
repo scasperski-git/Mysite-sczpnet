@@ -42,6 +42,18 @@ body{
   to{opacity:1; transform:none}
 }
 
+@keyframes shake{
+0%{transform:translateX(0)}
+25%{transform:translateX(-4px)}
+50%{transform:translateX(4px)}
+75%{transform:translateX(-4px)}
+100%{transform:translateX(0)}
+}
+
+.shake{
+animation:shake .35s;
+}
+
 /* ===== TEXT ===== */
 h2{ text-align:center; margin:6px 0 12px }
 label{ font-size:12px; color:#555; font-weight:bold }
@@ -507,8 +519,7 @@ const mandatoryFields=[
 mandatoryFields.forEach(f=>{
   const el=document.getElementById(f.id);
   if(el){
-    el.addEventListener("input",updateState);
-    el.addEventListener("blur",updateState);
+    el.addEventListener("input",()=>clearError(el));
   }
 });
 
@@ -554,47 +565,63 @@ function formatPhone(el){
   }
 }
 
+function clearError(el){
+  el.classList.remove("error");
 
+  const err=document.getElementById("err_"+el.id);
+  if(err) err.style.display="none";
+}
 
 function updateState(){
-  let ok=true;
+
+  let filled=true;
+
   mandatoryFields.forEach(f=>{
     const i=document.getElementById(f.id);
-    const e=document.getElementById(f.err);
-    if(!i.value.trim()){
-      ok=false;
-      i.classList.add("error");
-      e.style.display="block";
-    }else{
-      i.classList.remove("error");
-      e.style.display="none";
-    }
+    if(!i.value.trim()) filled=false;
   });
-  // ❌ FORMAT CHECK (CONTACT & WHATSAPP)
-["contact1","whatsapp"].forEach(id=>{
-  const el = document.getElementById(id);
-  if (el.value && !el.value.trim().startsWith("0")) {
-    ok = false;
-    el.classList.add("error");
-  }
-});
 
-  if(ok && consent.checked){
+  if(filled && consent.checked){
     submitBtn.disabled=false;
     submitBtn.classList.add("enabled");
     helperText.innerText="";
   }else{
     submitBtn.disabled=true;
     submitBtn.classList.remove("enabled");
-    helperText.innerText=!ok
-      ?"Please complete all mandatory fields."
-      :"Please confirm consent to proceed.";
+    helperText.innerText="";
   }
+
 }
 
 function submitForm(){
-  updateState();
-  if(submitBtn.disabled) return false;
+
+  let firstError=null;
+  let ok=true;
+
+  mandatoryFields.forEach(f=>{
+    const i=document.getElementById(f.id);
+    const e=document.getElementById(f.err);
+
+    if(!i.value.trim()){
+      ok=false;
+      i.classList.add("error");
+      e.style.display="block";
+
+      if(!firstError) firstError=i;
+    }
+  });
+
+  if(!ok){
+    firstError.scrollIntoView({behavior:"smooth",block:"center"});
+    firstError.focus();
+    formBox.classList.add("shake");
+
+    setTimeout(()=>{
+      formBox.classList.remove("shake");
+    },400);
+
+    return false;
+  }
 
   showProcessing();
 
