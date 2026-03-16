@@ -431,7 +431,7 @@ const SCRIPT_URL =
 </div>
 
 
-    <button type="submit" id="submitBtn">Submit</button>
+    <button type="submit" id="submitBtn" disabled>Submit</button>
     <div class="helper" id="helperText"></div>
   </form>
 </div>
@@ -494,6 +494,7 @@ window.onload=function(){
     successBox.style.display="none";
     maintenanceBox.style.display="block";
   }
+    updateState(); // tambah ini
 };
 
 const mandatoryFields=[
@@ -553,8 +554,6 @@ function formatPhone(el){
   }
 }
 
-
-
 function updateState(){
   let ok=true;
   mandatoryFields.forEach(f=>{
@@ -572,7 +571,7 @@ function updateState(){
   // ❌ FORMAT CHECK (CONTACT & WHATSAPP)
 ["contact1","whatsapp"].forEach(id=>{
   const el = document.getElementById(id);
-  if (el.value && !el.value.trim().startsWith("0")) {
+if (el.value && !/^0\d{8,10}$/.test(el.value.replace(/\D/g,''))) {
     ok = false;
     el.classList.add("error");
   }
