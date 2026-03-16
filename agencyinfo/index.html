@@ -92,6 +92,19 @@ input.error{
   margin-bottom:6px;
 }
 
+/* ===== SHAKE ERROR ===== */
+@keyframes shake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-5px)}
+  50%{transform:translateX(5px)}
+  75%{transform:translateX(-5px)}
+  100%{transform:translateX(0)}
+}
+
+.shake{
+  animation:shake .35s;
+}
+
 /* ===== SECTION ===== */
 .section-title{
   margin-top:12px;
@@ -392,7 +405,7 @@ const SCRIPT_URL =
 
     <label>Contact No (Mandatory) <span class="req">*</span></label>
     <div class="input-wrap"><span>📞</span>
-      <input type="tel" id="contact1" placeholder="Example: 0123456789" oninput="formatPhone(this)">
+      <input type="tel" inputmode="numeric" id="contact1" placeholder="Example: 0123456789" oninput="formatPhone(this)">
       <div class="errorText" id="err_contact1_format">
   Invalid contact number format (must start with 0)
 </div>
@@ -402,7 +415,7 @@ const SCRIPT_URL =
 
     <label>Contact No (Optional)</label>
     <div class="input-wrap"><span>📞</span>
-      <input type="tel" id="contact2" placeholder="Example: 0123456789" oninput="formatPhone(this)">
+      <input type="tel" inputmode="numeric" id="contact2" placeholder="Example: 0123456789" oninput="formatPhone(this)">
       <div class="errorText" id="err_contact2_format">
   Invalid contact number format (must start with 0)
 </div>
@@ -411,7 +424,7 @@ const SCRIPT_URL =
 
     <label>WhatsApp No (Mandatory) <span class="req">*</span></label>
     <div class="input-wrap"><span>💬</span>
-      <input type="tel" id="whatsapp" placeholder="Example: 0123456789" oninput="formatPhone(this)">
+      <input type="tel" inputmode="numeric" id="whatsapp" placeholder="Example: 0123456789" oninput="formatPhone(this)">
       <div class="errorText" id="err_whatsapp_format">
   Invalid contact number format (must start with 0)
 </div>
@@ -489,6 +502,7 @@ const SCRIPT_URL =
 
 <script>
 window.onload=function(){
+  document.getElementById("year").innerText=new Date().getFullYear();
   if(!FORM_ENABLED){
     formBox.style.display="none";
     successBox.style.display="none";
@@ -518,6 +532,12 @@ mandatoryFields.forEach(f=>{
       updateState(true);
     });
 
+  }
+});
+["contact1","contact2","whatsapp"].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el){
+    el.addEventListener("keydown",blockNonNumeric);
   }
 });
 
@@ -560,6 +580,21 @@ function formatPhone(el){
   } else {
     // Landline
     el.value = raw.replace(/(\d{2})(\d+)/, "$1-$2");
+  }
+}
+
+function blockNonNumeric(e){
+  const key = e.key;
+
+  if(
+    !/[0-9]/.test(key) &&
+    key !== "Backspace" &&
+    key !== "Delete" &&
+    key !== "ArrowLeft" &&
+    key !== "ArrowRight" &&
+    key !== "Tab"
+  ){
+    e.preventDefault();
   }
 }
 
@@ -607,9 +642,41 @@ function updateState(showErrors=false){
   }
 }
 
+function focusFirstError(){
+
+  for(let f of mandatoryFields){
+
+    const el=document.getElementById(f.id);
+
+    if(!el.value.trim()){
+
+      el.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+      });
+
+      el.classList.add("shake");
+
+      setTimeout(()=>{
+        el.classList.remove("shake");
+      },400);
+
+      el.focus();
+
+      return true;
+    }
+  }
+
+  return false;
+}
+
 function submitForm(){
-  updateState(true);
-  if(submitBtn.disabled) return false;
+updateState(true);
+
+if(submitBtn.disabled){
+  focusFirstError();
+  return false;
+}
 
   showProcessing();
 
