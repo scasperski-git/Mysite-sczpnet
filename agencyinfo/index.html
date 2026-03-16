@@ -344,7 +344,6 @@ button.enabled:hover{
 }
 .closeBtn:hover{
   background:#1b5e20;
-  }
 }
 
 </style>
@@ -355,7 +354,7 @@ button.enabled:hover{
 <script>
 var FORM_ENABLED = true;
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbxcW3OpqcJDLPHnBsZepeB77dYb9f4GF8ga0b5TvkWcqnV-3FPg4XbwcVvu_KxdZFBS/exec";
+"https://script.google.com/macros/s/AKfycbwtWy-ZPQFUUQkMsjYwAbO4ttT0weWG4D7qBGe6TNbM1whySqovNQGFarOQ9QcgUU4h/exec";
 </script>
 
 <!-- ===== MAINTENANCE ===== -->
@@ -610,9 +609,9 @@ function submitForm(){
   data.append("consent","YES");
   data.append("update","NO");
 
-  fetch(SCRIPT_URL,{method:"POST",body:data})
-  .then(r=>r.json())
-  .then(res=>{
+fetch(SCRIPT_URL,{method:"POST",body:data})
+.then(r=>r.json())
+.then(res=>{
     if(res.status==="DUPLICATE"){
       hideProcessing();
       if(confirm("Agency record already exists.\nDo you want to update the information?")){
