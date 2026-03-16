@@ -496,6 +496,8 @@ window.onload=function(){
   }
 };
 
+let touchedFields = {};
+  
 const mandatoryFields=[
   {id:"agency",err:"err_agency"},
   {id:"pic1",err:"err_pic1"},
@@ -506,8 +508,16 @@ const mandatoryFields=[
 mandatoryFields.forEach(f=>{
   const el=document.getElementById(f.id);
   if(el){
-    el.addEventListener("input",updateState);
-    el.addEventListener("blur",updateState);
+
+    el.addEventListener("input",()=>{
+      updateState(false);
+    });
+
+    el.addEventListener("blur",()=>{
+      touchedFields[f.id] = true;
+      updateState(true);
+    });
+
   }
 });
 
@@ -553,30 +563,38 @@ function formatPhone(el){
   }
 }
 
+function updateState(showErrors=false){
 
-
-function updateState(){
   let ok=true;
+
   mandatoryFields.forEach(f=>{
     const i=document.getElementById(f.id);
     const e=document.getElementById(f.err);
+
     if(!i.value.trim()){
       ok=false;
-      i.classList.add("error");
-      e.style.display="block";
+
+      if(showErrors && touchedFields[f.id]){
+        i.classList.add("error");
+        e.style.display="block";
+      }
+
     }else{
       i.classList.remove("error");
       e.style.display="none";
     }
+
   });
-  // ❌ FORMAT CHECK (CONTACT & WHATSAPP)
-["contact1","whatsapp"].forEach(id=>{
-  const el = document.getElementById(id);
-  if (el.value && !el.value.trim().startsWith("0")) {
-    ok = false;
-    el.classList.add("error");
-  }
-});
+
+  ["contact1","whatsapp"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el.value && !el.value.trim().startsWith("0")){
+      ok=false;
+      if(showErrors){
+        el.classList.add("error");
+      }
+    }
+  });
 
   if(ok && consent.checked){
     submitBtn.disabled=false;
@@ -585,14 +603,12 @@ function updateState(){
   }else{
     submitBtn.disabled=true;
     submitBtn.classList.remove("enabled");
-    helperText.innerText=!ok
-      ?"Please complete all mandatory fields."
-      :"Please confirm consent to proceed.";
+    helperText.innerText="";
   }
 }
 
 function submitForm(){
-  updateState();
+  updateState(true);
   if(submitBtn.disabled) return false;
 
   showProcessing();
