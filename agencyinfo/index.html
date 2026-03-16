@@ -344,6 +344,7 @@ button.enabled:hover{
 }
 .closeBtn:hover{
   background:#1b5e20;
+  }
 }
 
 </style>
@@ -354,7 +355,7 @@ button.enabled:hover{
 <script>
 var FORM_ENABLED = true;
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbw3ZP7SV102Bk2YzTQX0vrJ6etipbV98_9ts3V8VFjyaAp5LFoS3QifUa3fZv5ThPaM/exec";
+"https://script.google.com/macros/s/AKfycbxcW3OpqcJDLPHnBsZepeB77dYb9f4GF8ga0b5TvkWcqnV-3FPg4XbwcVvu_KxdZFBS/exec";
 </script>
 
 <!-- ===== MAINTENANCE ===== -->
@@ -431,7 +432,7 @@ const SCRIPT_URL =
 </div>
 
 
-    <button type="submit" id="submitBtn" disabled>Submit</button>
+    <button type="submit" id="submitBtn">Submit</button>
     <div class="helper" id="helperText"></div>
   </form>
 </div>
@@ -494,7 +495,6 @@ window.onload=function(){
     successBox.style.display="none";
     maintenanceBox.style.display="block";
   }
-    updateState(); // tambah ini
 };
 
 const mandatoryFields=[
@@ -554,6 +554,8 @@ function formatPhone(el){
   }
 }
 
+
+
 function updateState(){
   let ok=true;
   mandatoryFields.forEach(f=>{
@@ -571,7 +573,7 @@ function updateState(){
   // ❌ FORMAT CHECK (CONTACT & WHATSAPP)
 ["contact1","whatsapp"].forEach(id=>{
   const el = document.getElementById(id);
-if (el.value && !/^0\d{8,10}$/.test(el.value.replace(/\D/g,''))) {
+  if (el.value && !el.value.trim().startsWith("0")) {
     ok = false;
     el.classList.add("error");
   }
