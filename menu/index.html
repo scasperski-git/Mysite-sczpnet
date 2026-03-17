@@ -489,6 +489,11 @@ window.location="../lockcheck-login/";
 }
 
 const api = API_URL;
+
+// AUTO REFRESH CONTROL
+let lastUserAction = Date.now();
+const USER_ACTIVE_COOLDOWN = 15000; // 15s
+const SUMMARY_REFRESH = 120000; // 2 min
   
 function getTodayLocal(){
 
@@ -690,13 +695,18 @@ loadUsers();
 loadDashboard();
 loadSummary();
 
-setInterval(function(){
+setInterval(()=>{
 
-if(!document.hidden){
-loadSummary();
-}
+  if(document.hidden) return;
 
-},120000);
+  const now = Date.now();
+  const isUserActive = (now - lastUserAction) < USER_ACTIVE_COOLDOWN;
+
+  if(isUserActive) return;
+
+  loadSummary();
+
+}, SUMMARY_REFRESH);
 
 };
 
@@ -759,23 +769,33 @@ showSessionPopup("EXPIRED");
 }
 
 }
+// TRACK USER INTERACTION
+["scroll","click","keydown","touchstart"].forEach(event=>{
+document.addEventListener(event, ()=>{
+  lastUserAction = Date.now();
+}, {passive:true});
+});
 
-setInterval(function(){
+setInterval(()=>{
 
-  // ❌ jangan refresh kalau tab tak aktif
   if(document.hidden) return;
+
+  const now = Date.now();
+  const isUserActive = (now - lastUserAction) < USER_ACTIVE_COOLDOWN;
+
+  if(isUserActive) return;
 
   var today=getTodayLocal();
 
   var start=document.getElementById("startDate").value;
   var end=document.getElementById("endDate").value;
 
-  // ✅ hanya refresh kalau user TAK ubah filter
+  // ✅ only refresh kalau user guna today filter
   if(start===today && end===today){
     loadDashboard();
   }
 
-},60000);
+},120000); // ikut 2 min juga
 
 setInterval(checkIdle, 5000);
 
