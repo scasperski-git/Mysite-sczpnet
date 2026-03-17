@@ -440,11 +440,6 @@ const resetBtn=document.getElementById("resetBtn");
 
 let isLoading=false;
 
-// AUTO REFRESH CONTROL
-let lastUserAction = Date.now();
-const USER_ACTIVE_COOLDOWN = 15000; // 15s
-const AUTO_REFRESH_INTERVAL = 120000; // 2 min
-
 window.onload=()=>{
 input.focus();
 };
@@ -701,18 +696,11 @@ this.value=this.value.replace(/[^0-9]/g,'');
 });
   
 let lastActivity = Date.now();
-const IDLE_LIMIT = 900000; // 15 min
+const IDLE_LIMIT = 60000; // 1 min
 
 function updateActivity(){
 lastActivity = Date.now();
 }
-
-// TRACK USER INTERACTION (FOR AUTO REFRESH)
-["scroll","click","keydown","touchstart"].forEach(event=>{
-document.addEventListener(event, ()=>{
-  lastUserAction = Date.now();
-}, {passive:true});
-});
 
 function checkIdle(){
 if(Date.now() - lastActivity > IDLE_LIMIT){
@@ -720,7 +708,7 @@ showSessionPopup("EXPIRED");
 }
 }
 
-setInterval(checkIdle, 10000);
+setInterval(checkIdle, 5000);
 
 [
 "touchstart",
@@ -744,25 +732,7 @@ showSessionPopup("EXPIRED");
 });
 /* SESSION MONITOR */
 
-setInterval(checkSession,15000);
-
-// AUTO REFRESH (CHECK PAGE)
-setInterval(()=>{
-
-  if(document.hidden) return;
-
-  const now = Date.now();
-  const isUserActive = (now - lastUserAction) < USER_ACTIVE_COOLDOWN;
-
-  if(isUserActive) return;
-
-  // ✅ hanya refresh kalau ADA result (avoid kacau tengah type)
-  if(result.innerHTML.trim() !== ""){
-    input.value = "";
-    result.innerHTML = "";
-  }
-
-}, AUTO_REFRESH_INTERVAL);
+setInterval(checkSession,5000);
   
 </script>
 
