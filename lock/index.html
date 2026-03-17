@@ -1018,7 +1018,7 @@ MOBILE SAFE IDLE LOGOUT
 ========================= */
 
 let lastActivity = Date.now();
-const IDLE_LIMIT = 60000; // 1 min
+const IDLE_LIMIT = 9000000; // 15 min
 
 function updateActivity(){
 lastActivity = Date.now();
@@ -1062,7 +1062,7 @@ showSessionPopup("EXPIRED");
 
 }
 
-setInterval(checkIdle, 5000);
+setInterval(checkIdle, 10000);
 
 [
 "touchstart",
