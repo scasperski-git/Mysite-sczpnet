@@ -14,7 +14,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 *{
 box-sizing:border-box;
-}f
+}
 
 body{
 font-family:Arial, sans-serif;
@@ -443,7 +443,7 @@ Load Dashboard
 <h3><i class="fa fa-calendar"></i> Today Summary</h3>
 
 <div id="refreshInfo" style="font-size:11px;color:#888;margin-bottom:8px;">
-⟳ Auto refresh every 2 min | <span id="lastUpdate">Last update: -</span>
+⟳ Auto refresh every 30s | <span id="lastUpdate">Last update: -</span>
 </div>
 
 <div class="summary-grid">
@@ -489,11 +489,6 @@ window.location="../lockcheck-login/";
 }
 
 const api = API_URL;
-
-// AUTO REFRESH CONTROL
-let lastUserAction = Date.now();
-const USER_ACTIVE_COOLDOWN = 15000; // 15s
-const SUMMARY_REFRESH = 120000; // 2 min
   
 function getTodayLocal(){
 
@@ -695,18 +690,13 @@ loadUsers();
 loadDashboard();
 loadSummary();
 
-setInterval(()=>{
+setInterval(function(){
 
-  if(document.hidden) return;
+if(!document.hidden){
+loadSummary();
+}
 
-  const now = Date.now();
-  const isUserActive = (now - lastUserAction) < USER_ACTIVE_COOLDOWN;
-
-  if(isUserActive) return;
-
-  loadSummary();
-
-}, SUMMARY_REFRESH);
+},30000);
 
 };
 
@@ -756,7 +746,7 @@ MOBILE SAFE IDLE LOGOUT
 ========================= */
 
 let lastActivity = Date.now();
-const IDLE_LIMIT = 9000000; // 15 min
+const IDLE_LIMIT = 60000; // 1 min
 
 function updateActivity(){
 lastActivity = Date.now();
@@ -769,35 +759,21 @@ showSessionPopup("EXPIRED");
 }
 
 }
-// TRACK USER INTERACTION
-["scroll","click","keydown","touchstart"].forEach(event=>{
-document.addEventListener(event, ()=>{
-  lastUserAction = Date.now();
-}, {passive:true});
-});
 
-setInterval(()=>{
+setInterval(function(){
 
-  if(document.hidden) return;
+var today=getTodayLocal();
 
-  const now = Date.now();
-  const isUserActive = (now - lastUserAction) < USER_ACTIVE_COOLDOWN;
+var start=document.getElementById("startDate").value;
+var end=document.getElementById("endDate").value;
 
-  if(isUserActive) return;
+if(start===today && end===today){
+loadDashboard();
+}
 
-  var today=getTodayLocal();
+},60000);
 
-  var start=document.getElementById("startDate").value;
-  var end=document.getElementById("endDate").value;
-
-  // ✅ only refresh kalau user guna today filter
-  if(start===today && end===today){
-    loadDashboard();
-  }
-
-},120000); // ikut 2 min juga
-
-setInterval(checkIdle, 10000);
+setInterval(checkIdle, 5000);
 
 [
 "touchstart",
@@ -823,7 +799,7 @@ showSessionPopup("EXPIRED");
 });
 /* SESSION MONITOR */
 
-setInterval(checkSession,15000);
+setInterval(checkSession,10000);
 
 </script>
 
