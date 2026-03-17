@@ -606,8 +606,11 @@ logout();
 document.getElementById("userInfo").innerHTML =
 "User: "+(user || "-")+" | Role: "+(role || "-");
 loadUserSummary();
-setInterval(loadUserSummary,30000);
-/* ACCESS CONTROL */
+    
+// AUTO REFRESH CONTROL
+let lastUserAction = Date.now();
+const USER_ACTIVE_COOLDOWN = 15000; // 15s
+const AUTO_REFRESH_INTERVAL = 120000; // 2 min
 
 const type = localStorage.getItem("lock_type");
 
@@ -1021,6 +1024,13 @@ function updateActivity(){
 lastActivity = Date.now();
 }
 
+// TRACK USER INTERACTION
+["scroll","click","keydown","touchstart"].forEach(event=>{
+document.addEventListener(event, ()=>{
+  lastUserAction = Date.now();
+}, {passive:true});
+});
+
 async function checkSession(){
 
 try{
@@ -1079,6 +1089,20 @@ showSessionPopup("EXPIRED");
 /* SESSION MONITOR */
 
 setInterval(checkSession,15000);
+
+// AUTO REFRESH SUMMARY (LOCK PAGE)
+setInterval(()=>{
+
+  if(document.hidden) return;
+
+  const now = Date.now();
+  const isUserActive = (now - lastUserAction) < USER_ACTIVE_COOLDOWN;
+
+  if(isUserActive) return;
+
+  loadUserSummary();
+
+}, AUTO_REFRESH_INTERVAL);
 
 </script>
 
