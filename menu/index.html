@@ -762,14 +762,18 @@ showSessionPopup("EXPIRED");
 
 setInterval(function(){
 
-var today=getTodayLocal();
+  // ❌ jangan refresh kalau tab tak aktif
+  if(document.hidden) return;
 
-var start=document.getElementById("startDate").value;
-var end=document.getElementById("endDate").value;
+  var today=getTodayLocal();
 
-if(start===today && end===today){
-loadDashboard();
-}
+  var start=document.getElementById("startDate").value;
+  var end=document.getElementById("endDate").value;
+
+  // ✅ hanya refresh kalau user TAK ubah filter
+  if(start===today && end===today){
+    loadDashboard();
+  }
 
 },60000);
 
