@@ -10,31 +10,29 @@ body{
   font-family:'Poppins',sans-serif;
   height:100vh; color:#fff;
   background:url('https://images.unsplash.com/photo-1598514982901-1bfa1c6cdd88') no-repeat center/cover;
-}.overlay{ position:absolute; inset:0; background:rgba(0,0,0,0.55); }
+}.overlay{position:absolute; inset:0; background:rgba(0,0,0,0.6);}
 
-/* Envelope */ .envelope{ width:240px; height:150px; background:#b71c1c; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.6); }
+.envelope{ width:240px; height:150px; background:#b71c1c; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.6); border-radius:10px; }
 
 .flap{ position:absolute; width:0; height:0; border-left:120px solid transparent; border-right:120px solid transparent; border-bottom:90px solid #8e0000; top:-90px; left:0; transform-origin:bottom; transition:transform 1s ease; }
 
 .envelope.open .flap{ transform:rotateX(180deg); }
 
-.text-open{ position:absolute; width:100%; text-align:center; top:50%; transform:translateY(-50%); font-weight:bold; }
+.text-open{position:absolute; width:100%; text-align:center; top:50%; transform:translateY(-50%); font-weight:bold;}
 
-.card{ display:none; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(0,0,0,0.65); border-radius:25px; padding:40px; text-align:center; border:2px solid gold; animation:fadeZoom 1s ease; }
+.card{ display:none; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(0,0,0,0.75); border-radius:25px; padding:40px; text-align:center; border:2px solid gold; animation:fadeZoom 1s ease; }
 
-h1{ font-family:'Great Vibes',cursive; font-size:3.8em; color:gold; text-shadow:0 0 25px gold; }
-
-p{font-size:1.2em;}
+h1{font-family:'Great Vibes',cursive; font-size:3.8em; color:gold; text-shadow:0 0 25px gold;} p{font-size:1.2em;}
 
 @keyframes fadeZoom{ from{opacity:0; transform:translate(-50%,-60%) scale(0.6);} to{opacity:1; transform:translate(-50%,-50%) scale(1);} }
 
-/* Fireworks */ .firework{ position:absolute; width:4px; height:4px; background:gold; border-radius:50%; animation:explode 1.5s ease-out infinite; }
+.firework{ position:absolute; width:4px; height:4px; background:gold; border-radius:50%; animation:explode 1.5s ease-out infinite; }
 
 @keyframes explode{ 0%{transform:scale(1); opacity:1;} 100%{transform:scale(20); opacity:0;} }
 
 .footer{margin-top:20px;} .footer a{color:gold; text-decoration:none; font-weight:bold;}
 
-.reload{ position:fixed; bottom:15px; right:15px; background:gold; color:#000; border:none; padding:10px 15px; border-radius:10px; cursor:pointer; } </style>
+.controls{margin-top:15px;} button{ background:gold; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; margin:5px; } </style>
 
 </head>
 <body><div class="overlay"></div><div class="envelope" id="env">
@@ -42,28 +40,39 @@ p{font-size:1.2em;}
   <div class="text-open">💌 Buka Sampul Raya</div>
 </div><div class="card" id="card">
   <h1>Selamat Hari Raya</h1>
-  <p>Maaf Zahir & Batin</p>
+  <p id="greet">Maaf Zahir & Batin</p>
   <p>Semoga Aidilfitri ini membawa keberkatan,
-  kebahagiaan dan mengeratkan silaturahim
-  bersama keluarga tercinta 🕌✨</p>
-  <p><b>Ikhlas daripada: Syahrizah</b></p>  <div class="footer">
+  kebahagiaan dan mengeratkan silaturahim 🕌✨</p>
+  <p><b>Ikhlas daripada: Syahrizah</b></p>  <div class="controls">
+    <input id="nameInput" placeholder="Masukkan nama anda" />
+    <button onclick="personalize()">Personalize</button>
+    <button onclick="shareWA()">Share WhatsApp</button>
+  </div>  <div class="footer">
     <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
   </div>
-</div><button class="reload" onclick="location.reload()">↻ Refresh</button>
-
-<audio id="music" loop>
+</div><audio id="music" loop>
   <source src="https://archive.org/download/suasana_hari_raya/suasana_hari_raya.mp3" type="audio/mpeg">
+  <source src="https://archive.org/download/takbir_raya/takbir_raya.mp3" type="audio/mpeg">
 </audio><script>
 const env=document.getElementById('env');
 const card=document.getElementById('card');
 const music=document.getElementById('music');
+
+// Voice greeting
+function speak(){
+  const msg=new SpeechSynthesisUtterance("Selamat Hari Raya, Maaf Zahir dan Batin");
+  msg.lang='ms-MY';
+  speechSynthesis.speak(msg);
+}
 
 env.onclick=()=>{
   env.classList.add('open');
   setTimeout(()=>{
     env.style.display='none';
     card.style.display='block';
+
     music.play().catch(()=>{});
+    speak();
     startFireworks();
   },800);
 }
@@ -75,9 +84,20 @@ function startFireworks(){
     f.style.left=Math.random()*100+'vw';
     f.style.top=Math.random()*100+'vh';
     document.body.appendChild(f);
-
     setTimeout(()=>f.remove(),1500);
   },300);
+}
+
+function personalize(){
+  const name=document.getElementById('nameInput').value;
+  if(name){
+    document.getElementById('greet').innerText=`Selamat Hari Raya ${name}, Maaf Zahir & Batin`;
+  }
+}
+
+function shareWA(){
+  const text="Selamat Hari Raya! Klik kad ini 🎉 https://sczpnet.org";
+  window.open("https://wa.me/?text="+encodeURIComponent(text));
 }
 </script></body>
 </html>
