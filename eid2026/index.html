@@ -13,57 +13,27 @@ body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
     background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+    color: white;
     overflow: hidden;
 }
 
-/* background moon drift */
-.moon {
-    position: fixed;
-    top: 10%;
-    left: -100px;
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle, gold, transparent);
-    border-radius: 50%;
-    opacity: 0.3;
-    animation: moveMoon 40s linear infinite;
-}
-
-@keyframes moveMoon {
-    from { left: -100px; }
-    to { left: 110%; }
-}
-
-/* sparkle */
-.sparkle {
-    position: fixed;
-    width: 2px;
-    height: 2px;
-    background: gold;
-    opacity: 0.5;
-    animation: fall linear infinite;
-}
-
-@keyframes fall {
-    from { transform: translateY(-10px); }
-    to { transform: translateY(100vh); }
-}
-
-/* envelope */
+/* ENVELOPE */
 .envelope-wrap {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .envelope {
     width: 240px;
-    height: 160px;
+    height: 150px;
     background: linear-gradient(145deg, #d4af37, #b8962e);
+    border-radius: 6px;
     position: relative;
     cursor: pointer;
-    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
 }
 
 .flap {
@@ -73,14 +43,20 @@ body {
     background: #caa52f;
     clip-path: polygon(0 0,100% 0,50% 100%);
     transform-origin: top;
-    transition: transform 1s;
+    transition: transform 0.8s;
 }
 
 .open .flap {
     transform: rotateX(180deg);
 }
 
-/* card */
+.tap-text {
+    margin-top: 15px;
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+/* CARD */
 .container {
     display: none;
     height: 100vh;
@@ -90,155 +66,161 @@ body {
 }
 
 .card {
-    max-width: 420px;
     width: 100%;
-    padding: 45px;
+    max-width: 420px;
+    padding: 40px;
     border-radius: 25px;
     text-align: center;
-    color: white;
     background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(20px);
-    animation: fade 1.5s ease;
+    backdrop-filter: blur(18px);
+    box-shadow: 0 0 60px rgba(0,0,0,0.7);
+    animation: fadeUp 1.2s ease;
 }
 
-@keyframes fade {
+@keyframes fadeUp {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* SVG mosque */
-.mosque {
-    margin-bottom: 10px;
+/* ICON */
+.icon {
+    font-size: 55px;
+    margin-bottom: 5px;
     animation: float 4s ease-in-out infinite;
+}
+
+.symbols {
+    font-size: 20px;
+    color: gold;
+    margin-bottom: 10px;
 }
 
 @keyframes float {
     0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+    50% { transform: translateY(-5px); }
 }
 
-/* shimmer title */
+/* TEXT */
 h1 {
     font-family: 'Playfair Display';
-    font-size: 32px;
-    background: linear-gradient(90deg, gold, white, gold);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 4s infinite linear;
-}
-
-@keyframes shimmer {
-    from { background-position: -200px; }
-    to { background-position: 200px; }
+    color: gold;
+    margin-bottom: 5px;
 }
 
 h2 {
     font-weight: 300;
-    letter-spacing: 4px;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
 }
 
 p {
-    line-height: 1.8;
     font-size: 14px;
+    line-height: 1.8;
 }
 
-/* footer */
+.signature {
+    margin-top: 20px;
+    color: gold;
+}
+
+/* FOOTER */
 .footer {
     position: fixed;
     bottom: 15px;
     width: 100%;
     text-align: center;
     font-size: 12px;
-    color: rgba(255,255,255,0.6);
+}
+
+.footer a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: gold;
 }
 </style>
 </head>
 
 <body>
 
-<div class="moon"></div>
-
-<script>
-// generate sparkle
-for(let i=0;i<30;i++){
- let s=document.createElement("div");
- s.className="sparkle";
- s.style.left=Math.random()*100+"%";
- s.style.animationDuration=(5+Math.random()*5)+"s";
- document.body.appendChild(s);
-}
-</script>
-
+<!-- ENVELOPE -->
 <div class="envelope-wrap" onclick="openCard()">
     <div class="envelope" id="env">
         <div class="flap"></div>
     </div>
+    <div class="tap-text">Klik untuk buka kad</div>
 </div>
 
+<!-- CARD -->
 <div class="container" id="card">
     <div class="card">
 
-        <!-- SVG MASJID -->
-        <svg class="mosque" width="80" viewBox="0 0 100 100" fill="gold">
-            <rect x="20" y="40" width="60" height="30"/>
-            <circle cx="50" cy="40" r="15"/>
-            <rect x="10" y="30" width="10" height="40"/>
-            <rect x="80" y="30" width="10" height="40"/>
-        </svg>
+        <div class="icon">🕌</div>
+        <div class="symbols">🌙 ✨</div>
 
         <h1>Selamat Hari Raya</h1>
         <h2>Aidilfitri</h2>
 
         <p>
-            Pergi ke desa memetik melati,<br>
-            Harum baunya di pagi hari;<br>
-            Andai tersalah tutur dan hati,<br>
-            Mohon dimaaf seikhlas diri.
+            Pergi ke taman memetik bunga,<br>
+            Harum mewangi di pagi hari;<br>
+            Andai tersalah kata dan juga bicara,<br>
+            Mohon dimaaf setulus hati.
         </p>
 
         <p>
-            Syawal menjelma penuh bermakna,<br>
+            Syawal tiba penuh bermakna,<br>
             Disambut dengan rasa gembira;<br>
             Salam Aidilfitri buat semua,<br>
             Semoga bahagia sentiasa bersama.
         </p>
 
-        <p style="margin-top:15px;">Maaf zahir dan batin.</p>
+        <p style="margin-top:10px;">Maaf zahir dan batin.</p>
 
-        <div style="margin-top:20px; color:gold;">
-            — Syahrizah —
+        <div class="signature">
+            Ikhlas daripada,<br>
+            <b>Syahrizah</b>
         </div>
 
     </div>
 </div>
 
+<!-- FOOTER -->
 <div class="footer">
-© <span id="year"></span> sczpnet.org
+    © <span id="year"></span> 
+    <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
 </div>
 
+<!-- AUDIO -->
 <audio id="lagu" loop>
 <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3">
 </audio>
 
 <script>
-document.getElementById("year").innerText=new Date().getFullYear();
+document.getElementById("year").innerText = new Date().getFullYear();
 
 function openCard(){
- document.getElementById("env").classList.add("open");
- setTimeout(()=>{
-  document.querySelector(".envelope-wrap").style.display="none";
-  document.getElementById("card").style.display="flex";
+    document.getElementById("env").classList.add("open");
 
-  let a=document.getElementById("lagu");
-  a.volume=0;
-  a.play().catch(()=>{});
-  let v=0;
-  let fade=setInterval(()=>{
-   if(v<0.4){v+=0.02;a.volume=v;}
-   else clearInterval(fade);
-  },200);
+    setTimeout(()=>{
+        document.querySelector(".envelope-wrap").style.display="none";
+        document.getElementById("card").style.display="flex";
 
- },800);
+        let a = document.getElementById("lagu");
+        a.volume = 0;
+        a.play().catch(()=>{});
+
+        let v = 0;
+        let fade = setInterval(()=>{
+            if(v < 0.4){
+                v += 0.02;
+                a.volume = v;
+            } else clearInterval(fade);
+        },200);
+
+    },700);
 }
 </script>
 
