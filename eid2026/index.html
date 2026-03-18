@@ -6,121 +6,85 @@
 
 <title>Selamat Hari Raya</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-* { box-sizing: border-box; }
-
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
     overflow: hidden;
-    background: linear-gradient(270deg, #0f2027, #203a43, #2c5364);
-    background-size: 600% 600%;
-    animation: bgMove 15s ease infinite;
 }
 
-/* animated background */
-@keyframes bgMove {
-    0% { background-position: 0% }
-    50% { background-position: 100% }
-    100% { background-position: 0% }
-}
-
-/* envelope screen */
-.envelope-screen {
-    position: fixed;
-    width: 100%;
-    height: 100%;
+/* ENVELOPE 3D */
+.envelope-wrap {
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 10;
 }
 
 .envelope {
-    width: 220px;
-    height: 150px;
-    background: linear-gradient(145deg, #d4af37, #b8962e);
-    border-radius: 8px;
+    width: 240px;
+    height: 160px;
+    background: gold;
     position: relative;
     cursor: pointer;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-    animation: float 3s infinite;
+    transform-style: preserve-3d;
 }
 
-.envelope::before {
-    content: "";
+.flap {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 75px;
-    background: linear-gradient(145deg, #caa52f, #a88623);
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
-}
-
-@keyframes float {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-.tap-text {
-    position: absolute;
-    bottom: -30px;
     width: 100%;
-    text-align: center;
-    color: #fff;
-    font-size: 13px;
-    opacity: 0.7;
+    height: 50%;
+    background: #d4af37;
+    top: 0;
+    transform-origin: top;
+    transition: transform 1s;
+    clip-path: polygon(0 0,100% 0,50% 100%);
 }
 
-/* card hidden first */
-.container {
+.open .flap {
+    transform: rotateX(180deg);
+}
+
+/* CARD */
+.card-container {
     display: none;
     height: 100vh;
     justify-content: center;
     align-items: center;
-    padding: 20px;
 }
 
 .card {
-    width: 100%;
     max-width: 420px;
     padding: 40px;
     border-radius: 25px;
     text-align: center;
-    color: #fff;
+    color: white;
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(20px);
-    box-shadow: 0 0 80px rgba(0,0,0,0.8);
-    animation: fadeUp 1.5s ease;
+    animation: fade 1.5s ease;
 }
 
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes fade {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
 }
 
-/* icon */
-.icon {
-    font-size: 55px;
-}
-
-.symbols {
-    color: gold;
-    font-size: 22px;
-}
-
-/* text */
+/* shimmer text */
 h1 {
-    font-family: 'Playfair Display', serif;
-    color: gold;
+    font-family: 'Playfair Display';
+    font-size: 32px;
+    background: linear-gradient(90deg, gold, white, gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 3s infinite;
 }
 
-h2 {
-    font-weight: 300;
-    letter-spacing: 4px;
+@keyframes shimmer {
+    0% { background-position: -200px; }
+    100% { background-position: 200px; }
 }
 
 .signature {
@@ -128,43 +92,51 @@ h2 {
     color: gold;
 }
 
-/* footer */
-.footer {
-    display: none;
-    text-align: center;
-    padding: 15px;
-    font-size: 12px;
-    color: rgba(255,255,255,0.6);
+/* fireworks canvas */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
-.footer a {
-    color: rgba(255,255,255,0.7);
-    text-decoration: none;
+/* footer */
+.footer {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
 }
 </style>
 </head>
 
 <body>
 
-<!-- ENVELOPE -->
-<div class="envelope-screen" onclick="openCard()">
-    <div class="envelope"></div>
-    <div class="tap-text">Tap untuk buka kad</div>
+<canvas id="fireworks"></canvas>
+
+<div class="envelope-wrap" onclick="openCard()">
+    <div class="envelope" id="env">
+        <div class="flap"></div>
+    </div>
 </div>
 
-<!-- CARD -->
-<div class="container" id="card">
+<div class="card-container" id="card">
     <div class="card">
-        <div class="icon">🕌</div>
-        <div class="symbols">🌙 ✨</div>
+        <div style="font-size:50px;">🕌 🌙</div>
 
         <h1>Selamat Hari Raya</h1>
         <h2>Aidilfitri</h2>
 
         <p>
             Maaf zahir dan batin.<br>
-            Semoga Syawal ini membawa keberkatan,<br>
-            ketenangan dan kebahagiaan buat semua.
+            Semoga Syawal ini membawa seribu keberkatan,<br>
+            kebahagiaan dan ketenangan buat dirimu.
+        </p>
+
+        <p>
+            Ampun dan maaf dipohon atas segala khilaf,<br>
+            semoga silaturahim kita terus terjalin erat.
         </p>
 
         <div class="signature">
@@ -174,14 +146,12 @@ h2 {
     </div>
 </div>
 
-<div class="footer" id="footer">
-    © <span id="year"></span> 
-    <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
+<div class="footer">
+© <span id="year"></span> sczpnet.org
 </div>
 
-<!-- AUDIO (guna lagu raya placeholder, boleh tukar link nanti) -->
-<audio id="lagu" loop autoplay>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+<audio id="lagu" loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
 </audio>
 
 <script>
@@ -190,12 +160,53 @@ document.getElementById("year").innerText = new Date().getFullYear();
 
 // open animation
 function openCard(){
-    document.querySelector(".envelope-screen").style.display="none";
-    document.getElementById("card").style.display="flex";
-    document.getElementById("footer").style.display="block";
+    document.getElementById("env").classList.add("open");
+    setTimeout(()=>{
+        document.querySelector(".envelope-wrap").style.display="none";
+        document.getElementById("card").style.display="flex";
+        startFireworks();
 
-    let audio = document.getElementById("lagu");
-    audio.play().catch(()=>{});
+        let a=document.getElementById("lagu");
+        a.volume=0;
+        a.play().catch(()=>{});
+        let v=0;
+        let f=setInterval(()=>{
+            if(v<0.5){v+=0.02;a.volume=v;}
+            else clearInterval(f);
+        },200);
+
+    },800);
+}
+
+/* FIREWORKS */
+const c=document.getElementById("fireworks");
+const ctx=c.getContext("2d");
+c.width=window.innerWidth;
+c.height=window.innerHeight;
+
+function startFireworks(){
+    setInterval(()=>{
+        let x=Math.random()*c.width;
+        let y=Math.random()*c.height/2;
+
+        for(let i=0;i<30;i++){
+            let angle=Math.random()*2*Math.PI;
+            let speed=Math.random()*3;
+            let dx=Math.cos(angle)*speed;
+            let dy=Math.sin(angle)*speed;
+
+            let life=30;
+
+            let fw=setInterval(()=>{
+                ctx.fillStyle="gold";
+                ctx.fillRect(x,y,2,2);
+                x+=dx;
+                y+=dy;
+                life--;
+                if(life<=0) clearInterval(fw);
+            },30);
+        }
+    },800);
 }
 </script>
 
