@@ -3,41 +3,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kad Hari Raya Syahrizah</title>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 <style>
 body{
-  margin:0; font-family:'Segoe UI',sans-serif; overflow:hidden;
-  background:linear-gradient(135deg,#0f9d58,#1b5e20);
+  margin:0; overflow:hidden;
+  font-family:'Poppins',sans-serif;
+  background:radial-gradient(circle at top,#1b5e20,#0d3b12);
   display:flex; justify-content:center; align-items:center; height:100vh; color:#fff;
-}#envelopeBtn{ padding:15px 25px; border:none; border-radius:12px; background:gold; color:#000; font-weight:bold; cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.3); }
+}#envelopeBtn{ padding:18px 30px; border:none; border-radius:50px; background:linear-gradient(45deg,gold,#ffd700); font-size:18px; font-weight:bold; cursor:pointer; box-shadow:0 10px 25px rgba(0,0,0,0.4); animation:pulse 1.5s infinite; }
 
-.card{ display:none; background:rgba(255,255,255,0.1); backdrop-filter:blur(12px); border-radius:20px; padding:30px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.4); animation:fadeIn 1.5s ease; }
+@keyframes pulse{ 0%{transform:scale(1);}50%{transform:scale(1.08);}100%{transform:scale(1);} }
 
-h1{font-size:2.5em;} p{font-size:1.2em;}
+.card{ display:none; background:rgba(255,255,255,0.08); backdrop-filter:blur(15px); border-radius:25px; padding:40px; text-align:center; box-shadow:0 15px 40px rgba(0,0,0,0.5); animation:zoomIn 1.2s ease; border:2px solid rgba(255,215,0,0.5); }
 
-@keyframes fadeIn{ from{opacity:0; transform:scale(0.8);} to{opacity:1; transform:scale(1);} }
+h1{ font-family:'Great Vibes',cursive; font-size:3.5em; color:gold; text-shadow:0 0 15px rgba(255,215,0,0.8); }
 
-/* Ketupat animation */ .ketupat{ position:absolute; width:20px; height:20px; background:limegreen; transform:rotate(45deg); animation:fall linear infinite; }
+p{ font-size:1.2em; line-height:1.6em; }
+
+@keyframes zoomIn{ from{opacity:0; transform:scale(0.5);} to{opacity:1; transform:scale(1);} }
+
+/* Ketupat real look */ .ketupat{ position:absolute; width:18px; height:18px; background:linear-gradient(45deg,#8bc34a,#2e7d32); transform:rotate(45deg); animation:fall linear infinite; }
 
 @keyframes fall{ 0%{transform:translateY(-100px) rotate(0);} 100%{transform:translateY(110vh) rotate(360deg);} }
 
-/* Sparkle */ .sparkle{ position:absolute; width:5px; height:5px; background:white; border-radius:50%; animation:twinkle 2s infinite; }
+/* Sparkle */ .sparkle{ position:absolute; width:6px; height:6px; background:gold; border-radius:50%; box-shadow:0 0 10px gold; animation:twinkle 2s infinite; }
 
 @keyframes twinkle{ 0%,100%{opacity:0;} 50%{opacity:1;} }
 
-a{color:gold; text-decoration:none; font-weight:bold;} </style>
+.footer{ margin-top:20px; font-size:14px; }
+
+.footer a{ color:gold; text-decoration:none; font-weight:bold; } </style>
 
 </head>
 <body><button id="envelopeBtn">💌 Buka Sampul Raya</button>
 
 <div class="card" id="card">
-  <h1>Selamat Hari Raya 🌙</h1>
-  <p>Maaf Zahir & Batin</p>
-  <p>Semoga Aidilfitri membawa keberkatan, kebahagiaan dan kemaafan buat kita semua.</p>
-  <p><b>Ikhlas daripada: Syahrizah</b></p>
-  <br>
-  <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
+  <h1>Selamat Hari Raya</h1>
+  <p>Maaf Zahir dan Batin</p>
+  <p>Semoga Syawal ini membawa sinar kebahagiaan, keberkatan,
+  dan mengeratkan silaturahim sesama kita.</p>
+  <p><b>Ikhlas daripada: Syahrizah</b></p>  <div class="footer">
+    <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
+  </div>
 </div><audio id="music" loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  <!-- Ganti dengan lagu raya sebenar jika ada file sendiri -->
+  <source src="https://archive.org/download/takbir_raya/takbir_raya.mp3" type="audio/mpeg">
 </audio><script>
 const btn=document.getElementById('envelopeBtn');
 const card=document.getElementById('card');
@@ -52,17 +62,17 @@ btn.onclick=()=>{
 }
 
 function startKetupat(){
-  for(let i=0;i<25;i++){
+  for(let i=0;i<35;i++){
     let k=document.createElement('div');
     k.className='ketupat';
     k.style.left=Math.random()*100+'vw';
-    k.style.animationDuration=(3+Math.random()*5)+'s';
+    k.style.animationDuration=(4+Math.random()*4)+'s';
     document.body.appendChild(k);
   }
 }
 
 function startSparkle(){
-  for(let i=0;i<40;i++){
+  for(let i=0;i<60;i++){
     let s=document.createElement('div');
     s.className='sparkle';
     s.style.left=Math.random()*100+'vw';
