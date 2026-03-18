@@ -2,67 +2,66 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kad Raya Boss Final - Syahrizah</title>
+<title>Kad Raya Viral - Syahrizah</title>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 <style>
+*{box-sizing:border-box}
 body{
-  margin:0; overflow:hidden;
-  font-family:'Poppins',sans-serif;
-  height:100vh; color:#fff;
-  background:url('https://images.unsplash.com/photo-1598514982901-1bfa1c6cdd88') no-repeat center/cover;
-}.overlay{position:absolute; inset:0; background:rgba(0,0,0,0.6);}
+  margin:0; font-family:'Poppins',sans-serif; color:#fff;
+  background:linear-gradient(135deg,#14532d,#052e16);
+  min-height:100vh; overflow:hidden;
+}.container{position:relative; width:100%; height:100vh; display:flex; justify-content:center; align-items:center; padding:20px}
 
-.envelope{ width:240px; height:150px; background:#b71c1c; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.6); border-radius:10px; }
+/* ENVELOPE */ .envelope{ width:260px; height:160px; background:#b91c1c; border-radius:12px; position:relative; cursor:pointer; box-shadow:0 15px 40px rgba(0,0,0,.6); } .flap{ position:absolute; width:0; height:0; left:0; top:-100px; border-left:130px solid transparent; border-right:130px solid transparent; border-bottom:100px solid #7f1d1d; transform-origin:bottom; transition:.9s ease; } .envelope.open .flap{transform:rotateX(180deg)} .text-open{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:600}
 
-.flap{ position:absolute; width:0; height:0; border-left:120px solid transparent; border-right:120px solid transparent; border-bottom:90px solid #8e0000; top:-90px; left:0; transform-origin:bottom; transition:transform 1s ease; }
+/* CARD */ .card{ display:none; width:100%; max-width:420px; background:rgba(0,0,0,.75); backdrop-filter:blur(10px); border-radius:24px; padding:28px; text-align:center; border:2px solid gold; box-shadow:0 20px 60px rgba(0,0,0,.7); animation:pop .8s ease; } @keyframes pop{from{opacity:0; transform:scale(.7)} to{opacity:1; transform:scale(1)}}
 
-.envelope.open .flap{ transform:rotateX(180deg); }
+h1{font-family:'Great Vibes',cursive; font-size:3em; color:gold; text-shadow:0 0 20px gold} p{font-size:1.05em; line-height:1.6}
 
-.text-open{position:absolute; width:100%; text-align:center; top:50%; transform:translateY(-50%); font-weight:bold;}
+.controls{margin-top:16px} .controls input{padding:8px; border-radius:8px; border:none; width:65%} .controls button{padding:8px 12px; margin:4px; border:none; border-radius:8px; background:gold; cursor:pointer}
 
-.card{ display:none; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(0,0,0,0.75); border-radius:25px; padding:40px; text-align:center; border:2px solid gold; animation:fadeZoom 1s ease; }
+.footer{margin-top:14px} .footer a{color:gold; text-decoration:none; font-weight:600}
 
-h1{font-family:'Great Vibes',cursive; font-size:3.8em; color:gold; text-shadow:0 0 25px gold;} p{font-size:1.2em;}
+/* EFFECTS */ .ketupat{position:absolute; width:38px; animation:fall linear infinite} @keyframes fall{0%{transform:translateY(-100px) rotate(0)}100%{transform:translateY(110vh) rotate(360deg)}} .spark{position:absolute; width:6px; height:6px; background:gold; border-radius:50%; box-shadow:0 0 10px gold; animation:tw 2s infinite} @keyframes tw{0%,100%{opacity:0}50%{opacity:1}}
 
-@keyframes fadeZoom{ from{opacity:0; transform:translate(-50%,-60%) scale(0.6);} to{opacity:1; transform:translate(-50%,-50%) scale(1);} }
+/* AUDIO BAR */ .audio-bar{position:fixed; bottom:10px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,.6); padding:8px 12px; border-radius:12px; display:flex; gap:8px; align-items:center} .audio-bar button{background:gold; border:none; padding:6px 10px; border-radius:6px; cursor:pointer}
 
-.firework{ position:absolute; width:4px; height:4px; background:gold; border-radius:50%; animation:explode 1.5s ease-out infinite; }
-
-@keyframes explode{ 0%{transform:scale(1); opacity:1;} 100%{transform:scale(20); opacity:0;} }
-
-.footer{margin-top:20px;} .footer a{color:gold; text-decoration:none; font-weight:bold;}
-
-.controls{margin-top:15px;} button{ background:gold; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; margin:5px; } </style>
+@media(max-width:600px){ h1{font-size:2.4em} .card{padding:22px} } </style>
 
 </head>
-<body><div class="overlay"></div><div class="envelope" id="env">
+<body>
+<div class="container"><div class="envelope" id="env">
   <div class="flap"></div>
   <div class="text-open">💌 Buka Sampul Raya</div>
 </div><div class="card" id="card">
   <h1>Selamat Hari Raya</h1>
   <p id="greet">Maaf Zahir & Batin</p>
-  <p>Semoga Aidilfitri ini membawa keberkatan,
-  kebahagiaan dan mengeratkan silaturahim 🕌✨</p>
+  <p>Semoga Syawal membawa kegembiraan, keberkatan
+  dan mengeratkan silaturahim 🕌✨</p>
   <p><b>Ikhlas daripada: Syahrizah</b></p>  <div class="controls">
-    <input id="nameInput" placeholder="Masukkan nama anda" />
-    <button onclick="personalize()">Personalize</button>
-    <button onclick="shareWA()">Share WhatsApp</button>
+    <input id="nameInput" placeholder="Nama anda" />
+    <button onclick="personalize()">OK</button>
+    <button onclick="shareWA()">WhatsApp</button>
   </div>  <div class="footer">
     <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
   </div>
-</div><audio id="music" loop>
+</div></div><!-- AUDIO CONTROL --><div class="audio-bar">
+  <button onclick="playMusic()">▶ Play Lagu Raya</button>
+  <button onclick="pauseMusic()">⏸ Pause</button>
+</div><audio id="music" preload="auto" playsinline>
   <source src="https://archive.org/download/suasana_hari_raya/suasana_hari_raya.mp3" type="audio/mpeg">
-  <source src="https://archive.org/download/takbir_raya/takbir_raya.mp3" type="audio/mpeg">
 </audio><script>
 const env=document.getElementById('env');
 const card=document.getElementById('card');
 const music=document.getElementById('music');
 
-// Voice greeting
+// ENSURE user interaction unlock audio
+function playMusic(){music.currentTime=0; music.play().catch(()=>{})}
+function pauseMusic(){music.pause()}
+
 function speak(){
-  const msg=new SpeechSynthesisUtterance("Selamat Hari Raya, Maaf Zahir dan Batin");
-  msg.lang='ms-MY';
-  speechSynthesis.speak(msg);
+  const msg=new SpeechSynthesisUtterance("Selamat Hari Raya Maaf Zahir dan Batin");
+  msg.lang='ms-MY'; speechSynthesis.speak(msg);
 }
 
 env.onclick=()=>{
@@ -70,34 +69,38 @@ env.onclick=()=>{
   setTimeout(()=>{
     env.style.display='none';
     card.style.display='block';
-
-    music.play().catch(()=>{});
+    playMusic();
     speak();
-    startFireworks();
-  },800);
+    effects();
+  },700);
 }
 
-function startFireworks(){
-  setInterval(()=>{
-    let f=document.createElement('div');
-    f.className='firework';
-    f.style.left=Math.random()*100+'vw';
-    f.style.top=Math.random()*100+'vh';
-    document.body.appendChild(f);
-    setTimeout(()=>f.remove(),1500);
-  },300);
-}
-
-function personalize(){
-  const name=document.getElementById('nameInput').value;
-  if(name){
-    document.getElementById('greet').innerText=`Selamat Hari Raya ${name}, Maaf Zahir & Batin`;
+function effects(){
+  for(let i=0;i<25;i++){
+    let k=document.createElement('img');
+    k.src='https://upload.wikimedia.org/wikipedia/commons/3/3e/Ketupat_icon.png';
+    k.className='ketupat';
+    k.style.left=Math.random()*100+'vw';
+    k.style.animationDuration=(4+Math.random()*4)+'s';
+    document.body.appendChild(k);
+  }
+  for(let i=0;i<50;i++){
+    let s=document.createElement('div');
+    s.className='spark';
+    s.style.left=Math.random()*100+'vw';
+    s.style.top=Math.random()*100+'vh';
+    document.body.appendChild(s);
   }
 }
 
+function personalize(){
+  const n=document.getElementById('nameInput').value;
+  if(n) document.getElementById('greet').innerText=`Selamat Hari Raya ${n}, Maaf Zahir & Batin`;
+}
+
 function shareWA(){
-  const text="Selamat Hari Raya! Klik kad ini 🎉 https://sczpnet.org";
-  window.open("https://wa.me/?text="+encodeURIComponent(text));
+  const url=encodeURIComponent(location.href);
+  window.open(`https://wa.me/?text=Kad%20Raya%20untuk%20anda%20🎉%20${url}`);
 }
 </script></body>
 </html>
