@@ -6,91 +6,116 @@
 
 <title>Selamat Hari Raya</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-body {
-    margin: 0;
-    height: 100vh;
-    background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
-    font-family: 'Poppins', sans-serif;
-    overflow: hidden;
+* {
+    box-sizing: border-box;
 }
 
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* container center */
 .container {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    padding: 20px;
 }
 
+/* card */
 .card {
-    width: 400px;
-    padding: 50px;
+    width: 100%;
+    max-width: 420px;
+    padding: 40px 30px;
     border-radius: 25px;
     text-align: center;
     color: #fff;
     background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(18px);
     border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 0 80px rgba(0,0,0,0.8);
+    box-shadow: 0 0 60px rgba(0,0,0,0.7);
 }
 
-/* SVG glow */
+/* icon area */
 .icon {
-    margin-bottom: 20px;
-    filter: drop-shadow(0 0 15px rgba(255,215,0,0.6));
-    animation: float 4s ease-in-out infinite;
+    font-size: 55px;
+    margin-bottom: 10px;
 }
 
-@keyframes float {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
+.symbols {
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: gold;
 }
 
+/* text */
 h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 34px;
+    font-size: 28px;
     color: gold;
     margin-bottom: 5px;
 }
 
 h2 {
+    font-size: 16px;
     font-weight: 300;
     letter-spacing: 4px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 p {
-    font-size: 15px;
-    line-height: 1.8;
+    font-size: 14px;
+    line-height: 1.7;
+    margin: 10px 0;
     opacity: 0.9;
 }
 
 .signature {
-    margin-top: 30px;
+    margin-top: 25px;
+    font-size: 15px;
     color: gold;
-    font-size: 16px;
     font-style: italic;
 }
 
-/* footer */
+/* footer trademark FIXED */
 .footer {
-    position: absolute;
-    bottom: 20px;
-    width: 100%;
     text-align: center;
+    padding: 15px 10px 20px;
     font-size: 12px;
+    color: rgba(255,255,255,0.6);
 }
 
 .footer a {
-    color: rgba(255,255,255,0.6);
+    color: rgba(255,255,255,0.7);
     text-decoration: none;
-    letter-spacing: 1px;
 }
 
 .footer a:hover {
     color: gold;
+}
+
+/* desktop enhancement */
+@media (min-width: 768px) {
+    .card {
+        padding: 50px;
+    }
+
+    h1 {
+        font-size: 34px;
+    }
+
+    p {
+        font-size: 15px;
+    }
 }
 </style>
 </head>
@@ -100,26 +125,8 @@ p {
 <div class="container">
     <div class="card">
 
-        <!-- ULTRA REAL SVG MASJID + CRESCENT -->
-        <div class="icon">
-        <svg width="120" height="120" viewBox="0 0 200 200" fill="none">
-            <!-- Dome -->
-            <circle cx="100" cy="80" r="30" fill="gold"/>
-            
-            <!-- Minarets -->
-            <rect x="40" y="70" width="15" height="60" fill="gold"/>
-            <rect x="145" y="70" width="15" height="60" fill="gold"/>
-
-            <!-- Base -->
-            <rect x="60" y="100" width="80" height="40" fill="gold"/>
-
-            <!-- Crescent -->
-            <path d="M130 40 
-                     A20 20 0 1 1 120 70 
-                     A15 15 0 1 0 130 40" 
-                  fill="gold"/>
-        </svg>
-        </div>
+        <div class="icon">🕌</div>
+        <div class="symbols">🌙 ✨</div>
 
         <h1>Selamat Hari Raya</h1>
         <h2>Aidilfitri</h2>
@@ -127,15 +134,13 @@ p {
         <p>
             Maaf zahir dan batin.<br>
             Semoga Syawal ini membawa keberkatan,<br>
-            ketenangan jiwa dan kebahagiaan<br>
-            buat kita semua.
+            ketenangan dan kebahagiaan buat semua.
         </p>
 
         <p>
             Dengan penuh keikhlasan,<br>
-            kami menyusun sepuluh jari<br>
-            memohon ampun dan maaf<br>
-            atas segala kekhilafan.
+            kami memohon ampun dan maaf<br>
+            atas segala kesilapan dan kekhilafan.
         </p>
 
         <div class="signature">
