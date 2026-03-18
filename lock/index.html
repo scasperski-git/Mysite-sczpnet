@@ -606,7 +606,7 @@ logout();
 document.getElementById("userInfo").innerHTML =
 "User: "+(user || "-")+" | Role: "+(role || "-");
 loadUserSummary();
-setInterval(loadUserSummary,30000);
+setInterval(loadUserSummary,120000);
 /* ACCESS CONTROL */
 
 const type = localStorage.getItem("lock_type");
@@ -1015,7 +1015,8 @@ MOBILE SAFE IDLE LOGOUT
 ========================= */
 
 let lastActivity = Date.now();
-const IDLE_LIMIT = 60000; // 1 min
+const IDLE_LIMIT = 1200000; // 20 min
+let idleTriggered = false;
 
 function updateActivity(){
 lastActivity = Date.now();
@@ -1046,7 +1047,8 @@ console.log("session check error");
 
 function checkIdle(){
 
-if(Date.now() - lastActivity > IDLE_LIMIT){
+if(!idleTriggered && Date.now() - lastActivity > IDLE_LIMIT){
+idleTriggered = true;
 showSessionPopup("EXPIRED");
 }
 
@@ -1078,7 +1080,7 @@ showSessionPopup("EXPIRED");
 });
 /* SESSION MONITOR */
 
-setInterval(checkSession,5000);
+setInterval(checkSession,30000);
 
 </script>
 
