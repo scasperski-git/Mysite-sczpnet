@@ -6,18 +6,18 @@
 
 <title>Selamat Hari Raya</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box;}
 
 body{
     margin:0;
-    font-family:'Poppins',sans-serif;
+    font-family:'Inter',sans-serif;
     overflow:hidden;
     background: linear-gradient(270deg,#0f2027,#203a43,#2c5364);
     background-size:600% 600%;
-    animation:bgMove 15s ease infinite;
+    animation:bgMove 18s ease infinite;
 }
 
 @keyframes bgMove{
@@ -77,13 +77,13 @@ body{
 .card{
     width:100%;
     max-width:360px;
-    padding:25px 20px;
+    padding:28px 22px;
     border-radius:20px;
     text-align:center;
     color:white;
     background:rgba(255,255,255,0.05);
-    backdrop-filter:blur(15px);
-    box-shadow:0 0 40px rgba(0,0,0,0.6);
+    backdrop-filter:blur(18px);
+    box-shadow:0 0 50px rgba(0,0,0,0.7);
     animation:fadeUp 1s ease;
 }
 
@@ -92,32 +92,21 @@ body{
     to{opacity:1;transform:translateY(0);}
 }
 
-/* ICON ANIMATION */
+/* ICON */
 .icon{
     font-size:38px;
-    animation:float 4s ease-in-out infinite;
 }
 
 .symbols{
     font-size:16px;
     color:gold;
-    animation:glow 3s infinite;
+    margin-bottom:8px;
 }
 
-@keyframes float{
-    0%,100%{transform:translateY(0);}
-    50%{transform:translateY(-4px);}
-}
-
-@keyframes glow{
-    0%,100%{opacity:0.6;}
-    50%{opacity:1;}
-}
-
-/* TEXT */
+/* TITLE */
 h1{
-    font-family:'Playfair Display';
-    font-size:22px;
+    font-family:'Playfair Display',serif;
+    font-size:24px;
     color:gold;
     margin:5px 0;
 }
@@ -125,25 +114,36 @@ h1{
 h2{
     font-size:13px;
     letter-spacing:3px;
-    margin-bottom:10px;
-    opacity:0.8;
+    margin-bottom:12px;
+    opacity:0.85;
+}
+
+/* TEXT ANIMATION */
+.fade-text{
+    animation:fadeText 2s ease;
+}
+
+@keyframes fadeText{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
 }
 
 p{
     font-size:12.5px;
-    line-height:1.6;
+    line-height:1.7;
     margin:6px 0;
 }
 
+/* SIGNATURE */
 .signature{
     margin-top:10px;
     font-size:13px;
     color:gold;
 }
 
-/* FOOTER */
+/* FOOTER PERFECT CENTER */
 .footer{
-    margin-top:8px;
+    margin-top:10px;
     text-align:center;
     font-size:11px;
     opacity:0.6;
@@ -153,36 +153,10 @@ p{
     color:white;
     text-decoration:none;
 }
-
-/* SPARKLE */
-.sparkle{
-    position:fixed;
-    width:2px;
-    height:2px;
-    background:gold;
-    opacity:0.5;
-    animation:fall linear infinite;
-}
-
-@keyframes fall{
-    from{transform:translateY(-10px);}
-    to{transform:translateY(100vh);}
-}
 </style>
 </head>
 
 <body>
-
-<!-- SPARKLES -->
-<script>
-for(let i=0;i<25;i++){
- let s=document.createElement("div");
- s.className="sparkle";
- s.style.left=Math.random()*100+"%";
- s.style.animationDuration=(5+Math.random()*5)+"s";
- document.body.appendChild(s);
-}
-</script>
 
 <!-- ENVELOPE -->
 <div class="envelope-wrap" onclick="openCard()">
@@ -204,21 +178,23 @@ for(let i=0;i<25;i++){
             <h1>Selamat Hari Raya</h1>
             <h2>Aidilfitri</h2>
 
-            <p>
-                Pergi ke taman memetik bunga,<br>
-                Harum mewangi di pagi hari;<br>
-                Andai tersalah kata dan juga bicara,<br>
-                Mohon dimaaf setulus hati.
-            </p>
+            <div class="fade-text">
+                <p>
+                    Pergi ke taman memetik bunga,<br>
+                    Harum mewangi di pagi hari;<br>
+                    Andai tersalah kata dan juga bicara,<br>
+                    Mohon dimaaf setulus hati.
+                </p>
 
-            <p>
-                Syawal tiba penuh bermakna,<br>
-                Disambut dengan rasa gembira;<br>
-                Salam Aidilfitri buat semua,<br>
-                Semoga bahagia sentiasa bersama.
-            </p>
+                <p>
+                    Syawal tiba penuh bermakna,<br>
+                    Disambut dengan rasa gembira;<br>
+                    Salam Aidilfitri buat semua,<br>
+                    Semoga bahagia sentiasa bersama.
+                </p>
 
-            <p>Maaf zahir dan batin.</p>
+                <p>Maaf zahir dan batin.</p>
+            </div>
 
             <div class="signature">
                 Ikhlas daripada,<br>
@@ -229,15 +205,15 @@ for(let i=0;i<25;i++){
 
         <div class="footer">
             © <span id="year"></span> 
-            <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
+            <a href="https://sczpnet.org" target="_blank">sczpnet.org</a> | All Rights Reserved
         </div>
 
     </div>
 </div>
 
-<!-- AUDIO -->
+<!-- REAL RAYA SONG (contoh – boleh tukar MP3 sendiri) -->
 <audio id="lagu" loop>
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
+<source src="https://files.catbox.moe/3x9d4b.mp3">
 </audio>
 
 <script>
@@ -255,7 +231,7 @@ function openCard(){
   a.play().catch(()=>{});
   let v=0;
   let fade=setInterval(()=>{
-   if(v<0.4){v+=0.02;a.volume=v;}
+   if(v<0.5){v+=0.02;a.volume=v;}
    else clearInterval(fade);
   },200);
 
