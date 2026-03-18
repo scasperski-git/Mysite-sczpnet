@@ -9,20 +9,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    background: linear-gradient(270deg, #0f2027, #203a43, #2c5364);
+    background-size: 600% 600%;
+    animation: gradientMove 15s ease infinite;
 }
 
-/* container center */
+/* animated gradient */
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* container */
 .container {
     flex: 1;
     display: flex;
@@ -35,38 +43,48 @@ body {
 .card {
     width: 100%;
     max-width: 420px;
-    padding: 40px 30px;
+    padding: 40px;
     border-radius: 25px;
     text-align: center;
     color: #fff;
     background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(18px);
+    backdrop-filter: blur(20px);
     border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 0 60px rgba(0,0,0,0.7);
+    box-shadow: 0 0 80px rgba(0,0,0,0.8);
+    animation: fadeUp 1.5s ease;
 }
 
-/* icon area */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* icon */
 .icon {
     font-size: 55px;
-    margin-bottom: 10px;
+    animation: float 3s ease-in-out infinite;
 }
 
 .symbols {
     font-size: 22px;
-    margin-bottom: 15px;
     color: gold;
+    margin-bottom: 10px;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
 }
 
 /* text */
 h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 28px;
     color: gold;
-    margin-bottom: 5px;
+    font-size: 30px;
 }
 
 h2 {
-    font-size: 16px;
     font-weight: 300;
     letter-spacing: 4px;
     margin-bottom: 20px;
@@ -75,21 +93,35 @@ h2 {
 p {
     font-size: 14px;
     line-height: 1.7;
-    margin: 10px 0;
     opacity: 0.9;
 }
 
 .signature {
     margin-top: 25px;
-    font-size: 15px;
     color: gold;
     font-style: italic;
 }
 
-/* footer trademark FIXED */
+/* sparkle particles */
+.sparkle {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: gold;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: sparkleMove linear infinite;
+}
+
+@keyframes sparkleMove {
+    from { transform: translateY(0); }
+    to { transform: translateY(100vh); }
+}
+
+/* footer */
 .footer {
     text-align: center;
-    padding: 15px 10px 20px;
+    padding: 15px;
     font-size: 12px;
     color: rgba(255,255,255,0.6);
 }
@@ -101,21 +133,6 @@ p {
 
 .footer a:hover {
     color: gold;
-}
-
-/* desktop enhancement */
-@media (min-width: 768px) {
-    .card {
-        padding: 50px;
-    }
-
-    h1 {
-        font-size: 34px;
-    }
-
-    p {
-        font-size: 15px;
-    }
 }
 </style>
 </head>
@@ -156,8 +173,38 @@ p {
     <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
 </div>
 
+<!-- AUDIO -->
+<audio id="laguRaya" loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
 <script>
+// year
 document.getElementById("year").innerText = new Date().getFullYear();
+
+// sparkle generator
+for(let i=0;i<40;i++){
+    let s = document.createElement("div");
+    s.className = "sparkle";
+    s.style.left = Math.random()*100+"%";
+    s.style.animationDuration = (5+Math.random()*5)+"s";
+    document.body.appendChild(s);
+}
+
+// autoplay + fade in audio (mobile compatible trigger)
+const audio = document.getElementById("laguRaya");
+audio.volume = 0;
+
+document.body.addEventListener("click", () => {
+    audio.play();
+    let v = 0;
+    let fade = setInterval(()=>{
+        if(v < 0.5){
+            v += 0.02;
+            audio.volume = v;
+        } else clearInterval(fade);
+    }, 200);
+}, { once: true });
 </script>
 
 </body>
