@@ -3,196 +3,149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Selamat Hari Raya</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 body {
     margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #064e3b, #16a34a);
+    color: white;
+    text-align: center;
     overflow: hidden;
 }
 
-/* envelope */
-.envelope-wrap {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* center content */
+.container {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
+/* envelope */
 .envelope {
-    width: 240px;
-    height: 160px;
-    background: linear-gradient(145deg, #d4af37, #b8962e);
+    width: 200px;
+    height: 120px;
+    background: gold;
+    margin: auto;
+    border-radius: 10px;
     position: relative;
     cursor: pointer;
-    border-radius: 6px;
+    transition: 0.5s;
 }
 
-.flap {
+.envelope:before {
+    content: "";
     position: absolute;
-    width: 100%;
-    height: 50%;
-    background: #caa52f;
-    clip-path: polygon(0 0,100% 0,50% 100%);
-    transform-origin: top;
-    transition: transform 1s;
+    width: 0;
+    height: 0;
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    border-bottom: 60px solid #facc15;
+    top: -60px;
+    left: 0;
 }
 
-.open .flap {
-    transform: rotateX(180deg);
+/* open animation */
+.open {
+    transform: scale(1.1) rotateX(180deg);
 }
 
-/* card */
-.container {
-    display: none;
-    height: 100vh;
-    justify-content: center;
-    align-items: center;
-}
-
+/* hidden card */
 .card {
-    max-width: 420px;
-    padding: 45px;
-    border-radius: 25px;
-    text-align: center;
-    color: white;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(20px);
-    animation: fade 1.5s ease;
+    display: none;
+    margin-top: 30px;
+    padding: 25px;
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    animation: fadeIn 2s;
 }
 
-@keyframes fade {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
 }
 
-/* mosque + moon animation */
-.icon {
-    font-size: 55px;
-    margin-bottom: 10px;
-    animation: float 4s ease-in-out infinite;
-}
-
-.symbols {
-    font-size: 22px;
-    color: gold;
-    animation: glow 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-}
-
-@keyframes glow {
-    0%,100% { opacity: 0.7; }
-    50% { opacity: 1; }
-}
-
-/* text */
-h1 {
-    font-family: 'Playfair Display';
-    font-size: 32px;
-    color: gold;
-}
-
-h2 {
-    font-weight: 300;
-    letter-spacing: 4px;
-}
-
-p {
-    line-height: 1.8;
-    font-size: 14px;
-}
-
-/* footer */
-.footer {
+/* confetti */
+.confetti {
     position: fixed;
-    bottom: 15px;
-    width: 100%;
-    text-align: center;
-    font-size: 12px;
-    color: rgba(255,255,255,0.6);
+    width: 10px;
+    height: 10px;
+    background: gold;
+    top: -10px;
+    animation: fall linear infinite;
 }
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+    }
+}
+
+h1 {
+    font-size: 30px;
+}
+
 </style>
 </head>
 
 <body>
 
-<div class="envelope-wrap" onclick="openCard()">
-    <div class="envelope" id="env">
-        <div class="flap"></div>
-    </div>
-</div>
+<div class="container">
 
-<div class="container" id="card">
-    <div class="card">
+    <h2>✨ Ada sesuatu untuk anda... ✨</h2>
+    <p>Klik sampul di bawah 👇</p>
 
-        <div class="icon">🕌</div>
-        <div class="symbols">🌙 ✨</div>
+    <div class="envelope" onclick="openEnvelope()" id="env"></div>
 
-        <h1>Selamat Hari Raya</h1>
-        <h2>Aidilfitri</h2>
-
+    <div class="card" id="card">
+        <h1>🌙 Selamat Hari Raya 🌙</h1>
+        <p id="name"></p>
         <p>
-            Pergi ke pekan membeli selasih,<br>
-            Singgah sebentar di tepi perigi;<br>
-            Andai ada salah dan silap tersisih,<br>
-            Mohon dimaaf setulus hati.
+            Maaf Zahir & Batin 🤍<br><br>
+            Semoga Syawal ini membawa kebahagiaan,<br>
+            ketenangan dan rezeki yang melimpah 🌿<br><br>
+            Terima kasih kerana sentiasa ada 💚
         </p>
-
-        <p>
-            Indah cahaya di pagi Syawal,<br>
-            Disambut gembira penuh kesyukuran;<br>
-            Salam Aidilfitri buat semua yang kenal,<br>
-            Dengan ingatan dan keikhlasan.
-        </p>
-
-        <p style="margin-top:15px;">
-            Maaf zahir dan batin.
-        </p>
-
-        <div style="margin-top:20px; color:gold;">
-            — Syahrizah —
-        </div>
-
+        <p><strong>— Ikhlas daripada, SCZP</strong></p>
     </div>
+
 </div>
 
-<div class="footer">
-© <span id="year"></span> sczpnet.org
-</div>
-
-<audio id="lagu" loop>
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3">
-</audio>
+<audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
 
 <script>
-document.getElementById("year").innerText = new Date().getFullYear();
 
-function openCard(){
+function openEnvelope() {
     document.getElementById("env").classList.add("open");
-    setTimeout(()=>{
-        document.querySelector(".envelope-wrap").style.display="none";
-        document.getElementById("card").style.display="flex";
 
-        let a=document.getElementById("lagu");
-        a.volume=0;
-        a.play().catch(()=>{});
-        let v=0;
-        let fade=setInterval(()=>{
-            if(v<0.4){v+=0.02;a.volume=v;}
-            else clearInterval(fade);
-        },200);
+    setTimeout(() => {
+        document.getElementById("card").style.display = "block";
+        startConfetti();
+        document.getElementById("music").play();
+    }, 600);
 
-    },800);
+    // personalize name
+    const params = new URLSearchParams(window.location.search);
+    const person = params.get("name");
+
+    if (person) {
+        document.getElementById("name").innerHTML = "Untuk " + person + " 💚";
+    }
 }
+
+/* confetti generator */
+function startConfetti() {
+    for (let i = 0; i < 40; i++) {
+        let conf = document.createElement("div");
+        conf.classList.add("confetti");
+        conf.style.left = Math.random() * 100 + "vw";
+        conf.style.animationDuration = (2 + Math.random() * 3) + "s";
+        document.body.appendChild(conf);
+    }
+}
+
 </script>
 
 </body>
