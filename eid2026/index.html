@@ -2,73 +2,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kad Hari Raya</title>
+<title>Kad Hari Raya Syahrizah</title>
 <style>
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: linear-gradient(135deg, #0f9d58, #34a853);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        color: white;
-    }.card {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 30px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    animation: fadeIn 2s ease-in-out;
-}
+body{
+  margin:0; font-family:'Segoe UI',sans-serif; overflow:hidden;
+  background:linear-gradient(135deg,#0f9d58,#1b5e20);
+  display:flex; justify-content:center; align-items:center; height:100vh; color:#fff;
+}#envelopeBtn{ padding:15px 25px; border:none; border-radius:12px; background:gold; color:#000; font-weight:bold; cursor:pointer; box-shadow:0 5px 15px rgba(0,0,0,0.3); }
 
-h1 {
-    font-size: 2.5em;
-    margin-bottom: 10px;
-}
+.card{ display:none; background:rgba(255,255,255,0.1); backdrop-filter:blur(12px); border-radius:20px; padding:30px; text-align:center; box-shadow:0 10px 30px rgba(0,0,0,0.4); animation:fadeIn 1.5s ease; }
 
-p {
-    font-size: 1.2em;
-}
+h1{font-size:2.5em;} p{font-size:1.2em;}
 
-.moon {
-    width: 80px;
-    height: 80px;
-    background: radial-gradient(circle, #fff, #ddd);
-    border-radius: 50%;
-    position: relative;
-    margin: 0 auto 20px;
-    box-shadow: -10px 0 0 0 #34a853;
-}
+@keyframes fadeIn{ from{opacity:0; transform:scale(0.8);} to{opacity:1; transform:scale(1);} }
 
-.lantern {
-    width: 10px;
-    height: 40px;
-    background: gold;
-    margin: 10px auto;
-    border-radius: 5px;
-    animation: swing 2s infinite ease-in-out;
-}
+/* Ketupat animation */ .ketupat{ position:absolute; width:20px; height:20px; background:limegreen; transform:rotate(45deg); animation:fall linear infinite; }
 
-@keyframes swing {
-    0% { transform: rotate(5deg); }
-    50% { transform: rotate(-5deg); }
-    100% { transform: rotate(5deg); }
-}
+@keyframes fall{ 0%{transform:translateY(-100px) rotate(0);} 100%{transform:translateY(110vh) rotate(360deg);} }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+/* Sparkle */ .sparkle{ position:absolute; width:5px; height:5px; background:white; border-radius:50%; animation:twinkle 2s infinite; }
 
-</style>
+@keyframes twinkle{ 0%,100%{opacity:0;} 50%{opacity:1;} }
+
+a{color:gold; text-decoration:none; font-weight:bold;} </style>
+
 </head>
-<body><div class="card">
-    <div class="moon"></div>
-    <div class="lantern"></div><h1>Selamat Hari Raya</h1>
-<p>Maaf Zahir & Batin</p>
-<p>Semoga Aidilfitri membawa kebahagiaan, keberkatan dan kemaafan untuk kita semua 🌙✨</p>
+<body><button id="envelopeBtn">💌 Buka Sampul Raya</button>
 
-</div></body>
+<div class="card" id="card">
+  <h1>Selamat Hari Raya 🌙</h1>
+  <p>Maaf Zahir & Batin</p>
+  <p>Semoga Aidilfitri membawa keberkatan, kebahagiaan dan kemaafan buat kita semua.</p>
+  <p><b>Ikhlas daripada: Syahrizah</b></p>
+  <br>
+  <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
+</div><audio id="music" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio><script>
+const btn=document.getElementById('envelopeBtn');
+const card=document.getElementById('card');
+const music=document.getElementById('music');
+
+btn.onclick=()=>{
+  btn.style.display='none';
+  card.style.display='block';
+  music.play();
+  startKetupat();
+  startSparkle();
+}
+
+function startKetupat(){
+  for(let i=0;i<25;i++){
+    let k=document.createElement('div');
+    k.className='ketupat';
+    k.style.left=Math.random()*100+'vw';
+    k.style.animationDuration=(3+Math.random()*5)+'s';
+    document.body.appendChild(k);
+  }
+}
+
+function startSparkle(){
+  for(let i=0;i<40;i++){
+    let s=document.createElement('div');
+    s.className='sparkle';
+    s.style.left=Math.random()*100+'vw';
+    s.style.top=Math.random()*100+'vh';
+    document.body.appendChild(s);
+  }
+}
+</script></body>
 </html>
