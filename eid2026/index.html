@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Selamat Hari Raya</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
@@ -11,107 +12,204 @@
 body {
     margin: 0;
     height: 100vh;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, #1a2a33, #0d1b22);
+}
+
+/* animated particles */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+/* main card */
+.container {
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    font-family: 'Poppins', sans-serif;
-    overflow: hidden;
 }
 
 .card {
-    width: 380px;
-    padding: 40px;
-    border-radius: 20px;
+    position: relative;
+    width: 400px;
+    padding: 45px;
+    border-radius: 25px;
     text-align: center;
     color: #fff;
     background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,255,255,0.2);
-    box-shadow: 0 0 40px rgba(0,0,0,0.6);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 0 60px rgba(0,0,0,0.7);
     animation: fadeIn 2s ease;
+}
+
+/* glowing border */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 25px;
+    background: linear-gradient(45deg, gold, transparent, gold);
+    opacity: 0.25;
+    filter: blur(12px);
+    z-index: -1;
+    animation: spin 6s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* moon glow */
+.moon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff, #ffd700);
+    box-shadow: 0 0 40px #ffd700;
+    animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
 }
 
 h1 {
     font-family: 'Playfair Display', serif;
     font-size: 32px;
-    margin-bottom: 10px;
     color: #ffd700;
+    margin-bottom: 5px;
 }
 
 h2 {
     font-weight: 300;
+    letter-spacing: 3px;
     margin-bottom: 20px;
-    letter-spacing: 2px;
 }
 
 p {
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 1.7;
     opacity: 0.9;
 }
 
 .signature {
     margin-top: 25px;
-    font-style: italic;
-    font-size: 15px;
+    font-size: 16px;
     color: #ffd700;
+    font-style: italic;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* subtle glow animation */
-.card::before {
-    content: "";
+/* footer trademark */
+.footer {
     position: absolute;
-    inset: -2px;
-    border-radius: 20px;
-    background: linear-gradient(45deg, gold, transparent, gold);
-    opacity: 0.2;
-    filter: blur(10px);
-    z-index: -1;
-    animation: glow 4s infinite linear;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 1px;
 }
 
-@keyframes glow {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+/* animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-    <h1>🌙 Selamat Hari Raya</h1>
-    <h2>Aidilfitri</h2>
+<canvas id="particles"></canvas>
 
-    <p>
-        Maaf zahir dan batin.<br>
-        Semoga Syawal ini membawa seribu keberkatan,<br>
-        kebahagiaan, dan kedamaian buat kita semua.
-    </p>
+<div class="container">
+    <div class="card">
 
-    <p>
-        Di kesempatan ini,<br>
-        disusun sepuluh jari memohon ampun dan maaf<br>
-        atas segala khilaf dan salah.
-    </p>
+        <div class="moon"></div>
 
-    <div class="signature">
-        Ikhlas daripada,<br>
-        <b>Syahrizah</b>
+        <h1>Selamat Hari Raya</h1>
+        <h2>Aidilfitri</h2>
+
+        <p>
+            Maaf zahir dan batin.<br>
+            Semoga Syawal ini membawa sinar kebahagiaan,<br>
+            keberkatan dan ketenangan buat kita semua.
+        </p>
+
+        <p>
+            Ampun dan maaf dipohon atas segala khilaf,<br>
+            semoga hubungan kita terus mekar selamanya.
+        </p>
+
+        <div class="signature">
+            Ikhlas daripada,<br>
+            <b>Syahrizah</b>
+        </div>
+
     </div>
 </div>
+
+<div class="footer">
+    © <span id="year"></span> Syahrizah | All Rights Reserved
+</div>
+
+<script>
+// auto year
+document.getElementById("year").innerText = new Date().getFullYear();
+
+// particles animation
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for (let i = 0; i < 80; i++) {
+    particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2,
+        d: Math.random() * 1
+    });
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "rgba(255, 215, 0, 0.7)";
+    ctx.beginPath();
+
+    for (let i = 0; i < particles.length; i++) {
+        let p = particles[i];
+        ctx.moveTo(p.x, p.y);
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+    }
+
+    ctx.fill();
+    update();
+}
+
+function update() {
+    for (let i = 0; i < particles.length; i++) {
+        let p = particles[i];
+        p.y += p.d;
+        if (p.y > canvas.height) {
+            p.y = 0;
+            p.x = Math.random() * canvas.width;
+        }
+    }
+}
+
+setInterval(draw, 33);
+</script>
 
 </body>
 </html>
