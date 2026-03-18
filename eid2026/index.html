@@ -14,32 +14,76 @@
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
     overflow: hidden;
     background: linear-gradient(270deg, #0f2027, #203a43, #2c5364);
     background-size: 600% 600%;
-    animation: gradientMove 15s ease infinite;
+    animation: bgMove 15s ease infinite;
 }
 
-/* animated gradient */
-@keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* animated background */
+@keyframes bgMove {
+    0% { background-position: 0% }
+    50% { background-position: 100% }
+    100% { background-position: 0% }
 }
 
-/* container */
-.container {
-    flex: 1;
+/* envelope screen */
+.envelope-screen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.envelope {
+    width: 220px;
+    height: 150px;
+    background: linear-gradient(145deg, #d4af37, #b8962e);
+    border-radius: 8px;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+    animation: float 3s infinite;
+}
+
+.envelope::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 75px;
+    background: linear-gradient(145deg, #caa52f, #a88623);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.tap-text {
+    position: absolute;
+    bottom: -30px;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 13px;
+    opacity: 0.7;
+}
+
+/* card hidden first */
+.container {
+    display: none;
+    height: 100vh;
     justify-content: center;
     align-items: center;
     padding: 20px;
 }
 
-/* card */
 .card {
     width: 100%;
     max-width: 420px;
@@ -49,7 +93,6 @@ body {
     color: #fff;
     background: rgba(255,255,255,0.05);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.15);
     box-shadow: 0 0 80px rgba(0,0,0,0.8);
     animation: fadeUp 1.5s ease;
 }
@@ -62,64 +105,32 @@ body {
 /* icon */
 .icon {
     font-size: 55px;
-    animation: float 3s ease-in-out infinite;
 }
 
 .symbols {
-    font-size: 22px;
     color: gold;
-    margin-bottom: 10px;
-    animation: float 4s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
+    font-size: 22px;
 }
 
 /* text */
 h1 {
     font-family: 'Playfair Display', serif;
     color: gold;
-    font-size: 30px;
 }
 
 h2 {
     font-weight: 300;
     letter-spacing: 4px;
-    margin-bottom: 20px;
-}
-
-p {
-    font-size: 14px;
-    line-height: 1.7;
-    opacity: 0.9;
 }
 
 .signature {
-    margin-top: 25px;
+    margin-top: 20px;
     color: gold;
-    font-style: italic;
-}
-
-/* sparkle particles */
-.sparkle {
-    position: fixed;
-    width: 4px;
-    height: 4px;
-    background: gold;
-    border-radius: 50%;
-    opacity: 0.7;
-    animation: sparkleMove linear infinite;
-}
-
-@keyframes sparkleMove {
-    from { transform: translateY(0); }
-    to { transform: translateY(100vh); }
 }
 
 /* footer */
 .footer {
+    display: none;
     text-align: center;
     padding: 15px;
     font-size: 12px;
@@ -130,18 +141,20 @@ p {
     color: rgba(255,255,255,0.7);
     text-decoration: none;
 }
-
-.footer a:hover {
-    color: gold;
-}
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <div class="card">
+<!-- ENVELOPE -->
+<div class="envelope-screen" onclick="openCard()">
+    <div class="envelope"></div>
+    <div class="tap-text">Tap untuk buka kad</div>
+</div>
 
+<!-- CARD -->
+<div class="container" id="card">
+    <div class="card">
         <div class="icon">🕌</div>
         <div class="symbols">🌙 ✨</div>
 
@@ -154,57 +167,36 @@ p {
             ketenangan dan kebahagiaan buat semua.
         </p>
 
-        <p>
-            Dengan penuh keikhlasan,<br>
-            kami memohon ampun dan maaf<br>
-            atas segala kesilapan dan kekhilafan.
-        </p>
-
         <div class="signature">
             Ikhlas daripada,<br>
             <b>Syahrizah</b>
         </div>
-
     </div>
 </div>
 
-<div class="footer">
+<div class="footer" id="footer">
     © <span id="year"></span> 
     <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
 </div>
 
-<!-- AUDIO -->
-<audio id="laguRaya" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+<!-- AUDIO (guna lagu raya placeholder, boleh tukar link nanti) -->
+<audio id="lagu" loop autoplay>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 // year
 document.getElementById("year").innerText = new Date().getFullYear();
 
-// sparkle generator
-for(let i=0;i<40;i++){
-    let s = document.createElement("div");
-    s.className = "sparkle";
-    s.style.left = Math.random()*100+"%";
-    s.style.animationDuration = (5+Math.random()*5)+"s";
-    document.body.appendChild(s);
+// open animation
+function openCard(){
+    document.querySelector(".envelope-screen").style.display="none";
+    document.getElementById("card").style.display="flex";
+    document.getElementById("footer").style.display="block";
+
+    let audio = document.getElementById("lagu");
+    audio.play().catch(()=>{});
 }
-
-// autoplay + fade in audio (mobile compatible trigger)
-const audio = document.getElementById("laguRaya");
-audio.volume = 0;
-
-document.body.addEventListener("click", () => {
-    audio.play();
-    let v = 0;
-    let fade = setInterval(()=>{
-        if(v < 0.5){
-            v += 0.02;
-            audio.volume = v;
-        } else clearInterval(fade);
-    }, 200);
-}, { once: true });
 </script>
 
 </body>
