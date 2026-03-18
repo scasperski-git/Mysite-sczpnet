@@ -3,149 +3,243 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Selamat Hari Raya</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #064e3b, #16a34a);
-    color: white;
-    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
     overflow: hidden;
 }
 
-/* center content */
-.container {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-/* envelope */
-.envelope {
-    width: 200px;
-    height: 120px;
-    background: gold;
-    margin: auto;
-    border-radius: 10px;
-    position: relative;
-    cursor: pointer;
-    transition: 0.5s;
-}
-
-.envelope:before {
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 0;
-    border-left: 100px solid transparent;
-    border-right: 100px solid transparent;
-    border-bottom: 60px solid #facc15;
-    top: -60px;
-    left: 0;
-}
-
-/* open animation */
-.open {
-    transform: scale(1.1) rotateX(180deg);
-}
-
-/* hidden card */
-.card {
-    display: none;
-    margin-top: 30px;
-    padding: 25px;
-    background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    animation: fadeIn 2s;
-}
-
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(20px);}
-    to {opacity: 1; transform: translateY(0);}
-}
-
-/* confetti */
-.confetti {
+/* background moon drift */
+.moon {
     position: fixed;
-    width: 10px;
-    height: 10px;
+    top: 10%;
+    left: -100px;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(circle, gold, transparent);
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: moveMoon 40s linear infinite;
+}
+
+@keyframes moveMoon {
+    from { left: -100px; }
+    to { left: 110%; }
+}
+
+/* sparkle */
+.sparkle {
+    position: fixed;
+    width: 2px;
+    height: 2px;
     background: gold;
-    top: -10px;
+    opacity: 0.5;
     animation: fall linear infinite;
 }
 
 @keyframes fall {
-    to {
-        transform: translateY(100vh) rotate(360deg);
-    }
+    from { transform: translateY(-10px); }
+    to { transform: translateY(100vh); }
 }
 
+/* envelope */
+.envelope-wrap {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.envelope {
+    width: 240px;
+    height: 160px;
+    background: linear-gradient(145deg, #d4af37, #b8962e);
+    position: relative;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.flap {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    background: #caa52f;
+    clip-path: polygon(0 0,100% 0,50% 100%);
+    transform-origin: top;
+    transition: transform 1s;
+}
+
+.open .flap {
+    transform: rotateX(180deg);
+}
+
+/* card */
+.container {
+    display: none;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.card {
+    max-width: 420px;
+    width: 100%;
+    padding: 45px;
+    border-radius: 25px;
+    text-align: center;
+    color: white;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    animation: fade 1.5s ease;
+}
+
+@keyframes fade {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* SVG mosque */
+.mosque {
+    margin-bottom: 10px;
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+/* shimmer title */
 h1 {
-    font-size: 30px;
+    font-family: 'Playfair Display';
+    font-size: 32px;
+    background: linear-gradient(90deg, gold, white, gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s infinite linear;
 }
 
+@keyframes shimmer {
+    from { background-position: -200px; }
+    to { background-position: 200px; }
+}
+
+h2 {
+    font-weight: 300;
+    letter-spacing: 4px;
+}
+
+p {
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+/* footer */
+.footer {
+    position: fixed;
+    bottom: 15px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
-
-    <h2>✨ Ada sesuatu untuk anda... ✨</h2>
-    <p>Klik sampul di bawah 👇</p>
-
-    <div class="envelope" onclick="openEnvelope()" id="env"></div>
-
-    <div class="card" id="card">
-        <h1>🌙 Selamat Hari Raya 🌙</h1>
-        <p id="name"></p>
-        <p>
-            Maaf Zahir & Batin 🤍<br><br>
-            Semoga Syawal ini membawa kebahagiaan,<br>
-            ketenangan dan rezeki yang melimpah 🌿<br><br>
-            Terima kasih kerana sentiasa ada 💚
-        </p>
-        <p><strong>— Ikhlas daripada, SCZP</strong></p>
-    </div>
-
-</div>
-
-<audio id="music" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
+<div class="moon"></div>
 
 <script>
-
-function openEnvelope() {
-    document.getElementById("env").classList.add("open");
-
-    setTimeout(() => {
-        document.getElementById("card").style.display = "block";
-        startConfetti();
-        document.getElementById("music").play();
-    }, 600);
-
-    // personalize name
-    const params = new URLSearchParams(window.location.search);
-    const person = params.get("name");
-
-    if (person) {
-        document.getElementById("name").innerHTML = "Untuk " + person + " 💚";
-    }
+// generate sparkle
+for(let i=0;i<30;i++){
+ let s=document.createElement("div");
+ s.className="sparkle";
+ s.style.left=Math.random()*100+"%";
+ s.style.animationDuration=(5+Math.random()*5)+"s";
+ document.body.appendChild(s);
 }
+</script>
 
-/* confetti generator */
-function startConfetti() {
-    for (let i = 0; i < 40; i++) {
-        let conf = document.createElement("div");
-        conf.classList.add("confetti");
-        conf.style.left = Math.random() * 100 + "vw";
-        conf.style.animationDuration = (2 + Math.random() * 3) + "s";
-        document.body.appendChild(conf);
-    }
+<div class="envelope-wrap" onclick="openCard()">
+    <div class="envelope" id="env">
+        <div class="flap"></div>
+    </div>
+</div>
+
+<div class="container" id="card">
+    <div class="card">
+
+        <!-- SVG MASJID -->
+        <svg class="mosque" width="80" viewBox="0 0 100 100" fill="gold">
+            <rect x="20" y="40" width="60" height="30"/>
+            <circle cx="50" cy="40" r="15"/>
+            <rect x="10" y="30" width="10" height="40"/>
+            <rect x="80" y="30" width="10" height="40"/>
+        </svg>
+
+        <h1>Selamat Hari Raya</h1>
+        <h2>Aidilfitri</h2>
+
+        <p>
+            Pergi ke desa memetik melati,<br>
+            Harum baunya di pagi hari;<br>
+            Andai tersalah tutur dan hati,<br>
+            Mohon dimaaf seikhlas diri.
+        </p>
+
+        <p>
+            Syawal menjelma penuh bermakna,<br>
+            Disambut dengan rasa gembira;<br>
+            Salam Aidilfitri buat semua,<br>
+            Semoga bahagia sentiasa bersama.
+        </p>
+
+        <p style="margin-top:15px;">Maaf zahir dan batin.</p>
+
+        <div style="margin-top:20px; color:gold;">
+            — Syahrizah —
+        </div>
+
+    </div>
+</div>
+
+<div class="footer">
+© <span id="year"></span> sczpnet.org
+</div>
+
+<audio id="lagu" loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3">
+</audio>
+
+<script>
+document.getElementById("year").innerText=new Date().getFullYear();
+
+function openCard(){
+ document.getElementById("env").classList.add("open");
+ setTimeout(()=>{
+  document.querySelector(".envelope-wrap").style.display="none";
+  document.getElementById("card").style.display="flex";
+
+  let a=document.getElementById("lagu");
+  a.volume=0;
+  a.play().catch(()=>{});
+  let v=0;
+  let fade=setInterval(()=>{
+   if(v<0.4){v+=0.02;a.volume=v;}
+   else clearInterval(fade);
+  },200);
+
+ },800);
 }
-
 </script>
 
 </body>
