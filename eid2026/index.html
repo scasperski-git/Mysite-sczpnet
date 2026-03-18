@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Selamat Hari Raya</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
@@ -11,82 +12,72 @@
 body {
     margin: 0;
     height: 100vh;
-    overflow: hidden;
+    background: radial-gradient(circle at top, #0f2027, #203a43, #2c5364);
     font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at top, #1a2a33, #0d1b22);
+    overflow: hidden;
 }
 
-/* particles */
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
-/* container */
 .container {
-    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
 .card {
-    position: relative;
     width: 400px;
-    padding: 45px;
+    padding: 50px;
     border-radius: 25px;
     text-align: center;
     color: #fff;
     background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(18px);
+    backdrop-filter: blur(20px);
     border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 0 60px rgba(0,0,0,0.7);
+    box-shadow: 0 0 80px rgba(0,0,0,0.8);
 }
 
-/* MASJID ICON */
-.mosque {
-    font-size: 60px;
-    margin-bottom: 10px;
+/* SVG glow */
+.icon {
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 15px rgba(255,215,0,0.6));
+    animation: float 4s ease-in-out infinite;
 }
 
-/* moon + stars */
-.symbols {
-    font-size: 24px;
-    margin-bottom: 15px;
-    color: gold;
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
 }
 
 h1 {
     font-family: 'Playfair Display', serif;
-    font-size: 32px;
-    color: #ffd700;
+    font-size: 34px;
+    color: gold;
     margin-bottom: 5px;
 }
 
 h2 {
     font-weight: 300;
-    letter-spacing: 3px;
-    margin-bottom: 20px;
+    letter-spacing: 4px;
+    margin-bottom: 25px;
 }
 
 p {
-    font-size: 14px;
-    line-height: 1.7;
+    font-size: 15px;
+    line-height: 1.8;
     opacity: 0.9;
 }
 
 .signature {
-    margin-top: 25px;
+    margin-top: 30px;
+    color: gold;
     font-size: 16px;
-    color: #ffd700;
     font-style: italic;
 }
 
 /* footer */
 .footer {
     position: absolute;
-    bottom: 15px;
+    bottom: 20px;
     width: 100%;
     text-align: center;
     font-size: 12px;
@@ -95,46 +86,56 @@ p {
 .footer a {
     color: rgba(255,255,255,0.6);
     text-decoration: none;
+    letter-spacing: 1px;
 }
 
 .footer a:hover {
     color: gold;
-}
-
-/* animation */
-@keyframes float {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-}
-
-.mosque, .symbols {
-    animation: float 3s infinite ease-in-out;
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="particles"></canvas>
-
 <div class="container">
     <div class="card">
 
-        <div class="mosque">🕌</div>
-        <div class="symbols">🌙 ✨</div>
+        <!-- ULTRA REAL SVG MASJID + CRESCENT -->
+        <div class="icon">
+        <svg width="120" height="120" viewBox="0 0 200 200" fill="none">
+            <!-- Dome -->
+            <circle cx="100" cy="80" r="30" fill="gold"/>
+            
+            <!-- Minarets -->
+            <rect x="40" y="70" width="15" height="60" fill="gold"/>
+            <rect x="145" y="70" width="15" height="60" fill="gold"/>
+
+            <!-- Base -->
+            <rect x="60" y="100" width="80" height="40" fill="gold"/>
+
+            <!-- Crescent -->
+            <path d="M130 40 
+                     A20 20 0 1 1 120 70 
+                     A15 15 0 1 0 130 40" 
+                  fill="gold"/>
+        </svg>
+        </div>
 
         <h1>Selamat Hari Raya</h1>
         <h2>Aidilfitri</h2>
 
         <p>
             Maaf zahir dan batin.<br>
-            Semoga hari raya ini membawa keberkatan,<br>
-            ketenangan dan kegembiraan buat semua.
+            Semoga Syawal ini membawa keberkatan,<br>
+            ketenangan jiwa dan kebahagiaan<br>
+            buat kita semua.
         </p>
 
         <p>
-            Selamat menyambut Aidilfitri,<br>
-            berhati-hati di jalan raya.
+            Dengan penuh keikhlasan,<br>
+            kami menyusun sepuluh jari<br>
+            memohon ampun dan maaf<br>
+            atas segala kekhilafan.
         </p>
 
         <div class="signature">
@@ -151,54 +152,7 @@ p {
 </div>
 
 <script>
-// year auto
 document.getElementById("year").innerText = new Date().getFullYear();
-
-// particles
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let particles = [];
-
-for (let i = 0; i < 80; i++) {
-    particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 2,
-        d: Math.random() * 1
-    });
-}
-
-function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "rgba(255, 215, 0, 0.7)";
-    ctx.beginPath();
-
-    for (let i = 0; i < particles.length; i++) {
-        let p = particles[i];
-        ctx.moveTo(p.x, p.y);
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
-    }
-
-    ctx.fill();
-    update();
-}
-
-function update() {
-    for (let i = 0; i < particles.length; i++) {
-        let p = particles[i];
-        p.y += p.d;
-        if (p.y > canvas.height) {
-            p.y = 0;
-            p.x = Math.random() * canvas.width;
-        }
-    }
-}
-
-setInterval(draw, 33);
 </script>
 
 </body>
