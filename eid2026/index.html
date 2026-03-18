@@ -2,49 +2,50 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kad Raya Viral Syahrizah</title>
+<title>Kad Raya Boss Final - Syahrizah</title>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 <style>
 body{
   margin:0; overflow:hidden;
   font-family:'Poppins',sans-serif;
-  background:radial-gradient(circle at top,#1b5e20,#061a0a);
-  display:flex; justify-content:center; align-items:center; height:100vh; color:#fff;
-}/* Envelope */ .envelope{ width:240px; height:150px; background:#c62828; position:relative; cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.6); border-radius:8px; }
+  height:100vh; color:#fff;
+  background:url('https://images.unsplash.com/photo-1598514982901-1bfa1c6cdd88') no-repeat center/cover;
+}.overlay{ position:absolute; inset:0; background:rgba(0,0,0,0.55); }
 
-.flap{ position:absolute; width:0; height:0; border-left:120px solid transparent; border-right:120px solid transparent; border-bottom:90px solid #b71c1c; top:-90px; left:0; transform-origin:bottom; transition:transform 1s ease; }
+/* Envelope */ .envelope{ width:240px; height:150px; background:#b71c1c; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.6); }
+
+.flap{ position:absolute; width:0; height:0; border-left:120px solid transparent; border-right:120px solid transparent; border-bottom:90px solid #8e0000; top:-90px; left:0; transform-origin:bottom; transition:transform 1s ease; }
 
 .envelope.open .flap{ transform:rotateX(180deg); }
 
 .text-open{ position:absolute; width:100%; text-align:center; top:50%; transform:translateY(-50%); font-weight:bold; }
 
-.card{ display:none; position:absolute; background:rgba(255,255,255,0.08); backdrop-filter:blur(15px); border-radius:25px; padding:35px; text-align:center; box-shadow:0 15px 40px rgba(0,0,0,0.6); border:2px solid gold; animation:zoomIn 1s ease; }
+.card{ display:none; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:rgba(0,0,0,0.65); border-radius:25px; padding:40px; text-align:center; border:2px solid gold; animation:fadeZoom 1s ease; }
 
-h1{ font-family:'Great Vibes',cursive; font-size:3.5em; color:gold; text-shadow:0 0 20px gold; }
+h1{ font-family:'Great Vibes',cursive; font-size:3.8em; color:gold; text-shadow:0 0 25px gold; }
 
-@keyframes zoomIn{ from{opacity:0; transform:scale(0.5);} to{opacity:1; transform:scale(1);} }
+p{font-size:1.2em;}
 
-/* REAL Ketupat SVG */ .ketupat{ position:absolute; width:40px; animation:fall linear infinite; }
+@keyframes fadeZoom{ from{opacity:0; transform:translate(-50%,-60%) scale(0.6);} to{opacity:1; transform:translate(-50%,-50%) scale(1);} }
 
-@keyframes fall{ 0%{transform:translateY(-100px) rotate(0);} 100%{transform:translateY(110vh) rotate(360deg);} }
+/* Fireworks */ .firework{ position:absolute; width:4px; height:4px; background:gold; border-radius:50%; animation:explode 1.5s ease-out infinite; }
 
-.sparkle{ position:absolute; width:6px; height:6px; background:gold; border-radius:50%; box-shadow:0 0 10px gold; animation:twinkle 2s infinite; }
+@keyframes explode{ 0%{transform:scale(1); opacity:1;} 100%{transform:scale(20); opacity:0;} }
 
-@keyframes twinkle{ 0%,100%{opacity:0;} 50%{opacity:1;} }
+.footer{margin-top:20px;} .footer a{color:gold; text-decoration:none; font-weight:bold;}
 
-.reload{ position:fixed; bottom:15px; right:15px; background:gold; color:#000; border:none; padding:10px 15px; border-radius:10px; cursor:pointer; }
-
-.footer{margin-top:20px;} .footer a{color:gold; text-decoration:none; font-weight:bold;} </style>
+.reload{ position:fixed; bottom:15px; right:15px; background:gold; color:#000; border:none; padding:10px 15px; border-radius:10px; cursor:pointer; } </style>
 
 </head>
-<body><div class="envelope" id="env">
+<body><div class="overlay"></div><div class="envelope" id="env">
   <div class="flap"></div>
   <div class="text-open">💌 Buka Sampul Raya</div>
 </div><div class="card" id="card">
   <h1>Selamat Hari Raya</h1>
   <p>Maaf Zahir & Batin</p>
-  <p>Semoga Syawal ini penuh kegembiraan, keberkatan
-  dan kasih sayang sesama kita ✨</p>
+  <p>Semoga Aidilfitri ini membawa keberkatan,
+  kebahagiaan dan mengeratkan silaturahim
+  bersama keluarga tercinta 🕌✨</p>
   <p><b>Ikhlas daripada: Syahrizah</b></p>  <div class="footer">
     <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
   </div>
@@ -52,7 +53,6 @@ h1{ font-family:'Great Vibes',cursive; font-size:3.5em; color:gold; text-shadow:
 
 <audio id="music" loop>
   <source src="https://archive.org/download/suasana_hari_raya/suasana_hari_raya.mp3" type="audio/mpeg">
-  <source src="https://archive.org/download/takbir_raya/takbir_raya.mp3" type="audio/mpeg">
 </audio><script>
 const env=document.getElementById('env');
 const card=document.getElementById('card');
@@ -63,40 +63,21 @@ env.onclick=()=>{
   setTimeout(()=>{
     env.style.display='none';
     card.style.display='block';
-
-    // FORCE play after interaction
-    music.muted=false;
-    music.play().then(()=>{}).catch(()=>{});
-
-    startEffects();
+    music.play().catch(()=>{});
+    startFireworks();
   },800);
 }
 
-function createKetupat(){
-  const k=document.createElement('div');
-  k.className='ketupat';
-  k.style.left=Math.random()*100+'vw';
-  k.style.animationDuration=(4+Math.random()*4)+'s';
+function startFireworks(){
+  setInterval(()=>{
+    let f=document.createElement('div');
+    f.className='firework';
+    f.style.left=Math.random()*100+'vw';
+    f.style.top=Math.random()*100+'vh';
+    document.body.appendChild(f);
 
-  k.innerHTML=`<svg viewBox="0 0 100 100">
-  <polygon points="50,5 95,50 50,95 5,50" fill="#2e7d32"/>
-  <line x1="5" y1="50" x2="95" y2="50" stroke="#a5d6a7" stroke-width="4"/>
-  <line x1="50" y1="5" x2="50" y2="95" stroke="#a5d6a7" stroke-width="4"/>
-  </svg>`;
-
-  document.body.appendChild(k);
-}
-
-function startEffects(){
-  for(let i=0;i<30;i++) createKetupat();
-
-  for(let i=0;i<60;i++){
-    let s=document.createElement('div');
-    s.className='sparkle';
-    s.style.left=Math.random()*100+'vw';
-    s.style.top=Math.random()*100+'vh';
-    document.body.appendChild(s);
-  }
+    setTimeout(()=>f.remove(),1500);
+  },300);
 }
 </script></body>
 </html>
