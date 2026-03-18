@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Selamat Hari Raya</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
@@ -17,14 +16,14 @@ body {
     background: radial-gradient(circle at top, #1a2a33, #0d1b22);
 }
 
-/* animated particles */
+/* particles */
 canvas {
     position: fixed;
     top: 0;
     left: 0;
 }
 
-/* main card */
+/* container */
 .container {
     height: 100vh;
     display: flex;
@@ -43,41 +42,19 @@ canvas {
     backdrop-filter: blur(18px);
     border: 1px solid rgba(255,255,255,0.15);
     box-shadow: 0 0 60px rgba(0,0,0,0.7);
-    animation: fadeIn 2s ease;
 }
 
-/* glowing border */
-.card::before {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    border-radius: 25px;
-    background: linear-gradient(45deg, gold, transparent, gold);
-    opacity: 0.25;
-    filter: blur(12px);
-    z-index: -1;
-    animation: spin 6s linear infinite;
+/* MASJID ICON */
+.mosque {
+    font-size: 60px;
+    margin-bottom: 10px;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* moon glow */
-.moon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 15px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #fff, #ffd700);
-    box-shadow: 0 0 40px #ffd700;
-    animation: pulse 3s infinite;
-}
-
-@keyframes pulse {
-    0%,100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
+/* moon + stars */
+.symbols {
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: gold;
 }
 
 h1 {
@@ -106,21 +83,32 @@ p {
     font-style: italic;
 }
 
-/* footer trademark */
+/* footer */
 .footer {
     position: absolute;
     bottom: 15px;
     width: 100%;
     text-align: center;
     font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 1px;
+}
+
+.footer a {
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: gold;
 }
 
 /* animation */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+.mosque, .symbols {
+    animation: float 3s infinite ease-in-out;
 }
 </style>
 </head>
@@ -132,20 +120,21 @@ p {
 <div class="container">
     <div class="card">
 
-        <div class="moon"></div>
+        <div class="mosque">🕌</div>
+        <div class="symbols">🌙 ✨</div>
 
         <h1>Selamat Hari Raya</h1>
         <h2>Aidilfitri</h2>
 
         <p>
             Maaf zahir dan batin.<br>
-            Semoga Syawal ini membawa sinar kebahagiaan,<br>
-            keberkatan dan ketenangan buat kita semua.
+            Semoga hari raya ini membawa keberkatan,<br>
+            ketenangan dan kegembiraan buat semua.
         </p>
 
         <p>
-            Ampun dan maaf dipohon atas segala khilaf,<br>
-            semoga hubungan kita terus mekar selamanya.
+            Selamat menyambut Aidilfitri,<br>
+            berhati-hati di jalan raya.
         </p>
 
         <div class="signature">
@@ -157,14 +146,15 @@ p {
 </div>
 
 <div class="footer">
-    © <span id="year"></span> Syahrizah | All Rights Reserved
+    © <span id="year"></span> 
+    <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
 </div>
 
 <script>
-// auto year
+// year auto
 document.getElementById("year").innerText = new Date().getFullYear();
 
-// particles animation
+// particles
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
 
