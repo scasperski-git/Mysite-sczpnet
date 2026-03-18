@@ -16,7 +16,7 @@ body {
     overflow: hidden;
 }
 
-/* ENVELOPE 3D */
+/* envelope */
 .envelope-wrap {
     height: 100vh;
     display: flex;
@@ -27,29 +27,28 @@ body {
 .envelope {
     width: 240px;
     height: 160px;
-    background: gold;
+    background: linear-gradient(145deg, #d4af37, #b8962e);
     position: relative;
     cursor: pointer;
-    transform-style: preserve-3d;
+    border-radius: 6px;
 }
 
 .flap {
     position: absolute;
     width: 100%;
     height: 50%;
-    background: #d4af37;
-    top: 0;
+    background: #caa52f;
+    clip-path: polygon(0 0,100% 0,50% 100%);
     transform-origin: top;
     transition: transform 1s;
-    clip-path: polygon(0 0,100% 0,50% 100%);
 }
 
 .open .flap {
     transform: rotateX(180deg);
 }
 
-/* CARD */
-.card-container {
+/* card */
+.container {
     display: none;
     height: 100vh;
     justify-content: center;
@@ -58,7 +57,7 @@ body {
 
 .card {
     max-width: 420px;
-    padding: 40px;
+    padding: 45px;
     border-radius: 25px;
     text-align: center;
     color: white;
@@ -68,41 +67,54 @@ body {
 }
 
 @keyframes fade {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* shimmer text */
+/* mosque + moon animation */
+.icon {
+    font-size: 55px;
+    margin-bottom: 10px;
+    animation: float 4s ease-in-out infinite;
+}
+
+.symbols {
+    font-size: 22px;
+    color: gold;
+    animation: glow 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+@keyframes glow {
+    0%,100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+/* text */
 h1 {
     font-family: 'Playfair Display';
     font-size: 32px;
-    background: linear-gradient(90deg, gold, white, gold);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: shimmer 3s infinite;
-}
-
-@keyframes shimmer {
-    0% { background-position: -200px; }
-    100% { background-position: 200px; }
-}
-
-.signature {
-    margin-top: 20px;
     color: gold;
 }
 
-/* fireworks canvas */
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
+h2 {
+    font-weight: 300;
+    letter-spacing: 4px;
+}
+
+p {
+    line-height: 1.8;
+    font-size: 14px;
 }
 
 /* footer */
 .footer {
     position: fixed;
-    bottom: 10px;
+    bottom: 15px;
     width: 100%;
     text-align: center;
     font-size: 12px;
@@ -113,36 +125,43 @@ canvas {
 
 <body>
 
-<canvas id="fireworks"></canvas>
-
 <div class="envelope-wrap" onclick="openCard()">
     <div class="envelope" id="env">
         <div class="flap"></div>
     </div>
 </div>
 
-<div class="card-container" id="card">
+<div class="container" id="card">
     <div class="card">
-        <div style="font-size:50px;">🕌 🌙</div>
+
+        <div class="icon">🕌</div>
+        <div class="symbols">🌙 ✨</div>
 
         <h1>Selamat Hari Raya</h1>
         <h2>Aidilfitri</h2>
 
         <p>
-            Maaf zahir dan batin.<br>
-            Semoga Syawal ini membawa seribu keberkatan,<br>
-            kebahagiaan dan ketenangan buat dirimu.
+            Pergi ke pekan membeli selasih,<br>
+            Singgah sebentar di tepi perigi;<br>
+            Andai ada salah dan silap tersisih,<br>
+            Mohon dimaaf setulus hati.
         </p>
 
         <p>
-            Ampun dan maaf dipohon atas segala khilaf,<br>
-            semoga silaturahim kita terus terjalin erat.
+            Indah cahaya di pagi Syawal,<br>
+            Disambut gembira penuh kesyukuran;<br>
+            Salam Aidilfitri buat semua yang kenal,<br>
+            Dengan ingatan dan keikhlasan.
         </p>
 
-        <div class="signature">
-            Ikhlas daripada,<br>
-            <b>Syahrizah</b>
+        <p style="margin-top:15px;">
+            Maaf zahir dan batin.
+        </p>
+
+        <div style="margin-top:20px; color:gold;">
+            — Syahrizah —
         </div>
+
     </div>
 </div>
 
@@ -151,61 +170,27 @@ canvas {
 </div>
 
 <audio id="lagu" loop>
-<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3">
 </audio>
 
 <script>
-// year
 document.getElementById("year").innerText = new Date().getFullYear();
 
-// open animation
 function openCard(){
     document.getElementById("env").classList.add("open");
     setTimeout(()=>{
         document.querySelector(".envelope-wrap").style.display="none";
         document.getElementById("card").style.display="flex";
-        startFireworks();
 
         let a=document.getElementById("lagu");
         a.volume=0;
         a.play().catch(()=>{});
         let v=0;
-        let f=setInterval(()=>{
-            if(v<0.5){v+=0.02;a.volume=v;}
-            else clearInterval(f);
+        let fade=setInterval(()=>{
+            if(v<0.4){v+=0.02;a.volume=v;}
+            else clearInterval(fade);
         },200);
 
-    },800);
-}
-
-/* FIREWORKS */
-const c=document.getElementById("fireworks");
-const ctx=c.getContext("2d");
-c.width=window.innerWidth;
-c.height=window.innerHeight;
-
-function startFireworks(){
-    setInterval(()=>{
-        let x=Math.random()*c.width;
-        let y=Math.random()*c.height/2;
-
-        for(let i=0;i<30;i++){
-            let angle=Math.random()*2*Math.PI;
-            let speed=Math.random()*3;
-            let dx=Math.cos(angle)*speed;
-            let dy=Math.sin(angle)*speed;
-
-            let life=30;
-
-            let fw=setInterval(()=>{
-                ctx.fillStyle="gold";
-                ctx.fillRect(x,y,2,2);
-                x+=dx;
-                y+=dy;
-                life--;
-                if(life<=0) clearInterval(fw);
-            },30);
-        }
     },800);
 }
 </script>
