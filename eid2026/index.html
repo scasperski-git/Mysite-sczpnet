@@ -2,35 +2,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kad Raya Power Syahrizah</title>
+<title>Kad Raya Viral Syahrizah</title>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
 <style>
 body{
   margin:0; overflow:hidden;
   font-family:'Poppins',sans-serif;
-  background:radial-gradient(circle at top,#1b5e20,#071d0c);
+  background:radial-gradient(circle at top,#1b5e20,#061a0a);
   display:flex; justify-content:center; align-items:center; height:100vh; color:#fff;
-}/* Envelope */ .envelope{ width:220px; height:140px; background:#c62828; position:relative; cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.5); }
+}/* Envelope */ .envelope{ width:240px; height:150px; background:#c62828; position:relative; cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,0.6); border-radius:8px; }
 
-.flap{ position:absolute; width:0; height:0; border-left:110px solid transparent; border-right:110px solid transparent; border-bottom:80px solid #b71c1c; top:-80px; left:0; transform-origin:bottom; transition:transform 1s ease; }
+.flap{ position:absolute; width:0; height:0; border-left:120px solid transparent; border-right:120px solid transparent; border-bottom:90px solid #b71c1c; top:-90px; left:0; transform-origin:bottom; transition:transform 1s ease; }
 
 .envelope.open .flap{ transform:rotateX(180deg); }
 
 .text-open{ position:absolute; width:100%; text-align:center; top:50%; transform:translateY(-50%); font-weight:bold; }
 
-.card{ display:none; position:absolute; background:rgba(255,255,255,0.08); backdrop-filter:blur(15px); border-radius:25px; padding:40px; text-align:center; box-shadow:0 15px 40px rgba(0,0,0,0.5); border:2px solid gold; animation:zoomIn 1s ease; }
+.card{ display:none; position:absolute; background:rgba(255,255,255,0.08); backdrop-filter:blur(15px); border-radius:25px; padding:35px; text-align:center; box-shadow:0 15px 40px rgba(0,0,0,0.6); border:2px solid gold; animation:zoomIn 1s ease; }
 
 h1{ font-family:'Great Vibes',cursive; font-size:3.5em; color:gold; text-shadow:0 0 20px gold; }
 
 @keyframes zoomIn{ from{opacity:0; transform:scale(0.5);} to{opacity:1; transform:scale(1);} }
 
-/* Ketupat */ .ketupat{ position:absolute; width:20px; height:20px; background:linear-gradient(45deg,#9ccc65,#2e7d32); transform:rotate(45deg); animation:fall linear infinite; }
+/* REAL Ketupat SVG */ .ketupat{ position:absolute; width:40px; animation:fall linear infinite; }
 
 @keyframes fall{ 0%{transform:translateY(-100px) rotate(0);} 100%{transform:translateY(110vh) rotate(360deg);} }
 
-/* Sparkle */ .sparkle{ position:absolute; width:6px; height:6px; background:gold; border-radius:50%; box-shadow:0 0 10px gold; animation:twinkle 2s infinite; }
+.sparkle{ position:absolute; width:6px; height:6px; background:gold; border-radius:50%; box-shadow:0 0 10px gold; animation:twinkle 2s infinite; }
 
 @keyframes twinkle{ 0%,100%{opacity:0;} 50%{opacity:1;} }
+
+.reload{ position:fixed; bottom:15px; right:15px; background:gold; color:#000; border:none; padding:10px 15px; border-radius:10px; cursor:pointer; }
 
 .footer{margin-top:20px;} .footer a{color:gold; text-decoration:none; font-weight:bold;} </style>
 
@@ -41,14 +43,16 @@ h1{ font-family:'Great Vibes',cursive; font-size:3.5em; color:gold; text-shadow:
 </div><div class="card" id="card">
   <h1>Selamat Hari Raya</h1>
   <p>Maaf Zahir & Batin</p>
-  <p>Semoga Syawal ini membawa kegembiraan, keberkatan
-  dan mengeratkan silaturahim kita semua ✨</p>
+  <p>Semoga Syawal ini penuh kegembiraan, keberkatan
+  dan kasih sayang sesama kita ✨</p>
   <p><b>Ikhlas daripada: Syahrizah</b></p>  <div class="footer">
     <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
   </div>
-</div><audio id="music" loop>
-  <!-- Lagu raya klasik (boleh tukar link kalau ada file sendiri) -->
+</div><button class="reload" onclick="location.reload()">↻ Refresh</button>
+
+<audio id="music" loop>
   <source src="https://archive.org/download/suasana_hari_raya/suasana_hari_raya.mp3" type="audio/mpeg">
+  <source src="https://archive.org/download/takbir_raya/takbir_raya.mp3" type="audio/mpeg">
 </audio><script>
 const env=document.getElementById('env');
 const card=document.getElementById('card');
@@ -59,21 +63,34 @@ env.onclick=()=>{
   setTimeout(()=>{
     env.style.display='none';
     card.style.display='block';
-    music.play().catch(()=>{});
+
+    // FORCE play after interaction
+    music.muted=false;
+    music.play().then(()=>{}).catch(()=>{});
+
     startEffects();
   },800);
 }
 
-function startEffects(){
-  for(let i=0;i<40;i++){
-    let k=document.createElement('div');
-    k.className='ketupat';
-    k.style.left=Math.random()*100+'vw';
-    k.style.animationDuration=(3+Math.random()*4)+'s';
-    document.body.appendChild(k);
-  }
+function createKetupat(){
+  const k=document.createElement('div');
+  k.className='ketupat';
+  k.style.left=Math.random()*100+'vw';
+  k.style.animationDuration=(4+Math.random()*4)+'s';
 
-  for(let i=0;i<70;i++){
+  k.innerHTML=`<svg viewBox="0 0 100 100">
+  <polygon points="50,5 95,50 50,95 5,50" fill="#2e7d32"/>
+  <line x1="5" y1="50" x2="95" y2="50" stroke="#a5d6a7" stroke-width="4"/>
+  <line x1="50" y1="5" x2="50" y2="95" stroke="#a5d6a7" stroke-width="4"/>
+  </svg>`;
+
+  document.body.appendChild(k);
+}
+
+function startEffects(){
+  for(let i=0;i<30;i++) createKetupat();
+
+  for(let i=0;i<60;i++){
     let s=document.createElement('div');
     s.className='sparkle';
     s.style.left=Math.random()*100+'vw';
