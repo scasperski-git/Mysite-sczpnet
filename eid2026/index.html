@@ -24,7 +24,7 @@ body{
     100%{background-position:0%}      
 }      
       
-/* FLOATING PARTICLES */      
+/* PARTICLES */      
 .particles span{      
     position:absolute;      
     width:6px;height:6px;      
@@ -46,7 +46,6 @@ body{
     justify-content:center;      
     align-items:center;      
     flex-direction:column;      
-    transition:0.5s;      
 }      
       
 /* ENVELOPE */      
@@ -56,11 +55,31 @@ body{
     position:relative;      
     cursor:pointer;      
     perspective:1200px;      
-    transition:0.4s;      
+    animation:floatEnv 4s ease-in-out infinite;      
+}      
+      
+@keyframes floatEnv{      
+    0%,100%{transform:translateY(0)}      
+    50%{transform:translateY(-6px)}      
 }      
       
 .envelope:hover{      
     transform:scale(1.05);      
+}      
+      
+/* SPARKLE */      
+.envelope::after{      
+    content:"✨";      
+    position:absolute;      
+    top:-10px;      
+    right:-10px;      
+    opacity:0;      
+    transition:0.3s;      
+}      
+      
+.envelope:hover::after{      
+    opacity:1;      
+    transform:translateY(-5px);      
 }      
       
 /* BODY */      
@@ -68,7 +87,10 @@ body{
     width:100%;      
     height:100%;      
     border-radius:12px;      
-    background:linear-gradient(145deg,#d4af37,#b8962e);      
+    background:      
+    linear-gradient(145deg,#d4af37,#b8962e),      
+    url('https://www.transparenttextures.com/patterns/arabesque.png');      
+    background-blend-mode:overlay;      
     box-shadow:0 25px 60px rgba(0,0,0,0.8);      
 }      
       
@@ -85,26 +107,43 @@ body{
     z-index:2;      
 }      
       
+/* SEAL */      
+.seal{      
+    position:absolute;      
+    top:50%;      
+    left:50%;      
+    transform:translate(-50%,-50%);      
+    width:50px;      
+    height:50px;      
+    border-radius:50%;      
+    background:radial-gradient(circle,#b30000,#7a0000);      
+    display:flex;      
+    align-items:center;      
+    justify-content:center;      
+    color:gold;      
+    font-size:18px;      
+    box-shadow:0 5px 15px rgba(0,0,0,0.6);      
+    z-index:3;      
+}      
+      
 /* GLOW */      
 .glow{      
     position:absolute;      
     inset:0;      
     border-radius:12px;      
-    background:radial-gradient(circle, rgba(255,215,0,0.4), transparent);      
+    background:radial-gradient(circle, rgba(255,215,0,0.7), transparent);      
     opacity:0;      
     transition:0.5s;      
+    filter:blur(8px);      
 }      
       
-/* OPEN */      
 .open .flap{ transform:rotateX(180deg); }      
 .open .glow{ opacity:1; }      
       
-/* TAP */      
 .tap{      
     margin-top:15px;      
     font-size:13px;      
     color:#ccc;      
-    letter-spacing:1px;      
     animation:pulse 2s infinite;      
 }      
       
@@ -141,24 +180,14 @@ body{
     border:1px solid rgba(255,255,255,0.1);      
 }      
       
-/* ICON */      
-.icon{      
-    font-size:42px;      
-    animation:float 4s ease-in-out infinite;      
-}      
-      
-.symbols{      
-    font-size:20px;      
-    color:gold;      
-    margin-bottom:10px;      
-}      
+.icon{font-size:42px;animation:float 4s ease-in-out infinite;}      
+.symbols{font-size:20px;color:gold;margin-bottom:10px;}      
       
 @keyframes float{      
     0%,100%{transform:translateY(0)}      
     50%{transform:translateY(-8px)}      
 }      
       
-/* TITLE */      
 h1{      
     font-family:'Playfair Display';      
     font-size:28px;      
@@ -173,41 +202,13 @@ h1{
     to{background-position:200px}      
 }      
       
-h2{      
-    font-family:'Amiri';      
-    letter-spacing:2px;      
-    margin-bottom:12px;      
-}      
+h2{font-family:'Amiri';letter-spacing:2px;margin-bottom:12px;}      
+p{font-family:'Amiri';font-size:14px;line-height:1.7;}      
       
-/* TEXT */      
-p{      
-    font-family:'Amiri';      
-    font-size:14px;      
-    line-height:1.7;      
-}      
+.signature{margin-top:16px;color:gold;font-size:13px;}      
+.signature-name{font-family:'Great Vibes';font-size:19px;display:block;margin-top:4px;}      
       
-/* SIGNATURE */      
-.signature{      
-    margin-top:16px;      
-    color:gold;      
-    font-family:'Inter', sans-serif;      
-    font-size:13px;      
-}      
-      
-.signature-name{      
-    font-family:'Great Vibes', cursive;      
-    font-size:19px;      
-    display:block;      
-    margin-top:4px;      
-}      
-      
-/* FOOTER */      
-.footer{      
-    margin-top:10px;      
-    font-size:10px;      
-    color:#aaa;      
-}      
-      
+.footer{margin-top:10px;font-size:10px;color:#aaa;}      
 .footer a{color:#aaa;text-decoration:none;}      
 .footer a:hover{color:gold;}      
       
@@ -222,6 +223,7 @@ p{
     <div class="envelope" id="env">      
         <div class="flap"></div>      
         <div class="body"></div>      
+        <div class="seal">✦</div>      
         <div class="glow"></div>      
     </div>      
     <div class="tap">Klik untuk buka kad</div>      
@@ -250,9 +252,7 @@ p{
             Semoga bahagia sentiasa bersama.      
         </p>      
       
-        <p>
-            Maaf zahir dan batin.
-        </p>      
+        <p>Maaf zahir dan batin.</p>      
       
         <div class="signature">      
             Ikhlas daripada,      
@@ -260,9 +260,9 @@ p{
         </div>      
       
         <div class="footer">      
-    © <span id="year"></span>       
-    <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>      
-    •All rights reserved•      
+            © <span id="year"></span>       
+            <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>      
+            • All rights reserved •      
         </div>      
       
     </div>      
@@ -275,7 +275,7 @@ p{
 <script>      
 document.getElementById("year").innerText=new Date().getFullYear();      
       
-let container = document.querySelector(".particles");      
+let container=document.querySelector(".particles");      
 for(let i=0;i<25;i++){      
     let span=document.createElement("span");      
     span.style.left=Math.random()*100+"%";      
@@ -285,29 +285,21 @@ for(let i=0;i<25;i++){
 }      
       
 function openCard(){      
-    let env = document.getElementById("env");      
-    env.classList.add("open");      
+    document.getElementById("env").classList.add("open");      
       
     setTimeout(()=>{      
-        document.querySelector(".envelope-wrap").style.opacity="0";      
+        document.querySelector(".envelope-wrap").style.display="none";      
+        document.getElementById("card").style.display="flex";      
       
-        setTimeout(()=>{      
-            document.querySelector(".envelope-wrap").style.display="none";      
-            document.getElementById("card").style.display="flex";      
+        let audio=document.getElementById("lagu");      
+        audio.volume=0;      
+        audio.play().catch(()=>{});      
       
-            let audio = document.getElementById("lagu");      
-            audio.volume = 0;      
-            audio.play().catch(()=>{});      
-      
-            let v=0;      
-            let fade=setInterval(()=>{      
-                if(v<0.7){      
-                    v+=0.03;      
-                    audio.volume=v;      
-                }else clearInterval(fade);      
-            },200);      
-      
-        },500);      
+        let v=0;      
+        let fade=setInterval(()=>{      
+            if(v<0.7){v+=0.03;audio.volume=v;}      
+            else clearInterval(fade);      
+        },200);      
       
     },900);      
 }      
