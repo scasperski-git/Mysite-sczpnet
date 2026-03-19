@@ -186,14 +186,20 @@ body{
     50%{transform:translateY(-8px)}      
 }      
       
-h1{      
-    font-family:'Playfair Display';      
-    font-size:28px;      
-    background: linear-gradient(90deg,gold,#fff,gold);      
-    -webkit-background-clip:text;      
-    -webkit-text-fill-color:transparent;      
-    animation:shimmer 5s linear infinite;      
-}      
+h1{
+    font-family:'Playfair Display';
+    font-size:28px;
+    background: linear-gradient(90deg,gold,#fff,gold);
+    background-size:200% auto; /* <<< INI PENTING */
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:shimmer 3s linear infinite;
+}
+
+@keyframes shimmer{
+    0%{background-position:-200% center;}
+    100%{background-position:200% center;}
+}
       
 h2{font-family:'Amiri';letter-spacing:2px;margin-bottom:12px;}      
 p{font-family:'Amiri';font-size:14px;line-height:1.7;}      
