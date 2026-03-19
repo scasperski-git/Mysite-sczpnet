@@ -11,6 +11,10 @@
 *{box-sizing:border-box;margin:0;padding:0}          
 body{font-family:'Inter',sans-serif;overflow:auto;background: linear-gradient(270deg,#0f2027,#203a43,#2c5364);background-size:600% 600%;animation:bgMove 18s ease infinite;}          
 @keyframes bgMove{0%{background-position:0%}50%{background-position:100%}100%{background-position:0%}}          
+
+/* ✅ FIX (INI JE TAMBAH) */
+.particles{pointer-events:none;}
+
 .particles span{position:absolute;width:6px;height:6px;background:gold;border-radius:50%;opacity:0.6;animation:floatUp 10s linear infinite;}          
 @keyframes floatUp{from{transform:translateY(100vh) scale(0)}to{transform:translateY(-10vh) scale(1)}}          
 
@@ -21,17 +25,15 @@ body{font-family:'Inter',sans-serif;overflow:auto;background: linear-gradient(27
 .ketupat::before{
     content:"";
     position:absolute;
-    top:-120px;   /* lagi panjang dari atas */
+    top:-120px;
     left:50%;
     width:3px;
-    height:120px; /* INI YANG PANJANGKAN TALI */
+    height:120px;
     background:linear-gradient(to bottom,#ffffff,#ffd700);
     transform:translateX(-50%);
     opacity:0.9;
 }
-.ketupat{
-    z-index:2;
-}
+.ketupat{z-index:2;}
 .ketupat::after{content:"";position:absolute;top:-10px;left:50%;width:6px;height:6px;border-radius:50%;background:gold;box-shadow:0 0 8px gold;transform:translateX(-50%);animation:lampBlink 1.5s infinite;}
 @keyframes lampBlink{0%,100%{opacity:0.5;}50%{opacity:1;}}
 .ketupat span{display:block;width:100%;height:100%;background:repeating-linear-gradient(45deg,#2ecc71 0px,#2ecc71 4px,#27ae60 4px,#27ae60 8px),repeating-linear-gradient(-45deg,rgba(255,255,255,0.2) 0px,rgba(255,255,255,0.2) 4px,transparent 4px,transparent 8px);border-radius:2px;box-shadow:0 0 10px rgba(0,255,100,0.6);}
@@ -145,7 +147,6 @@ function openCard(){
         audio.volume = 0;
         audio.play().catch(()=>{});
 
-        // fade in
         let v = 0;
         let fade = setInterval(()=>{
             if(v < 0.7){
@@ -154,7 +155,6 @@ function openCard(){
             } else clearInterval(fade);
         },200);
 
-        // ulang 2 kali sahaja
         audio.onended = function(){
             playCount++;
             if(playCount < 2){
