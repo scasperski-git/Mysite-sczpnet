@@ -323,12 +323,6 @@ audio.onended = function(){
     }
 };      
 
-            let v=0;      
-            let fade=setInterval(()=>{      
-                if(v<0.7){v+=0.03;audio.volume=v;}      
-                else clearInterval(fade);      
-            },200);      
-
         },700);      
 
     },1200);      
