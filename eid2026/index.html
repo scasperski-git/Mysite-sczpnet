@@ -287,9 +287,7 @@ function openCard(){
     let wrap=document.getElementById("wrap");      
 
     // POP SOUND
-    let pop = document.getElementById("pop");
-pop.volume = 1; // max volume
-pop.play().catch(()=>{});
+    document.getElementById("pop").play().catch(()=>{});
 
     env.classList.add("open");      
 
