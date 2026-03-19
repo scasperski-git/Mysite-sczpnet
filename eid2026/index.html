@@ -298,9 +298,30 @@ function openCard(){
             wrap.style.display="none";      
             document.getElementById("card").style.display="flex";      
 
-            let audio=document.getElementById("lagu");      
-            audio.volume=0;      
-            audio.play().catch(()=>{});      
+            let audio = document.getElementById("lagu");
+
+let playCount = 0;
+
+audio.volume = 0;
+audio.play().catch(()=>{});
+
+// fade in
+let v = 0;
+let fade = setInterval(()=>{
+    if(v < 0.7){
+        v += 0.03;
+        audio.volume = v;
+    } else clearInterval(fade);
+},200);
+
+// play 2 kali
+audio.onended = function(){
+    playCount++;
+    if(playCount < 2){
+        audio.currentTime = 0;
+        audio.play();
+    }
+};      
 
             let v=0;      
             let fade=setInterval(()=>{      
