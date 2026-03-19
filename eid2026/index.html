@@ -8,14 +8,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0}
 
 body{
     font-family:'Inter',sans-serif;
+    overflow:auto;
     background: linear-gradient(270deg,#0f2027,#203a43,#2c5364);
     background-size:600% 600%;
     animation:bgMove 18s ease infinite;
-    overflow:auto;
 }
 
 @keyframes bgMove{
@@ -24,17 +24,19 @@ body{
     100%{background-position:0%}
 }
 
-/* PARTICLES */
+/* FLOATING PARTICLES */
 .particles span{
     position:absolute;
-    width:5px;height:5px;
+    width:6px;height:6px;
     background:gold;
     border-radius:50%;
+    opacity:0.6;
     animation:floatUp 10s linear infinite;
 }
+
 @keyframes floatUp{
-    from{transform:translateY(100vh)}
-    to{transform:translateY(-10vh)}
+    from{transform:translateY(100vh) scale(0)}
+    to{transform:translateY(-10vh) scale(1)}
 }
 
 /* WRAP */
@@ -44,47 +46,71 @@ body{
     justify-content:center;
     align-items:center;
     flex-direction:column;
+    transition:0.5s;
 }
 
 /* ENVELOPE */
 .envelope{
-    width:80%;
-    max-width:260px;
-    height:160px;
+    width:260px;
+    height:170px;
     position:relative;
     cursor:pointer;
-    perspective:1000px;
+    perspective:1200px;
+    transition:0.4s;
+}
+
+.envelope:hover{
+    transform:scale(1.05);
 }
 
 /* BODY */
-.body{
+.envelope .body{
     width:100%;
     height:100%;
     border-radius:12px;
     background:linear-gradient(145deg,#d4af37,#b8962e);
-    box-shadow:0 20px 50px rgba(0,0,0,0.8);
+    box-shadow:0 25px 60px rgba(0,0,0,0.8);
 }
 
 /* FLAP */
-.flap{
+.envelope .flap{
     position:absolute;
     width:100%;
     height:50%;
+    top:0;
     background:linear-gradient(145deg,#caa52f,#a88623);
     clip-path:polygon(0 0,100% 0,50% 100%);
     transform-origin:top;
-    transition:1s;
+    transition:transform 1s cubic-bezier(.68,-0.55,.27,1.55);
+    z-index:2;
+}
+
+/* GLOW */
+.glow{
+    position:absolute;
+    inset:0;
+    border-radius:12px;
+    background:radial-gradient(circle, rgba(255,215,0,0.4), transparent);
+    opacity:0;
+    transition:0.5s;
 }
 
 /* OPEN */
 .open .flap{ transform:rotateX(180deg); }
+.open .glow{ opacity:1; }
 
 /* TAP */
 .tap{
     margin-top:15px;
-    font-size:14px;
-    color:#fff;
-    opacity:0.7;
+    font-size:13px;
+    color:#ccc;
+    letter-spacing:1px;
+    animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+    0%,100%{opacity:0.4;}
+    50%{opacity:1;}
 }
 
 /* CARD */
@@ -94,152 +120,190 @@ body{
     justify-content:center;
     align-items:center;
     padding:15px;
-    animation:fade 0.8s ease;
+    animation:fadeIn 1s ease forwards;
 }
 
-@keyframes fade{
+@keyframes fadeIn{
     from{opacity:0;transform:scale(0.9)}
     to{opacity:1;transform:scale(1)}
 }
 
 .card{
     width:100%;
-    max-width:360px;
-    padding:25px;
-    border-radius:20px;
+    max-width:380px;
+    padding:30px 24px;
+    border-radius:24px;
     text-align:center;
     color:white;
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(15px);
-    box-shadow:0 0 40px rgba(0,0,0,0.8);
+    background:rgba(255,255,255,0.06);
+    backdrop-filter:blur(20px);
+    box-shadow:0 0 60px rgba(0,0,0,0.8);
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+/* ICON */
+.icon{
+    font-size:42px;
+    animation:float 4s ease-in-out infinite;
+}
+
+.symbols{
+    font-size:20px;
+    color:gold;
+    margin-bottom:10px;
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-8px)}
+}
+
+/* TITLE */
+h1{
+    font-family:'Playfair Display';
+    font-size:28px;
+    background: linear-gradient(90deg,gold,#fff,gold);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:shimmer 5s linear infinite;
+}
+
+@keyframes shimmer{
+    from{background-position:-200px}
+    to{background-position:200px}
+}
+
+h2{
+    font-family:'Amiri';
+    letter-spacing:2px;
+    margin-bottom:12px;
 }
 
 /* TEXT */
-h1{
-    font-family:'Playfair Display';
-    font-size:24px;
-    color:gold;
-}
-h2{
-    font-family:'Amiri';
-    margin-bottom:10px;
-}
 p{
     font-family:'Amiri';
     font-size:14px;
-    line-height:1.6;
+    line-height:1.7;
 }
 
-/* BUTTON */
-.btn{
-    margin-top:15px;
-    padding:12px;
-    border:none;
-    border-radius:10px;
-    background:gold;
-    color:black;
-    font-weight:bold;
-    width:100%;
-    font-size:14px;
+/* SIGNATURE */
+.signature{
+    margin-top:12px;
+    color:gold;
 }
 
-/* CONFETTI */
-.confetti{
-    position:fixed;
-    width:6px;
-    height:6px;
-    background:red;
-    top:-10px;
-    animation:fall 3s linear infinite;
+/* FOOTER */
+.footer{
+    margin-top:10px;
+    font-size:10px;
+    color:#aaa;
 }
-@keyframes fall{
-    to{transform:translateY(110vh) rotate(360deg)}
-}
+
+.footer a{color:#aaa;text-decoration:none;}
+.footer a:hover{color:gold;}
+
 </style>
 </head>
 
 <body>
 
+<!-- PARTICLES -->
 <div class="particles"></div>
 
+<!-- ENVELOPE -->
 <div class="envelope-wrap" onclick="openCard()">
     <div class="envelope" id="env">
         <div class="flap"></div>
         <div class="body"></div>
+        <div class="glow"></div>
     </div>
-    <div class="tap">Tap untuk buka 🎁</div>
+    <div class="tap">Klik untuk buka kad</div>
 </div>
 
+<!-- CARD -->
 <div class="container" id="card">
     <div class="card">
 
+        <div class="icon">🕌</div>
+        <div class="symbols">🌙 ✨</div>
+
         <h1>Selamat Hari Raya</h1>
-        <h2 id="nama"></h2>
+        <h2>Aidilfitri</h2>
 
         <p>
-        Mohon maaf zahir dan batin.<br>
-        Semoga Syawal ini membawa kebahagiaan ❤️
+            Pergi ke taman memetik bunga,<br>
+            Harum mewangi di pagi hari;<br>
+            Andai tersalah kata dan bicara,<br>
+            Mohon dimaaf setulus hati.
         </p>
 
-        <button class="btn" onclick="shareWA()">📤 Share WhatsApp</button>
+        <p>
+            Syawal tiba penuh bermakna,<br>
+            Disambut dengan rasa gembira;<br>
+            Salam Aidilfitri buat semua,<br>
+            Semoga bahagia sentiasa bersama.
+        </p>
+
+        <p>Maaf zahir dan batin.</p>
+
+        <div class="signature">
+            Ikhlas daripada,<br>
+            <b><i>Syahrizah</i></b>
+        </div>
+
+        <div class="footer">
+            © <span id="year"></span> 
+            <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
+        </div>
 
     </div>
 </div>
 
+<!-- AUDIO -->
 <audio id="lagu">
-<source src="laguraya.mp3" type="audio/mpeg">
+    <source src="laguraya.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+document.getElementById("year").innerText=new Date().getFullYear();
 
-/* AUTO NAME (URL PARAM) */
-let params = new URLSearchParams(window.location.search);
-let nama = params.get("to") || "Sahabatku";
-document.getElementById("nama").innerText = nama;
-
-/* PARTICLES */
-let p=document.querySelector(".particles");
-for(let i=0;i<20;i++){
- let s=document.createElement("span");
- s.style.left=Math.random()*100+"%";
- s.style.animationDelay=Math.random()*10+"s";
- p.appendChild(s);
+/* PARTICLES GENERATOR */
+let container = document.querySelector(".particles");
+for(let i=0;i<25;i++){
+    let span=document.createElement("span");
+    span.style.left=Math.random()*100+"%";
+    span.style.animationDelay=Math.random()*10+"s";
+    span.style.opacity=Math.random();
+    container.appendChild(span);
 }
 
-/* CONFETTI */
-function confetti(){
- for(let i=0;i<30;i++){
-  let c=document.createElement("div");
-  c.className="confetti";
-  c.style.left=Math.random()*100+"%";
-  c.style.background=`hsl(${Math.random()*360},100%,50%)`;
-  document.body.appendChild(c);
-  setTimeout(()=>c.remove(),3000);
- }
-}
-
-/* OPEN */
 function openCard(){
- document.getElementById("env").classList.add("open");
+    let env = document.getElementById("env");
+    env.classList.add("open");
 
- setTimeout(()=>{
-  document.querySelector(".envelope-wrap").style.display="none";
-  document.getElementById("card").style.display="flex";
+    setTimeout(()=>{
+        document.querySelector(".envelope-wrap").style.opacity="0";
 
-  confetti();
+        setTimeout(()=>{
+            document.querySelector(".envelope-wrap").style.display="none";
+            document.getElementById("card").style.display="flex";
 
-  let audio=document.getElementById("lagu");
-  audio.play().catch(()=>{});
+            let audio = document.getElementById("lagu");
+            audio.volume = 0;
+            audio.play().catch(()=>{});
 
- },900);
+            let v=0;
+            let fade=setInterval(()=>{
+                if(v<0.7){
+                    v+=0.03;
+                    audio.volume=v;
+                }else clearInterval(fade);
+            },200);
+
+        },500);
+
+    },900);
 }
-
-/* SHARE WA */
-function shareWA(){
- let text = "Selamat Hari Raya 🌙✨\nKlik kad ini:\n" + window.location.href;
- window.open("https://wa.me/?text="+encodeURIComponent(text));
-}
-
 </script>
 
 </body>
