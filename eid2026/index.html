@@ -145,7 +145,6 @@ body{
     50%{opacity:1;}      
 }      
       
-/* NEW: exit animation */      
 .fade-out{      
     opacity:0;      
     transform:scale(0.8);      
@@ -190,7 +189,7 @@ h1{
     font-family:'Playfair Display';
     font-size:28px;
     background: linear-gradient(90deg,gold,#fff,gold);
-    background-size:200% auto; /* <<< INI PENTING */
+    background-size:200% auto;
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
     animation:shimmer 3s linear infinite;
@@ -203,6 +202,26 @@ h1{
       
 h2{font-family:'Amiri';letter-spacing:2px;margin-bottom:12px;}      
 p{font-family:'Amiri';font-size:14px;line-height:1.7;}      
+      
+/* 🔥 NEW PART */
+.maaf{
+    margin-top:22px;
+    font-family:'Playfair Display', serif;
+    font-size:16px;
+    color:gold;
+    font-style:italic;
+    opacity:0;
+    transform:translateY(10px);
+    animation:fadeMaaf 2s ease forwards;
+    animation-delay:2s;
+}
+
+@keyframes fadeMaaf{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
       
 .signature{margin-top:16px;color:gold;font-size:13px;}      
 .signature-name{font-family:'Great Vibes';font-size:19px;display:block;margin-top:4px;}      
@@ -251,7 +270,7 @@ p{font-family:'Amiri';font-size:14px;line-height:1.7;}
             Semoga bahagia sentiasa bersama.      
         </p>      
       
-        <p>Maaf zahir dan batin.</p>      
+        <p class="maaf">Maaf zahir dan batin.</p>      
       
         <div class="signature">      
             Ikhlas daripada,      
@@ -267,7 +286,6 @@ p{font-family:'Amiri';font-size:14px;line-height:1.7;}
     </div>      
 </div>      
       
-<!-- POP SOUND -->
 <audio id="pop">
     <source src="whoosh.mp3" type="audio/mpeg">
 </audio>
@@ -292,7 +310,6 @@ function openCard(){
     let env=document.getElementById("env");      
     let wrap=document.getElementById("wrap");      
 
-    // POP SOUND
     document.getElementById("pop").play().catch(()=>{});
 
     env.classList.add("open");      
@@ -306,28 +323,26 @@ function openCard(){
 
             let audio = document.getElementById("lagu");
 
-let playCount = 0;
+            let playCount = 0;
 
-audio.volume = 0;
-audio.play().catch(()=>{});
+            audio.volume = 0;
+            audio.play().catch(()=>{});
 
-// fade in
-let v = 0;
-let fade = setInterval(()=>{
-    if(v < 0.7){
-        v += 0.03;
-        audio.volume = v;
-    } else clearInterval(fade);
-},200);
+            let v = 0;
+            let fade = setInterval(()=>{
+                if(v < 0.7){
+                    v += 0.03;
+                    audio.volume = v;
+                } else clearInterval(fade);
+            },200);
 
-// play 2 kali
-audio.onended = function(){
-    playCount++;
-    if(playCount < 2){
-        audio.currentTime = 0;
-        audio.play();
-    }
-};      
+            audio.onended = function(){
+                playCount++;
+                if(playCount < 2){
+                    audio.currentTime = 0;
+                    audio.play();
+                }
+            };      
 
         },700);      
 
