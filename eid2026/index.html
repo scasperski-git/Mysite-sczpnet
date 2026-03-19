@@ -262,8 +262,8 @@ p{font-family:'Amiri';font-size:14px;line-height:1.7;}
 </div>      
       
 <!-- POP SOUND -->
-<audio id="pop">
-    <source src="pop.mp3" type="audio/mpeg">
+<audio id="whoosh">
+    <source src="whoosh.mp3" type="audio/mpeg">
 </audio>
 
 <audio id="lagu">      
@@ -287,7 +287,9 @@ function openCard(){
     let wrap=document.getElementById("wrap");      
 
     // POP SOUND
-    document.getElementById("pop").play().catch(()=>{});
+    let pop = document.getElementById("whoosh");
+pop.volume = 1; // max volume
+pop.play().catch(()=>{});
 
     env.classList.add("open");      
 
