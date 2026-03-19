@@ -75,7 +75,7 @@ body{
 }
 
 .card-wrap{
-    position:relative;
+    text-align:center;
 }
 
 .card{
@@ -88,22 +88,6 @@ body{
     background:rgba(255,255,255,0.05);
     backdrop-filter:blur(18px);
     box-shadow:0 0 50px rgba(0,0,0,0.7);
-}
-
-/* REAL KETUPAT SVG */
-.ketupat{
-    position:absolute;
-    top:-25px;   /* align dengan border atas card */
-    right:20px;
-    width:42px;  /* kecilkan sikit */
-    z-index:5;   /* pastikan depan card */
-    animation:swing 3s ease-in-out infinite;
-}
-
-@keyframes swing{
-    0%{transform:rotate(-8deg);}
-    50%{transform:rotate(8deg);}
-    100%{transform:rotate(-8deg);}
 }
 
 /* ICON */
@@ -188,19 +172,6 @@ p{
 <div class="container" id="card">
     <div class="card-wrap">
 
-<!-- KETUPAT FIXED -->
-<svg class="ketupat" viewBox="0 0 100 140">
-    <!-- tali -->
-    <line x1="50" y1="0" x2="50" y2="25" stroke="#ccc" stroke-width="2"/>
-    
-    <!-- badan ketupat -->
-    <polygon points="50,25 75,50 50,75 25,50" fill="#6fbf73"/>
-    
-    <!-- anyaman -->
-    <line x1="35" y1="40" x2="65" y2="65" stroke="#fff" stroke-width="1"/>
-    <line x1="65" y1="40" x2="35" y2="65" stroke="#fff" stroke-width="1"/>
-</svg>
-
         <div class="card">
 
             <div class="icon">🕌</div>
@@ -226,8 +197,8 @@ p{
             <p>Maaf zahir dan batin.</p>
 
             <div class="signature">
-    <span style="font-size:11px;">Ikhlas daripada,</span><br>
-    <b style="font-style:italic; font-size:11px;">Syahrizah</b>
+                <span style="font-size:11px;">Ikhlas daripada,</span><br>
+                <b style="font-style:italic; font-size:11px;">Syahrizah</b>
             </div>
 
         </div>
