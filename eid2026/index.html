@@ -19,8 +19,15 @@ body{font-family:'Inter',sans-serif;overflow:auto;background: linear-gradient(27
 .ketupat-container.drop{top:0;}
 .ketupat{position:absolute;width:26px;height:26px;transform:rotate(45deg);animation:swing 4s ease-in-out infinite;}
 .ketupat::before{
-    width:2px;
-    background:rgba(255,255,255,0.3);
+    content:"";
+    position:absolute;
+    top:-120px;   /* lagi panjang dari atas */
+    left:50%;
+    width:3px;
+    height:120px; /* INI YANG PANJANGKAN TALI */
+    background:linear-gradient(to bottom,#ffffff,#ffd700);
+    transform:translateX(-50%);
+    opacity:0.9;
 }
 .ketupat{
     z-index:2;
