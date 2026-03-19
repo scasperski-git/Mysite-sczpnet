@@ -74,6 +74,10 @@ body{
     padding:15px;
 }
 
+.card-wrap{
+    position:relative;
+}
+
 .card{
     width:100%;
     max-width:360px;
@@ -86,7 +90,22 @@ body{
     box-shadow:0 0 50px rgba(0,0,0,0.7);
 }
 
-/* ICON ANIMATION */
+/* REAL KETUPAT SVG */
+.ketupat{
+    position:absolute;
+    top:-35px;
+    right:20px;
+    width:60px;
+    animation:swing 3s ease-in-out infinite;
+}
+
+@keyframes swing{
+    0%{transform:rotate(-8deg);}
+    50%{transform:rotate(8deg);}
+    100%{transform:rotate(-8deg);}
+}
+
+/* ICON */
 .icon{
     font-size:40px;
     animation:float 5s ease-in-out infinite;
@@ -138,25 +157,9 @@ p{
     line-height:1.7;
 }
 
-/* KETUPAT */
-.ketupat{
-    position:absolute;
-    top:-15px;
-    right:20px;
-    font-size:26px;
-    animation:swing 3s ease-in-out infinite;
-}
-
-@keyframes swing{
-    0%{transform:rotate(-10deg);}
-    50%{transform:rotate(10deg);}
-    100%{transform:rotate(-10deg);}
-}
-
 /* SIGNATURE */
 .signature{
     margin-top:10px;
-    font-size:13px;
     color:gold;
 }
 
@@ -166,10 +169,6 @@ p{
     text-align:center;
     font-size:10px;
     color:#aaa;
-}
-.footer a{
-    color:#aaa;
-    text-decoration:none;
 }
 </style>
 </head>
@@ -186,9 +185,20 @@ p{
 
 <!-- CARD -->
 <div class="container" id="card">
-    <div style="position:relative;">
+    <div class="card-wrap">
 
-        <div class="ketupat">🎐</div>
+        <!-- SVG KETUPAT REAL -->
+        <svg class="ketupat" viewBox="0 0 100 120">
+            <!-- tali -->
+            <line x1="50" y1="0" x2="50" y2="30" stroke="#ddd" stroke-width="2"/>
+            
+            <!-- badan ketupat -->
+            <polygon points="50,30 80,60 50,90 20,60" fill="#6fbf73"/>
+            
+            <!-- anyaman -->
+            <line x1="35" y1="45" x2="65" y2="75" stroke="#fff" stroke-width="1"/>
+            <line x1="65" y1="45" x2="35" y2="75" stroke="#fff" stroke-width="1"/>
+        </svg>
 
         <div class="card">
 
@@ -215,8 +225,8 @@ p{
             <p>Maaf zahir dan batin.</p>
 
             <div class="signature">
-                Ikhlas daripada,<br>
-                <b>Syahrizah</b>
+                <span style="font-size:11px;">Ikhlas daripada,</span><br>
+                <b style="font-style:italic;">Syahrizah</b>
             </div>
 
         </div>
