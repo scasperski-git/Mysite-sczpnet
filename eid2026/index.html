@@ -129,7 +129,31 @@ p{font-family:'Amiri';font-size:14px;line-height:1.7;}
 document.getElementById("year").innerText=new Date().getFullYear();          
 let container=document.querySelector(".particles");          
 for(let i=0;i<25;i++){let span=document.createElement("span");span.style.left=Math.random()*100+"%";span.style.animationDelay=Math.random()*10+"s";span.style.opacity=Math.random();container.appendChild(span);}          
-function openCard(){document.getElementById("pop").play().catch(()=>{});document.getElementById("env").classList.add("open");document.getElementById("ketupatBox").classList.add("drop");setTimeout(()=>{document.getElementById("wrap").style.display="none";document.getElementById("card").style.display="flex";let audio=document.getElementById("lagu");audio.volume=0;audio.play();let v=0;let fade=setInterval(()=>{if(v<0.7){v+=0.03;audio.volume=v;}else clearInterval(fade);},200);},1000);}
+function openCard(){document.getElementById("pop").play().catch(()=>{});document.getElementById("env").classList.add("open");document.getElementById("ketupatBox").classList.add("drop");setTimeout(()=>{document.getElementById("wrap").style.display="none";document.getElementById("card").style.display="flex";
+let audio = document.getElementById("lagu");
+
+let playCount = 0;
+
+audio.volume = 0;
+audio.play().catch(()=>{});
+
+// fade in
+let v = 0;
+let fade = setInterval(()=>{
+    if(v < 0.7){
+        v += 0.03;
+        audio.volume = v;
+    } else clearInterval(fade);
+},200);
+
+// ulang 2 kali sahaja
+audio.onended = function(){
+    playCount++;
+    if(playCount < 2){
+        audio.currentTime = 0;
+        audio.play();
+    }
+};
 </script>          
 
 </body>          
