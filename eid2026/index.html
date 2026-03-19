@@ -24,7 +24,6 @@ body{
     100%{background-position:0%}      
 }      
       
-/* PARTICLES */      
 .particles span{      
     position:absolute;      
     width:6px;height:6px;      
@@ -39,16 +38,15 @@ body{
     to{transform:translateY(-10vh) scale(1)}      
 }      
       
-/* WRAP */      
 .envelope-wrap{      
     height:100vh;      
     display:flex;      
     justify-content:center;      
     align-items:center;      
     flex-direction:column;      
+    transition:0.6s;      
 }      
       
-/* ENVELOPE */      
 .envelope{      
     width:260px;      
     height:170px;      
@@ -67,7 +65,6 @@ body{
     transform:scale(1.05);      
 }      
       
-/* SPARKLE */      
 .envelope::after{      
     content:"✨";      
     position:absolute;      
@@ -82,7 +79,6 @@ body{
     transform:translateY(-5px);      
 }      
       
-/* BODY */      
 .envelope .body{      
     width:100%;      
     height:100%;      
@@ -94,7 +90,6 @@ body{
     box-shadow:0 25px 60px rgba(0,0,0,0.8);      
 }      
       
-/* FLAP */      
 .envelope .flap{      
     position:absolute;      
     width:100%;      
@@ -107,7 +102,6 @@ body{
     z-index:2;      
 }      
       
-/* SEAL */      
 .seal{      
     position:absolute;      
     top:50%;      
@@ -126,7 +120,6 @@ body{
     z-index:3;      
 }      
       
-/* GLOW */      
 .glow{      
     position:absolute;      
     inset:0;      
@@ -152,7 +145,12 @@ body{
     50%{opacity:1;}      
 }      
       
-/* CARD */      
+/* NEW: exit animation */      
+.fade-out{      
+    opacity:0;      
+    transform:scale(0.8);      
+}      
+      
 .container{      
     display:none;      
     height:100vh;      
@@ -197,11 +195,6 @@ h1{
     animation:shimmer 5s linear infinite;      
 }      
       
-@keyframes shimmer{      
-    from{background-position:-200px}      
-    to{background-position:200px}      
-}      
-      
 h2{font-family:'Amiri';letter-spacing:2px;margin-bottom:12px;}      
 p{font-family:'Amiri';font-size:14px;line-height:1.7;}      
       
@@ -219,7 +212,7 @@ p{font-family:'Amiri';font-size:14px;line-height:1.7;}
       
 <div class="particles"></div>      
       
-<div class="envelope-wrap" onclick="openCard()">      
+<div class="envelope-wrap" id="wrap" onclick="openCard()">      
     <div class="envelope" id="env">      
         <div class="flap"></div>      
         <div class="body"></div>      
@@ -268,6 +261,11 @@ p{font-family:'Amiri';font-size:14px;line-height:1.7;}
     </div>      
 </div>      
       
+<!-- POP SOUND -->
+<audio id="pop">
+    <source src="pop.mp3" type="audio/mpeg">
+</audio>
+
 <audio id="lagu">      
     <source src="laguraya.mp3" type="audio/mpeg">      
 </audio>      
@@ -285,23 +283,34 @@ for(let i=0;i<25;i++){
 }      
       
 function openCard(){      
-    document.getElementById("env").classList.add("open");      
-      
+    let env=document.getElementById("env");      
+    let wrap=document.getElementById("wrap");      
+
+    // POP SOUND
+    document.getElementById("pop").play().catch(()=>{});
+
+    env.classList.add("open");      
+
     setTimeout(()=>{      
-        document.querySelector(".envelope-wrap").style.display="none";      
-        document.getElementById("card").style.display="flex";      
-      
-        let audio=document.getElementById("lagu");      
-        audio.volume=0;      
-        audio.play().catch(()=>{});      
-      
-        let v=0;      
-        let fade=setInterval(()=>{      
-            if(v<0.7){v+=0.03;audio.volume=v;}      
-            else clearInterval(fade);      
-        },200);      
-      
-    },900);      
+        wrap.classList.add("fade-out");      
+
+        setTimeout(()=>{      
+            wrap.style.display="none";      
+            document.getElementById("card").style.display="flex";      
+
+            let audio=document.getElementById("lagu");      
+            audio.volume=0;      
+            audio.play().catch(()=>{});      
+
+            let v=0;      
+            let fade=setInterval(()=>{      
+                if(v<0.7){v+=0.03;audio.volume=v;}      
+                else clearInterval(fade);      
+            },200);      
+
+        },700);      
+
+    },1200);      
 }      
 </script>      
       
