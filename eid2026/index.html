@@ -189,12 +189,25 @@ function drawStar(x,y,r){
     ctx.fill();
 }
 
-function drawMoon(x,y,r){
+function drawMoon(x, y, r){
+    ctx.save();
     ctx.beginPath();
-    ctx.arc(x,y,r,0,Math.PI*2);
-    ctx.arc(x+4,y-2,r,0,Math.PI*2);
-    ctx.fillStyle="gold";
-    ctx.fill("evenodd");
+
+    // Crescent shape (proper cut)
+    ctx.arc(x, y, r, 0.5 * Math.PI, 1.5 * Math.PI, false);
+    ctx.arc(x + r * 0.6, y, r, 1.5 * Math.PI, 0.5 * Math.PI, true);
+
+    ctx.closePath();
+
+    // gradient glow (nampak premium sikit)
+    let grad = ctx.createRadialGradient(x, y, r*0.2, x, y, r);
+    grad.addColorStop(0, "#fff8dc");
+    grad.addColorStop(0.5, "gold");
+    grad.addColorStop(1, "#caa52f");
+
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.restore();
 }
 
 function animateConfetti(){
