@@ -4,82 +4,87 @@
 <meta charset="UTF-8">          
 <meta name="viewport" content="width=device-width, initial-scale=1.0">          
 <title>Selamat Hari Raya!!</title>          
-          
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400&family=Amiri:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet">          
-          
+
 <style>          
 *{box-sizing:border-box;margin:0;padding:0}          
 body{font-family:'Inter',sans-serif;overflow:auto;background: linear-gradient(270deg,#0f2027,#203a43,#2c5364);background-size:600% 600%;animation:bgMove 18s ease infinite;}          
 @keyframes bgMove{0%{background-position:0%}50%{background-position:100%}100%{background-position:0%}}          
 
-.particles{pointer-events:none;}
+/* 🌌 PARALLAX STARS */
+.stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;}
+.layer{position:absolute;width:100%;height:100%;}
+.layer span{position:absolute;border-radius:50%;background:white;}
+.layer1 span{width:1px;height:1px;opacity:0.4;animation:twinkle 4s infinite;}
+.layer2 span{width:2px;height:2px;opacity:0.7;animation:twinkle 3s infinite;}
+.layer3 span{width:3px;height:3px;opacity:1;box-shadow:0 0 6px white,0 0 12px gold;animation:twinkle 2s infinite;}
 
-.particles span{position:absolute;width:6px;height:6px;background:gold;border-radius:50%;opacity:0.6;animation:floatUp 10s linear infinite;}          
-@keyframes floatUp{from{transform:translateY(100vh) scale(0)}to{transform:translateY(-10vh) scale(1)}}          
-
-/* ⭐ STARS */
-.stars span{
-    position:absolute;
-    width:3px;
-    height:3px;
-    background:white;
-    border-radius:50%;
-    box-shadow:0 0 6px white, 0 0 12px gold;
-    animation:twinkle 2s infinite ease-in-out;
-}
 @keyframes twinkle{
-    0%,100%{opacity:0.2;transform:scale(0.8);}
-    50%{opacity:1;transform:scale(1.6);}
+0%,100%{opacity:0.3;transform:scale(0.8);}
+50%{opacity:1;transform:scale(1.5);}
 }
 
 /* 🌙 MOON */
 .moon{
-    position:fixed;
-    bottom:-120px;
-    right:30px;
-    font-size:50px;
-    opacity:0.9;
-    animation:moonRise 12s ease forwards;
+position:fixed;
+bottom:-120px;
+right:30px;
+font-size:50px;
+opacity:0.9;
+animation:moonRise 12s ease forwards;
 }
 @keyframes moonRise{
-    from{bottom:-120px;opacity:0;}
-    to{bottom:70%;opacity:1;}
+from{bottom:-120px;opacity:0;}
+to{bottom:70%;opacity:1;}
 }
 
-/* 💫 SHOOTING STAR */
+/* 💫 SHOOTING STAR TRAIL */
 .shooting-star{
-    position:fixed;
-    top:0;
-    left:-100px;
-    width:3px;
-    height:3px;
-    background:white;
-    box-shadow:0 0 6px white,0 0 20px white;
-    transform:rotate(45deg);
-    opacity:0;
+position:fixed;
+width:3px;
+height:3px;
+background:white;
+border-radius:50%;
+box-shadow:0 0 6px white,0 0 20px white;
+opacity:0;
+}
+.shooting-star::after{
+content:"";
+position:absolute;
+width:140px;
+height:2px;
+background:linear-gradient(90deg, white, transparent);
+transform:translateX(-100%);
+filter:blur(2px);
 }
 .shooting-star.active{
-    animation:shoot 1.2s linear;
+animation:shoot 1.2s linear;
 }
 @keyframes shoot{
-    0%{transform:translate(0,0) rotate(45deg);opacity:1;}
-    100%{transform:translate(120vw,60vh) rotate(45deg);opacity:0;}
+0%{transform:translate(0,0) rotate(45deg);opacity:1;}
+100%{transform:translate(120vw,60vh) rotate(45deg);opacity:0;}
 }
+
+/* PARTICLES */
+.particles{pointer-events:none;}
+.particles span{position:absolute;width:6px;height:6px;background:gold;border-radius:50%;opacity:0.6;animation:floatUp 10s linear infinite;}          
+@keyframes floatUp{from{transform:translateY(100vh) scale(0)}to{transform:translateY(-10vh) scale(1)}}          
 
 /* KETUPAT */
 .ketupat-container{position:fixed;top:-100px;left:0;width:100%;pointer-events:none;z-index:0;transition:top 1.5s ease;}
 .ketupat-container.drop{top:0;}
 .ketupat{position:absolute;width:26px;height:26px;transform:rotate(45deg);animation:swing 4s ease-in-out infinite;}
 .ketupat::before{
-    content:"";
-    position:absolute;
-    top:-120px;
-    left:50%;
-    width:3px;
-    height:120px;
-    background:linear-gradient(to bottom,#ffffff,#ffd700);
-    transform:translateX(-50%);
-    opacity:0.9;
+content:"";
+position:absolute;
+top:-120px;
+left:50%;
+width:3px;
+height:120px;
+background:linear-gradient(to bottom,#ffffff,#ffd700);
+transform:translateX(-50%);
+opacity:0.9;
 }
 .ketupat{z-index:2;}
 .ketupat::after{content:"";position:absolute;top:-10px;left:50%;width:6px;height:6px;border-radius:50%;background:gold;box-shadow:0 0 8px gold;transform:translateX(-50%);animation:lampBlink 1.5s infinite;}
@@ -106,7 +111,6 @@ body{font-family:'Inter',sans-serif;overflow:auto;background: linear-gradient(27
 .open .glow{opacity:1;}
 .tap{margin-top:15px;font-size:13px;color:#ccc;animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:0.4;}50%{opacity:1;}}
-.fade-out{opacity:0;transform:scale(0.8);}
 
 .container{display:none;height:100vh;justify-content:center;align-items:center;padding:15px;animation:fadeIn 1s ease forwards;}
 @keyframes fadeIn{from{opacity:0;transform:scale(0.9)}to{opacity:1;transform:scale(1)}}
@@ -139,44 +143,50 @@ p{font-family:'Amiri';font-size:14px;line-height:1.7;}
 </head>          
 <body>          
 
-<div class="stars"></div>
+<div class="stars">
+<div class="layer layer1"></div>
+<div class="layer layer2"></div>
+<div class="layer layer3"></div>
+</div>
+
 <div class="moon">🌙</div>
 <div class="shooting-star" id="shoot"></div>
 
 <div class="ketupat-container" id="ketupatBox">
-    <div class="ketupat"><span></span></div>
-    <div class="ketupat"><span></span></div>
-    <div class="ketupat"><span></span></div>
-    <div class="ketupat"><span></span></div>
+<div class="ketupat"><span></span></div>
+<div class="ketupat"><span></span></div>
+<div class="ketupat"><span></span></div>
+<div class="ketupat"><span></span></div>
 </div>
 
 <div class="particles"></div>          
 
 <div class="envelope-wrap" id="wrap" onclick="openCard()">          
-    <div class="envelope" id="env">          
-        <div class="flap"></div>          
-        <div class="body"></div>          
-        <div class="seal">✦</div>          
-        <div class="glow"></div>          
-    </div>          
-    <div class="tap">Tap untuk buka kad..</div>          
+<div class="envelope" id="env">          
+<div class="flap"></div>          
+<div class="body"></div>          
+<div class="seal">✦</div>          
+<div class="glow"></div>          
+</div>          
+<div class="tap">Tap untuk buka kad..</div>          
 </div>          
 
 <div class="container" id="card">          
-    <div class="card">          
-        <div class="icon">🕌</div>          
-        <div class="symbols">🌙 ✨</div>          
-        <h1>Selamat Hari Raya</h1>          
-        <h2>Aidilfitri</h2>          
-        <p style="margin-bottom:16px;">Pergi ke taman memetik bunga,<br>Harum mewangi di pagi hari;<br>Andai tersalah kata dan bicara,🥺<br>Mohon dimaaf setulus hati.🙏🏼</p>          
-        <p>🌙Syawal tiba penuh bermakna,<br>Disambut dengan rasa gembira;<br>Salam Aidilfitri buat semua,<br>Semoga bahagia sentiasa bersama.</p>          
-        <p class="maaf">Maaf zahir dan batin.</p>          
-        <div class="signature">Ikhlas daripada,<span class="signature-name">Syahrizah Ku Hashim</span></div>          
-        <div class="footer">
-         ⚡️Powered by 
-         <a href="https://sczpnet.org" target="_blank">sczpnet.org</a> © 
-         <span id="year"></span>
-         </div>          
+<div class="card">          
+<div class="icon">🕌</div>          
+<div class="symbols">🌙 ✨</div>          
+<h1>Selamat Hari Raya</h1>          
+<h2>Aidilfitri</h2>          
+<p style="margin-bottom:16px;">Pergi ke taman memetik bunga,<br>Harum mewangi di pagi hari;<br>Andai tersalah kata dan bicara,🥺<br>Mohon dimaaf setulus hati.🙏🏼</p>          
+<p>🌙Syawal tiba penuh bermakna,<br>Disambut dengan rasa gembira;<br>Salam Aidilfitri buat semua,<br>Semoga bahagia sentiasa bersama.</p>          
+<p class="maaf">Maaf zahir dan batin.</p>          
+<div class="signature">Ikhlas daripada,<span class="signature-name">Syahrizah Ku Hashim</span></div>          
+<div class="footer">
+⚡️Powered by 
+<a href="https://sczpnet.org" target="_blank">sczpnet.org</a> © 
+<span id="year"></span>
+</div>          
+</div>          
 </div>          
 
 <audio id="pop"><source src="whoosh.mp3"></audio>
@@ -185,68 +195,71 @@ p{font-family:'Amiri';font-size:14px;line-height:1.7;}
 <script>          
 document.getElementById("year").innerText=new Date().getFullYear();          
 
+/* particles */
 let container=document.querySelector(".particles");          
 for(let i=0;i<25;i++){
-    let span=document.createElement("span");
-    span.style.left=Math.random()*100+"%";
-    span.style.animationDelay=Math.random()*10+"s";
-    span.style.opacity=Math.random();
-    container.appendChild(span);
+let span=document.createElement("span");
+span.style.left=Math.random()*100+"%";
+span.style.animationDelay=Math.random()*10+"s";
+span.style.opacity=Math.random();
+container.appendChild(span);
 }
 
-/* STARS */
-let starBox=document.querySelector(".stars");
-for(let i=0;i<40;i++){
-    let s=document.createElement("span");
-    s.style.left=Math.random()*100+"%";
-    s.style.top=Math.random()*100+"%";
-    s.style.animationDelay=Math.random()*3+"s";
-    starBox.appendChild(s);
-}
+/* 🌌 stars */
+function gen(layer,count){
+let el=document.querySelector(layer);
+for(let i=0;i<count;i++){
+let s=document.createElement("span");
+s.style.left=Math.random()*100+"%";
+s.style.top=Math.random()*100+"%";
+el.appendChild(s);
+}}
+gen(".layer1",50);
+gen(".layer2",30);
+gen(".layer3",20);
 
-/* SHOOTING STAR */
+/* 💫 shooting star */
 setInterval(()=>{
-    if(Math.random()<0.3){
-        let s=document.getElementById("shoot");
-        s.style.top=Math.random()*40+"%";
-        s.classList.add("active");
-        setTimeout(()=>{s.classList.remove("active");},1200);
-    }
-},4000);
+if(Math.random()<0.35){
+let s=document.getElementById("shoot");
+s.style.top=Math.random()*40+"%";
+s.style.left="-100px";
+s.classList.add("active");
+setTimeout(()=>{s.classList.remove("active");},1200);
+}},3500);
 
 function openCard(){
-    document.getElementById("pop").play().catch(()=>{});
-    document.getElementById("env").classList.add("open");
-    document.getElementById("ketupatBox").classList.add("drop");
+document.getElementById("pop").play().catch(()=>{});
+document.getElementById("env").classList.add("open");
+document.getElementById("ketupatBox").classList.add("drop");
 
-    setTimeout(()=>{
-        document.getElementById("wrap").style.display="none";
-        document.getElementById("card").style.display="flex";
+setTimeout(()=>{
+document.getElementById("wrap").style.display="none";
+document.getElementById("card").style.display="flex";
 
-        let audio = document.getElementById("lagu");
+let audio = document.getElementById("lagu");
+let playCount = 0;
 
-        let playCount = 0;
+audio.volume = 0;
+audio.play().catch(()=>{});
 
-        audio.volume = 0;
-        audio.play().catch(()=>{});
+let v = 0;
+let fade = setInterval(()=>{
+if(v < 0.7){
+v += 0.03;
+audio.volume = v;
+} else clearInterval(fade);
+},200);
 
-        let v = 0;
-        let fade = setInterval(()=>{
-            if(v < 0.7){
-                v += 0.03;
-                audio.volume = v;
-            } else clearInterval(fade);
-        },200);
+audio.onended = function(){
+playCount++;
+if(playCount < 2){
+audio.currentTime = 0;
+audio.play();
+}
+};
 
-        audio.onended = function(){
-            playCount++;
-            if(playCount < 2){
-                audio.currentTime = 0;
-                audio.play();
-            }
-        };
-
-    },1000);
+},1000);
 }
 </script>          
 
