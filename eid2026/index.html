@@ -87,15 +87,6 @@ p{font-family:'Amiri';font-size:14px;line-height:1.7;}
 .footer{margin-top:10px;font-size:10px;color:#aaa;}
 .footer a{color:#aaa;text-decoration:none;}
 .footer a:hover{color:gold;}
-#confettiCanvas{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    pointer-events:none;
-    z-index:999;
-}
 </style>          
 </head>          
 <body>          
@@ -135,99 +126,14 @@ p{font-family:'Amiri';font-size:14px;line-height:1.7;}
          <span id="year"></span>
          </div>          
 </div>          
-          
+
 <audio id="pop"><source src="whoosh.mp3"></audio>
 <audio id="lagu"><source src="laguraya.mp3"></audio>
-<canvas id="confettiCanvas"></canvas>
-          
+
 <script>          
 document.getElementById("year").innerText=new Date().getFullYear();          
 let container=document.querySelector(".particles");          
 for(let i=0;i<25;i++){let span=document.createElement("span");span.style.left=Math.random()*100+"%";span.style.animationDelay=Math.random()*10+"s";span.style.opacity=Math.random();container.appendChild(span);}          
-
-// CONFETTI BURST 🌙⭐
-const canvas = document.getElementById("confettiCanvas");
-const ctx = canvas.getContext("2d");
-
-function resizeCanvas(){
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
-
-let confetti = [];
-
-function launchConfetti(x,y){
-    for(let i=0;i<70;i++){
-        confetti.push({
-            x:x,
-            y:y,
-            size:Math.random()*8+4,
-            speedX:(Math.random()-0.5)*7,
-            speedY:(Math.random()-0.7)*7,
-            gravity:0.08,
-            type:Math.random()>0.5?"star":"moon"
-        });
-    }
-}
-
-function drawStar(x,y,r){
-    ctx.beginPath();
-    for(let i=0;i<5;i++){
-        ctx.lineTo(
-            x + r * Math.cos((18+i*72)*Math.PI/180),
-            y - r * Math.sin((18+i*72)*Math.PI/180)
-        );
-        ctx.lineTo(
-            x + (r/2) * Math.cos((54+i*72)*Math.PI/180),
-            y - (r/2) * Math.sin((54+i*72)*Math.PI/180)
-        );
-    }
-    ctx.closePath();
-    ctx.fillStyle="gold";
-    ctx.fill();
-}
-
-function drawMoon(x, y, r){
-    ctx.save();
-    ctx.beginPath();
-
-    // Crescent shape (proper cut)
-    ctx.arc(x, y, r, 0.5 * Math.PI, 1.5 * Math.PI, false);
-    ctx.arc(x + r * 0.6, y, r, 1.5 * Math.PI, 0.5 * Math.PI, true);
-
-    ctx.closePath();
-
-    // gradient glow (nampak premium sikit)
-    let grad = ctx.createRadialGradient(x, y, r*0.2, x, y, r);
-    grad.addColorStop(0, "#fff8dc");
-    grad.addColorStop(0.5, "gold");
-    grad.addColorStop(1, "#caa52f");
-
-    ctx.fillStyle = grad;
-    ctx.fill();
-    ctx.restore();
-}
-
-function animateConfetti(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    confetti.forEach((c,i)=>{
-        c.x+=c.speedX;
-        c.y+=c.speedY;
-        c.speedY+=c.gravity;
-
-        if(c.type==="star") drawStar(c.x,c.y,c.size);
-        else drawMoon(c.x,c.y,c.size);
-
-        if(c.y > canvas.height) confetti.splice(i,1);
-    });
-
-    requestAnimationFrame(animateConfetti);
-}
-animateConfetti();          
-          
 function openCard(){
     document.getElementById("pop").play().catch(()=>{});
     document.getElementById("env").classList.add("open");
@@ -238,8 +144,7 @@ function openCard(){
         document.getElementById("card").style.display="flex";
 
         let audio = document.getElementById("lagu");
-launchConfetti(window.innerWidth/2, window.innerHeight/2);
-              
+
         let playCount = 0;
 
         audio.volume = 0;
@@ -263,7 +168,6 @@ launchConfetti(window.innerWidth/2, window.innerHeight/2);
 
     },1000);
 }
-          
 </script>          
 
 </body>          
