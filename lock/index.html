@@ -66,6 +66,10 @@ justify-content:center;
 gap:6px;
 }
 
+.check-btn-header{
+background:linear-gradient(135deg,#007bff,#0056b3);
+}
+
 .header-buttons button{
 flex:1;
 width:auto;   /* override width:100% */
@@ -508,13 +512,17 @@ opacity:0.9;
 Today: 0 Locks | RM 0
 </div>
 
-<div class="header-buttons">
+<div class="header-buttons" id="actionButtons">
 
-<button class="logout-btn" onclick="logout()">
+<button class="logout-btn">
 <i class="fa fa-right-from-bracket"></i> Logout
 </button>
 
-<button id="masterBtn" class="master-btn" onclick="goMaster()" style="display:none">
+<button class="check-btn-header">
+<i class="fa fa-search"></i> Check My Lock
+</button>
+
+<button id="masterBtn" class="master-btn" style="display:none">
 <i class="fa fa-arrow-left"></i> Master Menu
 </button>
 
@@ -610,6 +618,22 @@ setInterval(loadUserSummary,120000);
 /* ACCESS CONTROL */
 
 const type = localStorage.getItem("lock_type");
+const actionBox = document.getElementById("actionButtons");
+const logoutBtn = actionBox.children[0];
+const checkBtn = actionBox.children[1];
+const masterBtn = document.getElementById("masterBtn");
+
+/* SET BUTTON ACTION */
+logoutBtn.onclick = logout;
+checkBtn.onclick = checkMyLock;
+masterBtn.onclick = goMaster;
+
+/* ROLE CONTROL */
+if(type === "master"){
+masterBtn.style.display = "flex";
+}else{
+masterBtn.style.display = "none";
+}
 
 if(!type){
 window.location="../lockcheck-login/";
@@ -1041,6 +1065,43 @@ window.location="../lockcheck-login/";
 
 }catch(e){
 console.log("session check error");
+}
+
+}
+
+async function checkMyLock(){
+
+const acc = document.getElementById("acc_no").value.trim();
+
+if(!acc){
+alert("Enter Account No first");
+return;
+}
+
+try{
+
+const res = await fetch(api+"?acc_no="+encodeURIComponent(acc)+"&token="+token);
+const data = await res.json();
+
+if(data.status === "NOT_OWNER"){
+alert("You can only check your own lock.");
+return;
+}
+
+if(data.status === "LOCKED"){
+
+alert(
+"LOCK FOUND\n\n" +
+"Account: " + data.acc_no + "\n" +
+"Amount: RM " + data.amount
+);
+
+}else{
+alert("No lock found");
+}
+
+}catch(e){
+alert("Error checking lock");
 }
 
 }
