@@ -1069,13 +1069,21 @@ console.log("session check error");
 
 }
 
-async function checkMyLock(){
+function checkMyLock(){
 
 const acc = document.getElementById("acc_no").value.trim();
 
 if(!acc){
 alert("Enter Account No first");
 return;
+}
+
+/* SAVE TO LOCALSTORAGE */
+localStorage.setItem("check_acc", acc);
+
+/* REDIRECT */
+window.location = "../check/";
+
 }
 
 try{
