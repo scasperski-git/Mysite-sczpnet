@@ -390,11 +390,11 @@ if(!type){
 window.location="../lockcheck-login/";
 }
 
+/* ALLOW lock user to check their own lock */
 if(type=="lock"){
-alert("Access denied");
-window.location="../lock/";
+// allow access, do nothing
 }
-
+  
 if(type === "master"){
 document.getElementById("masterBtn").style.display = "inline-block";
 }
