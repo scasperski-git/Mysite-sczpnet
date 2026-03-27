@@ -390,7 +390,11 @@ if(!type){
 window.location="../lockcheck-login/";
 }
 
-  
+if(type=="lock"){
+alert("Access denied");
+window.location="../lock/";
+}
+
 if(type === "master"){
 document.getElementById("masterBtn").style.display = "inline-block";
 }
@@ -437,24 +441,7 @@ const resetBtn=document.getElementById("resetBtn");
 let isLoading=false;
 
 window.onload=()=>{
-
 input.focus();
-
-/* AUTO LOAD FROM LOCK PAGE */
-const savedAcc = localStorage.getItem("check_acc");
-
-if(savedAcc){
-
-input.value = savedAcc;
-
-/* auto run check */
-checkLock();
-
-/* clear after use */
-localStorage.removeItem("check_acc");
-
-}
-
 };
 
 function formatDate(dateStr){
