@@ -1086,32 +1086,6 @@ window.location = "../check/";
 
 }
 
-try{
-
-const res = await fetch(api+"?acc_no="+encodeURIComponent(acc)+"&token="+token);
-const data = await res.json();
-
-if(data.status === "NOT_OWNER"){
-alert("You can only check your own lock.");
-return;
-}
-
-if(data.status === "LOCKED"){
-
-alert(
-"LOCK FOUND\n\n" +
-"Account: " + data.acc_no + "\n" +
-"Amount: RM " + data.amount
-);
-
-}else{
-alert("No lock found");
-}
-
-}catch(e){
-alert("Error checking lock");
-}
-
 }
 
 function checkIdle(){
