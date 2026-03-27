@@ -1073,15 +1073,14 @@ function checkMyLock(){
 
 const acc = document.getElementById("acc_no").value.trim();
 
-if(!acc){
-alert("Enter Account No first");
-return;
+/* OPTIONAL: kalau ada value baru save */
+if(acc){
+localStorage.setItem("check_acc", acc);
+}else{
+localStorage.removeItem("check_acc"); // clear kalau kosong
 }
 
-/* SAVE TO LOCALSTORAGE */
-localStorage.setItem("check_acc", acc);
-
-/* REDIRECT */
+/* DIRECT REDIRECT */
 window.location = "../check/";
 
 }
