@@ -549,6 +549,19 @@ th:nth-child(2){width:140px;}
 th:nth-child(3){width:120px;}
 th:nth-child(4){width:120px;}
 th:nth-child(5){width:auto;}
+
+table tr:hover{
+background:#eef6ff !important;
+}
+
+td:nth-child(3){
+text-align:right;
+font-weight:600;
+}
+
+table th{
+letter-spacing:0.3px;
+}
     
 </style>
 
@@ -1312,6 +1325,13 @@ pDate.setHours(0,0,0,0);
 
 let isOverdue = pDate < today;
 
+/* ✅ MOVE SINI */
+let remark = d.remarks || "-";
+
+let shortRemark = remark.length > 40 
+? remark.substring(0,40)+"..." 
+: remark;
+
 html += `
 <tr style="${isOverdue ? 'background:#ffe5e5;' : ''}">
 <td>${d.acc_no}</td>
@@ -1320,15 +1340,10 @@ html += `
 <td style="${isOverdue ? 'color:red;font-weight:bold;' : ''}">
 ${formatDate(d.promise)}
 </td>
-let remark = d.remarks || "-";
-
-let shortRemark = remark.length > 40 
-? remark.substring(0,40)+"..." 
-: remark;
-
 <td title="${remark}">${shortRemark}</td>
 </tr>
 `;
+
 });
 
 document.getElementById("lockTable").innerHTML = html || 
