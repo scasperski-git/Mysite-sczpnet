@@ -1241,9 +1241,7 @@ return;
 }
 
 fullData = data.sort((a,b)=> new Date(b.created) - new Date(a.created));
-
-fullData = data;
-filteredData = data;
+filteredData = fullData;
 currentPage = 1;
 
 renderTable();
@@ -1344,8 +1342,13 @@ startDate = endDate;
 endDate = temp;
 }
     
+if(startDate){
 document.getElementById("filterStart").value = startDate.toISOString().split("T")[0];
+}
+
+if(endDate){
 document.getElementById("filterEnd").value = endDate.toISOString().split("T")[0];
+}
 
 let matchStart = !startDate || dDate >= startDate;
 let matchEnd = !endDate || dDate <= endDate;
