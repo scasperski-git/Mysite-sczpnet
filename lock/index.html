@@ -434,30 +434,32 @@ margin-bottom:18px;
 /* RESPONSIVE (ADDED ONLY)   */
 /* ========================= */
 
-@media (max-width:600px){
-    
 table{
 font-size:12px;
 }
 
+/* allow wrap normal */
 td, th{
-white-space:normal !important;
-word-break:break-word;
+white-space:normal;
 }
 
-/* kecilkan padding */
-table th, table td{
-padding:8px;
+/* JANGAN pecah huruf */
+td{
+word-break:normal;
 }
 
-/* amount align kanan */
+/* remark control */
+td:last-child{
+max-width:150px;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+/* amount align */
 td:nth-child(3){
 text-align:right;
-}
-
-/* remark limit width */
-td:last-child{
-max-width:120px;
+font-weight:600;
 }
 
 body{
@@ -491,8 +493,6 @@ color:#555;
 
 table tr:hover{
 background:#f9fbff;
-}
-
 }
 
 @media (min-width:601px) and (max-width:1024px){
@@ -535,10 +535,6 @@ max-width:1000px;
 
 .list-mode body{
 padding:10px;
-}
-
-td{
-white-space:nowrap;
 }
 
 td:last-child{
