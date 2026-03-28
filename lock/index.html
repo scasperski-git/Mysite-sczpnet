@@ -1253,16 +1253,25 @@ minimumFractionDigits:2,
 maximumFractionDigits:2
 });
 
+let today = new Date();
+today.setHours(0,0,0,0);
+
+let pDate = new Date(d.promise);
+pDate.setHours(0,0,0,0);
+
+let isOverdue = pDate < today;
+
 html += `
-<tr>
+<tr style="${isOverdue ? 'background:#ffe5e5;' : ''}">
 <td>${d.acc_no}</td>
 <td>${d.branch}</td>
 <td>${amount}</td>
-<td>${formatDate(d.promise)}</td>
+<td style="${isOverdue ? 'color:red;font-weight:bold;' : ''}">
+${formatDate(d.promise)} ${isOverdue ? '⚠️' : ''}
+</td>
 <td>${d.remarks || "-"}</td>
 </tr>
 `;
-
 });
 
 document.getElementById("lockTable").innerHTML = html || 
