@@ -897,14 +897,37 @@ function formatDate(dateStr){
 
 if(!dateStr) return "-";
 
+/* HANDLE ISO / DATE OBJECT */
+
+let d = new Date(dateStr);
+
+if(!isNaN(d)){
+
+let day = ("0"+d.getDate()).slice(-2);
+let monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+let month = monthNames[d.getMonth()];
+let year = d.getFullYear();
+
+return day+" "+month+" "+year;
+
+}
+
+/* FALLBACK OLD FORMAT */
+
+if(dateStr.includes("-") && dateStr.split("-")[0].length==4){
+
 var p=dateStr.split("-");
 var year=p[0];
 var month=parseInt(p[1])-1;
 var day=p[2];
 
-var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-return day+" "+monthNames[month]+" "+year;
+return day+" "+m[month]+" "+year;
+
+}
+
+return dateStr;
 
 }
 
