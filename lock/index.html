@@ -453,6 +453,22 @@ font-size:15px;
 padding:13px;
 }
 
+table th, table td{
+padding:10px;
+border-bottom:1px solid #eee;
+text-align:left;
+}
+
+table th{
+font-weight:bold;
+font-size:12px;
+color:#555;
+}
+
+table tr:hover{
+background:#f9fbff;
+}
+
 }
 
 @media (min-width:601px) and (max-width:1024px){
@@ -582,7 +598,63 @@ Unauthorized or false lock entries may be subject to investigation.
 </div>
 
 <div id="result"></div>
-<div id="lockListSection" style="display:none;margin-top:20px;"></div>
+<div id="lockListSection" style="display:none;margin-top:20px;">
+
+<div class="success-card">
+
+<div class="status-box">
+<span class="status-badge badge-success">MY LOCK LIST</span>
+</div>
+
+<!-- FILTER -->
+<div style="margin-top:15px;text-align:left">
+
+<input id="filterAcc" placeholder="Search Account No">
+
+<div style="display:flex;gap:10px">
+<input type="date" id="filterStart">
+<input type="date" id="filterEnd">
+</div>
+
+<button onclick="applyFilter()">Filter</button>
+<button class="new-btn" onclick="resetFilter()">Reset</button>
+
+</div>
+
+<!-- TABLE -->
+<div style="overflow-x:auto;margin-top:15px">
+
+<table style="width:100%;border-collapse:collapse;font-size:13px">
+
+<thead style="background:#f1f3f6">
+<tr>
+<th>ACC NO</th>
+<th>BRANCH</th>
+<th>AMOUNT</th>
+<th>DATE</th>
+<th>REMARK</th>
+</tr>
+</thead>
+
+<tbody id="lockTable"></tbody>
+
+</table>
+
+</div>
+
+<!-- PAGINATION -->
+<div style="margin-top:10px">
+<button onclick="prevPage()">Prev</button>
+<span id="pageInfo"></span>
+<button onclick="nextPage()">Next</button>
+</div>
+
+<!-- BACK -->
+<button class="new-btn" onclick="backToForm()">⬅ Back</button>
+
+</div>
+
+</div>
 
 </div>
 </div>
@@ -1110,28 +1182,55 @@ showSessionPopup("EXPIRED");
 
 setInterval(checkSession,30000);
 
+let fullData = [];
+let filteredData = [];
+let currentPage = 1;
+const pageSize = 50;
+
 async function viewMyLocks(){
 
+document.getElementById("formSection").style.display="none";
+document.getElementById("result").style.display="none";
 document.getElementById("lockListSection").style.display="block";
-document.getElementById("lockListSection").innerHTML =
-"<div class='success-card'>Loading list...</div>";
 
 try{
 
 const res = await fetch(api+"?action=mylocks&token="+token);
 const data = await res.json();
 
-if(!data.length){
-
-document.getElementById("lockListSection").innerHTML =
-"<div class='success-card'>No Lock Found</div>";
+if(data.status){
+document.getElementById("lockTable").innerHTML =
+"<tr><td colspan='5'>Access Denied</td></tr>";
 return;
+}
+
+fullData = data.sort((a,b)=> new Date(b.created) - new Date(a.created));
+
+fullData = data;
+filteredData = data;
+currentPage = 1;
+
+renderTable();
+
+}catch(e){
+
+document.getElementById("lockTable").innerHTML =
+"<tr><td colspan='5'>Error loading</td></tr>";
 
 }
 
+}
+
+function renderTable(){
+
+let start = (currentPage-1)*pageSize;
+let end = start + pageSize;
+
+let pageData = filteredData.slice(start,end);
+
 let html = "";
 
-data.forEach(d=>{
+pageData.forEach(d=>{
 
 let amount = "RM " + Number(d.amount || 0).toLocaleString("en-MY",{
 minimumFractionDigits:2,
@@ -1139,53 +1238,88 @@ maximumFractionDigits:2
 });
 
 html += `
-
-<div class="success-card">
-
-<div class="status-box">
-<span class="status-badge badge-success">LOCK</span>
-</div>
-
-<div class="success-grid">
-
-<div class="success-item">
-<b>ACCOUNT NO</b>${d.acc_no}
-</div>
-
-<div class="success-item">
-<b>BRANCH</b>${d.branch}
-</div>
-
-<div class="success-item">
-<b>AMOUNT</b><div class="amount">${amount}</div>
-</div>
-
-<div class="success-item">
-<b>PROMISE DATE</b>${formatDate(d.promise)}
-</div>
-
-<div class="success-item" style="width:100%">
-<b>REMARKS</b>${d.remarks || "-"}
-</div>
-
-</div>
-
-</div>
-
+<tr>
+<td>${d.acc_no}</td>
+<td>${d.branch}</td>
+<td>${amount}</td>
+<td>${formatDate(d.promise)}</td>
+<td>${d.remarks || "-"}</td>
+</tr>
 `;
 
 });
 
-/* SUPPORT 100+ RECORD */
+document.getElementById("lockTable").innerHTML = html || 
+"<tr><td colspan='5' style='text-align:center;padding:20px;color:#999'>No Record Found</td></tr>";
 
-document.getElementById("lockListSection").innerHTML =
-`<div style="max-height:500px;overflow-y:auto">${html}</div>`;
+let totalPage = Math.ceil(filteredData.length / pageSize) || 1;
 
-}catch(e){
+document.getElementById("pageInfo").innerText =
+`Page ${currentPage} / ${totalPage}`;
 
-document.getElementById("lockListSection").innerHTML =
-"<div class='success-card'>Error loading list</div>";
+}
 
+function nextPage(){
+if(currentPage * pageSize < filteredData.length){
+currentPage++;
+renderTable();
+}
+}
+
+function prevPage(){
+if(currentPage > 1){
+currentPage--;
+renderTable();
+}
+}
+
+function applyFilter(){
+
+let acc = document.getElementById("filterAcc").value.toLowerCase();
+let start = document.getElementById("filterStart").value;
+let end = document.getElementById("filterEnd").value;
+
+filteredData = fullData.filter(d=>{
+
+let matchAcc = !acc || d.acc_no.toLowerCase().includes(acc);
+
+let dDate = new Date(d.promise);
+
+let matchStart = !start || dDate >= new Date(start);
+let matchEnd = !end || dDate <= new Date(end);
+
+return matchAcc && matchStart && matchEnd;
+
+});
+
+currentPage = 1;
+renderTable();
+
+}
+
+function resetFilter(){
+
+document.getElementById("filterAcc").value="";
+document.getElementById("filterStart").value="";
+document.getElementById("filterEnd").value="";
+
+filteredData = fullData;
+currentPage = 1;
+
+renderTable();
+
+}
+
+function backToForm(){
+
+document.getElementById("lockListSection").style.display="none";
+document.getElementById("formSection").style.display="block";
+
+/* ONLY SHOW RESULT IF ADA CONTENT */
+if(document.getElementById("result").innerHTML.trim() !== ""){
+document.getElementById("result").style.display="block";
+}else{
+document.getElementById("result").style.display="none";
 }
 
 }
