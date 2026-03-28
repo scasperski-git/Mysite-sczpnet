@@ -620,7 +620,16 @@ Unauthorized or false lock entries may be subject to investigation.
 
 <!-- FILTER -->
 <div style="margin-top:15px;text-align:left">
+<div style="display:flex;gap:8px">
 
+<input id="filterAcc" placeholder="Search Account No" style="flex:1">
+
+<button onclick="applyFilter()" style="width:auto;padding:10px 14px">
+🔍
+</button>
+
+</div>
+    
 <input id="filterAcc" placeholder="Search Account No">
 
 <div style="display:flex;gap:10px">
@@ -1306,9 +1315,8 @@ let end = document.getElementById("filterEnd").value;
 
 filteredData = fullData.filter(d=>{
 
-let matchAcc = !acc || d.acc_no.toLowerCase().includes(acc);
-
-let dDate = new Date(d.promise);
+let accNo = (d.acc_no || "").toString().toLowerCase();
+let matchAcc = !acc || accNo.includes(acc);
 dDate.setHours(0,0,0,0);
 
 let startDate = start ? new Date(start) : null;
@@ -1366,6 +1374,12 @@ document.getElementById("result").style.display="none";
 }
 
 }
+
+document.getElementById("filterAcc").addEventListener("keypress",function(e){
+if(e.key === "Enter"){
+applyFilter();
+}
+});
 
 </script>
 
