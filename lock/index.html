@@ -518,6 +518,10 @@ Today: 0 Locks | RM 0
 <i class="fa fa-arrow-left"></i> Master Menu
 </button>
 
+<button onclick="viewMyLocks()" style="background:#17a2b8">
+<i class="fa fa-list"></i> My Lock List
+</button>
+
 </div>
 
 </div>
@@ -578,6 +582,7 @@ Unauthorized or false lock entries may be subject to investigation.
 </div>
 
 <div id="result"></div>
+<div id="lockListSection" style="display:none;margin-top:20px;"></div>
 
 </div>
 </div>
@@ -1081,6 +1086,86 @@ showSessionPopup("EXPIRED");
 /* SESSION MONITOR */
 
 setInterval(checkSession,30000);
+
+async function viewMyLocks(){
+
+document.getElementById("lockListSection").style.display="block";
+document.getElementById("lockListSection").innerHTML =
+"<div class='success-card'>Loading list...</div>";
+
+try{
+
+const res = await fetch(api+"?action=mylocks&token="+token);
+const data = await res.json();
+
+if(!data.length){
+
+document.getElementById("lockListSection").innerHTML =
+"<div class='success-card'>No Lock Found</div>";
+return;
+
+}
+
+let html = "";
+
+data.forEach(d=>{
+
+let amount = "RM " + Number(d.amount || 0).toLocaleString("en-MY",{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+});
+
+html += `
+
+<div class="success-card">
+
+<div class="status-box">
+<span class="status-badge badge-success">LOCK</span>
+</div>
+
+<div class="success-grid">
+
+<div class="success-item">
+<b>ACCOUNT NO</b>${d.acc_no}
+</div>
+
+<div class="success-item">
+<b>BRANCH</b>${d.branch}
+</div>
+
+<div class="success-item">
+<b>AMOUNT</b><div class="amount">${amount}</div>
+</div>
+
+<div class="success-item">
+<b>PROMISE DATE</b>${formatDate(d.promise)}
+</div>
+
+<div class="success-item" style="width:100%">
+<b>REMARKS</b>${d.remarks || "-"}
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+/* SUPPORT 100+ RECORD */
+
+document.getElementById("lockListSection").innerHTML =
+`<div style="max-height:500px;overflow-y:auto">${html}</div>`;
+
+}catch(e){
+
+document.getElementById("lockListSection").innerHTML =
+"<div class='success-card'>Error loading list</div>";
+
+}
+
+}
 
 </script>
 
