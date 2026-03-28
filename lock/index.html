@@ -505,6 +505,18 @@ margin:0;
 
 }
 
+.list-mode .container{
+max-width:1000px;
+}
+
+.list-mode body{
+padding:10px;
+}
+
+td, th{
+white-space:nowrap;
+}
+    
 </style>
 
 </head>
@@ -1185,13 +1197,14 @@ setInterval(checkSession,30000);
 let fullData = [];
 let filteredData = [];
 let currentPage = 1;
-const pageSize = 50;
+const pageSize = 5;
 
 async function viewMyLocks(){
 
 document.getElementById("formSection").style.display="none";
 document.getElementById("result").style.display="none";
 document.getElementById("lockListSection").style.display="block";
+document.body.classList.add("list-mode");
 
 try{
 
