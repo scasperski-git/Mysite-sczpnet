@@ -1300,9 +1300,25 @@ filteredData = fullData.filter(d=>{
 let matchAcc = !acc || d.acc_no.toLowerCase().includes(acc);
 
 let dDate = new Date(d.promise);
+dDate.setHours(0,0,0,0);
 
-let matchStart = !start || dDate >= new Date(start);
-let matchEnd = !end || dDate <= new Date(end);
+let startDate = start ? new Date(start) : null;
+let endDate = end ? new Date(end) : null;
+
+if(startDate) startDate.setHours(0,0,0,0);
+if(endDate) endDate.setHours(23,59,59,999);
+
+if(startDate && endDate && startDate > endDate){
+let temp = startDate;
+startDate = endDate;
+endDate = temp;
+}
+    
+document.getElementById("filterStart").value = startDate.toISOString().split("T")[0];
+document.getElementById("filterEnd").value = endDate.toISOString().split("T")[0];
+
+let matchStart = !startDate || dDate >= startDate;
+let matchEnd = !endDate || dDate <= endDate;
 
 return matchAcc && matchStart && matchEnd;
 
