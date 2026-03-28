@@ -513,9 +513,42 @@ max-width:1000px;
 padding:10px;
 }
 
-td, th{
+td{
 white-space:nowrap;
 }
+
+td:last-child{
+white-space:normal;
+max-width:250px;
+word-break:break-word;
+}
+
+table{
+border:1px solid #ddd;
+}
+
+table th, table td{
+border:1px solid #e5e7eb;
+padding:10px;
+text-align:left;
+}
+
+table th{
+background:#f8fafc;
+font-weight:600;
+font-size:12px;
+color:#444;
+}
+
+table tr:nth-child(even){
+background:#f9fbff;
+}
+
+th:nth-child(1){width:100px;}
+th:nth-child(2){width:140px;}
+th:nth-child(3){width:120px;}
+th:nth-child(4){width:120px;}
+th:nth-child(5){width:auto;}
     
 </style>
 
@@ -1287,7 +1320,13 @@ html += `
 <td style="${isOverdue ? 'color:red;font-weight:bold;' : ''}">
 ${formatDate(d.promise)}
 </td>
-<td>${d.remarks || "-"}</td>
+let remark = d.remarks || "-";
+
+let shortRemark = remark.length > 40 
+? remark.substring(0,40)+"..." 
+: remark;
+
+<td title="${remark}">${shortRemark}</td>
 </tr>
 `;
 });
