@@ -586,6 +586,13 @@ letter-spacing:0.3px;
 table{
 min-width:600px;
 }
+
+.tap-hint{
+font-size:10px;
+color:#007bff;
+opacity:0.7;
+margin-top:3px;
+}
     
 </style>
 
@@ -1366,6 +1373,7 @@ ${formatDate(d.promise)}
 </td>
 <td onclick="toggleRemark(this)" data-full="${remark}">
 ${shortRemark}
+${remark.length > 40 ? '<div class="tap-hint">tap to view</div>' : ''}
 </td>
 </tr>
 `;
