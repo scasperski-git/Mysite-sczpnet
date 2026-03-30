@@ -608,6 +608,7 @@ letter-spacing:0.3px;
 
 /* default (mobile friendly) */
 table{
+min-width:650px;
 width:100%;
 }
 
@@ -670,23 +671,22 @@ padding:6px;
 }
 }
 
-div[style*="overflow-x:auto"]{
+/* ===== TABLE SCROLL FIX ===== */
+.table-scroll{
+overflow-x:auto;
 -webkit-overflow-scrolling:touch;
-}
-
-/* ===== SCROLL INDICATOR ===== */
-div[style*="overflow-x:auto"]{
 position:relative;
 }
 
-div[style*="overflow-x:auto"]::after{
+/* scroll indicator */
+.table-scroll::after{
 content:"";
 position:absolute;
 right:0;
 top:0;
 height:100%;
-width:20px;
-background:linear-gradient(to left, rgba(0,0,0,0.08), transparent);
+width:25px;
+background:linear-gradient(to left, rgba(0,0,0,0.12), transparent);
 pointer-events:none;
 }
     
@@ -836,8 +836,8 @@ font-size:16px;
 </div>
 
 <!-- TABLE -->
-<div style="overflow-x:auto;margin-top:15px">
-
+<div class="table-scroll">
+    
 <table style="width:100%;border-collapse:collapse;font-size:13px">
 
 <thead style="background:#f1f3f6">
