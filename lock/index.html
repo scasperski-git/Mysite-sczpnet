@@ -1372,9 +1372,12 @@ html += `
 <td style="${isOverdue ? 'color:red;font-weight:bold;' : ''}">
 ${formatDate(d.promise)}
 </td>
-<td onclick="toggleRemark(this)" data-full="${remark}">
-${shortRemark}
-${remark.length > 40 ? ' <i style="font-size:10px;color:#007bff">(tap)</i>' : ''}
+<td onclick="toggleRemark(this)" data-full="${remark}" data-short="${shortRemark}">
+
+<div class="remark-text">${shortRemark}</div>
+
+${remark.length > 40 ? '<div class="tap-hint">tap to view</div>' : ''}
+
 </td>
 </tr>
 `;
@@ -1467,13 +1470,23 @@ renderTable();
 function toggleRemark(el){
 
 let full = el.getAttribute("data-full");
-let current = el.innerText;
+let short = el.getAttribute("data-short");
 
-if(current === full){
-let short = full.length > 40 ? full.substring(0,40)+"..." : full;
-el.innerText = short;
+let textEl = el.querySelector(".remark-text");
+let hintEl = el.querySelector(".tap-hint");
+
+if(textEl.innerText === full){
+
+textEl.innerText = short;
+
+if(hintEl) hintEl.innerText = "tap to view";
+
 }else{
-el.innerText = full;
+
+textEl.innerText = full;
+
+if(hintEl) hintEl.innerText = "tap to minimize";
+
 }
 
 }
