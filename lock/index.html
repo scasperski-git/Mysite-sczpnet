@@ -564,11 +564,33 @@ table tr:nth-child(even){
 background:#f9fbff;
 }
 
+@media (min-width:768px){
+
 th:nth-child(1){width:90px;}
 th:nth-child(2){width:120px;}
 th:nth-child(3){width:110px;}
 th:nth-child(4){width:110px;}
 th:nth-child(5){width:auto;}
+
+}
+
+@media (max-width:600px){
+
+table{
+font-size:12px;
+}
+
+table th, table td{
+padding:8px;
+}
+
+/* optional: hide branch */
+th:nth-child(2),
+td:nth-child(2){
+display:none;
+}
+
+}
 
 table tr:hover{
 background:#eef6ff !important;
@@ -584,9 +606,16 @@ table th{
 letter-spacing:0.3px;
 }
 
+/* default (mobile friendly) */
 table{
 width:100%;
+}
+
+/* desktop only */
+@media (min-width:768px){
+table{
 table-layout:fixed;
+}
 }
 
 .tap-hint{
@@ -633,6 +662,12 @@ background:linear-gradient(135deg,#007bff,#0056b3);
 .clear-btn{
 flex:1;
 background:#6c757d;
+}
+
+@media (max-width:600px){
+table td{
+padding:6px;
+}
 }
     
 </style>
