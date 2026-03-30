@@ -669,6 +669,26 @@ table td{
 padding:6px;
 }
 }
+
+div[style*="overflow-x:auto"]{
+-webkit-overflow-scrolling:touch;
+}
+
+/* ===== SCROLL INDICATOR ===== */
+div[style*="overflow-x:auto"]{
+position:relative;
+}
+
+div[style*="overflow-x:auto"]::after{
+content:"";
+position:absolute;
+right:0;
+top:0;
+height:100%;
+width:20px;
+background:linear-gradient(to left, rgba(0,0,0,0.08), transparent);
+pointer-events:none;
+}
     
 </style>
 
