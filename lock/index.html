@@ -584,12 +584,8 @@ table th, table td{
 padding:8px;
 }
 
-/* optional: hide branch */
-th:nth-child(2),
-td:nth-child(2){
-display:none;
-}
-
+td, th{
+white-space:nowrap;
 }
 
 table tr:hover{
@@ -614,7 +610,8 @@ width:100%;
 /* desktop only */
 @media (min-width:768px){
 table{
-table-layout:fixed;
+min-width:650px;
+width:100%;
 }
 }
 
