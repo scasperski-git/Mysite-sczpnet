@@ -730,6 +730,8 @@ padding:12px;
 
 .skeleton{
 height:12px;
+width:100%; 
+opacity:0.9;
 border-radius:6px;
 background:linear-gradient(90deg,#eee,#ddd,#eee);
 background-size:200% 100%;
@@ -1670,18 +1672,21 @@ return matchAcc && matchStart && matchEnd;
 currentPage = 1;
 const overlay = document.getElementById("tableOverlay");
 
+/* 1. SHOW SKELETON DULU */
+showSkeleton();
+
+/* 2. SHOW OVERLAY */
 overlay.style.display = "flex";
 
-/* paksa browser render overlay dulu */
-requestAnimationFrame(()=>{
-requestAnimationFrame(()=>{
+/* 3. BAGI MASA BROWSER RENDER SKELETON */
+setTimeout(()=>{
 
 renderTable();
 
-/* bagi nampak sikit */
-setTimeout(()=>{
+/* 4. HIDE OVERLAY */
 overlay.style.display = "none";
-},300);
+
+},600);
 
 });
 });
