@@ -199,6 +199,29 @@ font-weight:600;
 transition:.2s;
 }
 
+/* ===== GLOBAL PAGINATION ===== */
+.pagination-bar{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:15px;
+margin-top:15px;
+}
+
+.page-btn{
+flex:0;
+padding:10px 18px;
+font-size:14px;
+border-radius:8px;
+min-width:110px;
+}
+
+#pageInfo{
+min-width:100px;
+text-align:center;
+font-weight:600;
+}
+
 /* FIX: jangan paksa semua button full width */
 .pagination-bar button,
 .filter-actions button{
@@ -633,30 +656,6 @@ margin-top:3px;
 font-style:italic;
 }
 
-.pagination-bar{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-margin-top:12px;
-flex-wrap:wrap; /* penting */
-}
-
-.page-btn{
-flex:1;
-min-width:120px;
-padding:10px;
-font-size:14px;
-border-radius:8px;
-}
-
-#pageInfo{
-font-size:13px;
-font-weight:600;
-min-width:90px;
-text-align:center;
-}
-
 .filter-actions{
 display:flex;
 gap:10px;
@@ -685,6 +684,23 @@ padding:6px;
 overflow-x:auto;
 -webkit-overflow-scrolling:touch;
 position:relative;
+}
+
+/* ===== MOBILE PAGINATION FINAL ===== */
+.pagination-bar{
+display:flex;
+justify-content:space-between;
+gap:6px;
+}
+
+.page-btn{
+min-width:90px;
+padding:10px;
+}
+
+#pageInfo{
+flex:1;
+text-align:center;
 }
    
 </style>
