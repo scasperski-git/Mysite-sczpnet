@@ -698,6 +698,13 @@ min-width:90px;
 padding:10px;
 }
 
+.page-btn:disabled{
+opacity:0.4;
+cursor:not-allowed;
+transform:none;
+box-shadow:none;
+}
+
 #pageInfo{
 flex:1;
 text-align:center;
@@ -1519,6 +1526,15 @@ document.getElementById("pageInfo").innerText =
 
 }
 
+let totalPage = Math.ceil(filteredData.length / pageSize) || 1;
+
+document.getElementById("pageInfo").innerText =
+`Page ${currentPage} / ${totalPage}`;
+
+/* 🔥 ADD THIS */
+document.querySelector(".pagination-bar button:first-child").disabled = currentPage === 1;
+document.querySelector(".pagination-bar button:last-child").disabled = currentPage === totalPage;
+    
 function nextPage(){
 if(currentPage * pageSize < filteredData.length){
 currentPage++;
@@ -1617,6 +1633,8 @@ if(hintEl) hintEl.innerText = "tap to minimize";
 }
 
 function backToForm(){
+location.reload();
+}
 
 document.body.classList.remove("list-mode");
 
