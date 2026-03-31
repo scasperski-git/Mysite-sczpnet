@@ -685,6 +685,10 @@ overflow-x:auto;
 -webkit-overflow-scrolling:touch;
 position:relative;
 }
+    
+.table-scroll{
+min-height:200px; /* 🔥 penting */
+}
 
 /* ===== MOBILE PAGINATION FINAL ===== */
 .pagination-bar{
@@ -742,14 +746,18 @@ animation:skeleton 1.2s infinite;
 position:absolute;
 top:0;
 left:0;
-width:100%;
-height:100%;
-background:rgba(255,255,255,0.6);
-backdrop-filter:blur(3px);
+right:0;
+bottom:0;   /* 🔥 replace height */
+background:rgba(255,255,255,0.7);
+backdrop-filter:blur(5px);
 display:none;
 align-items:center;
 justify-content:center;
-z-index:5;
+z-index:10;
+}
+
+.table-loader{
+margin:auto;
 }
 
 .table-loader{
@@ -1664,8 +1672,10 @@ document.getElementById("tableOverlay").style.display="flex";
 
 setTimeout(()=>{
 renderTable();
+setTimeout(()=>{
 document.getElementById("tableOverlay").style.display="none";
-},500);
+},200);
+},400);
 
 return;
 
