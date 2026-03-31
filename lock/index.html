@@ -788,6 +788,13 @@ animation:dots 1s infinite steps(3);
 .loading-text{
 color:#007bff;
 }
+
+#loadingText{
+display:none;
+text-align:center;
+margin:10px 0;
+font-weight:500;
+}
    
 </style>
 
@@ -939,7 +946,7 @@ font-size:16px;
 <div id="tableOverlay">
 <div style="text-align:center">
 <div class="table-loader"></div>
-<div class="loading-text">Loading, please wait...</div>
+<div id="loadingText" class="loading-text">Loading, please wait...</div>
 </div>
 </div>
     
@@ -1525,9 +1532,11 @@ document.getElementById("lockListSection").style.display="block";
 document.body.classList.add("list-mode");
 
 const overlay = document.getElementById("tableOverlay");
+const loadingText = document.getElementById("loadingText");
 
-/* ✅ SHOW LOADING */
+/* ✅ SHOW BOTH */
 overlay.style.display = "flex";
+loadingText.style.display = "block";
 
 try{
 
@@ -1537,7 +1546,6 @@ const data = await res.json();
 if(data.status){
 document.getElementById("lockTable").innerHTML =
 "<tr><td colspan='5'>Access Denied</td></tr>";
-overlay.style.display = "none"; // ✅ IMPORTANT
 return;
 }
 
@@ -1554,8 +1562,9 @@ document.getElementById("lockTable").innerHTML =
 
 } finally {
 
-/* ✅ ALWAYS HIDE */
+/* ✅ HIDE BOTH (INI YANG PENTING) */
 overlay.style.display = "none";
+loadingText.style.display = "none";
 
 }
 
