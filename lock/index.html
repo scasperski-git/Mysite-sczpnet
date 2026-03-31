@@ -1668,17 +1668,23 @@ return matchAcc && matchStart && matchEnd;
 });
 
 currentPage = 1;
-document.getElementById("tableOverlay").style.display="flex";
+const overlay = document.getElementById("tableOverlay");
 
-setTimeout(()=>{
+overlay.style.display = "flex";
+
+/* paksa browser render overlay dulu */
+requestAnimationFrame(()=>{
+requestAnimationFrame(()=>{
+
 renderTable();
+
+/* bagi nampak sikit */
 setTimeout(()=>{
-document.getElementById("tableOverlay").style.display="none";
-},200);
-},400);
+overlay.style.display = "none";
+},300);
 
-return;
-
+});
+});
 }
 
 function resetFilter(){
