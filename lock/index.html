@@ -772,6 +772,22 @@ transform:translateY(0);
 opacity:1;
 }
 }
+
+.loading-text::after{
+content:'...';
+animation:dots 1s infinite steps(3);
+}
+
+@keyframes dots{
+0%{content:'';}
+33%{content:'.';}
+66%{content:'..';}
+100%{content:'...';}
+}
+
+.loading-text{
+color:#007bff;
+}
    
 </style>
 
@@ -921,7 +937,10 @@ font-size:16px;
 <!-- TABLE -->
 <div class="table-scroll">
 <div id="tableOverlay">
+<div style="text-align:center">
 <div class="table-loader"></div>
+<div class="loading-text">Loading, please wait...</div>
+</div>
 </div>
     
 <table style="width:100%;border-collapse:collapse;font-size:13px">
@@ -1651,14 +1670,14 @@ return matchAcc && matchStart && matchEnd;
 });
 
 currentPage = 1;
-const tableWrap = document.querySelector(".table-scroll");
+const overlay = document.getElementById("tableOverlay");
 
-tableWrap.classList.add("table-loading");
+overlay.style.display = "flex";
 
 setTimeout(()=>{
 renderTable();
-tableWrap.classList.remove("table-loading");
-},300);
+overlay.style.display = "none";
+},400);
 
 }
 
