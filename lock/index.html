@@ -199,6 +199,12 @@ font-weight:600;
 transition:.2s;
 }
 
+/* FIX: jangan paksa semua button full width */
+.pagination-bar button,
+.filter-actions button{
+width:auto;
+}
+
 button:hover{
 transform:translateY(-1px);
 box-shadow:0 6px 15px rgba(0,0,0,0.15);
@@ -495,6 +501,14 @@ table tr:hover{
 background:#f9fbff;
 }
 
+@media (min-width:768px){
+.new-btn{
+width:auto;
+display:block;
+margin:20px auto 0;
+}
+}
+
 @media (min-width:601px) and (max-width:1024px){
 
 .container{
@@ -533,7 +547,7 @@ margin:0;
 max-width:1000px;
 }
 
-.list-mode body{
+body.list-mode{
 padding:10px;
 }
 
@@ -625,10 +639,12 @@ align-items:center;
 justify-content:space-between;
 gap:10px;
 margin-top:12px;
+flex-wrap:wrap; /* penting */
 }
 
 .page-btn{
 flex:1;
+min-width:120px;
 padding:10px;
 font-size:14px;
 border-radius:8px;
@@ -645,6 +661,7 @@ text-align:center;
 display:flex;
 gap:10px;
 margin-top:10px;
+flex-wrap:wrap;
 }
 
 .apply-btn{
