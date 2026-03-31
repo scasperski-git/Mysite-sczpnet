@@ -1524,6 +1524,11 @@ document.getElementById("result").style.display="none";
 document.getElementById("lockListSection").style.display="block";
 document.body.classList.add("list-mode");
 
+const overlay = document.getElementById("tableOverlay");
+
+/* ✅ SHOW LOADING */
+overlay.style.display = "flex";
+
 try{
 
 const res = await fetch(api+"?action=mylocks&token="+token);
@@ -1532,6 +1537,7 @@ const data = await res.json();
 if(data.status){
 document.getElementById("lockTable").innerHTML =
 "<tr><td colspan='5'>Access Denied</td></tr>";
+overlay.style.display = "none"; // ✅ IMPORTANT
 return;
 }
 
@@ -1545,6 +1551,11 @@ renderTable();
 
 document.getElementById("lockTable").innerHTML =
 "<tr><td colspan='5'>Error loading</td></tr>";
+
+} finally {
+
+/* ✅ ALWAYS HIDE */
+overlay.style.display = "none";
 
 }
 
