@@ -705,6 +705,11 @@ transform:none;
 box-shadow:none;
 }
 
+.page-btn:disabled:hover{
+transform:none;
+box-shadow:none;
+}
+
 #pageInfo{
 flex:1;
 text-align:center;
@@ -1523,17 +1528,11 @@ let totalPage = Math.ceil(filteredData.length / pageSize) || 1;
 
 document.getElementById("pageInfo").innerText =
 `Page ${currentPage} / ${totalPage}`;
-
-}
-
-let totalPage = Math.ceil(filteredData.length / pageSize) || 1;
-
-document.getElementById("pageInfo").innerText =
-`Page ${currentPage} / ${totalPage}`;
-
-/* 🔥 ADD THIS */
+    
 document.querySelector(".pagination-bar button:first-child").disabled = currentPage === 1;
 document.querySelector(".pagination-bar button:last-child").disabled = currentPage === totalPage;
+
+}
     
 function nextPage(){
 if(currentPage * pageSize < filteredData.length){
@@ -1634,20 +1633,6 @@ if(hintEl) hintEl.innerText = "tap to minimize";
 
 function backToForm(){
 location.reload();
-}
-
-document.body.classList.remove("list-mode");
-
-document.getElementById("lockListSection").style.display="none";
-document.getElementById("formSection").style.display="block";
-
-/* ONLY SHOW RESULT IF ADA CONTENT */
-if(document.getElementById("result").innerHTML.trim() !== ""){
-document.getElementById("result").style.display="block";
-}else{
-document.getElementById("result").style.display="none";
-}
-
 }
 
 document.getElementById("filterAcc").addEventListener("keypress",function(e){
