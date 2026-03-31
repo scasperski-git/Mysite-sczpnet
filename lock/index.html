@@ -681,16 +681,9 @@ padding:6px;
 
 /* ===== TABLE SCROLL FIX ===== */
 .table-scroll{
+overflow-x:auto;
+-webkit-overflow-scrolling:touch;
 position:relative;
-min-height:300px; /* 🔥 tambah ni (IMPORTANT) */
-overflow:hidden;
-}
-    
-.table-loading{
-filter:blur(4px);
-opacity:0.5;
-pointer-events:none;
-transition:0.3s ease;
 }
 
 /* ===== MOBILE PAGINATION FINAL ===== */
@@ -724,79 +717,6 @@ box-shadow:none;
 #pageInfo{
 flex:1;
 text-align:center;
-}
-/* ===== BLUR OVERLAY ===== */
-#tableOverlay{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(255,255,255,0.85);
-backdrop-filter:blur(4px);
-
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-
-z-index:50;
-}
-
-.table-loader{
-margin:auto;
-}
-
-.table-loader{
-margin-bottom:10px;
-}
-
-.table-loader{
-width:30px;
-height:30px;
-border:4px solid #ddd;
-border-top:4px solid #007bff;
-border-radius:50%;
-animation:spin 1s linear infinite;
-}
-
-.row-animate{
-animation:slideUp 0.3s ease forwards;
-opacity:0;
-}
-
-@keyframes slideUp{
-from{
-transform:translateY(10px);
-opacity:0;
-}
-to{
-transform:translateY(0);
-opacity:1;
-}
-}
-
-.loading-text::after{
-content:'...';
-animation:dots 1s infinite steps(3);
-}
-
-@keyframes dots{
-0%{content:'';}
-33%{content:'.';}
-66%{content:'..';}
-100%{content:'...';}
-}
-
-.loading-text{
-color:#007bff;
-}
-
-#loadingText{
-display:none;
-text-align:center;
-margin:10px 0;
-font-weight:500;
 }
    
 </style>
@@ -946,21 +866,15 @@ font-size:16px;
 
 <!-- TABLE -->
 <div class="table-scroll">
-<div id="tableOverlay">
-<div style="text-align:center">
-<div class="table-loader"></div>
-<div id="loadingText" class="loading-text">Loading, please wait...</div>
-</div>
-</div>
     
 <table style="width:100%;border-collapse:collapse;font-size:13px">
 
 <thead style="background:#f1f3f6">
 <tr>
 <th>ACC NO</th>
-<th onclick="sortTable('branch')">BRANCH ⬍</th>
-<th onclick="sortTable('amount')">AMOUNT LOCK ⬍</th>
-<th onclick="sortTable('promise')">PTP DATE ⬍</th>
+<th>BRANCH</th>
+<th>AMOUNT</th>
+<th>PTP DATE</th>
 <th>REMARK</th>
 </tr>
 </thead>
@@ -1534,13 +1448,6 @@ document.getElementById("result").style.display="none";
 document.getElementById("lockListSection").style.display="block";
 document.body.classList.add("list-mode");
 
-const overlay = document.getElementById("tableOverlay");
-const loadingText = document.getElementById("loadingText");
-
-/* ✅ SHOW BOTH */
-overlay.style.display = "flex";
-loadingText.style.display = "block";
-
 try{
 
 const res = await fetch(api+"?action=mylocks&token="+token);
@@ -1562,12 +1469,6 @@ renderTable();
 
 document.getElementById("lockTable").innerHTML =
 "<tr><td colspan='5'>Error loading</td></tr>";
-
-} finally {
-
-/* ✅ HIDE BOTH (INI YANG PENTING) */
-overlay.style.display = "none";
-loadingText.style.display = "none";
 
 }
 
@@ -1605,7 +1506,7 @@ let shortRemark = remark.length > 40
 : remark;
 
 html += `
-<tr class="row-animate" style="${isOverdue ? 'background:#ffe5e5;' : ''}">
+<tr style="${isOverdue ? 'background:#ffe5e5;' : ''}">
 <td>${d.acc_no}</td>
 <td>${d.branch}</td>
 <td>${amount}</td>
@@ -1661,7 +1562,7 @@ filteredData = fullData.filter(d=>{
 
 let accNo = (d.acc_no || "").toString().toLowerCase();
 let matchAcc = !acc || accNo.includes(acc);
-
+    
 let dDate = new Date(d.promise);
 dDate.setHours(0,0,0,0);
 
@@ -1676,7 +1577,7 @@ let temp = startDate;
 startDate = endDate;
 endDate = temp;
 }
-
+    
 if(startDate){
 document.getElementById("filterStart").value = startDate.toISOString().split("T")[0];
 }
@@ -1693,14 +1594,7 @@ return matchAcc && matchStart && matchEnd;
 });
 
 currentPage = 1;
-const overlay = document.getElementById("tableOverlay");
-
-overlay.style.display = "flex";
-
-setTimeout(()=>{
 renderTable();
-overlay.style.display = "none";
-},400);
 
 }
 
@@ -1738,43 +1632,6 @@ textEl.innerText = full;
 if(hintEl) hintEl.innerText = "tap to minimize";
 
 }
-
-}
-    
-let sortField = "";
-let sortAsc = true;
-
-function sortTable(field){
-
-if(sortField === field){
-sortAsc = !sortAsc;
-}else{
-sortField = field;
-sortAsc = true;
-}
-
-filteredData.sort((a,b)=>{
-
-let valA = a[field] || "";
-let valB = b[field] || "";
-
-if(field === "amount"){
-valA = parseFloat(valA);
-valB = parseFloat(valB);
-}
-
-if(field === "promise"){
-valA = new Date(valA);
-valB = new Date(valB);
-}
-
-if(valA < valB) return sortAsc ? -1 : 1;
-if(valA > valB) return sortAsc ? 1 : -1;
-return 0;
-
-});
-
-renderTable();
 
 }
 
