@@ -2,250 +2,131 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Debt Collection System</title>
 
 <style>
 body {
-  margin: 0;
-  font-family: 'Segoe UI', Arial;
-  background: #eef2f7;
-}
-
-/* ===== LAYOUT ===== */
-.app {
-  display: flex;
-  min-height: 100vh;
-}
-
-/* ===== SIDEBAR (DESKTOP) ===== */
-.sidebar {
-  width: 220px;
-  background: #1e2a38;
-  color: white;
+  font-family: Arial;
+  background: #f4f6f9;
   padding: 20px;
 }
 
-.sidebar h2 {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.sidebar button {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 10px;
-  border: none;
-  background: #2f3e4e;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.sidebar button.active {
-  background: #007bff;
-}
-
-/* ===== MAIN ===== */
-.main {
-  flex: 1;
-  padding: 20px;
-  padding-bottom: 80px; /* space for bottom nav */
+.container {
+  max-width: 900px;
+  margin: auto;
 }
 
 .box {
   background: white;
   padding: 20px;
   margin-bottom: 20px;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
-h3 {
-  margin-bottom: 10px;
+h2 {
+  text-align: center;
 }
 
-/* ===== INPUT ===== */
-input {
+input, button {
   width: 100%;
-  padding: 12px;
-  margin: 6px 0;
-  border-radius: 8px;
-  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 8px 0;
 }
 
-input:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-button.action {
-  background: linear-gradient(135deg, #007bff, #0056b3);
+button {
+  background: #007bff;
   color: white;
-  font-weight: bold;
-}
-
-/* ===== ROW ===== */
-.row {
-  display: flex;
-  gap: 10px;
-}
-
-/* ===== FILE CARD ===== */
-.file-item {
-  background: #f8f9fb;
-  padding: 12px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-/* ===== BOTTOM NAV (MOBILE) ===== */
-.bottom-nav {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #1e2a38;
-  padding: 8px 0;
-  justify-content: space-around;
-  z-index: 999;
-}
-
-.bottom-nav button {
-  background: none;
   border: none;
-  color: white;
-  font-size: 12px;
-  flex: 1;
+  cursor: pointer;
 }
 
-.bottom-nav button.active {
-  color: #00bfff;
+button:hover {
+  background: #0056b3;
 }
 
-/* ===== MOBILE ===== */
-@media (max-width: 768px) {
-
-  .app {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    display: none;
-  }
-
-  .bottom-nav {
-    display: flex;
-  }
-
-  .main {
-    padding: 10px;
-    padding-bottom: 80px;
-  }
-
-  .row {
-    flex-direction: column;
-  }
+.file-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="container">
 
-<!-- SIDEBAR (DESKTOP) -->
-<div class="sidebar">
-  <h2>📂 DCS</h2>
-  <button onclick="showPage('dashboard', this)" class="active">Dashboard</button>
-  <button onclick="showPage('upload', this)">Upload</button>
-  <button onclick="showPage('search', this)">Search</button>
+<h2>📂 Debt Collection System</h2>
+
+<div class="box">
+<h3>Upload Document</h3>
+
+<div style="display:flex; gap:10px;">
+  <input type="text" id="ic" placeholder="IC (New / Old)" style="flex:1;">
+  <input type="text" id="account" placeholder="Account No" style="flex:1;">
 </div>
-
-<!-- MAIN -->
-<div class="main">
-
-<!-- DASHBOARD -->
-<div id="dashboard" class="box">
-  <h3>📊 Dashboard</h3>
-  <p>Welcome to Debt Collection System</p>
-  <p>Use menu to Upload or Search records.</p>
-</div>
-
-<!-- UPLOAD -->
-<div id="upload" class="box" style="display:none;">
-  <h3>Upload Document</h3>
-
-  <div class="row">
-    <input type="text" id="ic" placeholder="IC (e.g. 900101-01-1234)" maxlength="14">
-    <input type="text" id="account" placeholder="Account No">
-  </div>
-
 <input type="file" id="files" multiple>
 
-<p style="font-size:12px; color:#666;">Maximum 4 files only</p>
-
-<div id="fileList" style="margin-top:10px;"></div>
-
-  <button class="action" onclick="upload()">Upload</button>
-  <p id="msg"></p>
-</div>
-
-<!-- SEARCH -->
-<div id="search" class="box" style="display:none;">
-  <h3>Search by IC</h3>
-
-  <input type="text" id="searchIC" placeholder="Enter IC (e.g. 900101-01-1234)" maxlength="14">
-  <button class="action" onclick="search()">Search</button>
-
-  <div id="result"></div>
-</div>
+<button onclick="upload()">Upload</button>
+<p id="msg"></p>
 
 </div>
+
+<div class="box">
+<h3>Search by IC</h3>
+
+<input type="text" id="searchIC" placeholder="Enter IC (New / Old)">
+<button onclick="search()">Search</button>
+
+<div id="result"></div>
+
 </div>
 
-<!-- BOTTOM NAV (MOBILE) -->
-<div class="bottom-nav">
-  <button onclick="showPage('dashboard', this)" class="active">🏠<br>Home</button>
-  <button onclick="showPage('upload', this)">⬆<br>Upload</button>
-  <button onclick="showPage('search', this)">🔍<br>Search</button>
 </div>
 
 <script>
 
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz90tkyY8NFADJAWBj2qgn_Vrwz3ZnGBDSCVDDuPVK-H_EITyH9PUI1Ja39yA_r4WxdeA/exec";
 
-/* ===== NAVIGATION ===== */
-function showPage(page, el) {
-  document.getElementById("dashboard").style.display = "none";
-  document.getElementById("upload").style.display = "none";
-  document.getElementById("search").style.display = "none";
-
-  document.getElementById(page).style.display = "block";
-
-  document.querySelectorAll(".sidebar button, .bottom-nav button").forEach(btn => {
-    btn.classList.remove("active");
-  });
-
-  if (el) el.classList.add("active");
-
-  if (page === "search") {
-    document.getElementById("result").innerHTML = "";
-    document.getElementById("searchIC").value = "";
+function formatIC(value) {
+  // OLD IC → uppercase sahaja
+  if (/[a-zA-Z]/.test(value)) {
+    return value.toUpperCase();
   }
 
-  if (page === "upload") {
-    document.getElementById("ic").value = "";
-    document.getElementById("account").value = "";
-    document.getElementById("files").value = "";
-    document.getElementById("msg").innerText = "";
-    selectedFiles = [];
-    renderFileList();
+  // simpan dash user
+  let hasDash = value.includes('-');
+
+  // ambil digit sahaja
+  let clean = value.replace(/\D/g, '');
+
+  // kalau user tengah type (kurang 8 digit) → biar je
+  if (clean.length < 8) {
+    return hasDash ? value : clean;
   }
+
+  // format IC standard
+  let part1 = clean.slice(0,6);
+  let part2 = clean.slice(6,8);
+  let part3 = clean.slice(8,12);
+
+  let formatted = part1 + '-' + part2;
+  if (part3) {
+    formatted += '-' + part3;
+  }
+
+  return formatted;
 }
 
-/* ===== BASE64 ===== */
+// apply formatting
+document.getElementById("ic").addEventListener("input", function() {
+  this.value = formatIC(this.value);
+});
+
+document.getElementById("searchIC").addEventListener("input", function() {
+  this.value = formatIC(this.value);
+});
+// ===== BASE64 =====
 function toBase64(file) {
   return new Promise((resolve, reject) => {
     let reader = new FileReader();
@@ -255,176 +136,76 @@ function toBase64(file) {
   });
 }
 
-/* ===== FILE SYSTEM ===== */
-let selectedFiles = [];
-
-document.getElementById("files").addEventListener("change", function(e) {
-  let newFiles = Array.from(e.target.files);
-  selectedFiles = selectedFiles.concat(newFiles);
-
-  if (selectedFiles.length > 4) {
-    alert("Maximum 4 files only!");
-    selectedFiles = selectedFiles.slice(0, 4);
-  }
-
-  renderFileList();
-  this.value = "";
-});
-
-function renderFileList() {
-  const list = document.getElementById("fileList");
-  list.innerHTML = "";
-
-  selectedFiles.forEach((file, index) => {
-
-    let sizeKB = (file.size / 1024).toFixed(1);
-
-    list.innerHTML += `
-      <div style="
-        background:#f1f3f7;
-        padding:10px;
-        border-radius:10px;
-        margin-bottom:6px;
-        font-size:13px;
-      ">
-        <div style="display:flex; justify-content:space-between;">
-          <div>
-            📄 ${file.name}<br>
-            <span style="color:#888; font-size:11px;">${sizeKB} KB</span>
-          </div>
-
-          <button id="remove-${index}" onclick="removeFile(${index})" style="
-            background:#ff4d4f;
-            border:none;
-            color:white;
-            padding:5px 8px;
-            border-radius:6px;
-            cursor:pointer;
-          ">✕</button>
-        </div>
-
-        <!-- PROGRESS -->
-        <div style="margin-top:8px; background:#ddd; border-radius:6px;">
-          <div id="progress-${index}" style="
-            height:6px;
-            width:0%;
-            background:#007bff;
-            border-radius:6px;
-          "></div>
-        </div>
-
-        <div id="percent-${index}" style="font-size:11px;">0%</div>
-      </div>
-    `;
-  });
-}
-
-function removeFile(index) {
-  selectedFiles.splice(index, 1);
-  renderFileList();
-}
-
-/* ===== UPLOAD ===== */
+// ===== UPLOAD =====
 async function upload() {
-
-  const btn = document.querySelector("#upload button");
-  btn.innerText = "Uploading...";
-  btn.disabled = true;
-
-  // disable remove
-  document.querySelectorAll("[id^='remove-']").forEach(b => b.disabled = true);
-
   const ic = document.getElementById("ic").value.trim();
   const account = document.getElementById("account").value.trim();
-  const files = selectedFiles;
+  const files = document.getElementById("files").files;
 
-  if (!ic || !account || files.length === 0) {
-    alert("Enter IC, Account & select file!");
-    btn.innerText = "Upload";
-    btn.disabled = false;
+  if (!ic || !account) {
+    alert("Please enter IC and Account!");
     return;
   }
 
+  if (files.length === 0) {
+    alert("Please select file!");
+    return;
+  }
+
+  if (files.length > 4) {
+    alert("Max 4 files only!");
+    return;
+  }
+
+  document.getElementById("msg").innerText = "Uploading...";
+
   let fileData = [];
 
-  for (let i = 0; i < files.length; i++) {
-    let file = files[i];
+  for (let file of files) {
     let base64 = await toBase64(file);
-
     fileData.push({
       name: file.name,
       type: file.type,
       data: base64.split(",")[1]
     });
-
-    document.getElementById(`progress-${i}`).style.width = "30%";
-    document.getElementById(`percent-${i}`).innerText = "30%";
   }
 
-  // smooth fake progress
-  let progress = 30;
-  let interval = setInterval(() => {
-    if (progress < 90) {
-      progress += 3;
-      files.forEach((_, i) => {
-        document.getElementById(`progress-${i}`).style.width = progress + "%";
-        document.getElementById(`percent-${i}`).innerText = progress + "%";
-      });
-    }
-  }, 300);
+  await fetch(WEB_APP_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      ic: ic,
+      account: account,
+      files: fileData
+    })
+  });
 
-  let xhr = new XMLHttpRequest();
-
-  xhr.onload = function() {
-    clearInterval(interval);
-
-    files.forEach((_, i) => {
-      document.getElementById(`progress-${i}`).style.width = "100%";
-      document.getElementById(`progress-${i}`).style.background = "#28a745";
-      document.getElementById(`percent-${i}`).innerHTML = "✅ Uploaded";
-
-      let btnRemove = document.getElementById(`remove-${i}`);
-      if (btnRemove) btnRemove.style.display = "none";
-    });
-
-    document.getElementById("msg").innerText = "✅ Upload Success!";
-    btn.innerText = "Upload";
-    btn.disabled = false;
-
-    selectedFiles = [];
-  };
-
-  xhr.open("POST", WEB_APP_URL);
-  xhr.send(JSON.stringify({ ic, account, files: fileData }));
+  document.getElementById("msg").innerText = "✅ Upload Success!";
 }
 
-/* ===== SEARCH ===== */
-let lastSearch = "";
-
+// ===== SEARCH =====
 async function search() {
   const ic = document.getElementById("searchIC").value.trim();
 
   if (!ic) {
-    alert("Enter IC!");
+    alert("Please enter IC!");
     return;
   }
-
-  lastSearch = ic;
-  document.getElementById("result").innerHTML = "🔄 Searching...";
 
   const res = await fetch(`${WEB_APP_URL}?ic=${encodeURIComponent(ic)}`);
   const data = await res.json();
 
-  if (ic !== lastSearch) return;
+  let html = "";
 
-  let html = data.length === 0 ? "No record found." : "";
+  if (data.length === 0) {
+    html = "No record found.";
+  }
 
   data.forEach(d => {
     html += `
       <div class="file-item">
-        <b>📁 ${d.account}</b><br>
-        📄 ${d.file}<br><br>
-        <a href="${d.url}" target="_blank">👁 View</a> |
+        <b>Account:</b> ${d.account}<br>
+        📄 ${d.file}<br>
+        <a href="${d.url}" target="_blank">🔍 View</a> |
         <a href="${d.url}" download>⬇ Download</a>
       </div>
     `;
@@ -432,11 +213,6 @@ async function search() {
 
   document.getElementById("result").innerHTML = html;
 }
-
-/* ===== ENTER SEARCH ===== */
-document.getElementById("searchIC").addEventListener("keypress", function(e){
-  if (e.key === "Enter") search();
-});
 
 </script>
 
