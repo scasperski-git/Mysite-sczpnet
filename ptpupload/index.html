@@ -148,6 +148,48 @@ button.action {
     flex-direction: column;
   }
 }
+
+/* ===== LOADING OVERLAY ===== */
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(5px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  flex-direction: column;
+  color: white;
+  font-size: 18px;
+}
+
+/* spinner */
+.loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #00bfff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+
+/* success tick */
+.checkmark {
+  font-size: 60px;
+  color: #00ff9f;
+  display: none;
+}
+  
 </style>
 </head>
 
@@ -327,11 +369,14 @@ function removeFile(index) {
 /* ===== UPLOAD ===== */
 async function upload() {
 
+  if (btn.disabled) return;
+
   const btn = document.querySelector("#upload button");
   btn.innerText = "Uploading...";
   btn.disabled = true;
-  // disable remove button
-document.querySelectorAll("[id^='remove-']").forEach(b => b.disabled = true);
+
+  // disable remove
+  document.querySelectorAll("[id^='remove-']").forEach(b => b.disabled = true);
 
   const ic = document.getElementById("ic").value.trim();
   const account = document.getElementById("account").value.trim();
@@ -343,13 +388,16 @@ document.querySelectorAll("[id^='remove-']").forEach(b => b.disabled = true);
     return;
   }
 
-  // 🔥 LOOP FILE SATU PERSATU
+  // 🔥 SHOW OVERLAY
+  document.getElementById("overlay").style.display = "flex";
+  document.getElementById("loader").style.display = "block";
+  document.getElementById("checkmark").style.display = "none";
+  document.getElementById("loadingText").innerText = "Uploading in progress. Please wait...";
+
+  // LOOP FILE
   for (let i = 0; i < selectedFiles.length; i++) {
 
     let file = selectedFiles[i];
-
-    document.getElementById(`percent-${i}`).innerText = "Uploading...";
-
     let base64 = await toBase64(file);
 
     let payload = {
@@ -362,42 +410,27 @@ document.querySelectorAll("[id^='remove-']").forEach(b => b.disabled = true);
       }]
     };
 
-    // progress start
-    document.getElementById(`progress-${i}`).style.width = "30%";
-
     await new Promise((resolve) => {
-
       let xhr = new XMLHttpRequest();
 
       xhr.onload = function() {
-        document.getElementById(`progress-${i}`).style.width = "100%";
-        document.getElementById(`progress-${i}`).style.background = "#28a745";
-        document.getElementById(`percent-${i}`).innerHTML = "✅ Uploaded";
         resolve();
       };
 
       xhr.open("POST", WEB_APP_URL);
       xhr.send(JSON.stringify(payload));
     });
-
   }
 
-  document.getElementById("msg").innerText = "✅ All files uploaded!";
+  // ✅ SUCCESS STATE
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("checkmark").style.display = "block";
+  document.getElementById("loadingText").innerText = "Upload Successful!";
 
-  // AUTO RESET
+  // 🔄 AUTO RELOAD
   setTimeout(() => {
-    document.getElementById("ic").value = "";
-    document.getElementById("account").value = "";
-    document.getElementById("files").value = "";
-    document.getElementById("msg").innerText = "";
-    
-
-    selectedFiles = [];
-    renderFileList();
+    location.reload();
   }, 1200);
-
-  btn.innerText = "Upload";
-  btn.disabled = false;
 }
 
 /* ===== SEARCH ===== */
@@ -440,7 +473,6 @@ document.getElementById("searchIC").addEventListener("keypress", function(e){
   if (e.key === "Enter") search();
 });
 
-/* ===== AUTO FORMAT IC ===== */
 /* ===== AUTO FORMAT IC (UPDATED) ===== */
 function formatIC(value) {
 
@@ -498,6 +530,12 @@ document.getElementById("account").addEventListener("input", function(e){
 });
 
 </script>
+
+<div id="overlay">
+  <div class="loader" id="loader"></div>
+  <div class="checkmark" id="checkmark">✔</div>
+  <div id="loadingText">Uploading in progress... Please wait</div>
+</div>
 
 </body>
 </html>
