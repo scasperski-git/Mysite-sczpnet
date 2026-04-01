@@ -17,7 +17,7 @@ body {
   min-height: 100vh;
 }
 
-/* ===== SIDEBAR ===== */
+/* ===== SIDEBAR (DESKTOP) ===== */
 .sidebar {
   width: 220px;
   background: #1e2a38;
@@ -41,7 +41,7 @@ body {
   cursor: pointer;
 }
 
-.sidebar button:hover {
+.sidebar button.active {
   background: #007bff;
 }
 
@@ -49,6 +49,7 @@ body {
 .main {
   flex: 1;
   padding: 20px;
+  padding-bottom: 80px; /* space for bottom nav */
 }
 
 .box {
@@ -97,36 +98,49 @@ button.action {
   margin-bottom: 10px;
 }
 
-/* ===== MOBILE FIX ===== */
+/* ===== BOTTOM NAV (MOBILE) ===== */
+.bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #1e2a38;
+  padding: 8px 0;
+  justify-content: space-around;
+  z-index: 999;
+}
+
+.bottom-nav button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 12px;
+  flex: 1;
+}
+
+.bottom-nav button.active {
+  color: #00bfff;
+}
+
+/* ===== MOBILE ===== */
 @media (max-width: 768px) {
 
   .app {
     flex-direction: column;
   }
 
-  /* 👉 SIDEBAR → TOP NAV */
   .sidebar {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px;
-  }
-
-  .sidebar h2 {
     display: none;
   }
 
-  .sidebar button {
-    flex: 1;
-    margin: 0 5px;
-    padding: 10px;
-    font-size: 12px;
+  .bottom-nav {
+    display: flex;
   }
 
   .main {
     padding: 10px;
+    padding-bottom: 80px;
   }
 
   .row {
@@ -140,10 +154,10 @@ button.action {
 
 <div class="app">
 
-<!-- SIDEBAR / TOP NAV -->
+<!-- SIDEBAR (DESKTOP) -->
 <div class="sidebar">
   <h2>📂 DCS</h2>
-  <button onclick="showPage('dashboard', this)">Dashboard</button>
+  <button onclick="showPage('dashboard', this)" class="active">Dashboard</button>
   <button onclick="showPage('upload', this)">Upload</button>
   <button onclick="showPage('search', this)">Search</button>
 </div>
@@ -186,6 +200,13 @@ button.action {
 </div>
 </div>
 
+<!-- BOTTOM NAV (MOBILE) -->
+<div class="bottom-nav">
+  <button onclick="showPage('dashboard', this)" class="active">🏠<br>Home</button>
+  <button onclick="showPage('upload', this)">⬆<br>Upload</button>
+  <button onclick="showPage('search', this)">🔍<br>Search</button>
+</div>
+
 <script>
 
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz90tkyY8NFADJAWBj2qgn_Vrwz3ZnGBDSCVDDuPVK-H_EITyH9PUI1Ja39yA_r4WxdeA/exec";
@@ -198,11 +219,12 @@ function showPage(page, el) {
 
   document.getElementById(page).style.display = "block";
 
-  document.querySelectorAll(".sidebar button").forEach(btn => {
-    btn.style.background = "#2f3e4e";
+  // remove active (desktop + mobile)
+  document.querySelectorAll(".sidebar button, .bottom-nav button").forEach(btn => {
+    btn.classList.remove("active");
   });
 
-  if (el) el.style.background = "#007bff";
+  if (el) el.classList.add("active");
 }
 
 /* ===== FORMAT IC ===== */
