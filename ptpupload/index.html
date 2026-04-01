@@ -91,45 +91,58 @@ const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz90tkyY8NFADJAWBj2
 // ===== FORMAT IC =====
 function formatIC(value) {
   // kalau ada huruf → OLD IC → uppercase sahaja
+function formatIC(value) {
+  // kalau ada huruf → OLD IC → uppercase sahaja
   if (/[a-zA-Z]/.test(value)) {
     return value.toUpperCase();
   }
 
-  // buang semua selain digit
-  let clean = value.replace(/\D/g, '');
+  // allow dash (user input)
+  let clean = value.replace(/[^0-9]/g, '');
 
-  // kalau kurang dari 8 digit → jangan kacau
+  // kalau kurang 8 digit → jangan kacau
   if (clean.length < 8) {
     return clean;
   }
 
-  // kalau user dah letak dash → jangan kacau
-  if (value.includes('-')) {
-    return value;
+  // build step by step (no overwrite user dash aggressively)
+  let result = "";
+
+  for (let i = 0; i < clean.length; i++) {
+    result += clean[i];
+
+    // insert dash only at correct positions
+    if (i === 5 || i === 7) {
+      if (i !== clean.length - 1) {
+        result += "-";
+      }
+    }
   }
 
-  // auto format bila cukup digit
-  if (clean.length >= 8) {
-    let part1 = clean.slice(0, 6);
-    let part2 = clean.slice(6, 8);
-    let part3 = clean.slice(8);
-
-    return part3 ? `${part1}-${part2}-${part3}` : `${part1}-${part2}`;
-  }
-
-  return value;
+  return result;
 }
 
-document.getElementById("ic").addEventListener("input", function(e) {
-  const cursorPos = this.selectionStart;
-  this.value = formatIC(this.value);
-  this.setSelectionRange(cursorPos, cursorPos);
+function handleICInput(el) {
+  let start = el.selectionStart;
+  let beforeLength = el.value.length;
+
+  let formatted = formatIC(el.value);
+
+  el.value = formatted;
+
+  let afterLength = formatted.length;
+  let diff = afterLength - beforeLength;
+
+  el.setSelectionRange(start + diff, start + diff);
+}
+
+// apply to both fields
+document.getElementById("ic").addEventListener("input", function() {
+  handleICInput(this);
 });
 
-document.getElementById("searchIC").addEventListener("input", function(e) {
-  const cursorPos = this.selectionStart;
-  this.value = formatIC(this.value);
-  this.setSelectionRange(cursorPos, cursorPos);
+document.getElementById("searchIC").addEventListener("input", function() {
+  handleICInput(this);
 });
 
 // ===== BASE64 =====
