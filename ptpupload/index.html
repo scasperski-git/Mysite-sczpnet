@@ -62,8 +62,8 @@ button:hover {
 <h3>Upload Document</h3>
 
 <div style="display:flex; gap:10px;">
-  <input type="text" id="newIC" placeholder="New IC (auto dash)" style="flex:1;">
-  <input type="text" id="oldIC" placeholder="Old IC (A1234567)" style="flex:1;">
+  <input type="text" id="ic" placeholder="IC (New / Old)" style="flex:1;">
+  <input type="text" id="account" placeholder="Account No" style="flex:1;">
 </div>
 <input type="text" id="account" placeholder="Account No">
 <input type="text" id="ref" placeholder="Reference No">
@@ -92,31 +92,22 @@ const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyHa25rn20-7kYTbSzd
 
 // ===== FORMAT IC =====
 function formatIC(value) {
-  value = value.replace(/\D/g, '').slice(0,12);
+  let clean = value.replace(/\D/g, '');
 
-  if (value.length > 6) {
-    value = value.slice(0,6) + '-' + value.slice(6);
-  }
-  if (value.length > 9) {
-    value = value.slice(0,9) + '-' + value.slice(9);
+  // kalau 12 digit → new IC
+  if (clean.length === 12) {
+    return clean.slice(0,6) + '-' + clean.slice(6,8) + '-' + clean.slice(8);
   }
 
-  return value;
+  return value; // old IC tak kacau
 }
 
-// Upload new IC auto format
-document.getElementById("newIC").addEventListener("input", function() {
+document.getElementById("ic").addEventListener("input", function() {
   this.value = formatIC(this.value);
 });
 
-// Search IC auto format (kalau numeric)
 document.getElementById("searchIC").addEventListener("input", function() {
-  let val = this.value;
-
-  // hanya format kalau semua digit
-  if (/^\d+$/.test(val.replace(/-/g, ""))) {
-    this.value = formatIC(val);
-  }
+  this.value = formatIC(this.value);
 });
 
 // ===== BASE64 =====
@@ -131,22 +122,14 @@ function toBase64(file) {
 
 // ===== UPLOAD =====
 async function upload() {
-  const newIC = document.getElementById("newIC").value.trim();
-  const oldIC = document.getElementById("oldIC").value.trim();
-
-  if (newIC && oldIC) {
-    alert("Please fill only ONE IC field!");
-    return;
-  }
-
-  const ic = newIC || oldIC;
-
-  if (!ic) {
-    alert("Please enter IC!");
-    return;
-  }
-
+  const ic = document.getElementById("ic").value.trim();
+  const account = document.getElementById("account").value.trim();
   const files = document.getElementById("files").files;
+
+  if (!ic || !account) {
+    alert("Please enter IC and Account!");
+    return;
+  }
 
   if (files.length === 0) {
     alert("Please select file!");
@@ -175,8 +158,7 @@ async function upload() {
     method: "POST",
     body: JSON.stringify({
       ic: ic,
-      account: document.getElementById("account").value,
-      ref: document.getElementById("ref").value,
+      account: account,
       files: fileData
     })
   });
@@ -186,7 +168,7 @@ async function upload() {
 
 // ===== SEARCH =====
 async function search() {
-  let ic = document.getElementById("searchIC").value.trim();
+  const ic = document.getElementById("searchIC").value.trim();
 
   if (!ic) {
     alert("Please enter IC!");
@@ -205,7 +187,7 @@ async function search() {
   data.forEach(d => {
     html += `
       <div class="file-item">
-        <b>Account:</b> ${d.account} | <b>Ref:</b> ${d.ref}<br>
+        <b>Account:</b> ${d.account}<br>
         📄 ${d.file}<br>
         <a href="${d.url}" target="_blank">🔍 View</a> |
         <a href="${d.url}" download>⬇ Download</a>
