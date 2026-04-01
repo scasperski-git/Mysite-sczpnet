@@ -361,8 +361,7 @@ async function upload() {
 
   const btn = document.querySelector("#upload button");
   if (btn.disabled) return;
-  btn.innerText = "Uploading...";
-  btn.disabled = true;
+  btn.style.display = "none";
 
   // disable remove
   document.querySelectorAll("[id^='remove-']").forEach(b => b.disabled = true);
