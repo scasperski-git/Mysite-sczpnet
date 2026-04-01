@@ -262,12 +262,13 @@ function toBase64(file) {
 
 /* ===== UPLOAD ===== */
 document.querySelectorAll("[id^='remove-']").forEach(btn => {
-  btn.disabled = true;
-});
 async function upload() {
   const btn = document.querySelector("#upload button");
   btn.innerText = "Uploading...";
   btn.disabled = true;
+  document.querySelectorAll("[id^='remove-']").forEach(btn => {
+  btn.disabled = true;
+});
 
   const ic = document.getElementById("ic").value.trim();
   const account = document.getElementById("account").value.trim();
@@ -329,6 +330,12 @@ let interval = setInterval(() => {
 }, 300);
 
 xhr.onload = function() {
+  xhr.open("POST", WEB_APP_URL);
+xhr.send(JSON.stringify({
+  ic,
+  account,
+  files: fileData
+}));
   clearInterval(interval);
 
   files.forEach((_, i) => {
@@ -353,6 +360,7 @@ xhr.onload = function() {
   btn.disabled = false;
 
   // optional reset
+  selectedFiles = [];
   selectedFiles = [];
 };
 /* ===== SEARCH ===== */
