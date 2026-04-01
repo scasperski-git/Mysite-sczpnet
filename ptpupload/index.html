@@ -312,23 +312,32 @@ async function upload() {
   // REAL UPLOAD PROGRESS
   let xhr = new XMLHttpRequest();
 
-  xhr.upload.onprogress = function(e) {
-    if (e.lengthComputable) {
-      let percent = Math.round((e.loaded / e.total) * 100);
+let progress = 30;
 
-      // update ALL file bars (since upload sekali)
-      files.forEach((_, i) => {
-        document.getElementById(`progress-${i}`).style.width = percent + "%";
-        document.getElementById(`percent-${i}`).innerText = percent + "%";
-      });
-    }
-  };
+let interval = setInterval(() => {
+  if (progress < 90) {
+    progress += 3; // lebih smooth dari 5
 
-  xhr.onload = function() {
-    document.getElementById("msg").innerText = "✅ Upload Success!";
-    btn.innerText = "Upload";
-    btn.disabled = false;
-  };
+    files.forEach((_, i) => {
+      document.getElementById(`progress-${i}`).style.width = progress + "%";
+      document.getElementById(`percent-${i}`).innerText = progress + "%";
+    });
+  }
+}, 300);
+
+xhr.onload = function() {
+  clearInterval(interval);
+
+  files.forEach((_, i) => {
+    document.getElementById(`progress-${i}`).style.width = "100%";
+    document.getElementById(`percent-${i}`).innerText = "100%";
+    document.getElementById(`progress-${i}`).style.background = "#28a745";
+  });
+
+  document.getElementById("msg").innerText = "✅ Upload Success!";
+  btn.innerText = "Upload";
+  btn.disabled = false;
+};
 
   xhr.open("POST", WEB_APP_URL);
   xhr.send(JSON.stringify({
