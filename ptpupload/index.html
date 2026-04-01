@@ -270,22 +270,15 @@ async function upload() {
   const account = document.getElementById("account").value.trim();
   const files = selectedFiles;
 
-  if (files.length > 4) {
-  alert("Maximum 4 files only!");
-  btn.innerText = "Upload";
-  btn.disabled = false;
-  return;
-}
-
-  if (!/^\d{6}-\d{2}-\d{4}$/.test(ic)) {
-  alert("IC must be in format: 900101-01-1234");
-  btn.innerText = "Upload";
-  btn.disabled = false;
-  return;
-}
-
   if (!ic || !account) {
     alert("Enter IC & Account");
+    btn.innerText = "Upload";
+    btn.disabled = false;
+    return;
+  }
+
+  if (!/^\d{6}-\d{2}-\d{4}$/.test(ic)) {
+    alert("IC must be in format: 900101-01-1234");
     btn.innerText = "Upload";
     btn.disabled = false;
     return;
@@ -298,25 +291,51 @@ async function upload() {
     return;
   }
 
-let fileData = [];
+  let fileData = [];
 
-for (let file of files) {
-  let base64 = await toBase64(file);
-  fileData.push({
-    name: file.name,
-    type: file.type,
-    data: base64.split(",")[1]
-  });
-}
+  for (let i = 0; i < files.length; i++) {
+    let file = files[i];
 
-  await fetch(WEB_APP_URL, {
-    method: "POST",
-    body: JSON.stringify({ ic, account, files: fileData })
-  });
+    let base64 = await toBase64(file);
 
-  document.getElementById("msg").innerText = "✅ Upload Success!";
-  btn.innerText = "Upload";
-  btn.disabled = false;
+    fileData.push({
+      name: file.name,
+      type: file.type,
+      data: base64.split(",")[1]
+    });
+
+    // fake progress for encoding (optional smoothness)
+    document.getElementById(`progress-${i}`).style.width = "30%";
+    document.getElementById(`percent-${i}`).innerText = "30%";
+  }
+
+  // REAL UPLOAD PROGRESS
+  let xhr = new XMLHttpRequest();
+
+  xhr.upload.onprogress = function(e) {
+    if (e.lengthComputable) {
+      let percent = Math.round((e.loaded / e.total) * 100);
+
+      // update ALL file bars (since upload sekali)
+      files.forEach((_, i) => {
+        document.getElementById(`progress-${i}`).style.width = percent + "%";
+        document.getElementById(`percent-${i}`).innerText = percent + "%";
+      });
+    }
+  };
+
+  xhr.onload = function() {
+    document.getElementById("msg").innerText = "✅ Upload Success!";
+    btn.innerText = "Upload";
+    btn.disabled = false;
+  };
+
+  xhr.open("POST", WEB_APP_URL);
+  xhr.send(JSON.stringify({
+    ic,
+    account,
+    files: fileData
+  }));
 }
 
 /* ===== SEARCH ===== */
@@ -458,30 +477,41 @@ function renderFileList() {
 
     list.innerHTML += `
       <div style="
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
         background:#f1f3f7;
         padding:10px;
         border-radius:10px;
         margin-bottom:6px;
         font-size:13px;
       ">
-        <div>
-          📄 ${file.name}<br>
-          <span style="color:#888; font-size:11px;">${sizeKB} KB</span>
+        <div style="display:flex; justify-content:space-between;">
+          <div>
+            📄 ${file.name}<br>
+            <span style="color:#888; font-size:11px;">${sizeKB} KB</span>
+          </div>
+
+          <button onclick="removeFile(${index})" style="
+            background:#ff4d4f;
+            border:none;
+            color:white;
+            padding:5px 8px;
+            border-radius:6px;
+            cursor:pointer;
+          ">✕</button>
         </div>
 
-        <button onclick="removeFile(${index})" style="
-          background:#ff4d4f;
-          border:none;
-          color:white;
-          padding:5px 8px;
-          border-radius:6px;
-          cursor:pointer;
-        ">
-          ✕
-        </button>
+        <!-- PROGRESS BAR -->
+        <div style="margin-top:8px; background:#ddd; border-radius:6px;">
+          <div id="progress-${index}" style="
+            height:6px;
+            width:0%;
+            background:#007bff;
+            border-radius:6px;
+          "></div>
+        </div>
+
+        <div id="percent-${index}" style="font-size:11px; color:#555;">
+          0%
+        </div>
       </div>
     `;
   });
