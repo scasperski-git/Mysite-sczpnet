@@ -12,23 +12,16 @@ body {
   background: #eef2f7;
 }
 
-/* ===== LAYOUT ===== */
 .app {
   display: flex;
   min-height: 100vh;
 }
 
-/* ===== SIDEBAR (DESKTOP) ===== */
 .sidebar {
   width: 220px;
   background: #1e2a38;
   color: white;
   padding: 20px;
-}
-
-.sidebar h2 {
-  text-align: center;
-  margin-bottom: 30px;
 }
 
 .sidebar button {
@@ -39,33 +32,24 @@ body {
   background: #2f3e4e;
   color: white;
   border-radius: 8px;
-  cursor: pointer;
 }
 
 .sidebar button.active {
   background: #007bff;
 }
 
-/* ===== MAIN ===== */
 .main {
   flex: 1;
   padding: 20px;
-  padding-bottom: 80px; /* space for bottom nav */
+  padding-bottom: 80px;
 }
 
 .box {
   background: white;
   padding: 20px;
-  margin-bottom: 20px;
   border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
-h3 {
-  margin-bottom: 10px;
-}
-
-/* ===== INPUT ===== */
 input {
   width: 100%;
   padding: 12px;
@@ -74,79 +58,35 @@ input {
   border: 1px solid #ddd;
 }
 
-input:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
 button.action {
   background: linear-gradient(135deg, #007bff, #0056b3);
   color: white;
-  font-weight: bold;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
 }
 
-/* ===== ROW ===== */
 .row {
   display: flex;
   gap: 10px;
 }
 
-/* ===== FILE CARD ===== */
-.file-item {
-  background: #f8f9fb;
-  padding: 12px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-/* ===== BOTTOM NAV (MOBILE) ===== */
 .bottom-nav {
   display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #1e2a38;
-  padding: 8px 0;
-  justify-content: space-around;
-  z-index: 999;
 }
 
-.bottom-nav button {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 12px;
-  flex: 1;
-}
-
-.bottom-nav button.active {
-  color: #00bfff;
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 768px) {
-
-  .app {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    display: none;
-  }
-
+@media (max-width:768px){
+  .sidebar { display:none; }
   .bottom-nav {
-    display: flex;
+    display:flex;
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background:#1e2a38;
+    justify-content:space-around;
   }
-
-  .main {
-    padding: 10px;
-    padding-bottom: 80px;
-  }
-
-  .row {
-    flex-direction: column;
-  }
+  .bottom-nav button { color:white; background:none; border:none; }
+  .row { flex-direction:column; }
 }
 </style>
 </head>
@@ -155,399 +95,180 @@ button.action {
 
 <div class="app">
 
-<!-- SIDEBAR (DESKTOP) -->
 <div class="sidebar">
-  <h2>📂 DCS</h2>
-  <button onclick="showPage('dashboard', this)" class="active">Dashboard</button>
-  <button onclick="showPage('upload', this)">Upload</button>
-  <button onclick="showPage('search', this)">Search</button>
+  <button onclick="showPage('dashboard',this)" class="active">Dashboard</button>
+  <button onclick="showPage('upload',this)">Upload</button>
+  <button onclick="showPage('search',this)">Search</button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-<!-- DASHBOARD -->
 <div id="dashboard" class="box">
-  <h3>📊 Dashboard</h3>
-  <p>Welcome to Debt Collection System</p>
-  <p>Use menu to Upload or Search records.</p>
+  <h3>Dashboard</h3>
 </div>
 
-<!-- UPLOAD -->
 <div id="upload" class="box" style="display:none;">
   <h3>Upload Document</h3>
 
   <div class="row">
-    <input type="text" id="ic" placeholder="IC (e.g. 900101-01-1234)" maxlength="14">
-    <input type="text" id="account" placeholder="Account No">
+    <input id="ic" placeholder="IC (e.g. 900101-01-1234)">
+    <input id="account" placeholder="Account">
   </div>
 
-<input type="file" id="files" multiple>
+  <input type="file" id="files" multiple>
+  <p style="font-size:12px;">Maximum 4 files only</p>
 
-<p style="font-size:12px; color:#666;">Maximum 4 files only</p>
-
-<div id="fileList" style="margin-top:10px;"></div>
+  <div id="fileList"></div>
 
   <button class="action" onclick="upload()">Upload</button>
   <p id="msg"></p>
 </div>
 
-<!-- SEARCH -->
 <div id="search" class="box" style="display:none;">
-  <h3>Search by IC</h3>
-
-  <input type="text" id="searchIC" placeholder="Enter IC (e.g. 900101-01-1234)" maxlength="14">
-  <button class="action" onclick="search()">Search</button>
-
+  <input id="searchIC" placeholder="Search IC">
+  <button onclick="search()">Search</button>
   <div id="result"></div>
 </div>
 
 </div>
 </div>
 
-<!-- BOTTOM NAV (MOBILE) -->
 <div class="bottom-nav">
-  <button onclick="showPage('dashboard', this)" class="active">🏠<br>Home</button>
-  <button onclick="showPage('upload', this)">⬆<br>Upload</button>
-  <button onclick="showPage('search', this)">🔍<br>Search</button>
+  <button onclick="showPage('dashboard',this)">Home</button>
+  <button onclick="showPage('upload',this)">Upload</button>
+  <button onclick="showPage('search',this)">Search</button>
 </div>
 
 <script>
 
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz90tkyY8NFADJAWBj2qgn_Vrwz3ZnGBDSCVDDuPVK-H_EITyH9PUI1Ja39yA_r4WxdeA/exec";
 
-/* ===== NAVIGATION ===== */
-function showPage(page, el) {
-  // hide semua
-  document.getElementById("dashboard").style.display = "none";
-  document.getElementById("upload").style.display = "none";
-  document.getElementById("search").style.display = "none";
-
-  // show page
-  document.getElementById(page).style.display = "block";
-
-  // reset active button
-  document.querySelectorAll(".sidebar button, .bottom-nav button").forEach(btn => {
-    btn.classList.remove("active");
+function showPage(p,el){
+  ["dashboard","upload","search"].forEach(id=>{
+    document.getElementById(id).style.display="none";
   });
+  document.getElementById(p).style.display="block";
 
-  if (el) el.classList.add("active");
-
-  // ===== RESET LOGIC =====
-  if (page === "search") {
-    document.getElementById("result").innerHTML = "";
-    document.getElementById("searchIC").value = "";
-  }
-
-  if (page === "upload") {
-    document.getElementById("ic").value = "";
-    document.getElementById("account").value = "";
-    document.getElementById("files").value = "";
-    document.getElementById("msg").innerText = "";
-
-    selectedFiles = [];
-    document.getElementById("fileList").innerHTML = "";
-  }
+  document.querySelectorAll("button").forEach(b=>b.classList.remove("active"));
+  if(el) el.classList.add("active");
 }
 
-/* ===== BASE64 ===== */
-function toBase64(file) {
-  return new Promise((resolve, reject) => {
-    let reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
+function toBase64(file){
+  return new Promise(res=>{
+    let r=new FileReader();
+    r.onload=()=>res(r.result);
+    r.readAsDataURL(file);
   });
 }
 
-/* ===== UPLOAD ===== */
-document.querySelectorAll("[id^='remove-']").forEach(btn => {
-async function upload() {
-  const btn = document.querySelector("#upload button");
-  btn.innerText = "Uploading...";
-  btn.disabled = true;
-  document.querySelectorAll("[id^='remove-']").forEach(btn => {
-  btn.disabled = true;
+let selectedFiles=[];
+
+document.getElementById("files").addEventListener("change",e=>{
+  selectedFiles=[...selectedFiles,...Array.from(e.target.files)].slice(0,4);
+  renderFileList();
+  e.target.value="";
 });
 
-  const ic = document.getElementById("ic").value.trim();
-  const account = document.getElementById("account").value.trim();
-  const files = selectedFiles;
+function renderFileList(){
+  let list=document.getElementById("fileList");
+  list.innerHTML="";
 
-  if (!ic || !account) {
-    alert("Enter IC & Account");
-    btn.innerText = "Upload";
-    btn.disabled = false;
+  selectedFiles.forEach((file,i)=>{
+    let size=(file.size/1024).toFixed(1);
+
+    list.innerHTML+=`
+    <div style="background:#eee;padding:10px;margin-bottom:5px;border-radius:10px">
+      📄 ${file.name} (${size}KB)
+
+      <button id="remove-${i}" onclick="removeFile(${i})">X</button>
+
+      <div style="background:#ccc;height:6px;border-radius:6px;margin-top:5px">
+        <div id="progress-${i}" style="width:0%;height:6px;background:#007bff"></div>
+      </div>
+
+      <div id="percent-${i}">0%</div>
+    </div>`;
+  });
+}
+
+function removeFile(i){
+  selectedFiles.splice(i,1);
+  renderFileList();
+}
+
+async function upload(){
+
+  let btn=document.querySelector(".action");
+  btn.disabled=true;
+
+  document.querySelectorAll("[id^='remove-']").forEach(b=>b.disabled=true);
+
+  let ic=document.getElementById("ic").value;
+  let acc=document.getElementById("account").value;
+
+  if(!ic||!acc||selectedFiles.length==0){
+    alert("Fill all");
+    btn.disabled=false;
     return;
   }
 
-  if (!/^\d{6}-\d{2}-\d{4}$/.test(ic)) {
-    alert("IC must be in format: 900101-01-1234");
-    btn.innerText = "Upload";
-    btn.disabled = false;
-    return;
-  }
+  let fileData=[];
 
-  if (files.length === 0) {
-    alert("Select file!");
-    btn.innerText = "Upload";
-    btn.disabled = false;
-    return;
-  }
-
-  let fileData = [];
-
-  for (let i = 0; i < files.length; i++) {
-    let file = files[i];
-
-    let base64 = await toBase64(file);
+  for(let i=0;i<selectedFiles.length;i++){
+    let f=selectedFiles[i];
+    let b64=await toBase64(f);
 
     fileData.push({
-      name: file.name,
-      type: file.type,
-      data: base64.split(",")[1]
+      name:f.name,
+      data:b64.split(",")[1]
     });
 
-    // fake progress for encoding (optional smoothness)
-    document.getElementById(`progress-${i}`).style.width = "30%";
-    document.getElementById(`percent-${i}`).innerText = "30%";
+    document.getElementById(`progress-${i}`).style.width="30%";
+    document.getElementById(`percent-${i}`).innerText="30%";
   }
 
-  // REAL UPLOAD PROGRESS
-  let xhr = new XMLHttpRequest();
+  let progress=30;
 
-let progress = 30;
+  let interval=setInterval(()=>{
+    if(progress<90){
+      progress+=3;
+      selectedFiles.forEach((_,i)=>{
+        document.getElementById(`progress-${i}`).style.width=progress+"%";
+        document.getElementById(`percent-${i}`).innerText=progress+"%";
+      });
+    }
+  },300);
 
-let interval = setInterval(() => {
-  if (progress < 90) {
-    progress += 3; // lebih smooth dari 5
+  let xhr=new XMLHttpRequest();
 
-    files.forEach((_, i) => {
-      document.getElementById(`progress-${i}`).style.width = progress + "%";
-      document.getElementById(`percent-${i}`).innerText = progress + "%";
+  xhr.onload=function(){
+    clearInterval(interval);
+
+    selectedFiles.forEach((_,i)=>{
+      document.getElementById(`progress-${i}`).style.width="100%";
+      document.getElementById(`progress-${i}`).style.background="#28a745";
+      document.getElementById(`percent-${i}`).innerHTML="✅ Uploaded";
     });
-  }
-}, 300);
 
-xhr.onload = function() {
-  xhr.open("POST", WEB_APP_URL);
-xhr.send(JSON.stringify({
-  ic,
-  account,
-  files: fileData
-}));
-  clearInterval(interval);
+    document.getElementById("msg").innerText="Upload Success!";
+    selectedFiles=[];
+    renderFileList();
+    btn.disabled=false;
+  };
 
-  files.forEach((_, i) => {
-
-    // progress full
-    document.getElementById(`progress-${i}`).style.width = "100%";
-    document.getElementById(`percent-${i}`).innerText = "100%";
-
-    // tukar warna hijau
-    document.getElementById(`progress-${i}`).style.background = "#28a745";
-
-    // ❌ hide remove button
-    let btnRemove = document.getElementById(`remove-${i}`);
-    if (btnRemove) btnRemove.style.display = "none";
-
-    // ✅ tukar jadi DONE label
-    document.getElementById(`percent-${i}`).innerHTML = "✅ Uploaded";
-  });
-
-  document.getElementById("msg").innerText = "✅ Upload Success!";
-  btn.innerText = "Upload";
-  btn.disabled = false;
-
-  // optional reset
-  selectedFiles = [];
-  selectedFiles = [];
-};
-/* ===== SEARCH ===== */
-let lastSearch = "";
-
-async function search() {
-  const ic = document.getElementById("searchIC").value.trim();
-
-  if (!/^\d{6}-\d{2}-\d{4}$/.test(ic)) {
-  alert("IC must be in format: 900101-01-1234");
-  return;
+  xhr.open("POST",WEB_APP_URL);
+  xhr.send(JSON.stringify({ic,acc,files:fileData}));
 }
 
-  if (!ic) {
-    alert("Enter IC!");
-    return;
-  }
+async function search(){
+  let ic=document.getElementById("searchIC").value;
+  let res=await fetch(WEB_APP_URL+"?ic="+ic);
+  let data=await res.json();
 
-  lastSearch = ic;
-
-  document.getElementById("result").innerHTML = "🔄 Searching...";
-
-  const res = await fetch(`${WEB_APP_URL}?ic=${encodeURIComponent(ic)}`);
-  const data = await res.json();
-
-  // kalau user dah tukar IC → ignore result lama
-  if (ic !== lastSearch) return;
-
-  let html = "";
-
-  if (data.length === 0) {
-    html = "No record found.";
-  }
-
-  data.forEach(d => {
-    html += `
-      <div class="file-item">
-        <b>📁 ${d.account}</b><br>
-        📄 ${d.file}<br><br>
-
-        <a href="${d.url}" target="_blank">👁 View</a> |
-        <a href="${d.url}" download>⬇ Download</a>
-      </div>
-    `;
-  });
-
-  document.getElementById("result").innerHTML = html;
+  document.getElementById("result").innerHTML=
+    data.map(d=>`📄 ${d.file}`).join("<br>");
 }
 
-/* ===== ENTER SEARCH ===== */
-document.getElementById("searchIC").addEventListener("keypress", function(e){
-  if (e.key === "Enter") search();
-});
-
-document.getElementById("ic").addEventListener("input", function() {
-  this.value = this.value.toUpperCase();
-});
-
-document.getElementById("searchIC").addEventListener("input", function() {
-  this.value = this.value.toUpperCase();
-});
-
-// allow only number + dash + limit format
-function restrictICInput(el) {
-  let start = el.selectionStart;
-  let oldValue = el.value;
-
-  // buang semua selain nombor & dash
-  let clean = oldValue.replace(/[^\d]/g, '');
-
-  // limit 12 digit
-  if (clean.length > 12) {
-    clean = clean.slice(0, 12);
-  }
-
-  // format IC
-  let newValue = clean;
-  if (clean.length > 6 && clean.length <= 8) {
-    newValue = clean.slice(0,6) + '-' + clean.slice(6);
-  } else if (clean.length > 8) {
-    newValue = clean.slice(0,6) + '-' + clean.slice(6,8) + '-' + clean.slice(8);
-  }
-
-  // kira perubahan panjang
-  let diff = newValue.length - oldValue.length;
-
-  // set value baru
-  el.value = newValue;
-
-  // restore cursor (adjust)
-  let newPos = start + diff;
-
-  // prevent overflow
-  if (newPos < 0) newPos = 0;
-  if (newPos > newValue.length) newPos = newValue.length;
-
-  el.setSelectionRange(newPos, newPos);
-}
-
-// apply to both
-document.getElementById("ic").addEventListener("input", function() {
-  restrictICInput(this);
-});
-
-document.getElementById("searchIC").addEventListener("input", function() {
-  restrictICInput(this);
-});
-
-let selectedFiles = [];
-
-// handle select file
-document.getElementById("files").addEventListener("change", function(e) {
-
-  let newFiles = Array.from(e.target.files);
-
-  // combine existing + new
-  selectedFiles = selectedFiles.concat(newFiles);
-
-  // limit max 4
-  if (selectedFiles.length > 4) {
-    alert("Maximum 4 files only!");
-    selectedFiles = selectedFiles.slice(0, 4);
-  }
-
-  renderFileList();
-
-  // reset input supaya boleh pilih file sama lagi
-  this.value = "";
-});
-
-// render UI
-function renderFileList() {
-  const list = document.getElementById("fileList");
-  list.innerHTML = "";
-
-  selectedFiles.forEach((file, index) => {
-
-    let sizeKB = (file.size / 1024).toFixed(1);
-
-    list.innerHTML += `
-      <div style="
-        background:#f1f3f7;
-        padding:10px;
-        border-radius:10px;
-        margin-bottom:6px;
-        font-size:13px;
-      ">
-        <div style="display:flex; justify-content:space-between;">
-          <div>
-            📄 ${file.name}<br>
-            <span style="color:#888; font-size:11px;">${sizeKB} KB</span>
-          </div>
-
-<button id="remove-${index}" onclick="removeFile(${index})" style="
-  background:#ff4d4f;
-  border:none;
-  color:white;
-  padding:5px 8px;
-  border-radius:6px;
-  cursor:pointer;
-">✕</button>
-        </div>
-
-        <!-- PROGRESS BAR -->
-        <div style="margin-top:8px; background:#ddd; border-radius:6px;">
-          <div id="progress-${index}" style="
-            height:6px;
-            width:0%;
-            background:#007bff;
-            border-radius:6px;
-          "></div>
-        </div>
-
-        <div id="percent-${index}" style="font-size:11px; color:#555;">
-          0%
-        </div>
-      </div>
-    `;
-  });
-}
-
-// remove file
-function removeFile(index) {
-  selectedFiles.splice(index, 1);
-  renderFileList();
-}
-  
 </script>
 
 </body>
