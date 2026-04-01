@@ -88,32 +88,34 @@ button:hover {
 
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz90tkyY8NFADJAWBj2qgn_Vrwz3ZnGBDSCVDDuPVK-H_EITyH9PUI1Ja39yA_r4WxdeA/exec";
 
-// ===== FORMAT IC (FINAL CLEAN VERSION) =====
 function formatIC(value) {
   // OLD IC → uppercase sahaja
   if (/[a-zA-Z]/.test(value)) {
     return value.toUpperCase();
   }
 
-  // kalau user dah letak dash → jangan kacau
-  if (value.includes('-')) {
-    return value;
-  }
+  // simpan dash user
+  let hasDash = value.includes('-');
 
   // ambil digit sahaja
   let clean = value.replace(/\D/g, '');
 
-  // < 8 digit → jangan kacau
+  // kalau user tengah type (kurang 8 digit) → biar je
   if (clean.length < 8) {
-    return clean;
+    return hasDash ? value : clean;
   }
 
-  // format IC
-  if (clean.length <= 8) {
-    return clean.slice(0,6) + '-' + clean.slice(6);
+  // format IC standard
+  let part1 = clean.slice(0,6);
+  let part2 = clean.slice(6,8);
+  let part3 = clean.slice(8,12);
+
+  let formatted = part1 + '-' + part2;
+  if (part3) {
+    formatted += '-' + part3;
   }
 
-  return clean.slice(0,6) + '-' + clean.slice(6,8) + '-' + clean.slice(8,12);
+  return formatted;
 }
 
 // apply formatting
