@@ -330,72 +330,74 @@ async function upload() {
   const btn = document.querySelector("#upload button");
   btn.innerText = "Uploading...";
   btn.disabled = true;
-
-  // disable remove
-  document.querySelectorAll("[id^='remove-']").forEach(b => b.disabled = true);
+  // disable remove button
+document.querySelectorAll("[id^='remove-']").forEach(b => b.disabled = true);
 
   const ic = document.getElementById("ic").value.trim();
   const account = document.getElementById("account").value.trim();
-  const files = selectedFiles;
 
-  if (!ic || !account || files.length === 0) {
+  if (!ic || !account || selectedFiles.length === 0) {
     alert("Enter IC, Account & select file!");
     btn.innerText = "Upload";
     btn.disabled = false;
     return;
   }
 
-  let fileData = [];
+  // 🔥 LOOP FILE SATU PERSATU
+  for (let i = 0; i < selectedFiles.length; i++) {
 
-  for (let i = 0; i < files.length; i++) {
-    let file = files[i];
+    let file = selectedFiles[i];
+
+    document.getElementById(`percent-${i}`).innerText = "Uploading...";
+
     let base64 = await toBase64(file);
 
-    fileData.push({
-      name: file.name,
-      type: file.type,
-      data: base64.split(",")[1]
+    let payload = {
+      ic,
+      account,
+      files: [{
+        name: file.name,
+        type: file.type,
+        data: base64.split(",")[1]
+      }]
+    };
+
+    // progress start
+    document.getElementById(`progress-${i}`).style.width = "30%";
+
+    await new Promise((resolve) => {
+
+      let xhr = new XMLHttpRequest();
+
+      xhr.onload = function() {
+        document.getElementById(`progress-${i}`).style.width = "100%";
+        document.getElementById(`progress-${i}`).style.background = "#28a745";
+        document.getElementById(`percent-${i}`).innerHTML = "✅ Uploaded";
+        resolve();
+      };
+
+      xhr.open("POST", WEB_APP_URL);
+      xhr.send(JSON.stringify(payload));
     });
 
-    document.getElementById(`progress-${i}`).style.width = "30%";
-    document.getElementById(`percent-${i}`).innerText = "30%";
   }
 
-  // smooth fake progress
-  let progress = 30;
-  let interval = setInterval(() => {
-    if (progress < 90) {
-      progress += 3;
-      files.forEach((_, i) => {
-        document.getElementById(`progress-${i}`).style.width = progress + "%";
-        document.getElementById(`percent-${i}`).innerText = progress + "%";
-      });
-    }
-  }, 300);
+  document.getElementById("msg").innerText = "✅ All files uploaded!";
 
-  let xhr = new XMLHttpRequest();
-
-  xhr.onload = function() {
-    clearInterval(interval);
-
-    files.forEach((_, i) => {
-      document.getElementById(`progress-${i}`).style.width = "100%";
-      document.getElementById(`progress-${i}`).style.background = "#28a745";
-      document.getElementById(`percent-${i}`).innerHTML = "✅ Uploaded";
-
-      let btnRemove = document.getElementById(`remove-${i}`);
-      if (btnRemove) btnRemove.style.display = "none";
-    });
-
-    document.getElementById("msg").innerText = "✅ Upload Success!";
-    btn.innerText = "Upload";
-    btn.disabled = false;
+  // AUTO RESET
+  setTimeout(() => {
+    document.getElementById("ic").value = "";
+    document.getElementById("account").value = "";
+    document.getElementById("files").value = "";
+    document.getElementById("msg").innerText = "";
+    
 
     selectedFiles = [];
-  };
+    renderFileList();
+  }, 1200);
 
-  xhr.open("POST", WEB_APP_URL);
-  xhr.send(JSON.stringify({ ic, account, files: fileData }));
+  btn.innerText = "Upload";
+  btn.disabled = false;
 }
 
 /* ===== SEARCH ===== */
