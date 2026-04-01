@@ -1,49 +1,103 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <base target="_top">
-  <style>
-    body { font-family: Arial; padding: 20px; }
-    .box { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 10px; }
-    button { padding: 10px 15px; cursor: pointer; }
-    input { padding: 8px; width: 100%; margin-bottom: 10px; }
-  </style>
+<meta charset="UTF-8">
+<title>Debt Collection System</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #f4f6f9;
+  padding: 20px;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.box {
+  background: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+h2 {
+  text-align: center;
+}
+
+input, button {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.file-item {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+</style>
 </head>
 
 <body>
 
+<div class="container">
+
 <h2>📂 Debt Collection System</h2>
 
 <div class="box">
-  <h3>Upload Document</h3>
+<h3>Upload Document</h3>
 
-  <input type="text" id="ic" placeholder="IC Number">
-  <input type="text" id="account" placeholder="Account No">
-  <input type="text" id="ref" placeholder="Reference No">
-  <input type="file" id="files" multiple>
+<input type="text" id="ic" placeholder="IC Number">
+<input type="text" id="account" placeholder="Account No">
+<input type="text" id="ref" placeholder="Reference No">
+<input type="file" id="files" multiple>
 
-  <button onclick="upload()">Upload</button>
-  <p id="msg"></p>
+<button onclick="upload()">Upload</button>
+<p id="msg"></p>
+
 </div>
 
 <div class="box">
-  <h3>Search by IC</h3>
+<h3>Search by IC</h3>
 
-  <input type="text" id="searchIC" placeholder="Enter IC">
-  <button onclick="search()">Search</button>
+<input type="text" id="searchIC" placeholder="Enter IC">
+<button onclick="search()">Search</button>
 
-  <div id="result"></div>
+<div id="result"></div>
+
+</div>
+
 </div>
 
 <script>
+
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzZ3EoZVZBxXWZTH7bxPyzSbvOQLvMl3MhUcpAkHM3-Q-MSk8Q536vpL9GZdcH-XoCU2w/exec";
+
+// ===== FORMAT IC =====
 function formatIC(value) {
   value = value.replace(/\D/g, '').slice(0,12);
+
   if (value.length > 6) {
     value = value.slice(0,6) + '-' + value.slice(6);
   }
   if (value.length > 9) {
     value = value.slice(0,9) + '-' + value.slice(9);
   }
+
   return value;
 }
 
@@ -51,68 +105,85 @@ document.getElementById("ic").addEventListener("input", function() {
   this.value = formatIC(this.value);
 });
 
-function upload() {
+// ===== BASE64 =====
+function toBase64(file) {
+  return new Promise((resolve, reject) => {
+    let reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ===== UPLOAD =====
+async function upload() {
   const files = document.getElementById("files").files;
+
+  if (files.length === 0) {
+    alert("Please select file!");
+    return;
+  }
 
   if (files.length > 4) {
     alert("Max 4 files only!");
     return;
   }
 
+  document.getElementById("msg").innerText = "Uploading...";
+
   let fileData = [];
 
-  let promises = [];
-
   for (let file of files) {
-    promises.push(new Promise((resolve) => {
-      let reader = new FileReader();
-      reader.onload = function(e) {
-        fileData.push({
-          name: file.name,
-          type: file.type,
-          data: e.target.result.split(",")[1]
-        });
-        resolve();
-      };
-      reader.readAsDataURL(file);
-    }));
+    let base64 = await toBase64(file);
+    fileData.push({
+      name: file.name,
+      type: file.type,
+      data: base64.split(",")[1]
+    });
   }
 
-  Promise.all(promises).then(() => {
-    google.script.run.withSuccessHandler(msg => {
-      document.getElementById("msg").innerText = msg;
-    }).uploadFiles({
+  const res = await fetch(WEB_APP_URL, {
+    method: "POST",
+    body: JSON.stringify({
       ic: document.getElementById("ic").value,
       account: document.getElementById("account").value,
       ref: document.getElementById("ref").value,
       files: fileData
-    });
+    })
   });
+
+  const data = await res.json();
+
+  document.getElementById("msg").innerText = "✅ Upload Success!";
 }
 
-function search() {
+// ===== SEARCH =====
+async function search() {
   const ic = document.getElementById("searchIC").value;
 
-  google.script.run.withSuccessHandler(display).searchByIC(ic);
-}
+  const res = await fetch(`${WEB_APP_URL}?ic=${ic}`);
+  const data = await res.json();
 
-function display(data) {
   let html = "";
+
+  if (data.length === 0) {
+    html = "No record found.";
+  }
 
   data.forEach(d => {
     html += `
-      <div>
+      <div class="file-item">
         <b>Account:</b> ${d.account} | <b>Ref:</b> ${d.ref}<br>
-        📄 ${d.file}
-        <a href="${d.url}" target="_blank">View</a>
-        <a href="${d.url}" download>Download</a>
-        <hr>
+        📄 ${d.file}<br>
+        <a href="${d.url}" target="_blank">🔍 View</a> |
+        <a href="${d.url}" download>⬇ Download</a>
       </div>
     `;
   });
 
   document.getElementById("result").innerHTML = html;
 }
+
 </script>
 
 </body>
