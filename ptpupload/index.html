@@ -89,29 +89,49 @@ button.action {
   gap: 10px;
 }
 
-@media (max-width: 600px) {
-  .app {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-  }
-
-  .row {
-    flex-direction: column;
-  }
-}
-
 /* ===== FILE CARD ===== */
 .file-item {
   background: #f8f9fb;
   padding: 12px;
   border-radius: 10px;
   margin-bottom: 10px;
+}
+
+/* ===== MOBILE FIX ===== */
+@media (max-width: 768px) {
+
+  .app {
+    flex-direction: column;
+  }
+
+  /* 👉 SIDEBAR → TOP NAV */
+  .sidebar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .sidebar h2 {
+    display: none;
+  }
+
+  .sidebar button {
+    flex: 1;
+    margin: 0 5px;
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .main {
+    padding: 10px;
+  }
+
+  .row {
+    flex-direction: column;
+  }
 }
 </style>
 </head>
@@ -120,12 +140,12 @@ button.action {
 
 <div class="app">
 
-<!-- SIDEBAR -->
+<!-- SIDEBAR / TOP NAV -->
 <div class="sidebar">
   <h2>📂 DCS</h2>
-  <button onclick="showPage('dashboard')">Dashboard</button>
-  <button onclick="showPage('upload')">Upload</button>
-  <button onclick="showPage('search')">Search</button>
+  <button onclick="showPage('dashboard', this)">Dashboard</button>
+  <button onclick="showPage('upload', this)">Upload</button>
+  <button onclick="showPage('search', this)">Search</button>
 </div>
 
 <!-- MAIN -->
@@ -135,7 +155,7 @@ button.action {
 <div id="dashboard" class="box">
   <h3>📊 Dashboard</h3>
   <p>Welcome to Debt Collection System</p>
-  <p>Use sidebar to Upload or Search records.</p>
+  <p>Use menu to Upload or Search records.</p>
 </div>
 
 <!-- UPLOAD -->
@@ -171,12 +191,18 @@ button.action {
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz90tkyY8NFADJAWBj2qgn_Vrwz3ZnGBDSCVDDuPVK-H_EITyH9PUI1Ja39yA_r4WxdeA/exec";
 
 /* ===== NAVIGATION ===== */
-function showPage(page) {
+function showPage(page, el) {
   document.getElementById("dashboard").style.display = "none";
   document.getElementById("upload").style.display = "none";
   document.getElementById("search").style.display = "none";
 
   document.getElementById(page).style.display = "block";
+
+  document.querySelectorAll(".sidebar button").forEach(btn => {
+    btn.style.background = "#2f3e4e";
+  });
+
+  if (el) el.style.background = "#007bff";
 }
 
 /* ===== FORMAT IC ===== */
@@ -254,9 +280,7 @@ async function upload() {
 
   await fetch(WEB_APP_URL, {
     method: "POST",
-    body: JSON.stringify({
-      ic, account, files: fileData
-    })
+    body: JSON.stringify({ ic, account, files: fileData })
   });
 
   document.getElementById("msg").innerText = "✅ Upload Success!";
