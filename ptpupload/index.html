@@ -178,8 +178,8 @@ button.action {
   <h3>Upload Document</h3>
 
   <div class="row">
-    <input type="text" id="ic" placeholder="IC (e.g. 900101-01-1234)" maxlength="14">
-    <input type="text" id="account" placeholder="Account No">
+<input type="text" id="ic" placeholder="IC (e.g. XXXXXX-XX-XXXX OR AXXXXXX)" inputmode="numeric">
+<input type="text" id="account" placeholder="Account No" inputmode="numeric">
   </div>
 
 <input type="file" id="files" multiple>
@@ -439,16 +439,20 @@ document.getElementById("searchIC").addEventListener("keypress", function(e){
 });
 
 /* ===== AUTO FORMAT IC ===== */
+/* ===== AUTO FORMAT IC (UPDATED) ===== */
 function formatIC(value) {
-  // buang semua selain number & huruf
+
+  // buang symbol pelik
   value = value.replace(/[^0-9a-zA-Z]/g, "");
 
-  // OLD IC (ada huruf) → uppercase only
+  // detect OLD IC (ada huruf)
   if (/[a-zA-Z]/.test(value)) {
-    return value.toUpperCase();
+    return value.toUpperCase(); // no limit strict
   }
 
-  // NEW IC → auto dash
+  // NEW IC → limit 12 digit
+  value = value.substring(0, 12);
+
   let part1 = value.substring(0, 6);
   let part2 = value.substring(6, 8);
   let part3 = value.substring(8, 12);
@@ -461,7 +465,7 @@ function formatIC(value) {
   return result;
 }
 
-/* ===== CURSOR FIX HANDLER ===== */
+/* ===== CURSOR FIX ===== */
 function handleICInput(e) {
   const input = e.target;
 
@@ -473,17 +477,23 @@ function handleICInput(e) {
   input.value = formatted;
 
   let newLength = formatted.length;
-
-  // adjust cursor supaya tak lompat
   let diff = newLength - oldLength;
+
   let newPos = start + diff;
 
   input.setSelectionRange(newPos, newPos);
 }
 
-/* APPLY TO BOTH INPUT */
+/* APPLY */
 document.getElementById("ic").addEventListener("input", handleICInput);
 document.getElementById("searchIC").addEventListener("input", handleICInput);
+
+
+/* ===== ACCOUNT LIMIT ===== */
+document.getElementById("account").addEventListener("input", function(e){
+  let val = e.target.value.replace(/\D/g, ""); // number only
+  e.target.value = val.substring(0, 10); // max 10 digit
+});
 
 </script>
 
