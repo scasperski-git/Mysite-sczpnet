@@ -344,18 +344,15 @@ function renderFileList() {
             cursor:pointer;
           ">✕</button>
         </div>
+<div style="margin-top:8px; background:#ddd; border-radius:6px;">
+  <div style="
+    height:6px;
+    width:0%;
+    background:#007bff;
+    border-radius:6px;
+  "></div>
+</div>
 
-        <!-- PROGRESS -->
-        <div style="margin-top:8px; background:#ddd; border-radius:6px;">
-          <div id="progress-${index}" style="
-            height:6px;
-            width:0%;
-            background:#007bff;
-            border-radius:6px;
-          "></div>
-        </div>
-
-        <div id="percent-${index}" style="font-size:11px;">0%</div>
       </div>
     `;
   });
@@ -369,9 +366,8 @@ function removeFile(index) {
 /* ===== UPLOAD ===== */
 async function upload() {
 
-  if (btn.disabled) return;
-
   const btn = document.querySelector("#upload button");
+  if (btn.disabled) return;
   btn.innerText = "Uploading...";
   btn.disabled = true;
 
