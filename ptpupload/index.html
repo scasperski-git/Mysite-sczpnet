@@ -61,7 +61,8 @@ button:hover {
 <div class="box">
 <h3>Upload Document</h3>
 
-<input type="text" id="ic" placeholder="IC Number">
+<input type="text" id="newIC" placeholder="New IC (auto dash)">
+<input type="text" id="oldIC" placeholder="Old IC (A1234567)">
 <input type="text" id="account" placeholder="Account No">
 <input type="text" id="ref" placeholder="Reference No">
 <input type="file" id="files" multiple>
@@ -74,7 +75,8 @@ button:hover {
 <div class="box">
 <h3>Search by IC</h3>
 
-<input type="text" id="searchIC" placeholder="Enter IC">
+<input type="text" id="searchNewIC" placeholder="Search New IC">
+<input type="text" id="searchOldIC" placeholder="Search Old IC">
 <button onclick="search()">Search</button>
 
 <div id="result"></div>
@@ -85,7 +87,7 @@ button:hover {
 
 <script>
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxkP_Zt33qOf-5urMjyrEXw1_ZVrsAL2Toc5RPkzs1bqQr1QZ2QFyG3z-HiyJDzLh3Q6A/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyHa25rn20-7kYTbSzdTJ_47HnTrxU_pOrHdQxSet-CxitxnL8G2yCw9nijSRqO9V1ymA/exec";
 
 // ===== FORMAT IC =====
 function formatIC(value) {
@@ -101,7 +103,7 @@ function formatIC(value) {
   return value;
 }
 
-document.getElementById("ic").addEventListener("input", function() {
+document.getElementById("newIC").addEventListener("input", function() {
   this.value = formatIC(this.value);
 });
 
@@ -117,6 +119,16 @@ function toBase64(file) {
 
 // ===== UPLOAD =====
 async function upload() {
+  const newIC = document.getElementById("newIC").value;
+  const oldIC = document.getElementById("oldIC").value;
+
+  const ic = newIC || oldIC;
+
+  if (!ic) {
+    alert("Please enter IC!");
+    return;
+  }
+
   const files = document.getElementById("files").files;
 
   if (files.length === 0) {
@@ -145,23 +157,29 @@ async function upload() {
   const res = await fetch(WEB_APP_URL, {
     method: "POST",
     body: JSON.stringify({
-      ic: document.getElementById("ic").value,
+      ic: ic,
       account: document.getElementById("account").value,
       ref: document.getElementById("ref").value,
       files: fileData
     })
   });
 
-  const data = await res.json();
-
   document.getElementById("msg").innerText = "✅ Upload Success!";
 }
 
 // ===== SEARCH =====
 async function search() {
-  const ic = document.getElementById("searchIC").value;
+  const newIC = document.getElementById("searchNewIC").value;
+  const oldIC = document.getElementById("searchOldIC").value;
 
-  const res = await fetch(`${WEB_APP_URL}?ic=${ic}`);
+  const ic = newIC || oldIC;
+
+  if (!ic) {
+    alert("Please enter IC!");
+    return;
+  }
+
+  const res = await fetch(`${WEB_APP_URL}?ic=${encodeURIComponent(ic)}`);
   const data = await res.json();
 
   let html = "";
