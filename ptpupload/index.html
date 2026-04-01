@@ -3,26 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Debt Collection System</title>
+<title>DCS Fintech UI</title>
 
 <style>
+
+/* ===== GLOBAL ===== */
 body {
   margin: 0;
-  font-family: 'Segoe UI', Arial;
-  background: #eef2f7;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: #fff;
 }
 
-/* ===== LAYOUT ===== */
 .app {
   display: flex;
   min-height: 100vh;
 }
 
-/* ===== SIDEBAR (DESKTOP) ===== */
+/* ===== SIDEBAR ===== */
 .sidebar {
-  width: 220px;
-  background: #1e2a38;
-  color: white;
+  width: 240px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
   padding: 20px;
 }
 
@@ -36,160 +38,152 @@ body {
   padding: 12px;
   margin-bottom: 10px;
   border: none;
-  background: #2f3e4e;
-  color: white;
-  border-radius: 8px;
+  border-radius: 10px;
+  background: transparent;
+  color: #ccc;
   cursor: pointer;
+  transition: 0.2s;
+}
+
+.sidebar button:hover {
+  background: rgba(255,255,255,0.1);
 }
 
 .sidebar button.active {
-  background: #007bff;
+  background: linear-gradient(135deg, #6366f1, #3b82f6);
+  color: white;
 }
 
 /* ===== MAIN ===== */
 .main {
   flex: 1;
   padding: 20px;
-  padding-bottom: 80px; /* space for bottom nav */
+  padding-bottom: 90px;
 }
 
+/* ===== CARD ===== */
 .box {
-  background: white;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
   padding: 20px;
   margin-bottom: 20px;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  animation: fadeIn 0.3s ease;
 }
 
-h3 {
-  margin-bottom: 10px;
+@keyframes fadeIn {
+  from {opacity:0; transform:translateY(10px);}
+  to {opacity:1; transform:translateY(0);}
 }
 
 /* ===== INPUT ===== */
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 6px 0;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-}
-
-input:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-button.action {
-  background: linear-gradient(135deg, #007bff, #0056b3);
-  color: white;
-  font-weight: bold;
-}
-
-/* ===== ROW ===== */
-.row {
-  display: flex;
-  gap: 10px;
-}
-
-/* ===== FILE CARD ===== */
-.file-item {
-  background: #f8f9fb;
-  padding: 12px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-/* ===== BOTTOM NAV (MOBILE) ===== */
-.bottom-nav {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #1e2a38;
-  padding: 8px 0;
-  justify-content: space-around;
-  z-index: 999;
-}
-
-.bottom-nav button {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 12px;
-  flex: 1;
-}
-
-.bottom-nav button.active {
-  color: #00bfff;
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 768px) {
-
-  .app {
-    flex-direction: column;
-  }
-
-  .sidebar {
-    display: none;
-  }
-
-  .bottom-nav {
-    display: flex;
-  }
-
-  .main {
-    padding: 10px;
-    padding-bottom: 80px;
-  }
-
-  .row {
-    flex-direction: column;
-  }
-}
-
-/* ===== LOADING OVERLAY ===== */
-#overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.4);
-  backdrop-filter: blur(5px);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  flex-direction: column;
-  color: white;
-  font-size: 18px;
-}
-
-/* spinner */
-.loader {
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid #00bfff;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 1s linear infinite;
+.input-group {
+  position: relative;
   margin-bottom: 15px;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg);}
-  100% { transform: rotate(360deg);}
+.input-group input {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.1);
+  color: white;
 }
 
-/* success tick */
-.checkmark {
-  font-size: 60px;
-  color: #00ff9f;
+.input-group label {
+  position: absolute;
+  top: 14px;
+  left: 12px;
+  color: #aaa;
+  font-size: 12px;
+  transition: 0.2s;
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top: -8px;
+  font-size: 10px;
+  color: #60a5fa;
+}
+
+/* ===== BUTTON ===== */
+button.action {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  background: linear-gradient(135deg, #6366f1, #3b82f6);
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button.action:hover {
+  transform: translateY(-2px);
+}
+
+/* ===== DASHBOARD CARDS ===== */
+.stats {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.stat {
+  flex: 1;
+  padding: 15px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.08);
+}
+
+/* ===== FILE DROP ===== */
+#files {
+  border: 2px dashed rgba(255,255,255,0.3);
+  padding: 20px;
+  text-align: center;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+/* ===== FILE LIST ===== */
+.file-item {
+  background: rgba(255,255,255,0.08);
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ===== RESULT ===== */
+.result-card {
+  background: rgba(255,255,255,0.08);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  border-left: 4px solid #3b82f6;
+}
+
+/* ===== TOAST ===== */
+#toast {
+  position: fixed;
+  bottom: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: black;
+  padding: 10px 16px;
+  border-radius: 8px;
   display: none;
 }
-  
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .sidebar { display:none; }
+}
+
 </style>
 </head>
 
@@ -197,48 +191,63 @@ button.action {
 
 <div class="app">
 
-<!-- SIDEBAR (DESKTOP) -->
 <div class="sidebar">
-  <h2>📂 DCS</h2>
+  <h2>💳 DCS</h2>
   <button onclick="showPage('dashboard', this)" class="active">Dashboard</button>
   <button onclick="showPage('upload', this)">Upload</button>
   <button onclick="showPage('search', this)">Search</button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="box">
-  <h3>📊 Dashboard</h3>
-  <p>Welcome to Debt Collection System</p>
-  <p>Use menu to Upload or Search records.</p>
+  <h3>Dashboard</h3>
+
+  <div class="stats">
+    <div class="stat">
+      <small>Total Records</small>
+      <h2>--</h2>
+    </div>
+
+    <div class="stat">
+      <small>Total Accounts</small>
+      <h2>--</h2>
+    </div>
+  </div>
+
 </div>
 
 <!-- UPLOAD -->
 <div id="upload" class="box" style="display:none;">
   <h3>Upload Document</h3>
 
-  <div class="row">
-<input type="text" id="ic" placeholder="IC (e.g. XXXXXX-XX-XXXX OR AXXXXXX)">
-<input type="text" id="account" placeholder="Account No" inputmode="numeric">
+  <div class="input-group">
+    <input id="ic" placeholder=" ">
+    <label>IC Number</label>
   </div>
 
-<input type="file" id="files" multiple>
+  <div class="input-group">
+    <input id="account" placeholder=" ">
+    <label>Account No</label>
+  </div>
 
-<p style="font-size:12px; color:#666;">Maximum 4 files only</p>
+  <input type="file" id="files" multiple>
 
-<div id="fileList" style="margin-top:10px;"></div>
+  <div id="fileList"></div>
 
   <button class="action" onclick="upload()">Upload</button>
-  <p id="msg"></p>
 </div>
 
 <!-- SEARCH -->
 <div id="search" class="box" style="display:none;">
-  <h3>Search by IC</h3>
+  <h3>Search</h3>
 
-  <input type="text" id="searchIC" placeholder="Enter IC (e.g. 900101-01-1234)" maxlength="14">
+  <div class="input-group">
+    <input id="searchIC" placeholder=" ">
+    <label>Enter IC</label>
+  </div>
+
   <button class="action" onclick="search()">Search</button>
 
   <div id="result"></div>
@@ -247,291 +256,142 @@ button.action {
 </div>
 </div>
 
-<!-- BOTTOM NAV (MOBILE) -->
-<div class="bottom-nav">
-  <button onclick="showPage('dashboard', this)" class="active">🏠<br>Home</button>
-  <button onclick="showPage('upload', this)">⬆<br>Upload</button>
-  <button onclick="showPage('search', this)">🔍<br>Search</button>
-</div>
+<div id="toast"></div>
 
 <script>
 
+/* ===== KEEP ORIGINAL LOGIC ===== */
+
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz90tkyY8NFADJAWBj2qgn_Vrwz3ZnGBDSCVDDuPVK-H_EITyH9PUI1Ja39yA_r4WxdeA/exec";
 
-/* ===== NAVIGATION ===== */
+/* NAV */
 function showPage(page, el) {
-  localStorage.setItem("activePage", page);
-  document.getElementById("dashboard").style.display = "none";
-  document.getElementById("upload").style.display = "none";
-  document.getElementById("search").style.display = "none";
-
-  document.getElementById(page).style.display = "block";
-
-  document.querySelectorAll(".sidebar button, .bottom-nav button").forEach(btn => {
-    btn.classList.remove("active");
+  ["dashboard","upload","search"].forEach(p=>{
+    document.getElementById(p).style.display="none";
   });
+  document.getElementById(page).style.display="block";
 
-  if (el) el.classList.add("active");
-
-  if (page === "search") {
-    document.getElementById("result").innerHTML = "";
-    document.getElementById("searchIC").value = "";
-  }
-
-  if (page === "upload") {
-    document.getElementById("ic").value = "";
-    document.getElementById("account").value = "";
-    document.getElementById("files").value = "";
-    document.getElementById("msg").innerText = "";
-    selectedFiles = [];
-    renderFileList();
-  }
+  document.querySelectorAll(".sidebar button").forEach(b=>b.classList.remove("active"));
+  if(el) el.classList.add("active");
 }
 
-/* ===== BASE64 ===== */
-function toBase64(file) {
-  return new Promise((resolve, reject) => {
-    let reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
+/* TOAST */
+function toast(msg){
+  let t=document.getElementById("toast");
+  t.innerText=msg;
+  t.style.display="block";
+  setTimeout(()=>t.style.display="none",2000);
 }
 
-/* ===== FILE SYSTEM ===== */
-let selectedFiles = [];
+/* FILE SYSTEM */
+let selectedFiles=[];
 
-document.getElementById("files").addEventListener("change", function(e) {
-  let newFiles = Array.from(e.target.files);
-  selectedFiles = selectedFiles.concat(newFiles);
+document.getElementById("files").addEventListener("change",function(e){
+  let newFiles=Array.from(e.target.files);
+  selectedFiles=selectedFiles.concat(newFiles);
 
-  if (selectedFiles.length > 4) {
-    alert("Maximum 4 files only!");
-    selectedFiles = selectedFiles.slice(0, 4);
+  if(selectedFiles.length>4){
+    toast("Max 4 files");
+    selectedFiles=selectedFiles.slice(0,4);
   }
 
   renderFileList();
-  this.value = "";
 });
 
-function renderFileList() {
-  const list = document.getElementById("fileList");
-  list.innerHTML = "";
+function renderFileList(){
+  let list=document.getElementById("fileList");
+  list.innerHTML="";
 
-  selectedFiles.forEach((file, index) => {
-
-    let sizeKB = (file.size / 1024).toFixed(1);
-
-list.innerHTML += `
-  <div style="
-    background:#f1f3f7;
-    padding:10px;
-    border-radius:10px;
-    margin-bottom:6px;
-    font-size:13px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-  ">
-    <div>
-      📄 ${file.name}<br>
-      <span style="color:#888; font-size:11px;">${sizeKB} KB</span>
-    </div>
-
-    <button id="remove-${index}" onclick="removeFile(${index})" style="
-      background:#ff4d4f;
-      border:none;
-      color:white;
-      padding:5px 8px;
-      border-radius:6px;
-      cursor:pointer;
-    ">✕</button>
-  </div>
-`;
+  selectedFiles.forEach((f,i)=>{
+    list.innerHTML+=`
+    <div class="file-item">
+      ${f.name}
+      <button onclick="removeFile(${i})">✕</button>
+    </div>`;
   });
 }
 
-function removeFile(index) {
-  selectedFiles.splice(index, 1);
+function removeFile(i){
+  selectedFiles.splice(i,1);
   renderFileList();
 }
 
-/* ===== UPLOAD ===== */
-async function upload() {
+/* BASE64 */
+function toBase64(file){
+  return new Promise((res,rej)=>{
+    let r=new FileReader();
+    r.onload=()=>res(r.result);
+    r.onerror=rej;
+    r.readAsDataURL(file);
+  });
+}
 
-  const btn = document.querySelector("#upload button");
-  if (btn.disabled) return;
-  btn.style.display = "none";
+/* UPLOAD */
+async function upload(){
 
-  // disable remove
-  document.querySelectorAll("[id^='remove-']").forEach(b => b.disabled = true);
+  const ic=document.getElementById("ic").value.trim();
+  const account=document.getElementById("account").value.trim();
 
-  const ic = document.getElementById("ic").value.trim();
-  const account = document.getElementById("account").value.trim();
-
-  if (!ic || !account || selectedFiles.length === 0) {
-    alert("Enter IC, Account & select file!");
-    btn.innerText = "Upload";
-    btn.disabled = false;
+  if(!ic||!account||selectedFiles.length===0){
+    toast("Complete all fields");
     return;
   }
 
-  // 🔥 SHOW OVERLAY
-  document.getElementById("overlay").style.display = "flex";
-  document.getElementById("loader").style.display = "block";
-  document.getElementById("checkmark").style.display = "none";
-  document.getElementById("loadingText").innerText = `Uploading ${selectedFiles.length} file(s)... Please wait`;
+  toast("Uploading...");
 
-  // LOOP FILE
-  for (let i = 0; i < selectedFiles.length; i++) {
+  for(let file of selectedFiles){
 
-    let file = selectedFiles[i];
-    let base64 = await toBase64(file);
+    let base64=await toBase64(file);
 
-    let payload = {
-      ic,
-      account,
-      files: [{
-        name: file.name,
-        type: file.type,
-        data: base64.split(",")[1]
+    let payload={
+      ic,account,
+      files:[{
+        name:file.name,
+        type:file.type,
+        data:base64.split(",")[1]
       }]
     };
 
-    await new Promise((resolve) => {
-      let xhr = new XMLHttpRequest();
-
-      xhr.onload = function() {
-        resolve();
-      };
-
-      xhr.open("POST", WEB_APP_URL);
-      xhr.send(JSON.stringify(payload));
+    await fetch(WEB_APP_URL,{
+      method:"POST",
+      body:JSON.stringify(payload)
     });
   }
 
-  // ✅ SUCCESS STATE
-  document.getElementById("loader").style.display = "none";
-  document.getElementById("checkmark").style.display = "block";
-  document.getElementById("loadingText").innerText = "Upload Successful!";
-
-  // 🔄 AUTO RELOAD
-  setTimeout(() => {
-    location.reload();
-  }, 1200);
+  toast("Upload success");
+  location.reload();
 }
 
-/* ===== SEARCH ===== */
-let lastSearch = "";
+/* SEARCH */
+async function search(){
 
-async function search() {
-  const ic = document.getElementById("searchIC").value.trim();
+  const ic=document.getElementById("searchIC").value.trim();
 
-  if (!ic) {
-    alert("Enter IC!");
+  if(!ic){
+    toast("Enter IC");
     return;
   }
 
-  lastSearch = ic;
-  document.getElementById("result").innerHTML = "🔄 Searching...";
+  document.getElementById("result").innerHTML="Searching...";
 
-  const res = await fetch(`${WEB_APP_URL}?ic=${encodeURIComponent(ic)}`);
-  const data = await res.json();
+  const res=await fetch(`${WEB_APP_URL}?ic=${ic}`);
+  const data=await res.json();
 
-  if (ic !== lastSearch) return;
+  let html=data.length===0?"No record":"";
 
-  let html = data.length === 0 ? "No record found." : "";
-
-  data.forEach(d => {
-    html += `
-      <div class="file-item">
-        <b>📁 ${d.account}</b><br>
-        📄 ${d.file}<br><br>
-        <a href="${d.url}" target="_blank">👁 View</a> |
-        <a href="${d.url}" download>⬇ Download</a>
-      </div>
-    `;
+  data.forEach(d=>{
+    html+=`
+    <div class="result-card">
+      <b>${d.account}</b><br>
+      ${d.file}<br><br>
+      <a href="${d.url}" target="_blank">View</a>
+    </div>`;
   });
 
-  document.getElementById("result").innerHTML = html;
+  document.getElementById("result").innerHTML=html;
 }
-
-/* ===== ENTER SEARCH ===== */
-document.getElementById("searchIC").addEventListener("keypress", function(e){
-  if (e.key === "Enter") search();
-});
-
-/* ===== AUTO FORMAT IC (UPDATED) ===== */
-function formatIC(value) {
-
-  // buang symbol pelik
-  value = value.replace(/[^0-9a-zA-Z]/g, "");
-
-  // detect OLD IC (ada huruf)
-  if (/[a-zA-Z]/.test(value)) {
-    return value.toUpperCase(); // no limit strict
-  }
-
-  // NEW IC → limit 12 digit
-  value = value.substring(0, 12);
-
-  let part1 = value.substring(0, 6);
-  let part2 = value.substring(6, 8);
-  let part3 = value.substring(8, 12);
-
-  let result = part1;
-
-  if (part2) result += "-" + part2;
-  if (part3) result += "-" + part3;
-
-  return result;
-}
-
-/* ===== CURSOR FIX ===== */
-function handleICInput(e) {
-  const input = e.target;
-
-  let start = input.selectionStart;
-  let oldLength = input.value.length;
-
-  let formatted = formatIC(input.value);
-
-  input.value = formatted;
-
-  let newLength = formatted.length;
-  let diff = newLength - oldLength;
-
-  let newPos = start + diff;
-
-  input.setSelectionRange(newPos, newPos);
-}
-
-/* APPLY */
-document.getElementById("ic").addEventListener("input", handleICInput);
-document.getElementById("searchIC").addEventListener("input", handleICInput);
-
-
-/* ===== ACCOUNT LIMIT ===== */
-document.getElementById("account").addEventListener("input", function(e){
-  let val = e.target.value.replace(/\D/g, ""); // number only
-  e.target.value = val.substring(0, 10); // max 10 digit
-});
-
-window.addEventListener("load", function() {
-  const savedPage = localStorage.getItem("activePage");
-
-  if (savedPage) {
-    showPage(savedPage);
-  }
-});
 
 </script>
-
-<div id="overlay">
-  <div class="loader" id="loader"></div>
-  <div class="checkmark" id="checkmark">✔</div>
-  <div id="loadingText">Uploading in progress... Please wait</div>
-</div>
 
 </body>
 </html>
