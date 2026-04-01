@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .box { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; border-radius: 10px; }
+    button { padding: 10px 15px; cursor: pointer; }
+    input { padding: 8px; width: 100%; margin-bottom: 10px; }
+  </style>
+</head>
+
+<body>
+
+<h2>📂 Debt Collection System</h2>
+
+<div class="box">
+  <h3>Upload Document</h3>
+
+  <input type="text" id="ic" placeholder="IC Number">
+  <input type="text" id="account" placeholder="Account No">
+  <input type="text" id="ref" placeholder="Reference No">
+  <input type="file" id="files" multiple>
+
+  <button onclick="upload()">Upload</button>
+  <p id="msg"></p>
+</div>
+
+<div class="box">
+  <h3>Search by IC</h3>
+
+  <input type="text" id="searchIC" placeholder="Enter IC">
+  <button onclick="search()">Search</button>
+
+  <div id="result"></div>
+</div>
+
+<script>
+function formatIC(value) {
+  value = value.replace(/\D/g, '').slice(0,12);
+  if (value.length > 6) {
+    value = value.slice(0,6) + '-' + value.slice(6);
+  }
+  if (value.length > 9) {
+    value = value.slice(0,9) + '-' + value.slice(9);
+  }
+  return value;
+}
+
+document.getElementById("ic").addEventListener("input", function() {
+  this.value = formatIC(this.value);
+});
+
+function upload() {
+  const files = document.getElementById("files").files;
+
+  if (files.length > 4) {
+    alert("Max 4 files only!");
+    return;
+  }
+
+  let fileData = [];
+
+  let promises = [];
+
+  for (let file of files) {
+    promises.push(new Promise((resolve) => {
+      let reader = new FileReader();
+      reader.onload = function(e) {
+        fileData.push({
+          name: file.name,
+          type: file.type,
+          data: e.target.result.split(",")[1]
+        });
+        resolve();
+      };
+      reader.readAsDataURL(file);
+    }));
+  }
+
+  Promise.all(promises).then(() => {
+    google.script.run.withSuccessHandler(msg => {
+      document.getElementById("msg").innerText = msg;
+    }).uploadFiles({
+      ic: document.getElementById("ic").value,
+      account: document.getElementById("account").value,
+      ref: document.getElementById("ref").value,
+      files: fileData
+    });
+  });
+}
+
+function search() {
+  const ic = document.getElementById("searchIC").value;
+
+  google.script.run.withSuccessHandler(display).searchByIC(ic);
+}
+
+function display(data) {
+  let html = "";
+
+  data.forEach(d => {
+    html += `
+      <div>
+        <b>Account:</b> ${d.account} | <b>Ref:</b> ${d.ref}<br>
+        📄 ${d.file}
+        <a href="${d.url}" target="_blank">View</a>
+        <a href="${d.url}" download>Download</a>
+        <hr>
+      </div>
+    `;
+  });
+
+  document.getElementById("result").innerHTML = html;
+}
+</script>
+
+</body>
+</html>
