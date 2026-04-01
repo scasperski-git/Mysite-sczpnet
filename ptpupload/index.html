@@ -90,22 +90,46 @@ const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz90tkyY8NFADJAWBj2
 
 // ===== FORMAT IC =====
 function formatIC(value) {
-  let clean = value.replace(/\D/g, '');
-
-  // kalau 12 digit → new IC
-  if (clean.length === 12) {
-    return clean.slice(0,6) + '-' + clean.slice(6,8) + '-' + clean.slice(8);
+  // kalau ada huruf → OLD IC → uppercase sahaja
+  if (/[a-zA-Z]/.test(value)) {
+    return value.toUpperCase();
   }
 
-  return value; // old IC tak kacau
+  // buang semua selain digit
+  let clean = value.replace(/\D/g, '');
+
+  // kalau kurang dari 8 digit → jangan kacau
+  if (clean.length < 8) {
+    return clean;
+  }
+
+  // kalau user dah letak dash → jangan kacau
+  if (value.includes('-')) {
+    return value;
+  }
+
+  // auto format bila cukup digit
+  if (clean.length >= 8) {
+    let part1 = clean.slice(0, 6);
+    let part2 = clean.slice(6, 8);
+    let part3 = clean.slice(8);
+
+    return part3 ? `${part1}-${part2}-${part3}` : `${part1}-${part2}`;
+  }
+
+  return value;
 }
 
-document.getElementById("ic").addEventListener("input", function() {
+document.getElementById("ic").addEventListener("input", function(e) {
+  const cursorPos = this.selectionStart;
   this.value = formatIC(this.value);
+  this.setSelectionRange(cursorPos, cursorPos);
 });
 
-document.getElementById("searchIC").addEventListener("input", function() {
+document.getElementById("searchIC").addEventListener("input", function(e) {
+  const cursorPos = this.selectionStart;
   this.value = formatIC(this.value);
+  this.setSelectionRange(cursorPos, cursorPos);
 });
 
 // ===== BASE64 =====
