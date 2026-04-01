@@ -88,38 +88,32 @@ button:hover {
 
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz90tkyY8NFADJAWBj2qgn_Vrwz3ZnGBDSCVDDuPVK-H_EITyH9PUI1Ja39yA_r4WxdeA/exec";
 
-// ===== FORMAT IC =====
+// ===== FORMAT IC (FINAL STABLE) =====
 function formatIC(value) {
-  // kalau ada huruf → OLD IC → uppercase sahaja
-function formatIC(value) {
-  // kalau ada huruf → OLD IC → uppercase sahaja
+  // OLD IC → uppercase sahaja
   if (/[a-zA-Z]/.test(value)) {
     return value.toUpperCase();
   }
 
-  // allow dash (user input)
-  let clean = value.replace(/[^0-9]/g, '');
+  // kalau user tengah type dash → jangan kacau
+  if (value.includes('-')) {
+    return value;
+  }
 
-  // kalau kurang 8 digit → jangan kacau
+  // ambil digit sahaja
+  let clean = value.replace(/\D/g, '');
+
+  // < 8 digit → jangan format
   if (clean.length < 8) {
     return clean;
   }
 
-  // build step by step (no overwrite user dash aggressively)
-  let result = "";
-
-  for (let i = 0; i < clean.length; i++) {
-    result += clean[i];
-
-    // insert dash only at correct positions
-    if (i === 5 || i === 7) {
-      if (i !== clean.length - 1) {
-        result += "-";
-      }
-    }
+  // build IC format
+  if (clean.length <= 8) {
+    return clean.slice(0,6) + '-' + clean.slice(6);
   }
 
-  return result;
+  return clean.slice(0,6) + '-' + clean.slice(6,8) + '-' + clean.slice(8,12);
 }
 
 function handleICInput(el) {
@@ -136,13 +130,12 @@ function handleICInput(el) {
   el.setSelectionRange(start + diff, start + diff);
 }
 
-// apply to both fields
 document.getElementById("ic").addEventListener("input", function() {
-  handleICInput(this);
+  this.value = formatIC(this.value);
 });
 
 document.getElementById("searchIC").addEventListener("input", function() {
-  handleICInput(this);
+  this.value = formatIC(this.value);
 });
 
 // ===== BASE64 =====
