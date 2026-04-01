@@ -88,14 +88,14 @@ button:hover {
 
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz90tkyY8NFADJAWBj2qgn_Vrwz3ZnGBDSCVDDuPVK-H_EITyH9PUI1Ja39yA_r4WxdeA/exec";
 
-// ===== FORMAT IC (FINAL STABLE) =====
+// ===== FORMAT IC (FINAL CLEAN VERSION) =====
 function formatIC(value) {
   // OLD IC → uppercase sahaja
   if (/[a-zA-Z]/.test(value)) {
     return value.toUpperCase();
   }
 
-  // kalau user tengah type dash → jangan kacau
+  // kalau user dah letak dash → jangan kacau
   if (value.includes('-')) {
     return value;
   }
@@ -103,12 +103,12 @@ function formatIC(value) {
   // ambil digit sahaja
   let clean = value.replace(/\D/g, '');
 
-  // < 8 digit → jangan format
+  // < 8 digit → jangan kacau
   if (clean.length < 8) {
     return clean;
   }
 
-  // build IC format
+  // format IC
   if (clean.length <= 8) {
     return clean.slice(0,6) + '-' + clean.slice(6);
   }
@@ -116,20 +116,7 @@ function formatIC(value) {
   return clean.slice(0,6) + '-' + clean.slice(6,8) + '-' + clean.slice(8,12);
 }
 
-function handleICInput(el) {
-  let start = el.selectionStart;
-  let beforeLength = el.value.length;
-
-  let formatted = formatIC(el.value);
-
-  el.value = formatted;
-
-  let afterLength = formatted.length;
-  let diff = afterLength - beforeLength;
-
-  el.setSelectionRange(start + diff, start + diff);
-}
-
+// apply formatting
 document.getElementById("ic").addEventListener("input", function() {
   this.value = formatIC(this.value);
 });
@@ -137,7 +124,6 @@ document.getElementById("ic").addEventListener("input", function() {
 document.getElementById("searchIC").addEventListener("input", function() {
   this.value = formatIC(this.value);
 });
-
 // ===== BASE64 =====
 function toBase64(file) {
   return new Promise((resolve, reject) => {
