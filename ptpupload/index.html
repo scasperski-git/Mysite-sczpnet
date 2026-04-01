@@ -321,40 +321,32 @@ function renderFileList() {
 
     let sizeKB = (file.size / 1024).toFixed(1);
 
-    list.innerHTML += `
-      <div style="
-        background:#f1f3f7;
-        padding:10px;
-        border-radius:10px;
-        margin-bottom:6px;
-        font-size:13px;
-      ">
-        <div style="display:flex; justify-content:space-between;">
-          <div>
-            📄 ${file.name}<br>
-            <span style="color:#888; font-size:11px;">${sizeKB} KB</span>
-          </div>
-
-          <button id="remove-${index}" onclick="removeFile(${index})" style="
-            background:#ff4d4f;
-            border:none;
-            color:white;
-            padding:5px 8px;
-            border-radius:6px;
-            cursor:pointer;
-          ">✕</button>
-        </div>
-<div style="margin-top:8px; background:#ddd; border-radius:6px;">
+list.innerHTML += `
   <div style="
-    height:6px;
-    width:0%;
-    background:#007bff;
-    border-radius:6px;
-  "></div>
-</div>
+    background:#f1f3f7;
+    padding:10px;
+    border-radius:10px;
+    margin-bottom:6px;
+    font-size:13px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  ">
+    <div>
+      📄 ${file.name}<br>
+      <span style="color:#888; font-size:11px;">${sizeKB} KB</span>
+    </div>
 
-      </div>
-    `;
+    <button id="remove-${index}" onclick="removeFile(${index})" style="
+      background:#ff4d4f;
+      border:none;
+      color:white;
+      padding:5px 8px;
+      border-radius:6px;
+      cursor:pointer;
+    ">✕</button>
+  </div>
+`;
   });
 }
 
@@ -388,7 +380,7 @@ async function upload() {
   document.getElementById("overlay").style.display = "flex";
   document.getElementById("loader").style.display = "block";
   document.getElementById("checkmark").style.display = "none";
-  document.getElementById("loadingText").innerText = "Uploading in progress. Please wait...";
+  document.getElementById("loadingText").innerText = `Uploading ${selectedFiles.length} file(s)... Please wait`;
 
   // LOOP FILE
   for (let i = 0; i < selectedFiles.length; i++) {
