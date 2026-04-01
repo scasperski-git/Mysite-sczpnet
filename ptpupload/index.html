@@ -6,6 +6,12 @@
 <title>Debt Collection System</title>
 
 <style>
+
+/* ===== GLOBAL FIX ===== */
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: 'Segoe UI', Arial;
@@ -18,10 +24,10 @@ body {
   min-height: 100vh;
 }
 
-/* ===== SIDEBAR (DESKTOP) ===== */
+/* ===== SIDEBAR ===== */
 .sidebar {
   width: 220px;
-  background: #1e2a38;
+  background: #111827;
   color: white;
   padding: 20px;
 }
@@ -36,53 +42,87 @@ body {
   padding: 12px;
   margin-bottom: 10px;
   border: none;
-  background: #2f3e4e;
+  background: #1f2937;
   color: white;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: 0.2s;
+}
+
+.sidebar button:hover {
+  background: #374151;
 }
 
 .sidebar button.active {
-  background: #007bff;
+  background: linear-gradient(135deg, #6366f1, #3b82f6);
 }
 
 /* ===== MAIN ===== */
 .main {
   flex: 1;
   padding: 20px;
-  padding-bottom: 80px; /* space for bottom nav */
+  max-width: 900px;
+  margin: auto;
 }
 
+/* ===== CARD ===== */
 .box {
   background: white;
   padding: 20px;
   margin-bottom: 20px;
-  border-radius: 16px;
+  border-radius: 18px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  transition: 0.2s;
 }
 
+.box:hover {
+  transform: translateY(-2px);
+}
+
+/* ===== TITLE ===== */
 h3 {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
-/* ===== INPUT ===== */
-input {
+/* ===== INPUT GROUP ===== */
+.input-group {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.input-group input {
   width: 100%;
-  padding: 12px;
-  margin: 6px 0;
-  border-radius: 8px;
+  padding: 16px 12px;
+  border-radius: 12px;
   border: 1px solid #ddd;
-}
-
-input:focus {
-  border-color: #007bff;
+  background: #f9fbff;
+  font-size: 14px;
   outline: none;
 }
 
-button.action {
-  background: linear-gradient(135deg, #007bff, #0056b3);
-  color: white;
-  font-weight: bold;
+.input-group label {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 14px;
+  transition: 0.2s;
+  background: white;
+  padding: 0 4px;
+}
+
+.input-group input:focus {
+  border-color: #3b82f6;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+}
+
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+  top: -6px;
+  font-size: 11px;
+  color: #3b82f6;
 }
 
 /* ===== ROW ===== */
@@ -91,40 +131,69 @@ button.action {
   gap: 10px;
 }
 
-/* ===== FILE CARD ===== */
-.file-item {
-  background: #f8f9fb;
-  padding: 12px;
-  border-radius: 10px;
+.row .input-group {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ===== FILE BOX ===== */
+.upload-box {
+  border: 2px dashed #cbd5e1;
+  padding: 20px;
+  text-align: center;
+  border-radius: 14px;
+  cursor: pointer;
+  background: #f8fafc;
   margin-bottom: 10px;
 }
 
-/* ===== BOTTOM NAV (MOBILE) ===== */
-.bottom-nav {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 0;
+.upload-box:hover {
+  background: #eef2ff;
+}
+
+/* ===== FILE ITEM ===== */
+.file-item {
+  background: #f1f5f9;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ===== BUTTON ===== */
+button.action {
   width: 100%;
-  background: #1e2a38;
-  padding: 8px 0;
-  justify-content: space-around;
-  z-index: 999;
-}
-
-.bottom-nav button {
-  background: none;
+  padding: 14px;
+  border-radius: 12px;
   border: none;
+  font-weight: bold;
+  background: linear-gradient(135deg, #6366f1, #3b82f6);
   color: white;
-  font-size: 12px;
-  flex: 1;
+  cursor: pointer;
+  transition: 0.2s;
 }
 
-.bottom-nav button.active {
-  color: #00bfff;
+button.action:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+/* ===== SEARCH RESULT ===== */
+.result-card {
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  border-left: 4px solid #3b82f6;
 }
 
 /* ===== MOBILE ===== */
+.bottom-nav {
+  display: none;
+}
+
 @media (max-width: 768px) {
 
   .app {
@@ -135,21 +204,41 @@ button.action {
     display: none;
   }
 
-  .bottom-nav {
-    display: flex;
-  }
-
   .main {
-    padding: 10px;
-    padding-bottom: 80px;
+    padding: 12px;
   }
 
   .row {
     flex-direction: column;
   }
+
+  input {
+    font-size: 16px;
+  }
+
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #111827;
+    justify-content: space-around;
+    padding: 8px 0;
+  }
+
+  .bottom-nav button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 12px;
+  }
+
+  .bottom-nav button.active {
+    color: #60a5fa;
+  }
 }
 
-/* ===== LOADING OVERLAY ===== */
+/* ===== OVERLAY ===== */
 #overlay {
   position: fixed;
   top: 0;
@@ -164,13 +253,11 @@ button.action {
   z-index: 9999;
   flex-direction: column;
   color: white;
-  font-size: 18px;
 }
 
-/* spinner */
 .loader {
   border: 6px solid #f3f3f3;
-  border-top: 6px solid #00bfff;
+  border-top: 6px solid #3b82f6;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -183,13 +270,12 @@ button.action {
   100% { transform: rotate(360deg);}
 }
 
-/* success tick */
 .checkmark {
   font-size: 60px;
-  color: #00ff9f;
+  color: #22c55e;
   display: none;
 }
-  
+
 </style>
 </head>
 
@@ -197,7 +283,7 @@ button.action {
 
 <div class="app">
 
-<!-- SIDEBAR (DESKTOP) -->
+<!-- SIDEBAR -->
 <div class="sidebar">
   <h2>📂 DCS</h2>
   <button onclick="showPage('dashboard', this)" class="active">Dashboard</button>
@@ -205,14 +291,12 @@ button.action {
   <button onclick="showPage('search', this)">Search</button>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="box">
   <h3>📊 Dashboard</h3>
   <p>Welcome to Debt Collection System</p>
-  <p>Use menu to Upload or Search records.</p>
 </div>
 
 <!-- UPLOAD -->
@@ -220,15 +304,24 @@ button.action {
   <h3>Upload Document</h3>
 
   <div class="row">
-<input type="text" id="ic" placeholder="IC (e.g. XXXXXX-XX-XXXX OR AXXXXXX)">
-<input type="text" id="account" placeholder="Account No" inputmode="numeric">
+    <div class="input-group">
+      <input id="ic" placeholder=" " required>
+      <label>IC Number</label>
+    </div>
+
+    <div class="input-group">
+      <input id="account" placeholder=" " required>
+      <label>Account No</label>
+    </div>
   </div>
 
-<input type="file" id="files" multiple>
+  <div class="upload-box" onclick="document.getElementById('files').click()">
+    📂 Tap to upload files (Max 4)
+  </div>
 
-<p style="font-size:12px; color:#666;">Maximum 4 files only</p>
+  <input type="file" id="files" multiple hidden>
 
-<div id="fileList" style="margin-top:10px;"></div>
+  <div id="fileList"></div>
 
   <button class="action" onclick="upload()">Upload</button>
   <p id="msg"></p>
@@ -238,7 +331,11 @@ button.action {
 <div id="search" class="box" style="display:none;">
   <h3>Search by IC</h3>
 
-  <input type="text" id="searchIC" placeholder="Enter IC (e.g. 900101-01-1234)" maxlength="14">
+  <div class="input-group">
+    <input id="searchIC" placeholder=" ">
+    <label>Enter IC</label>
+  </div>
+
   <button class="action" onclick="search()">Search</button>
 
   <div id="result"></div>
@@ -247,7 +344,7 @@ button.action {
 </div>
 </div>
 
-<!-- BOTTOM NAV (MOBILE) -->
+<!-- MOBILE NAV -->
 <div class="bottom-nav">
   <button onclick="showPage('dashboard', this)" class="active">🏠<br>Home</button>
   <button onclick="showPage('upload', this)">⬆<br>Upload</button>
@@ -255,7 +352,6 @@ button.action {
 </div>
 
 <script>
-
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz90tkyY8NFADJAWBj2qgn_Vrwz3ZnGBDSCVDDuPVK-H_EITyH9PUI1Ja39yA_r4WxdeA/exec";
 
 /* ===== NAVIGATION ===== */
@@ -524,13 +620,13 @@ window.addEventListener("load", function() {
     showPage(savedPage);
   }
 });
-
 </script>
 
+<!-- OVERLAY -->
 <div id="overlay">
   <div class="loader" id="loader"></div>
   <div class="checkmark" id="checkmark">✔</div>
-  <div id="loadingText">Uploading in progress... Please wait</div>
+  <div id="loadingText">Uploading...</div>
 </div>
 
 </body>
