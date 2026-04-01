@@ -218,22 +218,18 @@ const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz90tkyY8NFADJAWBj2
 
 /* ===== NAVIGATION ===== */
 function showPage(page, el) {
-  // hide semua
   document.getElementById("dashboard").style.display = "none";
   document.getElementById("upload").style.display = "none";
   document.getElementById("search").style.display = "none";
 
-  // show page
   document.getElementById(page).style.display = "block";
 
-  // reset active button
   document.querySelectorAll(".sidebar button, .bottom-nav button").forEach(btn => {
     btn.classList.remove("active");
   });
 
   if (el) el.classList.add("active");
 
-  // ===== RESET LOGIC =====
   if (page === "search") {
     document.getElementById("result").innerHTML = "";
     document.getElementById("searchIC").value = "";
@@ -244,9 +240,8 @@ function showPage(page, el) {
     document.getElementById("account").value = "";
     document.getElementById("files").value = "";
     document.getElementById("msg").innerText = "";
-
     selectedFiles = [];
-    document.getElementById("fileList").innerHTML = "";
+    renderFileList();
   }
 }
 
@@ -260,230 +255,22 @@ function toBase64(file) {
   });
 }
 
-/* ===== UPLOAD ===== */
-document.querySelectorAll("[id^='remove-']").forEach(btn => {
-  btn.disabled = true;
-});
-async function upload() {
-  const btn = document.querySelector("#upload button");
-  btn.innerText = "Uploading...";
-  btn.disabled = true;
-
-  const ic = document.getElementById("ic").value.trim();
-  const account = document.getElementById("account").value.trim();
-  const files = selectedFiles;
-
-  if (!ic || !account) {
-    alert("Enter IC & Account");
-    btn.innerText = "Upload";
-    btn.disabled = false;
-    return;
-  }
-
-  if (!/^\d{6}-\d{2}-\d{4}$/.test(ic)) {
-    alert("IC must be in format: 900101-01-1234");
-    btn.innerText = "Upload";
-    btn.disabled = false;
-    return;
-  }
-
-  if (files.length === 0) {
-    alert("Select file!");
-    btn.innerText = "Upload";
-    btn.disabled = false;
-    return;
-  }
-
-  let fileData = [];
-
-  for (let i = 0; i < files.length; i++) {
-    let file = files[i];
-
-    let base64 = await toBase64(file);
-
-    fileData.push({
-      name: file.name,
-      type: file.type,
-      data: base64.split(",")[1]
-    });
-
-    // fake progress for encoding (optional smoothness)
-    document.getElementById(`progress-${i}`).style.width = "30%";
-    document.getElementById(`percent-${i}`).innerText = "30%";
-  }
-
-  // REAL UPLOAD PROGRESS
-  let xhr = new XMLHttpRequest();
-
-let progress = 30;
-
-let interval = setInterval(() => {
-  if (progress < 90) {
-    progress += 3; // lebih smooth dari 5
-
-    files.forEach((_, i) => {
-      document.getElementById(`progress-${i}`).style.width = progress + "%";
-      document.getElementById(`percent-${i}`).innerText = progress + "%";
-    });
-  }
-}, 300);
-
-xhr.onload = function() {
-  clearInterval(interval);
-
-  files.forEach((_, i) => {
-
-    // progress full
-    document.getElementById(`progress-${i}`).style.width = "100%";
-    document.getElementById(`percent-${i}`).innerText = "100%";
-
-    // tukar warna hijau
-    document.getElementById(`progress-${i}`).style.background = "#28a745";
-
-    // ❌ hide remove button
-    let btnRemove = document.getElementById(`remove-${i}`);
-    if (btnRemove) btnRemove.style.display = "none";
-
-    // ✅ tukar jadi DONE label
-    document.getElementById(`percent-${i}`).innerHTML = "✅ Uploaded";
-  });
-
-  document.getElementById("msg").innerText = "✅ Upload Success!";
-  btn.innerText = "Upload";
-  btn.disabled = false;
-
-  // optional reset
-  selectedFiles = [];
-};
-/* ===== SEARCH ===== */
-let lastSearch = "";
-
-async function search() {
-  const ic = document.getElementById("searchIC").value.trim();
-
-  if (!/^\d{6}-\d{2}-\d{4}$/.test(ic)) {
-  alert("IC must be in format: 900101-01-1234");
-  return;
-}
-
-  if (!ic) {
-    alert("Enter IC!");
-    return;
-  }
-
-  lastSearch = ic;
-
-  document.getElementById("result").innerHTML = "🔄 Searching...";
-
-  const res = await fetch(`${WEB_APP_URL}?ic=${encodeURIComponent(ic)}`);
-  const data = await res.json();
-
-  // kalau user dah tukar IC → ignore result lama
-  if (ic !== lastSearch) return;
-
-  let html = "";
-
-  if (data.length === 0) {
-    html = "No record found.";
-  }
-
-  data.forEach(d => {
-    html += `
-      <div class="file-item">
-        <b>📁 ${d.account}</b><br>
-        📄 ${d.file}<br><br>
-
-        <a href="${d.url}" target="_blank">👁 View</a> |
-        <a href="${d.url}" download>⬇ Download</a>
-      </div>
-    `;
-  });
-
-  document.getElementById("result").innerHTML = html;
-}
-
-/* ===== ENTER SEARCH ===== */
-document.getElementById("searchIC").addEventListener("keypress", function(e){
-  if (e.key === "Enter") search();
-});
-
-document.getElementById("ic").addEventListener("input", function() {
-  this.value = this.value.toUpperCase();
-});
-
-document.getElementById("searchIC").addEventListener("input", function() {
-  this.value = this.value.toUpperCase();
-});
-
-// allow only number + dash + limit format
-function restrictICInput(el) {
-  let start = el.selectionStart;
-  let oldValue = el.value;
-
-  // buang semua selain nombor & dash
-  let clean = oldValue.replace(/[^\d]/g, '');
-
-  // limit 12 digit
-  if (clean.length > 12) {
-    clean = clean.slice(0, 12);
-  }
-
-  // format IC
-  let newValue = clean;
-  if (clean.length > 6 && clean.length <= 8) {
-    newValue = clean.slice(0,6) + '-' + clean.slice(6);
-  } else if (clean.length > 8) {
-    newValue = clean.slice(0,6) + '-' + clean.slice(6,8) + '-' + clean.slice(8);
-  }
-
-  // kira perubahan panjang
-  let diff = newValue.length - oldValue.length;
-
-  // set value baru
-  el.value = newValue;
-
-  // restore cursor (adjust)
-  let newPos = start + diff;
-
-  // prevent overflow
-  if (newPos < 0) newPos = 0;
-  if (newPos > newValue.length) newPos = newValue.length;
-
-  el.setSelectionRange(newPos, newPos);
-}
-
-// apply to both
-document.getElementById("ic").addEventListener("input", function() {
-  restrictICInput(this);
-});
-
-document.getElementById("searchIC").addEventListener("input", function() {
-  restrictICInput(this);
-});
-
+/* ===== FILE SYSTEM ===== */
 let selectedFiles = [];
 
-// handle select file
 document.getElementById("files").addEventListener("change", function(e) {
-
   let newFiles = Array.from(e.target.files);
-
-  // combine existing + new
   selectedFiles = selectedFiles.concat(newFiles);
 
-  // limit max 4
   if (selectedFiles.length > 4) {
     alert("Maximum 4 files only!");
     selectedFiles = selectedFiles.slice(0, 4);
   }
 
   renderFileList();
-
-  // reset input supaya boleh pilih file sama lagi
   this.value = "";
 });
 
-// render UI
 function renderFileList() {
   const list = document.getElementById("fileList");
   list.innerHTML = "";
@@ -506,17 +293,17 @@ function renderFileList() {
             <span style="color:#888; font-size:11px;">${sizeKB} KB</span>
           </div>
 
-<button id="remove-${index}" onclick="removeFile(${index})" style="
-  background:#ff4d4f;
-  border:none;
-  color:white;
-  padding:5px 8px;
-  border-radius:6px;
-  cursor:pointer;
-">✕</button>
+          <button id="remove-${index}" onclick="removeFile(${index})" style="
+            background:#ff4d4f;
+            border:none;
+            color:white;
+            padding:5px 8px;
+            border-radius:6px;
+            cursor:pointer;
+          ">✕</button>
         </div>
 
-        <!-- PROGRESS BAR -->
+        <!-- PROGRESS -->
         <div style="margin-top:8px; background:#ddd; border-radius:6px;">
           <div id="progress-${index}" style="
             height:6px;
@@ -526,20 +313,131 @@ function renderFileList() {
           "></div>
         </div>
 
-        <div id="percent-${index}" style="font-size:11px; color:#555;">
-          0%
-        </div>
+        <div id="percent-${index}" style="font-size:11px;">0%</div>
       </div>
     `;
   });
 }
 
-// remove file
 function removeFile(index) {
   selectedFiles.splice(index, 1);
   renderFileList();
 }
-  
+
+/* ===== UPLOAD ===== */
+async function upload() {
+
+  const btn = document.querySelector("#upload button");
+  btn.innerText = "Uploading...";
+  btn.disabled = true;
+
+  // disable remove
+  document.querySelectorAll("[id^='remove-']").forEach(b => b.disabled = true);
+
+  const ic = document.getElementById("ic").value.trim();
+  const account = document.getElementById("account").value.trim();
+  const files = selectedFiles;
+
+  if (!ic || !account || files.length === 0) {
+    alert("Enter IC, Account & select file!");
+    btn.innerText = "Upload";
+    btn.disabled = false;
+    return;
+  }
+
+  let fileData = [];
+
+  for (let i = 0; i < files.length; i++) {
+    let file = files[i];
+    let base64 = await toBase64(file);
+
+    fileData.push({
+      name: file.name,
+      type: file.type,
+      data: base64.split(",")[1]
+    });
+
+    document.getElementById(`progress-${i}`).style.width = "30%";
+    document.getElementById(`percent-${i}`).innerText = "30%";
+  }
+
+  // smooth fake progress
+  let progress = 30;
+  let interval = setInterval(() => {
+    if (progress < 90) {
+      progress += 3;
+      files.forEach((_, i) => {
+        document.getElementById(`progress-${i}`).style.width = progress + "%";
+        document.getElementById(`percent-${i}`).innerText = progress + "%";
+      });
+    }
+  }, 300);
+
+  let xhr = new XMLHttpRequest();
+
+  xhr.onload = function() {
+    clearInterval(interval);
+
+    files.forEach((_, i) => {
+      document.getElementById(`progress-${i}`).style.width = "100%";
+      document.getElementById(`progress-${i}`).style.background = "#28a745";
+      document.getElementById(`percent-${i}`).innerHTML = "✅ Uploaded";
+
+      let btnRemove = document.getElementById(`remove-${i}`);
+      if (btnRemove) btnRemove.style.display = "none";
+    });
+
+    document.getElementById("msg").innerText = "✅ Upload Success!";
+    btn.innerText = "Upload";
+    btn.disabled = false;
+
+    selectedFiles = [];
+  };
+
+  xhr.open("POST", WEB_APP_URL);
+  xhr.send(JSON.stringify({ ic, account, files: fileData }));
+}
+
+/* ===== SEARCH ===== */
+let lastSearch = "";
+
+async function search() {
+  const ic = document.getElementById("searchIC").value.trim();
+
+  if (!ic) {
+    alert("Enter IC!");
+    return;
+  }
+
+  lastSearch = ic;
+  document.getElementById("result").innerHTML = "🔄 Searching...";
+
+  const res = await fetch(`${WEB_APP_URL}?ic=${encodeURIComponent(ic)}`);
+  const data = await res.json();
+
+  if (ic !== lastSearch) return;
+
+  let html = data.length === 0 ? "No record found." : "";
+
+  data.forEach(d => {
+    html += `
+      <div class="file-item">
+        <b>📁 ${d.account}</b><br>
+        📄 ${d.file}<br><br>
+        <a href="${d.url}" target="_blank">👁 View</a> |
+        <a href="${d.url}" download>⬇ Download</a>
+      </div>
+    `;
+  });
+
+  document.getElementById("result").innerHTML = html;
+}
+
+/* ===== ENTER SEARCH ===== */
+document.getElementById("searchIC").addEventListener("keypress", function(e){
+  if (e.key === "Enter") search();
+});
+
 </script>
 
 </body>
