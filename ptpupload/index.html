@@ -261,6 +261,9 @@ function toBase64(file) {
 }
 
 /* ===== UPLOAD ===== */
+document.querySelectorAll("[id^='remove-']").forEach(btn => {
+  btn.disabled = true;
+});
 async function upload() {
   const btn = document.querySelector("#upload button");
   btn.innerText = "Uploading...";
@@ -329,24 +332,29 @@ xhr.onload = function() {
   clearInterval(interval);
 
   files.forEach((_, i) => {
+
+    // progress full
     document.getElementById(`progress-${i}`).style.width = "100%";
     document.getElementById(`percent-${i}`).innerText = "100%";
+
+    // tukar warna hijau
     document.getElementById(`progress-${i}`).style.background = "#28a745";
+
+    // ❌ hide remove button
+    let btnRemove = document.getElementById(`remove-${i}`);
+    if (btnRemove) btnRemove.style.display = "none";
+
+    // ✅ tukar jadi DONE label
+    document.getElementById(`percent-${i}`).innerHTML = "✅ Uploaded";
   });
 
   document.getElementById("msg").innerText = "✅ Upload Success!";
   btn.innerText = "Upload";
   btn.disabled = false;
+
+  // optional reset
+  selectedFiles = [];
 };
-
-  xhr.open("POST", WEB_APP_URL);
-  xhr.send(JSON.stringify({
-    ic,
-    account,
-    files: fileData
-  }));
-}
-
 /* ===== SEARCH ===== */
 let lastSearch = "";
 
@@ -498,14 +506,14 @@ function renderFileList() {
             <span style="color:#888; font-size:11px;">${sizeKB} KB</span>
           </div>
 
-          <button onclick="removeFile(${index})" style="
-            background:#ff4d4f;
-            border:none;
-            color:white;
-            padding:5px 8px;
-            border-radius:6px;
-            cursor:pointer;
-          ">✕</button>
+<button id="remove-${index}" onclick="removeFile(${index})" style="
+  background:#ff4d4f;
+  border:none;
+  color:white;
+  padding:5px 8px;
+  border-radius:6px;
+  cursor:pointer;
+">✕</button>
         </div>
 
         <!-- PROGRESS BAR -->
