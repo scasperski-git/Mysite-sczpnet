@@ -61,8 +61,10 @@ button:hover {
 <div class="box">
 <h3>Upload Document</h3>
 
-<input type="text" id="newIC" placeholder="New IC (auto dash)">
-<input type="text" id="oldIC" placeholder="Old IC (A1234567)">
+<div style="display:flex; gap:10px;">
+  <input type="text" id="newIC" placeholder="New IC (auto dash)" style="flex:1;">
+  <input type="text" id="oldIC" placeholder="Old IC (A1234567)" style="flex:1;">
+</div>
 <input type="text" id="account" placeholder="Account No">
 <input type="text" id="ref" placeholder="Reference No">
 <input type="file" id="files" multiple>
@@ -75,8 +77,7 @@ button:hover {
 <div class="box">
 <h3>Search by IC</h3>
 
-<input type="text" id="searchNewIC" placeholder="Search New IC">
-<input type="text" id="searchOldIC" placeholder="Search Old IC">
+<input type="text" id="searchIC" placeholder="Enter IC (New / Old)">
 <button onclick="search()">Search</button>
 
 <div id="result"></div>
@@ -103,8 +104,19 @@ function formatIC(value) {
   return value;
 }
 
+// Upload new IC auto format
 document.getElementById("newIC").addEventListener("input", function() {
   this.value = formatIC(this.value);
+});
+
+// Search IC auto format (kalau numeric)
+document.getElementById("searchIC").addEventListener("input", function() {
+  let val = this.value;
+
+  // hanya format kalau semua digit
+  if (/^\d+$/.test(val.replace(/-/g, ""))) {
+    this.value = formatIC(val);
+  }
 });
 
 // ===== BASE64 =====
@@ -119,8 +131,13 @@ function toBase64(file) {
 
 // ===== UPLOAD =====
 async function upload() {
-  const newIC = document.getElementById("newIC").value;
-  const oldIC = document.getElementById("oldIC").value;
+  const newIC = document.getElementById("newIC").value.trim();
+  const oldIC = document.getElementById("oldIC").value.trim();
+
+  if (newIC && oldIC) {
+    alert("Please fill only ONE IC field!");
+    return;
+  }
 
   const ic = newIC || oldIC;
 
@@ -154,7 +171,7 @@ async function upload() {
     });
   }
 
-  const res = await fetch(WEB_APP_URL, {
+  await fetch(WEB_APP_URL, {
     method: "POST",
     body: JSON.stringify({
       ic: ic,
@@ -169,10 +186,7 @@ async function upload() {
 
 // ===== SEARCH =====
 async function search() {
-  const newIC = document.getElementById("searchNewIC").value;
-  const oldIC = document.getElementById("searchOldIC").value;
-
-  const ic = newIC || oldIC;
+  let ic = document.getElementById("searchIC").value.trim();
 
   if (!ic) {
     alert("Please enter IC!");
