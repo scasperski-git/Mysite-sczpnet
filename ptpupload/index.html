@@ -214,46 +214,54 @@ const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz90tkyY8NFADJAWBj2
 
 /* ===== NAVIGATION ===== */
 function showPage(page, el) {
+  // hide semua
   document.getElementById("dashboard").style.display = "none";
   document.getElementById("upload").style.display = "none";
   document.getElementById("search").style.display = "none";
 
+  // show page
   document.getElementById(page).style.display = "block";
 
-  // remove active (desktop + mobile)
+  // reset active button
   document.querySelectorAll(".sidebar button, .bottom-nav button").forEach(btn => {
     btn.classList.remove("active");
   });
 
   if (el) el.classList.add("active");
+
+  // ===== RESET LOGIC =====
+  if (page === "search") {
+    document.getElementById("result").innerHTML = "";
+    document.getElementById("searchIC").value = "";
+  }
+
+  if (page === "upload") {
+    document.getElementById("ic").value = "";
+    document.getElementById("account").value = "";
+    document.getElementById("files").value = "";
+    document.getElementById("msg").innerText = "";
+  }
 }
 
 /* ===== FORMAT IC ===== */
-function formatIC(value) {
-  if (/[a-zA-Z]/.test(value)) {
-    return value.toUpperCase();
-  }
+function formatICInput(el) {
+  let start = el.selectionStart;
+  let value = el.value;
 
-  let clean = value.replace(/\D/g, '');
+  let formatted = formatIC(value);
 
-  if (clean.length < 8) return clean;
+  el.value = formatted;
 
-  let part1 = clean.slice(0,6);
-  let part2 = clean.slice(6,8);
-  let part3 = clean.slice(8,12);
-
-  let formatted = part1 + '-' + part2;
-  if (part3) formatted += '-' + part3;
-
-  return formatted;
+  // restore cursor position
+  el.setSelectionRange(start, start);
 }
 
 document.getElementById("ic").addEventListener("input", function() {
-  this.value = formatIC(this.value);
+  formatICInput(this);
 });
 
 document.getElementById("searchIC").addEventListener("input", function() {
-  this.value = formatIC(this.value);
+  formatICInput(this);
 });
 
 /* ===== BASE64 ===== */
@@ -312,6 +320,8 @@ async function upload() {
 }
 
 /* ===== SEARCH ===== */
+let lastSearch = "";
+
 async function search() {
   const ic = document.getElementById("searchIC").value.trim();
 
@@ -320,8 +330,15 @@ async function search() {
     return;
   }
 
+  lastSearch = ic;
+
+  document.getElementById("result").innerHTML = "🔄 Searching...";
+
   const res = await fetch(`${WEB_APP_URL}?ic=${encodeURIComponent(ic)}`);
   const data = await res.json();
+
+  // kalau user dah tukar IC → ignore result lama
+  if (ic !== lastSearch) return;
 
   let html = "";
 
