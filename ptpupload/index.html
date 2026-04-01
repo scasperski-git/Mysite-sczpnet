@@ -361,7 +361,7 @@ async function upload() {
 
   const btn = document.querySelector("#upload button");
   if (btn.disabled) return;
-  btn.style.display = "none";
+  btn.disabled = true;
 
   // disable remove
   document.querySelectorAll("[id^='remove-']").forEach(b => b.disabled = true);
@@ -380,7 +380,7 @@ async function upload() {
   document.getElementById("overlay").style.display = "flex";
   document.getElementById("loader").style.display = "block";
   document.getElementById("checkmark").style.display = "none";
-  document.getElementById("loadingText").innerText = `Uploading ${selectedFiles.length} file(s)... Please wait`;
+  document.getElementById("loadingText").innerText =`Uploading file ${i+1} of ${selectedFiles.length}`;
 
   // LOOP FILE
   for (let i = 0; i < selectedFiles.length; i++) {
