@@ -178,7 +178,7 @@ button.action {
   <h3>Upload Document</h3>
 
   <div class="row">
-    <input type="text" id="ic" placeholder="IC (e.g. 900101-01-1234)">
+    <input type="text" id="ic" placeholder="IC (e.g. 900101-01-1234)" maxlength="14">
     <input type="text" id="account" placeholder="Account No">
   </div>
 
@@ -192,7 +192,7 @@ button.action {
 <div id="search" class="box" style="display:none;">
   <h3>Search by IC</h3>
 
-  <input type="text" id="searchIC" placeholder="Enter IC (e.g. 900101-01-1234)">
+  <input type="text" id="searchIC" placeholder="Enter IC (e.g. 900101-01-1234)" maxlength="14">
   <button class="action" onclick="search()">Search</button>
 
   <div id="result"></div>
@@ -363,6 +363,48 @@ document.getElementById("ic").addEventListener("input", function() {
 
 document.getElementById("searchIC").addEventListener("input", function() {
   this.value = this.value.toUpperCase();
+});
+
+// allow only number + dash + limit format
+function restrictICInput(el) {
+  let value = el.value;
+
+  // buang semua selain nombor & dash
+  value = value.replace(/[^\d-]/g, '');
+
+  // auto remove extra dash
+  let parts = value.split('-');
+
+  if (parts.length > 3) {
+    value = parts[0] + '-' + parts[1] + '-' + parts[2];
+  }
+
+  // limit format manually
+  let clean = value.replace(/-/g, '');
+
+  if (clean.length > 12) {
+    clean = clean.slice(0, 12);
+  }
+
+  // rebuild with dash position
+  if (clean.length > 6 && clean.length <= 8) {
+    value = clean.slice(0,6) + '-' + clean.slice(6);
+  } else if (clean.length > 8) {
+    value = clean.slice(0,6) + '-' + clean.slice(6,8) + '-' + clean.slice(8);
+  } else {
+    value = clean;
+  }
+
+  el.value = value;
+}
+
+// apply to both
+document.getElementById("ic").addEventListener("input", function() {
+  restrictICInput(this);
+});
+
+document.getElementById("searchIC").addEventListener("input", function() {
+  restrictICInput(this);
 });
   
 </script>
