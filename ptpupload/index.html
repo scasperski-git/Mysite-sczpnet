@@ -367,35 +367,39 @@ document.getElementById("searchIC").addEventListener("input", function() {
 
 // allow only number + dash + limit format
 function restrictICInput(el) {
-  let value = el.value;
+  let start = el.selectionStart;
+  let oldValue = el.value;
 
   // buang semua selain nombor & dash
-  value = value.replace(/[^\d-]/g, '');
+  let clean = oldValue.replace(/[^\d]/g, '');
 
-  // auto remove extra dash
-  let parts = value.split('-');
-
-  if (parts.length > 3) {
-    value = parts[0] + '-' + parts[1] + '-' + parts[2];
-  }
-
-  // limit format manually
-  let clean = value.replace(/-/g, '');
-
+  // limit 12 digit
   if (clean.length > 12) {
     clean = clean.slice(0, 12);
   }
 
-  // rebuild with dash position
+  // format IC
+  let newValue = clean;
   if (clean.length > 6 && clean.length <= 8) {
-    value = clean.slice(0,6) + '-' + clean.slice(6);
+    newValue = clean.slice(0,6) + '-' + clean.slice(6);
   } else if (clean.length > 8) {
-    value = clean.slice(0,6) + '-' + clean.slice(6,8) + '-' + clean.slice(8);
-  } else {
-    value = clean;
+    newValue = clean.slice(0,6) + '-' + clean.slice(6,8) + '-' + clean.slice(8);
   }
 
-  el.value = value;
+  // kira perubahan panjang
+  let diff = newValue.length - oldValue.length;
+
+  // set value baru
+  el.value = newValue;
+
+  // restore cursor (adjust)
+  let newPos = start + diff;
+
+  // prevent overflow
+  if (newPos < 0) newPos = 0;
+  if (newPos > newValue.length) newPos = newValue.length;
+
+  el.setSelectionRange(newPos, newPos);
 }
 
 // apply to both
