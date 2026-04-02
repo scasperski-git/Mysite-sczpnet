@@ -559,6 +559,18 @@ button.action {
 </div>
 <div class="main">
 
+<div id="login" class="box">
+<div id="login" class="box" style="max-width:400px; margin:40px auto;">
+  <h3>🔐 Login</h3>
+
+  <input type="text" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+
+  <button class="action" onclick="login()">Login</button>
+
+  <p id="loginMsg"></p>
+</div>
+
 <!-- DASHBOARD -->
 <div id="dashboard" class="box">
   <h3>📊 Dashboard</h3>
@@ -647,7 +659,7 @@ button.action {
 
 <script>
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz2y1HhoQ_zgfBeYThiV9TS1UWoi8WlkmCIO-KIZ3KXbQe2lBYMIgikyFv70USFyiJHmA/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyloUsj9lmP7112MWnlD-6reTBzfZGrwPwmmp7AUldtelI3Us5_gZIZRyN6A-i9Ej7t/exec";
 
 /* ===== NAVIGATION ===== */
 function showPage(page, el) {
@@ -655,6 +667,7 @@ function showPage(page, el) {
   document.getElementById("dashboard").style.display = "none";
   document.getElementById("upload").style.display = "none";
   document.getElementById("search").style.display = "none";
+  document.getElementById("login").style.display = "none";
 
   document.getElementById(page).style.display = "block";
 
@@ -747,6 +760,43 @@ function removeFile(index) {
   renderFileList();
 }
 
+async function login() {
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const res = await fetch(WEB_APP_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      action: "login",
+      email: email,
+      password: password
+    })
+  });
+
+  const data = await res.json();
+
+  if (data.status === "success") {
+
+    // SAVE SESSION
+    localStorage.setItem("user", JSON.stringify(data));
+
+    document.getElementById("loginMsg").innerText = "Login success";
+
+    showPage("dashboard");
+
+    applyRole(data.role);
+
+  } else {
+    document.getElementById("loginMsg").innerText = "Invalid login";
+  }
+}
+
+function logout() {
+  localStorage.removeItem("user");
+  location.reload();
+}
+  
 async function loadDashboard() {
 
   try {
@@ -1102,11 +1152,19 @@ document.getElementById("account").addEventListener("input", function(e){
 });
 
 window.addEventListener("load", function() {
-  const savedPage = localStorage.getItem("activePage");
 
-  if (savedPage) {
-    showPage(savedPage);
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // 🔐 CHECK LOGIN
+  if (!user) {
+    showPage("login");
+    return;
   }
+
+  // ✅ USER ADA → MASUK DASHBOARD
+  showPage("dashboard");
+  applyRole(user.role);
+
 });
 
 function closeModal() {
