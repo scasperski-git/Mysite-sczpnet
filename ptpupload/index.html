@@ -556,7 +556,7 @@ button.action {
 
 <!-- SIDEBAR (DESKTOP) -->
 <div class="sidebar">
-  <h2>📂 DocuTrack</h2>
+  <h2>📂 DocuTrack System</h2>
 <p style="font-size:11px; text-align:center; color:#aaa;">Document System</p>
   <button onclick="showPage('dashboard', this)" class="active">Dashboard</button>
   <button onclick="showPage('upload', this)">Upload</button>
@@ -572,7 +572,7 @@ button.action {
 
 <!-- MAIN -->
 <div class="mobile-header">
-  📂 DocuTrack
+  📂 DocuTrack System
 </div>
 <div class="main">
 
@@ -589,7 +589,7 @@ button.action {
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="box">
-  <h3>📊 Dashboard</h3>
+  <h3>📊 DocuTrack Dashboard</h3>
 
   <!-- USER INFO -->
 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:30px;">
@@ -885,8 +885,8 @@ async function loadDashboard() {
           margin-bottom:6px;
           font-size:12px;
         ">
-          👤 ${r.ic}<br>
-          🗂 ${r.account}<br>
+          👤 IC NO: ${r.ic}<br>
+          🗂 ACCOUNT NO: ${r.account}<br>
           ⏱ ${r.time}
         </div>
       `;
