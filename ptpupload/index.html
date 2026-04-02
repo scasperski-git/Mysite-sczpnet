@@ -6,6 +6,11 @@
 <title>Debt Collection System</title>
 
 <style>
+
+* {
+  box-sizing: border-box;
+}
+  
 body {
   margin: 0;
   font-family: 'Segoe UI', Arial;
@@ -220,14 +225,19 @@ button.action:active {
 
 input {
   width: 100%;
+  max-width: 100%;
   padding: 14px;
-  margin: 8px 0;
   border-radius: 12px;
   border: 1px solid #ddd;
+  font-size: 16px;
   transition: all 0.2s ease;
-  font-size: 14px;
+
+  box-sizing: border-box;
 }
 
+.box {
+  overflow: hidden;
+}
 /* bila focus */
 input:focus {
   border-color: #00bfff;
@@ -266,6 +276,14 @@ input:focus {
   overflow: hidden;
   font-size: 13px;
   color: #444;
+}
+
+.box {
+  overflow: hidden;
+}
+
+#search input {
+  width: 100%;
 }
   
 </style>
