@@ -711,8 +711,8 @@ function showPage(page, el) {
     renderFileList();
   }
   
-  if (page === "dashboard") {
-    loadDashboard();
+  if (page === "dashboard") {  
+  location.reload();  
   }
 
   // 🔐 CONTROL NAV VISIBILITY
@@ -832,9 +832,9 @@ async function login() {
   }
 }
 
-function logout() {
-  localStorage.removeItem("user");
-  showPage("login");
+function logout() {  
+  localStorage.removeItem("user");  
+  location.reload();  
 }
 
 function applyRole(role) {
