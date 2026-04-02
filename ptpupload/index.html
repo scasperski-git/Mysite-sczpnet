@@ -559,7 +559,6 @@ button.action {
 </div>
 <div class="main">
 
-<div id="login" class="box">
 <div id="login" class="box" style="max-width:400px; margin:40px auto;">
   <h3>🔐 Login</h3>
 
@@ -781,7 +780,7 @@ async function login() {
     // SAVE SESSION
     localStorage.setItem("user", JSON.stringify(data));
 
-    document.getElementById("loginMsg").innerText = "Login success";
+    document.querySelector(".sidebar").style.display = "block";
 
     showPage("dashboard");
 
@@ -839,7 +838,26 @@ async function loadDashboard() {
 }
 
 // AUTO LOAD
-window.addEventListener("load", loadDashboard);
+window.addEventListener("load", function() {
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // 🔐 NOT LOGIN
+  if (!user) {
+    document.querySelector(".sidebar").style.display = "none";
+    showPage("login");
+    return;
+  }
+
+  // ✅ LOGIN SUCCESS
+  document.querySelector(".sidebar").style.display = "block";
+  showPage("dashboard");
+  applyRole(user.role);
+
+  // 🔥 LOAD DASHBOARD DATA
+  loadDashboard();
+
+});
 
 /* ===== UPLOAD ===== */
 async function upload() {
