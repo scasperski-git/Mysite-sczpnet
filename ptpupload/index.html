@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Debt Collection System</title>
+<title>DocuTrack System</title>
 
 <style>
 
@@ -335,6 +335,30 @@ input:focus {
 button.action {
   margin-top: 4px;
 }
+
+.mobile-header {
+  display: none;
+}
+
+/* MOBILE ONLY */
+@media (max-width: 768px) {
+
+  .mobile-header {
+    display: block;
+    position: sticky;
+    top: 0;
+    background: #1e2a38;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 1000;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+
+}
   
 </style>
 </head>
@@ -345,19 +369,23 @@ button.action {
 
 <!-- SIDEBAR (DESKTOP) -->
 <div class="sidebar">
-  <h2>📂 DCS</h2>
+  <h2>📂 DocuTrack</h2>
+<p style="font-size:11px; text-align:center; color:#aaa;">Document System</p>
   <button onclick="showPage('dashboard', this)" class="active">Dashboard</button>
   <button onclick="showPage('upload', this)">Upload</button>
   <button onclick="showPage('search', this)">Search</button>
 </div>
 
 <!-- MAIN -->
+<div class="mobile-header">
+  📂 DocuTrack
+</div>
 <div class="main">
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="box">
   <h3>📊 Dashboard</h3>
-  <p>Welcome to Debt Collection System</p>
+  <p>Secure. Track. Access.</p>
   <p>Use menu to Upload or Search records.</p>
 </div>
 
