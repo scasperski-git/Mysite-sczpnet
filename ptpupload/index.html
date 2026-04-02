@@ -399,16 +399,21 @@ button.action {
 
 /* success circle */
 .modal-icon.success {
-  background: #00d68f;
+  background: linear-gradient(135deg, #4facfe, #00c6ff);
+  animation: popIn 0.4s ease, glow 1.5s infinite alternate;
 }
 
+/* tick guna border (clean, bukan emoji) */
 .modal-icon.success::after {
-  content: "✔";
-  color: white;
-  font-size: 30px;
+  content: "";
   position: absolute;
-  top: 12px;
-  left: 18px;
+  width: 14px;
+  height: 28px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  top: 14px;
+  left: 22px;
 }
 
 /* title */
@@ -444,6 +449,26 @@ button.action {
 @keyframes fadeIn {
   from { transform: scale(0.9); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 6px 15px rgba(0,191,255,0.3);
+  }
+  to {
+    box-shadow: 0 10px 30px rgba(0,191,255,0.6);
+  }
 }
   
 </style>
