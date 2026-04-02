@@ -558,7 +558,7 @@ button.action {
 <div class="sidebar">
   <h2>📂 DocuTrack System</h2>
 <p style="font-size:11px; text-align:center; color:#aaa;">Document System</p>
-  <button onclick="showPage('dashboard', this)" class="active">Dashboard</button>
+  <button onclick="showPage('dashboard', this, true)" class="active">Dashboard</button>
   <button onclick="showPage('upload', this)">Upload</button>
   <button onclick="showPage('search', this)">Search</button>
   <button onclick="logout()" style="
@@ -671,7 +671,7 @@ button.action {
 
 <!-- BOTTOM NAV (MOBILE) -->
 <div class="bottom-nav">
-  <button onclick="showPage('dashboard', this)" class="active">🏠<br>Home</button>
+  <button onclick="showPage('dashboard', this, true)" class="active">🏠<br>Home</button>
   <button onclick="showPage('upload', this)">⬆<br>Upload</button>
   <button onclick="showPage('search', this)">🔍<br>Search</button>
   <button onclick="logout()">🔓<br>Logout</button>
@@ -682,7 +682,7 @@ button.action {
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyloUsj9lmP7112MWnlD-6reTBzfZGrwPwmmp7AUldtelI3Us5_gZIZRyN6A-i9Ej7t/exec";
 
 /* ===== NAVIGATION ===== */
-function showPage(page, el) {
+function showPage(page, el, isClick = false) {
   localStorage.setItem("activePage", page);
   document.getElementById("dashboard").style.display = "none";
   document.getElementById("upload").style.display = "none";
@@ -711,7 +711,7 @@ function showPage(page, el) {
     renderFileList();
   }
   
-  if (page === "dashboard") {  
+  if (page === "dashboard" && isClick) {  
   location.reload();  
   }
 
