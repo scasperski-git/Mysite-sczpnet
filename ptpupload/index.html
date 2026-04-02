@@ -354,6 +354,97 @@ button.action {
   }
 
 }
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* modal box */
+.modal {
+  background: white;
+  padding: 25px 20px;
+  border-radius: 18px;
+  text-align: center;
+  width: 85%;
+  max-width: 320px;
+
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+}
+
+/* icon */
+.modal-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  position: relative;
+}
+
+/* loading spinner */
+.modal-icon.loading {
+  border: 5px solid #eee;
+  border-top: 5px solid #00bfff;
+  animation: spin 1s linear infinite;
+}
+
+/* success circle */
+.modal-icon.success {
+  background: #00d68f;
+}
+
+.modal-icon.success::after {
+  content: "✔";
+  color: white;
+  font-size: 30px;
+  position: absolute;
+  top: 12px;
+  left: 18px;
+}
+
+/* title */
+.modal-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+/* sub text */
+.modal-sub {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+/* OK button */
+#okBtn {
+  display: none;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #00bfff, #007bff);
+  color: white;
+  font-weight: bold;
+}
+  
+.modal {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
   
 </style>
 </head>
@@ -544,11 +635,14 @@ async function upload() {
   }
 
   // 🔥 SHOW OVERLAY
-  document.getElementById("overlay").style.display = "flex";
-  document.getElementById("loader").style.display = "block";
-  document.getElementById("checkmark").style.display = "none";
-  document.getElementById("loadingText").innerText =
-    `Uploading ${selectedFiles.length} file(s)... Please wait`;
+document.getElementById("overlay").style.display = "flex";
+
+document.getElementById("modalIcon").className = "modal-icon loading";
+document.getElementById("modalTitle").innerText = "Uploading...";
+document.getElementById("modalSub").innerText =
+  `Uploading ${selectedFiles.length} file(s) for IC: ${ic}`;
+
+document.getElementById("okBtn").style.display = "none";
 
   try {
 
@@ -583,11 +677,13 @@ let filesData = await Promise.all(selectedFiles.map(async (file) => {
     });
 
     // ✅ SUCCESS
-    document.getElementById("loader").style.display = "none";
-    document.getElementById("checkmark").style.display = "block";
-    document.getElementById("loadingText").innerText = "Upload Successful!";
+document.getElementById("modalIcon").className = "modal-icon success";
+document.getElementById("modalTitle").innerText = "Upload Successful";
 
-    setTimeout(() => location.reload(), 1200);
+document.getElementById("modalSub").innerText =
+  `Documents saved for IC: ${ic}`;
+
+document.getElementById("okBtn").style.display = "block";
 
   } catch (err) {
     alert("Upload failed!");
@@ -832,12 +928,28 @@ window.addEventListener("load", function() {
   }
 });
 
+function closeModal() {
+  location.reload();
+}
+
 </script>
 
 <div id="overlay">
-  <div class="loader" id="loader"></div>
-  <div class="checkmark" id="checkmark">✔</div>
-  <div id="loadingText">Uploading in progress... Please wait</div>
+  <div class="modal">
+
+    <div class="modal-icon" id="modalIcon"></div>
+
+    <div class="modal-title" id="modalTitle">
+      Processing...
+    </div>
+
+    <div class="modal-sub" id="modalSub">
+      Please wait
+    </div>
+
+    <button id="okBtn" onclick="closeModal()">OK</button>
+
+  </div>
 </div>
 
 </body>
