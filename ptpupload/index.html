@@ -70,71 +70,24 @@ h3 {
   margin-bottom: 10px;
 }
 
-/* ===== PREMIUM INPUT ===== */
-.input-group {
-  position: relative;
-  margin: 12px 0;
-}
-
-.input-group input {
+/* ===== INPUT ===== */
+input {
   width: 100%;
-  padding: 16px 44px 16px 44px;
-  border-radius: 14px;
+  padding: 12px;
+  margin: 6px 0;
+  border-radius: 8px;
   border: 1px solid #ddd;
-  font-size: 16px;
-  background: #f9fbff;
-  transition: all 0.25s ease;
 }
 
-/* icon kiri */
-.input-icon {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  color: #888;
+input:focus {
+  border-color: #007bff;
+  outline: none;
 }
 
-/* clear button kanan */
-.clear-btn {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #eee;
-  border-radius: 50%;
-  width: 22px;
-  height: 22px;
-  font-size: 12px;
-  border: none;
-  display: none;
-}
-
-/* focus effect */
-.input-group input:focus {
-  border-color: #00bfff;
-  background: white;
-  box-shadow: 0 0 0 4px rgba(0,191,255,0.15);
-}
-
-/* floating label */
-.input-label {
-  position: absolute;
-  left: 44px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 14px;
-  color: #999;
-  transition: all 0.2s ease;
-  pointer-events: none;
-}
-
-/* bila ada input */
-.input-group.active .input-label {
-  top: 6px;
-  font-size: 11px;
-  color: #00bfff;
+button.action {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+  font-weight: bold;
 }
 
 /* ===== ROW ===== */
@@ -362,17 +315,10 @@ input:focus {
 <div id="upload" class="box" style="display:none;">
   <h3>Upload Document</h3>
 
-  <div class="input-group">
-  <span class="input-icon">🪪</span>
-  <input type="text" id="ic">
-  <label class="input-label">Enter IC(e.g. XXXXXX-XX-XXXX)" </label>
-</div>
-
-<div class="input-group">
-  <span class="input-icon">💳</span>
-  <input type="tel" id="account" inputmode="numeric" pattern="[0-9]*">
-  <label class="input-label">Account No</label>
-</div>
+  <div class="row">
+<input type="text" id="ic" placeholder="Enter IC (e.g. XXXXXX-XX-XXXX)">
+<input type="text" id="account" placeholder="Enter Account No" inputmode="numeric">
+  </div>
 
 <input type="file" id="files" multiple>
 
@@ -388,12 +334,8 @@ input:focus {
 <div id="search" class="box" style="display:none;">
   <h3>Search by IC</h3>
 
-<div class="input-group" id="searchGroup">
-  <span class="input-icon">🔍</span>
-  <input type="text" id="searchIC" maxlength="14">
-  <label class="input-label">Enter IC</label>
-  <button class="clear-btn" onclick="clearSearch()">✕</button>
-</div>
+  <input type="text" id="searchIC" placeholder="Enter IC (e.g. XXXXXX-XX-XXXX)" maxlength="14">
+  <button class="action" onclick="search()">Search</button>
 
   <div id="result"></div>
 </div>
@@ -731,59 +673,15 @@ function handleICInput(e) {
   input.setSelectionRange(newPos, newPos);
 }
 
-function setupInput(id, groupId) {
-  const input = document.getElementById(id);
-  const group = document.getElementById(groupId || input.parentElement.id);
-  const clearBtn = group.querySelector(".clear-btn");
-
-  input.addEventListener("input", () => {
-
-    if (input.value.length > 0) {
-      group.classList.add("active");
-      if (clearBtn) clearBtn.style.display = "block";
-    } else {
-      group.classList.remove("active");
-      if (clearBtn) clearBtn.style.display = "none";
-    }
-
-  });
-}
-
-function clearSearch() {
-  const input = document.getElementById("searchIC");
-  input.value = "";
-  document.getElementById("searchGroup").classList.remove("active");
-  document.querySelector("#searchGroup .clear-btn").style.display = "none";
-  input.focus();
-}
-
-/* INIT */
-setupInput("searchIC", "searchGroup");
-setupInput("ic");
-setupInput("account");
-
 /* APPLY */
 document.getElementById("ic").addEventListener("input", handleICInput);
 document.getElementById("searchIC").addEventListener("input", handleICInput);
 
 
 /* ===== ACCOUNT LIMIT ===== */
-const accountInput = document.getElementById("account");
-const accountGroup = accountInput.parentElement;
-
-accountInput.addEventListener("input", function(e){
-
-  let val = e.target.value.replace(/\D/g, "");
-  e.target.value = val.substring(0, 10);
-
-  const status = validateAccount(val);
-
-  accountGroup.classList.remove("valid", "invalid");
-
-  if (val.length > 0) {
-    accountGroup.classList.add(status);
-  }
-
+document.getElementById("account").addEventListener("input", function(e){
+  let val = e.target.value.replace(/\D/g, ""); // number only
+  e.target.value = val.substring(0, 10); // max 10 digit
 });
 
 window.addEventListener("load", function() {
@@ -793,7 +691,6 @@ window.addEventListener("load", function() {
     showPage(savedPage);
   }
 });
-
 
 </script>
 
