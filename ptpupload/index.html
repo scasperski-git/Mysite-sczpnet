@@ -566,7 +566,7 @@ button.action {
   background:#ff4d4f;
   color:white;
 ">
-  Logout
+  Logout 🔓
 </button>
 </div>
 
@@ -590,25 +590,30 @@ button.action {
 <!-- DASHBOARD -->
 <div id="dashboard" class="box">
   <h3>📊 Dashboard</h3>
-<div class="mobile-only" style="text-align:right;">
+
+  <!-- USER INFO -->
+<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:30px;">
+
+  <!-- LEFT: USER INFO -->
+  <div style="display:flex; flex-direction:column; gap:4px;">
+    <div id="welcomeName" style="font-weight:bold; font-size:16px;"></div>
+    <div id="userRole" style="font-size:12px; color:#777;"></div>
+  </div>
+
+  <!-- RIGHT: LOGOUT -->
   <button onclick="logout()" style="
     background:#ff4d4f;
     border:none;
     color:white;
-    padding:6px 10px;
-    border-radius:8px;
+    padding:8px 12px;
+    border-radius:10px;
+    font-size:12px;
+    height:fit-content;
   ">
-    Logout
+    Logout 🔓
   </button>
-</div>
 
-  <!-- USER INFO -->
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-    <div>
-<div id="welcomeName" style="font-weight:bold;"></div>
-<div id="userRole" style="font-size:12px; color:#777;"></div>
-    </div>
-  </div>
+</div>
 
   <!-- KPI CARDS -->
   <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px;">
