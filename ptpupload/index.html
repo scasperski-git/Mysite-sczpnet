@@ -517,6 +517,25 @@ button.action {
     stroke-dashoffset: 0;
   }
 }
+
+.kpi {
+  background: linear-gradient(135deg, #00bfff, #007bff);
+  color: white;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0,123,255,0.25);
+}
+
+.kpi-title {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.kpi-value {
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 5px;
+}
   
 </style>
 </head>
@@ -543,8 +562,46 @@ button.action {
 <!-- DASHBOARD -->
 <div id="dashboard" class="box">
   <h3>📊 Dashboard</h3>
-  <p>Secure. Track. Access.</p>
-  <p>Use menu to Upload or Search records.</p>
+
+  <!-- USER INFO -->
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+    <div>
+      <div style="font-weight:bold;">👤 Welcome, Admin</div>
+      <div style="font-size:12px; color:#777;">Role: Credit Recovery</div>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px;">
+    
+    <div class="kpi">
+      <div class="kpi-title">📁 Documents</div>
+      <div class="kpi-value" id="kpiDocs">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-title">👤 IC</div>
+      <div class="kpi-value" id="kpiIC">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-title">🗂 Account</div>
+      <div class="kpi-value" id="kpiAcc">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-title">⬆ Today</div>
+      <div class="kpi-value" id="kpiToday">0</div>
+    </div>
+
+  </div>
+
+  <!-- RECENT ACTIVITY -->
+  <div style="margin-top:20px;">
+    <div style="font-weight:bold; margin-bottom:8px;">🕒 Recent Activity</div>
+    <div id="recentList"></div>
+  </div>
+
 </div>
 
 <!-- UPLOAD -->
@@ -689,6 +746,50 @@ function removeFile(index) {
   selectedFiles.splice(index, 1);
   renderFileList();
 }
+
+async function loadDashboard() {
+
+  try {
+
+    const res = await fetch(WEB_APP_URL + "?dashboard=1");
+    const data = await res.json();
+
+    // EXPECTED FORMAT FROM BACKEND
+    // data = { docs, ic, account, today, recent: [] }
+
+    document.getElementById("kpiDocs").innerText = data.docs || 0;
+    document.getElementById("kpiIC").innerText = data.ic || 0;
+    document.getElementById("kpiAcc").innerText = data.account || 0;
+    document.getElementById("kpiToday").innerText = data.today || 0;
+
+    // RECENT ACTIVITY
+    let html = "";
+
+    (data.recent || []).forEach(r => {
+      html += `
+        <div style="
+          background:#f1f3f7;
+          padding:10px;
+          border-radius:10px;
+          margin-bottom:6px;
+          font-size:12px;
+        ">
+          👤 ${r.ic}<br>
+          🗂 ${r.account}<br>
+          ⏱ ${r.time}
+        </div>
+      `;
+    });
+
+    document.getElementById("recentList").innerHTML = html || "No activity yet";
+
+  } catch (e) {
+    console.error("Dashboard load error", e);
+  }
+}
+
+// AUTO LOAD
+window.addEventListener("load", loadDashboard);
 
 /* ===== UPLOAD ===== */
 async function upload() {
