@@ -683,19 +683,69 @@ async function search() {
 
   if (ic !== lastSearch) return;
 
-  let html = data.length === 0 ? "No record found." : "";
+let html = data.length === 0 ? "No record found." : "";
 
-  data.forEach(d => {
-html += `
-  <div class="file-item">
-    <div style="font-weight:bold;">
-      📁 <span style="color:#666;">Account No:</span> ${d.account}
-    </div>
-    <div class="file-name">📄 ${d.file}</div>
-    <a href="${d.url}" target="_blank">👁 View</a> 
-  </div>
-`;
+// 🔥 GROUP BY ACCOUNT
+let grouped = {};
+
+data.forEach(d => {
+  if (!grouped[d.account]) {
+    grouped[d.account] = [];
+  }
+  grouped[d.account].push(d);
+});
+
+// 🔥 LOOP GROUP
+Object.keys(grouped).forEach(acc => {
+
+  let files = grouped[acc];
+
+  // 🔥 SORT LATEST (assume filename ada datetime)
+  files.sort((a, b) => b.file.localeCompare(a.file));
+
+  // 🔥 COUNT
+  let count = files.length;
+
+  // 🔥 EXTRACT DATE FROM FIRST FILE (latest)
+  let latestFile = files[0].file;
+
+  let dateMatch = latestFile.match(/(\d{8})_(\d{6})/);
+  let formattedDate = "";
+
+  if (dateMatch) {
+    let d = dateMatch[1];
+    let t = dateMatch[2];
+
+    formattedDate =
+      `${d.substring(6,8)}/${d.substring(4,6)}/${d.substring(0,4)} ` +
+      `${t.substring(0,2)}:${t.substring(2,4)}:${t.substring(4,6)}`;
+  }
+
+  // 🔥 ACCOUNT HEADER
+  html += `
+    <div class="file-item">
+      <div style="font-weight:bold;">
+        📁 Account No: ${acc} 
+        <span style="color:#666; font-size:12px;">(${count} files)</span>
+      </div>
+
+      <div style="font-size:11px; color:#888; margin-top:2px;">
+        Latest Upload: ${formattedDate}
+      </div>
+  `;
+
+  // 🔥 FILE LIST
+  files.forEach(f => {
+    html += `
+      <div style="margin-top:8px;">
+        <div class="file-name">📄 ${f.file}</div>
+        <a href="${f.url}" target="_blank">👁 View</a>
+      </div>
+    `;
   });
+
+  html += `</div>`;
+});
 
   document.getElementById("result").innerHTML = html;
 }
