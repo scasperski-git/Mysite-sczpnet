@@ -536,6 +536,16 @@ button.action {
   font-weight: bold;
   margin-top: 5px;
 }
+
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+}
   
 </style>
 </head>
@@ -580,7 +590,7 @@ button.action {
 <!-- DASHBOARD -->
 <div id="dashboard" class="box">
   <h3>📊 Dashboard</h3>
-  <div style="text-align:right;">
+<div class="mobile-only" style="text-align:right;">
   <button onclick="logout()" style="
     background:#ff4d4f;
     border:none;
