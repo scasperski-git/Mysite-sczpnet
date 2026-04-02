@@ -566,7 +566,7 @@ button.action {
 </div>
 <div class="main">
 
-<div id="login" class="box" style="max-width:400px; margin:40px auto;">
+<div id="login" class="box" style="display:none; max-width:400px; margin:40px auto;">
   <h3>🔐 Login</h3>
 
   <input type="text" id="email" placeholder="Email">
@@ -595,8 +595,8 @@ button.action {
   <!-- USER INFO -->
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
     <div>
-      <div style="font-weight:bold;">👤 Welcome, Admin</div>
-      <div style="font-size:12px; color:#777;">Role: Credit Recovery</div>
+<div id="welcomeName" style="font-weight:bold;"></div>
+<div id="userRole" style="font-size:12px; color:#777;"></div>
     </div>
   </div>
 
@@ -802,10 +802,6 @@ async function login() {
     // SAVE SESSION
     localStorage.setItem("user", JSON.stringify(data));
 
-    if (window.innerWidth > 768) {
-  document.querySelector(".sidebar").style.display = "block";
-}
-
     showPage("dashboard");
 
     applyRole(data.role);
@@ -818,6 +814,27 @@ async function login() {
 function logout() {
   localStorage.removeItem("user");
   location.reload();
+}
+
+function applyRole(role) {
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  // 👤 DISPLAY NAME
+  document.getElementById("welcomeName").innerText =
+    "👤 Welcome, " + user.email;
+
+  // 🏷 ROLE
+  document.getElementById("userRole").innerText =
+    "Role: " + role;
+
+  if (role === "MASTER") {
+    console.log("MASTER ACCESS");
+  }
+
+  if (role === "USER") {
+    console.log("USER ACCESS");
+  }
 }
   
 async function loadDashboard() {
@@ -866,21 +883,13 @@ window.addEventListener("load", function() {
 
   const user = JSON.parse(localStorage.getItem("user"));
 
-  // 🔐 NOT LOGIN
   if (!user) {
-  if (window.innerWidth > 768) {
-  document.querySelector(".sidebar").style.display = "none";
-}
     showPage("login");
     return;
   }
 
-  // ✅ LOGIN SUCCESS
-  document.querySelector(".sidebar").style.display = "block";
   showPage("dashboard");
   applyRole(user.role);
-
-  // 🔥 LOAD DASHBOARD DATA
   loadDashboard();
 
 });
