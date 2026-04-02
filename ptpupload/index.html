@@ -470,6 +470,53 @@ button.action {
     box-shadow: 0 10px 30px rgba(0,191,255,0.6);
   }
 }
+
+.modal-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 15px;
+}
+
+/* SVG size */
+.check-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* circle animation */
+.check-circle {
+  stroke: #00c6ff;
+  stroke-width: 3;
+  stroke-dasharray: 160;
+  stroke-dashoffset: 160;
+  animation: drawCircle 0.4s ease forwards;
+}
+
+/* tick animation */
+.check-mark {
+  stroke: #00c6ff;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+
+  animation: drawTick 0.3s ease 0.4s forwards;
+}
+
+/* animation keyframes */
+@keyframes drawCircle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes drawTick {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
   
 </style>
 </head>
@@ -668,6 +715,7 @@ document.getElementById("modalSub").innerText =
   `Uploading ${selectedFiles.length} file(s) for IC: ${ic}`;
 
 document.getElementById("okBtn").style.display = "none";
+document.querySelector(".check-svg").style.display = "none";
 
   try {
 
@@ -702,7 +750,14 @@ let filesData = await Promise.all(selectedFiles.map(async (file) => {
     });
 
     // ✅ SUCCESS
-document.getElementById("modalIcon").className = "modal-icon success";
+const svg = document.querySelector(".check-svg");
+
+// reset animation (VERY IMPORTANT)
+svg.style.display = "none";
+svg.offsetHeight; // force reflow
+svg.style.display = "block";
+
+document.getElementById("modalIcon").className = "modal-icon";
 document.getElementById("modalTitle").innerText = "Upload Successful";
 
 document.getElementById("modalSub").innerText =
@@ -962,7 +1017,12 @@ function closeModal() {
 <div id="overlay">
   <div class="modal">
 
-    <div class="modal-icon" id="modalIcon"></div>
+    <div class="modal-icon" id="modalIcon">
+  <svg class="check-svg" viewBox="0 0 52 52">
+    <circle class="check-circle" cx="26" cy="26" r="25" fill="none"/>
+    <path class="check-mark" fill="none" d="M14 27l7 7 16-16"/>
+  </svg>
+</div>
 
     <div class="modal-title" id="modalTitle">
       Processing...
