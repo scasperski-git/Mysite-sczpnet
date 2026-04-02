@@ -256,7 +256,7 @@ button.action {
 
 <script>
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz90tkyY8NFADJAWBj2qgn_Vrwz3ZnGBDSCVDDuPVK-H_EITyH9PUI1Ja39yA_r4WxdeA/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwHHh-u8g-W2ccJZwilioUmJOu4QNNjrRYTa9l-w8LH6jxo7QfCXpgpC4Hh1vsw4YVMDw/exec";
 
 /* ===== NAVIGATION ===== */
 function showPage(page, el) {
@@ -363,16 +363,12 @@ async function upload() {
   if (btn.disabled) return;
   btn.style.display = "none";
 
-  // disable remove
-  document.querySelectorAll("[id^='remove-']").forEach(b => b.disabled = true);
-
   const ic = document.getElementById("ic").value.trim();
   const account = document.getElementById("account").value.trim();
 
   if (!ic || !account || selectedFiles.length === 0) {
     alert("Enter IC, Account & select file!");
-    btn.innerText = "Upload";
-    btn.disabled = false;
+    btn.style.display = "block";
     return;
   }
 
@@ -380,45 +376,44 @@ async function upload() {
   document.getElementById("overlay").style.display = "flex";
   document.getElementById("loader").style.display = "block";
   document.getElementById("checkmark").style.display = "none";
-  document.getElementById("loadingText").innerText = `Uploading ${selectedFiles.length} file(s)... Please wait`;
+  document.getElementById("loadingText").innerText =
+    `Uploading ${selectedFiles.length} file(s)... Please wait`;
 
-  // LOOP FILE
-  for (let i = 0; i < selectedFiles.length; i++) {
+  try {
 
-    let file = selectedFiles[i];
-    let base64 = await toBase64(file);
+    // ✅ convert semua file sekali
+    let filesData = await Promise.all(selectedFiles.map(async (file) => {
+      let base64 = await toBase64(file);
+      return {
+        name: file.name,
+        type: file.type,
+        data: base64.split(",")[1]
+      };
+    }));
 
     let payload = {
       ic,
       account,
-      files: [{
-        name: file.name,
-        type: file.type,
-        data: base64.split(",")[1]
-      }]
+      files: filesData
     };
 
-    await new Promise((resolve) => {
-      let xhr = new XMLHttpRequest();
-
-      xhr.onload = function() {
-        resolve();
-      };
-
-      xhr.open("POST", WEB_APP_URL);
-      xhr.send(JSON.stringify(payload));
+    await fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify(payload)
     });
-  }
 
-  // ✅ SUCCESS STATE
-  document.getElementById("loader").style.display = "none";
-  document.getElementById("checkmark").style.display = "block";
-  document.getElementById("loadingText").innerText = "Upload Successful!";
+    // ✅ SUCCESS
+    document.getElementById("loader").style.display = "none";
+    document.getElementById("checkmark").style.display = "block";
+    document.getElementById("loadingText").innerText = "Upload Successful!";
 
-  // 🔄 AUTO RELOAD
-  setTimeout(() => {
+    setTimeout(() => location.reload(), 1200);
+
+  } catch (err) {
+    alert("Upload failed!");
+    console.error(err);
     location.reload();
-  }, 1200);
+  }
 }
 
 /* ===== SEARCH ===== */
