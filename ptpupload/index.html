@@ -701,25 +701,38 @@ Object.keys(grouped).forEach(acc => {
   let files = grouped[acc];
 
   // 🔥 SORT LATEST (assume filename ada datetime)
-  files.sort((a, b) => b.file.localeCompare(a.file));
+  files.sort((a, b) => {
+  const getDT = (name) => {
+    const m = name.match(/_(\d{8})_(\d{6})/);
+    return m ? m[1] + m[2] : "0";
+  };
+  return getDT(b.file).localeCompare(getDT(a.file));
+});
 
   // 🔥 COUNT
   let count = files.length;
 
   // 🔥 EXTRACT DATE FROM FIRST FILE (latest)
-  let latestFile = files[0].file;
+let latestFile = files[0].file;
 
-  let dateMatch = latestFile.match(/(\d{8})_(\d{6})/);
-  let formattedDate = "";
+let dateMatch = latestFile.match(/_(\d{8})_(\d{6})/);
 
-  if (dateMatch) {
-    let d = dateMatch[1];
-    let t = dateMatch[2];
+let formattedDate = "Unknown";
 
-    formattedDate =
-      `${d.substring(6,8)}/${d.substring(4,6)}/${d.substring(0,4)} ` +
-      `${t.substring(0,2)}:${t.substring(2,4)}:${t.substring(4,6)}`;
-  }
+if (dateMatch) {
+  let d = dateMatch[1]; // YYYYMMDD
+  let t = dateMatch[2]; // HHMMSS
+
+  let year = d.substring(0, 4);
+  let month = d.substring(4, 6);
+  let day = d.substring(6, 8);
+
+  let hour = t.substring(0, 2);
+  let min = t.substring(2, 4);
+  let sec = t.substring(4, 6);
+
+  formattedDate = `${day}/${month}/${year} ${hour}:${min}:${sec}`;
+}
 
   // 🔥 ACCOUNT HEADER
   html += `
