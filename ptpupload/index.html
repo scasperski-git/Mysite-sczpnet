@@ -689,6 +689,10 @@ function showPage(page, el) {
     selectedFiles = [];
     renderFileList();
   }
+  
+  if (page === "dashboard") {
+    loadDashboard();
+  }
 }
 
 /* ===== BASE64 ===== */
@@ -1167,22 +1171,6 @@ document.getElementById("searchIC").addEventListener("input", handleICInput);
 document.getElementById("account").addEventListener("input", function(e){
   let val = e.target.value.replace(/\D/g, ""); // number only
   e.target.value = val.substring(0, 10); // max 10 digit
-});
-
-window.addEventListener("load", function() {
-
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  // 🔐 CHECK LOGIN
-  if (!user) {
-    showPage("login");
-    return;
-  }
-
-  // ✅ USER ADA → MASUK DASHBOARD
-  showPage("dashboard");
-  applyRole(user.role);
-
 });
 
 function closeModal() {
