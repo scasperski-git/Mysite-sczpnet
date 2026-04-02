@@ -579,7 +579,7 @@ button.action {
 <div id="login" class="box" style="display:none; max-width:400px; margin:40px auto;">
   <h3>🔐 Login</h3>
 
-  <input type="text" id="email" placeholder="Email">
+  <input type="text" id="email" placeholder="User ID">
   <input type="password" id="password" placeholder="Password">
 
   <button class="action" onclick="login()">Login</button>
@@ -721,7 +721,23 @@ function showPage(page, el) {
   if (page === "dashboard") {
     loadDashboard();
   }
-}
+
+  // 🔐 CONTROL NAV VISIBILITY
+if (page === "login") {
+  document.querySelector(".sidebar").style.display = "none";
+  document.querySelector(".bottom-nav").style.display = "none";
+} else {
+
+  // 🔥 FORCE CORRECT BEHAVIOR
+  if (window.innerWidth <= 768) {
+    document.querySelector(".sidebar").style.display = "none";
+    document.querySelector(".bottom-nav").style.display = "flex";
+  } else {
+    document.querySelector(".sidebar").style.display = "block";
+    document.querySelector(".bottom-nav").style.display = "none";
+  }
+  
+} //
 
 /* ===== BASE64 ===== */
 function toBase64(file) {
@@ -823,7 +839,7 @@ async function login() {
 
 function logout() {
   localStorage.removeItem("user");
-  location.reload();
+  showPage("login");
 }
 
 function applyRole(role) {
