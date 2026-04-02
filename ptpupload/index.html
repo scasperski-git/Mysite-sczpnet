@@ -458,26 +458,32 @@ async function compressImage(file) {
       // 🔥 dynamic quality control
       let quality = 0.8;
 
-      function tryCompress() {
-canvas.toBlob((blob) => {
+function tryCompress() {
 
-  if (!blob) {
-    resolve(file); // fallback original
-    return;
-  }
+  const isPNG = file.type === "image/png";
+  const format = isPNG ? "image/png" : "image/jpeg";
 
-  if (blob.size > 1.5 * 1024 * 1024 && quality > 0.4) {
-    quality -= 0.05;
-    tryCompress();
-  } else {
-    resolve(new File([blob], file.name, {
-      const outputType = file.type === "image/png" ? "image/png" : "image/jpeg";
-    }));
-  }
+  canvas.toBlob((blob) => {
 
-}, "image/jpeg", quality);
+    if (!blob) {
+      resolve(file);
+      return;
+    }
 
+    if (blob.size > 1.5 * 1024 * 1024 && quality > 0.4) {
+      quality -= 0.05;
       tryCompress();
+    } else {
+
+      resolve(new File([blob], file.name, {
+        type: format
+      }));
+    }
+
+  }, format, quality);
+}
+
+tryCompress();
     };
 
     reader.readAsDataURL(file);
