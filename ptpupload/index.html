@@ -382,14 +382,23 @@ async function upload() {
   try {
 
     // ✅ convert semua file sekali
-    let filesData = await Promise.all(selectedFiles.map(async (file) => {
-      let base64 = await toBase64(file);
-      return {
-        name: file.name,
-        type: file.type,
-        data: base64.split(",")[1]
-      };
-    }));
+let filesData = await Promise.all(selectedFiles.map(async (file) => {
+
+  let processedFile = file;
+
+  // 🔥 only process image
+  if (file.type.startsWith("image/")) {
+    processedFile = await compressImage(file);
+  }
+
+  let base64 = await toBase64(processedFile);
+
+  return {
+    name: processedFile.name,
+    type: processedFile.type,
+    data: base64.split(",")[1]
+  };
+}));
 
     let payload = {
       ic,
@@ -416,6 +425,65 @@ async function upload() {
   }
 }
 
+async function compressImage(file) {
+
+  // ✅ kalau file kecil → skip
+  if (file.size <= 2 * 1024 * 1024) {
+    return file;
+  }
+
+  return new Promise((resolve) => {
+
+    const img = new Image();
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+      img.src = e.target.result;
+    };
+
+    img.onload = function() {
+
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // 🔥 resize (maintain ratio)
+      let maxWidth = 1280;
+      let scale = Math.min(maxWidth / img.width, 1);
+
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      // 🔥 dynamic quality control
+      let quality = 0.8;
+
+      function tryCompress() {
+canvas.toBlob((blob) => {
+
+  if (!blob) {
+    resolve(file); // fallback original
+    return;
+  }
+
+  if (blob.size > 1.5 * 1024 * 1024 && quality > 0.4) {
+    quality -= 0.05;
+    tryCompress();
+  } else {
+    resolve(new File([blob], file.name, {
+      const outputType = file.type === "image/png" ? "image/png" : "image/jpeg";
+    }));
+  }
+
+}, "image/jpeg", quality);
+
+      tryCompress();
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+  
 /* ===== SEARCH ===== */
 let lastSearch = "";
 
