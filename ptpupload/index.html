@@ -551,6 +551,13 @@ button.action {
   <button onclick="showPage('dashboard', this)" class="active">Dashboard</button>
   <button onclick="showPage('upload', this)">Upload</button>
   <button onclick="showPage('search', this)">Search</button>
+  <button onclick="logout()" style="
+  margin-top:20px;
+  background:#ff4d4f;
+  color:white;
+">
+  Logout
+</button>
 </div>
 
 <!-- MAIN -->
@@ -573,6 +580,17 @@ button.action {
 <!-- DASHBOARD -->
 <div id="dashboard" class="box">
   <h3>📊 Dashboard</h3>
+  <div style="text-align:right;">
+  <button onclick="logout()" style="
+    background:#ff4d4f;
+    border:none;
+    color:white;
+    padding:6px 10px;
+    border-radius:8px;
+  ">
+    Logout
+  </button>
+</div>
 
   <!-- USER INFO -->
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
@@ -784,7 +802,9 @@ async function login() {
     // SAVE SESSION
     localStorage.setItem("user", JSON.stringify(data));
 
-    document.querySelector(".sidebar").style.display = "block";
+    if (window.innerWidth > 768) {
+  document.querySelector(".sidebar").style.display = "block";
+}
 
     showPage("dashboard");
 
@@ -848,7 +868,9 @@ window.addEventListener("load", function() {
 
   // 🔐 NOT LOGIN
   if (!user) {
-    document.querySelector(".sidebar").style.display = "none";
+  if (window.innerWidth > 768) {
+  document.querySelector(".sidebar").style.display = "none";
+}
     showPage("login");
     return;
   }
