@@ -547,9 +547,18 @@ button.action {
   }
 }
 
-.file-item:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+/* desktop hover */
+@media (hover: hover) {
+  .file-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  }
+}
+
+/* mobile tap */
+.file-item:active {
+  transform: scale(0.97);
+  background: #e6f4ff;
 }
   
 </style>
@@ -885,7 +894,9 @@ async function loadDashboard() {
 
 (data.recent || []).forEach(r => {
 html += `
-  <div onclick="goToSearch('${r.ic}')" style="
+  <div class="file-item" onclick="goToSearch('${r.ic}')" style="
+    cursor:pointer;
+  ">
     background:#f1f3f7;
     padding:10px;
     border-radius:10px;
