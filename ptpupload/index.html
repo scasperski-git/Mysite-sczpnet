@@ -565,6 +565,35 @@ button.action {
   transform: scale(0.97);
   background: #dbefff;
 }
+
+.sidebar button {
+  position: relative; /* penting untuk border animation */
+  overflow: hidden;
+}
+
+/* hover effect */
+@media (hover: hover) {
+  .sidebar button:hover {
+    transform: translateX(5px);
+  }
+
+  .sidebar button::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: #00bfff;
+    transition: width 0.25s ease;
+    border-radius: 12px 0 0 12px;
+  }
+
+  .sidebar button:hover::before {
+      width: 4px;
+      box-shadow: 0 0 10px #00bfff;
+  }
+}
   
 </style>
 </head>
