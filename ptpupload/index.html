@@ -1136,6 +1136,8 @@ Object.keys(grouped).forEach(acc => {
   // 🔥 EXTRACT DATE FROM FIRST FILE (latest)
 let latestFile = files[0].file;
 
+let latestUser = files[0].user || "UNKNOWN";
+
 let dateMatch = latestFile.match(/_(\d{8})_(\d{6})/);
 
 let formattedDate = "Unknown";
@@ -1164,7 +1166,8 @@ if (dateMatch) {
       </div>
 
       <div style="font-size:11px; color:#888; margin-top:2px;">
-        Latest Upload: ${formattedDate}
+        Latest Upload: ${formattedDate}  
+<span style="margin-left:6px;color:#007bff; font-weight:500;">By: ${latestUser}</span>
       </div>
   `;
 
@@ -1172,8 +1175,8 @@ if (dateMatch) {
   files.forEach(f => {
     html += `
       <div style="margin-top:8px;">
-        <div class="file-name">📄 ${f.file}</div>
-        <a href="${f.url}" target="_blank">👁 View</a>
+<div class="file-name">📄 ${f.file}</div>
+<a href="${f.url}" target="_blank">👁 View</a>
       </div>
     `;
   });
