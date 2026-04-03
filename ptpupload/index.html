@@ -887,9 +887,10 @@ async function loadDashboard() {
       margin-bottom:6px;
       font-size:12px;
     ">
-      👤 <span style="font-weight:bold;">IC No :</span> ${r.ic}<br>
-      💳 <span style="font-weight:bold;">Account No :</span> ${r.account}<br>
-      📁 <span style="font-weight:bold;">Total File :</span> ${r.total} files<br>
+      👤 <b>IC No :</b> ${r.ic}<br>
+      💳 <b>Account No :</b> ${r.account}<br>
+      📁 <b>Total File :</b> ${r.total} ${r.total > 1 ? "files" : "file"}<br>
+      🧑 <b>Uploaded By :</b> ${r.user}<br>
       ⏱ ${r.time}
     </div>
   `;
