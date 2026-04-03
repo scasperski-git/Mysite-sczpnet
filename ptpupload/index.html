@@ -614,25 +614,29 @@ button.action {
   color: #00bfff;
 }
 
+.mobile-footer {
+  display: none; /* 🔥 IMPORTANT */
+}
+
 @media (max-width: 768px) {
   .mobile-footer {
-    position: fixed;   /* 🔥 penting */
-    bottom: 65px;      /* atas sikit dari bottom nav */
+    display: block;   /* 🔥 SHOW ON MOBILE */
+    position: fixed;
+    bottom: 80px;     /* adjust sikit */
     left: 0;
     width: 100%;
-    
     text-align: center;
     font-size: 11px;
     color: #aaa;
-
-    z-index: 998; /* bawah nav (999) */
+    z-index: 1000;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(6px);
+    padding: 4px 0;
+    border-radius: 10px;
   }
 
   .mobile-footer b {
     color: #00bfff;
-    background: rgba(255,255,255,0.6);
-    backdrop-filter: blur(6px);
-    padding: 4px 0;
   }
 }
   
@@ -765,12 +769,10 @@ button.action {
 </div>
 
 </div>
-</div>
-
 <div class="mobile-footer">
   Powered by <b>sczpnet.org</b> • Singer (M) Sdn Bhd
 </div>
-
+</div>
 
 <!-- BOTTOM NAV (MOBILE) -->
 <div class="bottom-nav">
@@ -782,7 +784,7 @@ button.action {
 
 <script>
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyu7KJrsf7khGlGk-US-e0nd0VTKna6AAS987XvttE4NUqZtTKM9pjhnEWJZ3mw5JA0Ag/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyd2deFraEXRG9d6fwghdfd6ZdGFg17-OKWoTHutEl8uHIhWSv33QzHwkgzqBUt6dIPjg/exec";
 
 /* ===== NAVIGATION ===== */
 function showPage(page, el, isClick = false) {
