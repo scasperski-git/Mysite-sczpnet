@@ -679,7 +679,7 @@ button.action {
 
 <script>
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzlpVrV1HI4Ou_g5scmaADsQNUBebozsjQcK1XLxieRugbgxh6UBjiaH--BlUxW8InxFQ/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxohJukKs0Lpq3UPqFQuM68EZ7gRWx1FYbRp01iBnAxgyaon1fvJbO8W3WciB6G5zD-2Q/exec";
 
 /* ===== NAVIGATION ===== */
 function showPage(page, el, isClick = false) {
@@ -887,10 +887,10 @@ async function loadDashboard() {
       margin-bottom:6px;
       font-size:12px;
     ">
-      👤 <b>IC No :</b> ${r.ic}<br>
-      💳 <b>Account No :</b> ${r.account}<br>
-      📁 <b>Total File :</b> ${r.total} ${r.total > 1 ? "files" : "file"}<br>
-      🧑 <b>Uploaded By :</b> ${r.user}<br>
+      👤 <span style="font-weight:bold;">IC No :</span> ${r.ic}<br>
+      💳 <span style="font-weight:bold;">Account No :</span> ${r.account}<br>
+      📁 <span style="font-weight:bold;">Total File :</span> ${r.total} files<br>
+      🧑 <span style="font-size:11px; color:#666;">Uploaded by: ${f.user}</span>
       ⏱ ${r.time}
     </div>
   `;
@@ -980,11 +980,14 @@ let filesData = await Promise.all(selectedFiles.map(async (file) => {
   };
 }));
 
-    let payload = {
-      ic,
-      account,
-      files: filesData
-    };
+const user = JSON.parse(localStorage.getItem("user"));
+
+let payload = {
+  ic,
+  account,
+  userId: user.userId, // 🔥 tambah ni
+  files: filesData
+};
 
     await fetch(WEB_APP_URL, {
       method: "POST",
@@ -1157,7 +1160,7 @@ if (dateMatch) {
     <div class="file-item">
       <div style="font-weight:bold;">
         📁 Account No: ${acc} 
-        <span style="color:#666; font-size:12px;">(${count} files)</span>
+        <span style="color:#666; font-size:12px;">(${count} ${count > 1 ? "files" : "file"})</span>
       </div>
 
       <div style="font-size:11px; color:#888; margin-top:2px;">
