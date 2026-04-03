@@ -895,8 +895,6 @@ async function loadDashboard() {
 (data.recent || []).forEach(r => {
 html += `
   <div class="file-item" onclick="goToSearch('${r.ic}')" style="
-    cursor:pointer;
-  ">
     background:#f1f3f7;
     padding:10px;
     border-radius:10px;
@@ -904,13 +902,15 @@ html += `
     font-size:12px;
     cursor:pointer;
   ">
-      👤 <span style="font-weight:bold;">IC No :</span> ${r.ic}<br>
-      💳 <span style="font-weight:bold;">Account No :</span> ${r.account}<br>
-      📁 <span style="font-weight:bold;">Total File :</span> ${r.total} ${r.total > 1 ? "files" : "file"}<br>
-      🧑 <span style="font-size:11px; color:#666;">Uploaded by: ${r.user}</span>
-      ⏱ ${r.time}
-    </div>
-  `;
+  
+    👤 <span style="font-weight:bold;">IC No :</span> ${r.ic}<br>
+    💳 <span style="font-weight:bold;">Account No :</span> ${r.account}<br>
+    📁 <span style="font-weight:bold;">Total File :</span> ${r.total} ${r.total > 1 ? "files" : "file"}<br>
+    🧑 <span style="font-size:11px; color:#666;">Uploaded by: ${r.user}</span>
+    ⏱ ${r.time}
+    
+  </div>
+`;
 });
 
     document.getElementById("recentList").innerHTML = 
