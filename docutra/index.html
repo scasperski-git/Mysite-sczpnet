@@ -613,33 +613,6 @@ button.action {
 .sidebar-footer b {
   color: #00bfff;
 }
-
-.mobile-footer {
-  display: none; /* 🔥 IMPORTANT */
-}
-
-@media (max-width: 768px) {
-  .mobile-footer {
-    position: fixed;
-    bottom: 95px;
-
-    left: 50%;                 /* 🔥 align sama macam nav */
-    transform: translateX(-50%);
-    width: 92%;                /* 🔥 sama width nav */
-
-    text-align: center;
-    font-size: 10px;
-    color: rgba(0,0,0,0.4);
-
-    z-index: 1000;
-    pointer-events: none;
-  }
-
-  .mobile-footer b {
-    color: #00bfff;
-  }
-}
-
   
 </style>
 </head>
@@ -765,9 +738,7 @@ button.action {
 </div>
 
 </div>
-<div class="mobile-footer">
-  Powered by <b>sczpnet.org</b>
-</div>
+
 </div>
 
 <!-- BOTTOM NAV (MOBILE) -->
