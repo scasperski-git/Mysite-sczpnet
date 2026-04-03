@@ -614,22 +614,30 @@ button.action {
   color: #00bfff;
 }
 
-.mobile-footer {
-  display: none;
-}
-
 @media (max-width: 768px) {
   .mobile-footer {
-    display: block;
+    position: fixed;   /* 🔥 penting */
+    bottom: 65px;      /* atas sikit dari bottom nav */
+    left: 0;
+    width: 100%;
+    
     text-align: center;
     font-size: 11px;
-    color: #888;
-    margin-bottom: 70px;
+    color: #aaa;
+
+    z-index: 998; /* bawah nav (999) */
   }
 
   .mobile-footer b {
     color: #00bfff;
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(6px);
+    padding: 4px 0;
   }
+}
+  
+.main {
+  padding-bottom: 100px;
 }
   
 </style>
