@@ -547,18 +547,23 @@ button.action {
   }
 }
 
+.file-item {
+  transition: all 0.25s ease;
+}
+
 /* desktop hover */
 @media (hover: hover) {
   .file-item:hover {
+    background: #f0f8ff;
+    border-left: 4px solid #00bfff;
     transform: scale(1.02);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
   }
 }
 
 /* mobile tap */
 .file-item:active {
   transform: scale(0.97);
-  background: #e6f4ff;
+  background: #dbefff;
 }
   
 </style>
