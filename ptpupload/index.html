@@ -579,7 +579,7 @@ button.action {
 <div id="login" class="box" style="display:none; max-width:400px; margin:40px auto;">
   <h3>🔐 Login</h3>
 
-  <input type="text" id="email" placeholder="User ID">
+  <input type="text" id="userId" placeholder="User ID">
   <input type="password" id="password" placeholder="Password">
 
   <button class="action" onclick="login()">Login</button>
@@ -679,7 +679,7 @@ button.action {
 
 <script>
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyloUsj9lmP7112MWnlD-6reTBzfZGrwPwmmp7AUldtelI3Us5_gZIZRyN6A-i9Ej7t/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxqCL0z2teysxAsecR-HtNju193edjlOMEoslLwQy0ql7NJYvZbuMlFIOVXe0TsjNMw6g/exec";
 
 /* ===== NAVIGATION ===== */
 function showPage(page, el, isClick = false) {
@@ -804,16 +804,16 @@ function removeFile(index) {
 
 async function login() {
 
-  const email = document.getElementById("email").value;
+  const userId = document.getElementById("userId").value;
   const password = document.getElementById("password").value;
 
   const res = await fetch(WEB_APP_URL, {
     method: "POST",
-    body: JSON.stringify({
-      action: "login",
-      email: email,
-      password: password
-    })
+body: JSON.stringify({
+  action: "login",
+  userId: userId,
+  password: password
+})
   });
 
   const data = await res.json();
@@ -845,7 +845,7 @@ function applyRole(role) {
 
   // 👤 DISPLAY NAME
   document.getElementById("welcomeName").innerText =
-    "👤 Welcome, " + user.email;
+    "👤 Welcome, " + user.userId;
 
   // 🏷 ROLE
   document.getElementById("userRole").innerText =
@@ -894,7 +894,8 @@ async function loadDashboard() {
       `;
     });
 
-    document.getElementById("recentList").innerHTML = html || "No activity yet";
+    document.getElementById("recentList").innerHTML = 
+  html || '<div style="color:#888; font-size:12px;">No activity today</div>';
 
   } catch (e) {
     console.error("Dashboard load error", e);
