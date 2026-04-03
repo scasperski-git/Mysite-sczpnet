@@ -600,18 +600,21 @@ button.action {
 }
 
 .sidebar-footer {
-  position: absolute;
-  bottom: 15px;
-  left: 0;
-  width: 100%;
+  margin-top: 20px;
   text-align: center;
 
   font-size: 11px;
   color: rgba(255,255,255,0.6);
 }
 
-.sidebar-footer b {
+.sidebar-footer a {
   color: #00bfff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sidebar-footer a:hover {
+  text-decoration: underline;
 }
 
 .bottom-powered {
@@ -627,9 +630,14 @@ button.action {
   pointer-events: none; /* tak ganggu klik button */
 }
 
-.bottom-powered span {
+.bottom-powered a {
   color: #00bfff;
+  text-decoration: none;
   font-weight: 500;
+}
+
+.bottom-powered a:active {
+  opacity: 0.7;
 }
   
 </style>
@@ -655,7 +663,7 @@ button.action {
 </button>
   
 <div class="sidebar-footer">
-  Powered by <b>sczpnet.org</b><br>
+  Powered by <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
 </div>
 
 </div>
@@ -767,10 +775,9 @@ button.action {
   <button onclick="showPage('search', this)">🔍<br>Search</button>
   <button onclick="logout()">🔓<br>Logout</button>
 
-  <!-- 🔥 ADD THIS -->
-  <div class="bottom-powered">
-    Powered by <span>sczpnet.org</span>
-  </div>
+<div class="bottom-powered">
+  Powered by <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
+</div>
 
 </div>
 
