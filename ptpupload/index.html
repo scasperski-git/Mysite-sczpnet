@@ -594,6 +594,43 @@ button.action {
       box-shadow: 0 0 10px #00bfff;
   }
 }
+
+.sidebar {
+  position: relative;
+}
+
+.sidebar-footer {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+}
+
+.sidebar-footer b {
+  color: #00bfff;
+}
+
+.mobile-footer {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-footer {
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 70px;
+  }
+
+  .mobile-footer b {
+    color: #00bfff;
+  }
+}
   
 </style>
 </head>
@@ -616,6 +653,10 @@ button.action {
 ">
   Logout 🔓
 </button>
+  
+<div class="sidebar-footer">
+  Powered by <b>sczpnet.org</b><br>
+  <span>for Singer (M) Sdn Bhd</span>
 </div>
 
 <!-- MAIN -->
@@ -716,6 +757,11 @@ button.action {
 
 </div>
 </div>
+
+<div class="mobile-footer">
+  Powered by <b>sczpnet.org</b> • Singer (M) Sdn Bhd
+</div>
+
 
 <!-- BOTTOM NAV (MOBILE) -->
 <div class="bottom-nav">
