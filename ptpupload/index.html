@@ -827,6 +827,8 @@ async function login() {
 
     applyRole(data.role);
 
+    loadDashboard(); //
+
   } else {
     document.getElementById("loginMsg").innerText = "Invalid login";
   }
@@ -909,9 +911,21 @@ window.addEventListener("load", function() {
     return;
   }
 
-  showPage("dashboard");
+  // 🔥 GET LAST PAGE
+  const savedPage = localStorage.getItem("activePage") || "dashboard";
+
+  showPage(savedPage);
   applyRole(user.role);
   loadDashboard();
+
+  // 🔥 FIX ACTIVE BUTTON UI
+  document.querySelectorAll(".sidebar button, .bottom-nav button").forEach(btn => {
+    btn.classList.remove("active");
+
+    if (btn.getAttribute("onclick")?.includes(savedPage)) {
+      btn.classList.add("active");
+    }
+  });
 
 });
 
