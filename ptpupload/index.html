@@ -546,6 +546,11 @@ button.action {
     display: block;
   }
 }
+
+.file-item:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
   
 </style>
 </head>
@@ -879,14 +884,15 @@ async function loadDashboard() {
     let html = "";
 
 (data.recent || []).forEach(r => {
-  html += `
-    <div style="
-      background:#f1f3f7;
-      padding:10px;
-      border-radius:10px;
-      margin-bottom:6px;
-      font-size:12px;
-    ">
+html += `
+  <div onclick="goToSearch('${r.ic}')" style="
+    background:#f1f3f7;
+    padding:10px;
+    border-radius:10px;
+    margin-bottom:6px;
+    font-size:12px;
+    cursor:pointer;
+  ">
       👤 <span style="font-weight:bold;">IC No :</span> ${r.ic}<br>
       💳 <span style="font-weight:bold;">Account No :</span> ${r.account}<br>
       📁 <span style="font-weight:bold;">Total File :</span> ${r.total} ${r.total > 1 ? "files" : "file"}<br>
@@ -1191,6 +1197,18 @@ if (dateMatch) {
 document.getElementById("searchIC").addEventListener("keypress", function(e){
   if (e.key === "Enter") search();
 });
+
+function goToSearch(ic) {
+
+  // pergi ke page search
+  showPage("search");
+
+  // isi IC
+  document.getElementById("searchIC").value = ic;
+
+  // auto search
+  search();
+}
 
 /* ===== AUTO FORMAT IC (UPDATED) ===== */
 function formatIC(value) {
