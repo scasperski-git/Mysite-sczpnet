@@ -620,23 +620,23 @@ button.action {
 
 @media (max-width: 768px) {
   .mobile-footer {
-    display: block;   /* 🔥 SHOW ON MOBILE */
+    display: block;
     position: fixed;
-    bottom: 80px;     /* adjust sikit */
+    bottom: 75px;   /* adjust sikit */
     left: 0;
     width: 100%;
+
     text-align: center;
-    font-size: 11px;
-    color: #aaa;
+    font-size: 10px;
+    color: rgba(0,0,0,0.4); /* 🔥 soft text */
+
     z-index: 1000;
-    background: rgba(255,255,255,0.7);
-    backdrop-filter: blur(6px);
-    padding: 4px 0;
-    border-radius: 10px;
+    pointer-events: none; /* 🔥 tak kacau klik nav */
   }
 
   .mobile-footer b {
     color: #00bfff;
+    font-weight: 600;
   }
 }
   
