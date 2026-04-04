@@ -637,6 +637,14 @@ button.action {
 .bottom-powered a:active {
   opacity: 0.7;
 }
+
+.modal-icon {
+  transition: all 0.3s ease;
+}
+
+.modal-icon.success {
+  box-shadow: 0 0 20px rgba(0,255,160,0.6);
+}
   
 </style>
 </head>
@@ -909,36 +917,67 @@ async function login() {
   const userId = document.getElementById("userId").value;
   const password = document.getElementById("password").value;
 
-  const res = await fetch(WEB_APP_URL, {
-    method: "POST",
-body: JSON.stringify({
-  action: "login",
-  userId: userId,
-  password: password
-})
-  });
+  // 🔥 SHOW PREMIUM LOADING
+  document.getElementById("overlay").style.display = "flex";
 
-  const data = await res.json();
+  document.getElementById("modalIcon").className = "modal-icon loading";
+  document.getElementById("modalTitle").innerText = "Authenticating...";
+  document.getElementById("modalSub").innerText = "Securing your session";
 
-  if (data.status === "success") {
+  document.getElementById("okBtn").style.display = "none";
+  document.querySelector(".check-svg").style.display = "none";
 
-    // SAVE SESSION
-    localStorage.setItem("user", JSON.stringify(data));
+  try {
 
-    showPage("dashboard");
+    const res = await fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify({
+        action: "login",
+        userId: userId,
+        password: password
+      })
+    });
 
-    applyRole(data.role);
+    const data = await res.json();
 
-    loadDashboard(); //
+    if (data.status === "success") {
 
-  } else {
-    document.getElementById("loginMsg").innerText = "Invalid login";
+      // 🔥 SUCCESS ANIMATION
+      const svg = document.querySelector(".check-svg");
+
+      svg.style.display = "none";
+      svg.offsetHeight;
+      svg.style.display = "block";
+
+      document.getElementById("modalIcon").className = "modal-icon";
+      document.getElementById("modalTitle").innerText = "Access Granted";
+      document.getElementById("modalSub").innerText = "Welcome back";
+
+      // SAVE SESSION
+      localStorage.setItem("user", JSON.stringify(data));
+
+      // 🔥 DELAY for smooth feel
+      setTimeout(() => {
+        document.getElementById("overlay").style.display = "none";
+
+        showPage("dashboard");
+        applyRole(data.role);
+        loadDashboard();
+
+      }, 1200);
+
+    } else {
+
+      document.getElementById("overlay").style.display = "none";
+      document.getElementById("loginMsg").innerText = "Invalid login";
+
+    }
+
+  } catch (err) {
+    alert("Login failed!");
+    console.error(err);
+    location.reload();
   }
-}
-
-function logout() {  
-  localStorage.removeItem("user");  
-  location.reload();  
 }
 
 function applyRole(role) {
