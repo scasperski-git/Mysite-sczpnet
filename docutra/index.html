@@ -1,27 +1,24 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DocuTrack System | Professional</title>
+<title>DocuTrack System</title>
 
 <style>
-/* ===== GLOBAL RESET ===== */
+
 * {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
 }
   
 body {
   margin: 0;
-  font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background: #f4f7fa;
-  color: #334155;
+  font-family: 'Segoe UI', Arial;
+  background: #eef2f7;
 }
 
 button {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  font-family: inherit;
+  transition: all 0.2s ease;
 }
 
 /* ===== LAYOUT ===== */
@@ -32,247 +29,623 @@ button {
 
 /* ===== SIDEBAR (DESKTOP) ===== */
 .sidebar {
-  width: 260px;
-  background: #0f172a;
+  width: 220px;
+  background: #1e2a38;
   color: white;
-  padding: 30px 20px;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 4px 0 10px rgba(0,0,0,0.05);
+  padding: 20px;
 }
 
 .sidebar h2 {
-  font-size: 22px;
-  font-weight: 800;
-  margin: 0 0 5px 0;
-  background: linear-gradient(to right, #38bdf8, #818cf8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   text-align: center;
-}
-
-.sidebar-desc {
-  font-size: 11px;
-  text-align: center;
-  color: #94a3b8;
-  margin-bottom: 40px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  margin-bottom: 30px;
 }
 
 .sidebar button {
   width: 100%;
-  padding: 14px 18px;
-  margin-bottom: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
   border: none;
-  background: transparent;
-  color: #94a3b8;
+  background: linear-gradient(145deg, #2a3a4d, #1b2735);
+  color: #cfd8e3;
   border-radius: 12px;
   cursor: pointer;
-  text-align: left;
-  font-size: 15px;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  transition: all 0.25s ease;
+
+  box-shadow: 
+    4px 4px 10px rgba(0,0,0,0.4),
+    -2px -2px 6px rgba(255,255,255,0.05);
 }
 
+/* hover (desktop only feel) */
+@media (hover: hover) {
+  .sidebar button:hover {
+    transform: translateX(5px);
+  }
+}
+
+/* ACTIVE (🔥 POWER LOOK) */
 .sidebar button.active {
-  background: rgba(56, 189, 248, 0.1);
-  color: #38bdf8;
-}
-
-.sidebar button:hover:not(.active) {
-  background: rgba(255, 255, 255, 0.05);
+  background: linear-gradient(135deg, #00bfff, #007bff);
   color: white;
+
+  box-shadow: 
+    inset 0 2px 6px rgba(255,255,255,0.2),
+    0 0 15px rgba(0,191,255,0.6);
 }
 
-/* ===== MAIN CONTENT ===== */
+/* ===== MAIN ===== */
 .main {
   flex: 1;
-  padding: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
+  padding: 20px;
+  padding-bottom: 80px; /* space for bottom nav */
 }
 
 .box {
   background: white;
-  padding: 25px;
-  margin-bottom: 25px;
-  border-radius: 20px;
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
 h3 {
-  margin: 0 0 20px 0;
-  font-size: 18px;
-  font-weight: 700;
-  color: #1e293b;
+  margin-bottom: 10px;
 }
 
+/* ===== ROW ===== */
 .row {
   display: flex;
-  gap: 15px;
-  margin-bottom: 15px;
+  gap: 10px;
 }
 
-/* ===== INPUTS & BUTTONS ===== */
-input {
-  width: 100%;
-  padding: 14px 16px;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  font-size: 15px;
-  background: #f8fafc;
-  transition: all 0.2s ease;
-  outline: none;
-}
-
-input:focus {
-  border-color: #38bdf8;
-  background: white;
-  box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
-}
-
-button.action {
-  background: linear-gradient(135deg, #0284c7, #2563eb);
-  color: white;
-  font-weight: 600;
-  border: none;
-  border-radius: 12px;
-  padding: 15px;
-  width: 100%;
-  cursor: pointer;
-  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
-}
-
-button.action:active {
-  transform: scale(0.98);
-}
-
-/* ===== KPI CARDS ===== */
-.kpi {
-  background: white;
-  padding: 20px;
-  border-radius: 16px;
-  border-left: 5px solid #38bdf8;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-  transition: transform 0.2s ease;
-}
-
-.kpi:hover { transform: translateY(-3px); }
-
-.kpi-title { font-size: 13px; color: #64748b; font-weight: 600; }
-.kpi-value { font-size: 26px; font-weight: 800; color: #0f172a; margin-top: 5px; }
-
-/* ===== FILE LIST & ITEMS ===== */
+/* ===== FILE CARD ===== */
 .file-item {
-  background: #ffffff;
-  padding: 16px;
-  border-radius: 14px;
-  margin-bottom: 12px;
-  border: 1px solid #f1f5f9;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  background: #f8f9fb;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
-.file-name {
-  font-weight: 600;
-  color: #334155;
-  font-size: 14px;
-  word-break: break-all;
-}
-
-/* ===== MOBILE HEADER & NAV ===== */
-.mobile-header {
-  display: none;
-  background: #0f172a;
-  color: white;
-  padding: 15px;
-  text-align: center;
-  font-weight: 700;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
+/* ===== BOTTOM NAV (MOBILE) ===== */
 .bottom-nav {
   display: none;
   position: fixed;
-  bottom: 20px;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  background: rgba(15, 23, 42, 0.95);
-  backdrop-filter: blur(10px);
-  padding: 10px;
-  border-radius: 20px;
+  width: 92%;
+  background: rgba(30, 42, 56, 0.9);
+  backdrop-filter: blur(12px);
+  padding: 14px 10px 18px;
   justify-content: space-around;
-  z-index: 1000;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+  z-index: 999;
+
+  border-radius: 20px;
+
+  box-shadow: 
+    0 10px 30px rgba(0,0,0,0.4),
+    inset 0 1px 2px rgba(255,255,255,0.1);
 }
 
 .bottom-nav button {
   background: none;
   border: none;
-  color: #94a3b8;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 8px;
+  color: #aaa;
+  font-size: 12px;
+  flex: 1;
+  transition: all 0.2s ease;
 }
 
+/* icon animation */
+.bottom-nav button:active {
+  transform: scale(0.9);
+}
+
+/* ACTIVE BUTTON */
 .bottom-nav button.active {
-  color: #38bdf8;
+  color: #00bfff;
+  transform: translateY(-6px) scale(1.1);
+  font-weight: bold;
 }
 
-/* ===== MODAL & OVERLAY ===== */
+.bottom-nav button.active::after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 3px;
+  background: #00bfff;
+  margin: 4px auto 0;
+  border-radius: 10px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+
+  .app {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .bottom-nav {
+    display: flex;
+  }
+
+  .main {
+    padding: 10px;
+    padding-bottom: 80px;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+}
+
+/* ===== LOADING OVERLAY ===== */
 #overlay {
   position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(8px);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(5px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  flex-direction: column;
+  color: white;
+  font-size: 18px;
+}
+
+/* spinner */
+.loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #00bfff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+
+/* success tick */
+.checkmark {
+  font-size: 60px;
+  color: #00ff9f;
+  display: none;
+}
+
+button.action {
+  background: linear-gradient(135deg, #00bfff, #007bff);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  width: 100%;
+  transition: all 0.2s ease;
+  box-shadow: 0 6px 15px rgba(0,123,255,0.3);
+}
+
+/* tekan effect */
+button.action:active {
+  transform: scale(0.96);
+  box-shadow: 0 3px 8px rgba(0,123,255,0.2);
+}
+
+.search-loader {
+  width: 30px;
+  height: 30px;
+  border: 4px solid #eee;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 20px auto;
+}
+
+input {
+  width: 100%;
+  max-width: 100%;
+  padding: 16px; /* 🔥 dari 14 → 16 */
+  border-radius: 14px; /* 🔥 dari 12 → 14 */
+  border: 1px solid #ddd;
+  font-size: 16px;
+  transition: all 0.2s ease;
+
+  box-sizing: border-box;
+}
+
+.box {
+  overflow: hidden;
+}
+/* bila focus */
+input:focus {
+  border-color: #00bfff;
+  box-shadow: 0 0 0 3px rgba(0,191,255,0.15);
+  transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+
+  button {
+    padding: 16px;
+    font-size: 16px;
+  }
+
+  input {
+    font-size: 16px; /* prevent zoom iPhone */
+  }
+
+}
+
+.file-name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  font-size: 13px;
+  color: #444;
+  margin-top: 4px;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+
+  word-break: break-all;   /* 🔥 FORCE FULL WIDTH */
+}
+
+.box {
+  overflow: hidden;
+}
+
+#search input {
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* 🔥 main spacing */
+  margin-top: 10px;
+}
+
+.box {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* spacing antara elements dalam box */
+.box > * + * {
+  margin-top: 12px;
+}
+
+button.action {
+  margin-top: 4px;
+}
+
+.mobile-header {
+  display: none;
+}
+
+/* MOBILE ONLY */
+@media (max-width: 768px) {
+
+  .mobile-header {
+    display: block;
+    position: sticky;
+    top: 0;
+    background: #1e2a38;
+    color: white;
+    text-align: center;
+    padding: 14px;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 1000;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+
+}
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
   display: none;
   justify-content: center;
   align-items: center;
   z-index: 9999;
 }
 
+/* modal box */
 .modal {
   background: white;
-  padding: 30px;
-  border-radius: 24px;
+  padding: 25px 20px;
+  border-radius: 18px;
   text-align: center;
-  width: 90%;
-  max-width: 340px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  width: 85%;
+  max-width: 320px;
+
+  box-shadow: 0 15px 40px rgba(0,0,0,0.2);
 }
 
-/* ===== UTILITIES ===== */
-.search-loader {
-  width: 40px; height: 40px;
-  border: 4px solid #f1f5f9;
-  border-top: 4px solid #38bdf8;
+/* icon */
+.modal-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 15px;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin: 20px auto;
+  position: relative;
 }
 
-@keyframes spin { 100% { transform: rotate(360deg); } }
+/* loading spinner */
+.modal-icon.loading {
+  border: 5px solid #eee;
+  border-top: 5px solid #00bfff;
+  animation: spin 1s linear infinite;
+}
 
-/* ===== RESPONSIVE ===== */
+/* success circle */
+.modal-icon.success {
+  background: linear-gradient(135deg, #4facfe, #00c6ff);
+  animation: popIn 0.4s ease, glow 1.5s infinite alternate;
+}
+
+/* tick guna border (clean, bukan emoji) */
+.modal-icon.success::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 28px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+  top: 14px;
+  left: 22px;
+}
+
+/* title */
+.modal-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+/* sub text */
+.modal-sub {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 15px;
+}
+
+/* OK button */
+#okBtn {
+  display: none;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #00bfff, #007bff);
+  color: white;
+  font-weight: bold;
+}
+  
+.modal {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 6px 15px rgba(0,191,255,0.3);
+  }
+  to {
+    box-shadow: 0 10px 30px rgba(0,191,255,0.6);
+  }
+}
+
+.modal-icon {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 15px;
+}
+
+/* SVG size */
+.check-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* circle animation */
+.check-circle {
+  stroke: #00d68f;
+  stroke-width: 3;
+  stroke-dasharray: 160;
+  stroke-dashoffset: 160;
+  animation: drawCircle 0.4s ease forwards;
+}
+
+/* tick animation */
+.check-mark {
+  stroke: #00d68f;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+
+  stroke-dasharray: 50;
+  stroke-dashoffset: 50;
+
+  animation: drawTick 0.3s ease 0.4s forwards;
+}
+
+/* animation keyframes */
+@keyframes drawCircle {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes drawTick {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.kpi {
+  background: linear-gradient(135deg, #00bfff, #007bff);
+  color: white;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0,123,255,0.25);
+}
+
+.kpi-title {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.kpi-value {
+  font-size: 22px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.mobile-only {
+  display: none;
+}
+
 @media (max-width: 768px) {
-  .sidebar { display: none; }
-  .mobile-header { display: block; }
-  .bottom-nav { display: flex; }
-  .main { padding: 15px; padding-bottom: 100px; }
-  .row { flex-direction: column; }
-  .kpi-grid { grid-template-columns: 1fr 1fr !important; }
+  .mobile-only {
+    display: block;
+  }
 }
 
-.sidebar-footer { margin-top: auto; padding-top: 20px; font-size: 10px; color: #475569; text-align: center; }
-.sidebar-footer a { color: #38bdf8; text-decoration: none; }
+.file-item {
+  transition: all 0.25s ease;
+}
 
+/* desktop hover */
+@media (hover: hover) {
+  .file-item:hover {
+    background: #f0f8ff;
+    border-left: 4px solid #00bfff;
+    transform: scale(1.02);
+  }
+}
+
+/* mobile tap */
+.file-item:active {
+  transform: scale(0.97);
+  background: #dbefff;
+}
+
+.sidebar button {
+  position: relative; /* penting untuk border animation */
+  overflow: hidden;
+}
+
+/* hover effect */
+@media (hover: hover) {
+  .sidebar button:hover {
+    transform: translateX(5px);
+  }
+
+  .sidebar button::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: #00bfff;
+    transition: width 0.25s ease;
+    border-radius: 12px 0 0 12px;
+  }
+
+  .sidebar button:hover::before {
+      width: 4px;
+      box-shadow: 0 0 10px #00bfff;
+  }
+}
+
+.sidebar {
+  position: relative;
+}
+
+.sidebar-footer {
+  margin-top: 20px;
+  text-align: center;
+
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+}
+
+.sidebar-footer a {
+  color: #00bfff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sidebar-footer a:hover {
+  text-decoration: underline;
+}
+
+.bottom-powered {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.5);
+}
+
+.bottom-powered a {
+  color: #00bfff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.bottom-powered a:active {
+  opacity: 0.7;
+}
+
+.modal-icon {
+  transition: all 0.3s ease;
+}
+
+.modal-icon.success {
+  box-shadow: 0 0 20px rgba(0,255,160,0.6);
+}
+  
 </style>
 </head>
 
@@ -280,122 +653,142 @@ button.action:active {
 
 <div class="app">
 
+<!-- SIDEBAR (DESKTOP) -->
 <div class="sidebar">
-  <h2>DocuTrack</h2>
-  <p class="sidebar-desc">Management System</p>
+  <h2>📂 DocuTrack System</h2>
+<p style="font-size:11px; text-align:center; color:#aaa;">Document System</p>
+  <button onclick="showPage('dashboard', this, true)" class="active">Dashboard</button>
+  <button onclick="showPage('upload', this)">Upload</button>
+  <button onclick="showPage('search', this)">Search</button>
+  <button onclick="logout()" style="
+  margin-top:20px;
+  background:#ff4d4f;
+  color:white;
+">
+  Logout 🔓
+</button>
   
-  <button onclick="showPage('dashboard', this, true)" class="active">🏠 Dashboard</button>
-  <button onclick="showPage('upload', this)">📤 Upload Document</button>
-  <button onclick="showPage('search', this)">🔍 Search Records</button>
-  
-  <button onclick="logout()" style="margin-top:20px; color: #f87171;">🔓 Logout System</button>
-  
-  <div class="sidebar-footer">
-    Powered by <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
-  </div>
+<div class="sidebar-footer">
+  Powered by <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
 </div>
 
-<div class="mobile-header">DocuTrack System</div>
-
+</div>
+<!-- MAIN -->
+<div class="mobile-header">
+  📂 DocuTrack System
+</div>
 <div class="main">
 
-  <div id="login" class="box" style="display:none; max-width:400px; margin:60px auto;">
-    <div style="text-align:center; margin-bottom:25px;">
-        <h3 style="margin-bottom:5px;">Welcome Back</h3>
-        <p style="font-size:14px; color:#64748b;">Please enter your credentials</p>
-    </div>
-    <div style="display:flex; flex-direction:column; gap:15px;">
-      <input type="text" id="userId" placeholder="Username / ID">
-      <input type="password" id="password" placeholder="Password">
-      <button class="action" onclick="login()">Login Securely</button>
-    </div>
-    <p id="loginMsg" style="color:#ef4444; font-size:13px; text-align:center; margin-top:15px;"></p>
-  </div>
+<div id="login" class="box" style="display:none; max-width:400px; margin:40px auto;">
+  <h3>🔐 Login</h3>
 
-  <div id="dashboard" class="box">
-    <h3>📊 System Overview</h3>
+  <input type="text" id="userId" placeholder="User ID">
+  <input type="password" id="password" placeholder="Password">
 
-    <div style="margin-bottom:25px;">
-      <div id="welcomeName" style="font-weight:800; font-size:20px; color:#0f172a;"></div>
-      <div id="userRole" style="font-size:13px; color:#64748b; font-weight:500;"></div>
-    </div>
+  <button class="action" onclick="login()">Login</button>
 
-    <div class="kpi-grid" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:15px;">
-      <div class="kpi">
-        <div class="kpi-title">TOTAL DOCS</div>
-        <div class="kpi-value" id="kpiDocs">0</div>
-      </div>
-      <div class="kpi" style="border-left-color: #818cf8;">
-        <div class="kpi-title">TOTAL IC</div>
-        <div class="kpi-value" id="kpiIC">0</div>
-      </div>
-      <div class="kpi" style="border-left-color: #34d399;">
-        <div class="kpi-title">ACCOUNTS</div>
-        <div class="kpi-value" id="kpiAcc">0</div>
-      </div>
-      <div class="kpi" style="border-left-color: #fbbf24;">
-        <div class="kpi-title">TODAY UPLOAD</div>
-        <div class="kpi-value" id="kpiToday">0</div>
-      </div>
-    </div>
+  <p id="loginMsg"></p>
+</div>
 
-    <div style="margin-top:35px;">
-      <h3 style="font-size:16px;">🕒 Recent Activities</h3>
-      <div id="recentList"></div>
-    </div>
-  </div>
+<!-- DASHBOARD -->
+<div id="dashboard" class="box">
+  <h3>📊 DocuTrack Dashboard</h3>
 
-  <div id="upload" class="box" style="display:none;">
-    <h3>📤 Upload New Document</h3>
-    <div class="row">
-      <input type="text" id="ic" placeholder="IC Number (XXXXXX-XX-XXXX)">
-      <input type="text" id="account" placeholder="Account Number" inputmode="numeric">
-    </div>
-    <div style="background:#f8fafc; border:2px dashed #e2e8f0; padding:30px; border-radius:15px; text-align:center; margin-bottom:15px;">
-        <input type="file" id="files" multiple style="display:none;">
-        <button onclick="document.getElementById('files').click()" style="background:#fff; border:1px solid #e2e8f0; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:600;">Choose Files</button>
-        <p style="font-size:12px; color:#64748b; margin-top:10px;">Maximum 4 files (Images/PDF)</p>
-    </div>
-    <div id="fileList"></div>
-    <button class="action" onclick="upload()" style="margin-top:10px;">Start Upload</button>
-    <p id="msg"></p>
-  </div>
+  <!-- USER INFO -->
+<div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:30px;">
 
-  <div id="search" class="box" style="display:none;">
-    <h3>🔍 Search Records</h3>
-    <div style="display:flex; gap:10px; margin-bottom:20px;">
-      <input type="text" id="searchIC" placeholder="Enter IC Number to find...">
-      <button class="action" onclick="search()" style="width:120px; padding:0;">Search</button>
-    </div>
-    <div id="result"></div>
+  <!-- LEFT: USER INFO -->
+  <div style="display:flex; flex-direction:column; gap:4px;">
+    <div id="welcomeName" style="font-weight:bold; font-size:16px;"></div>
+    <div id="userRole" style="font-size:12px; color:#777;"></div>
   </div>
 
 </div>
+
+  <!-- KPI CARDS -->
+  <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px;">
+    
+    <div class="kpi">
+      <div class="kpi-title">📁 Documents</div>
+      <div class="kpi-value" id="kpiDocs">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-title">👤 IC</div>
+      <div class="kpi-value" id="kpiIC">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-title">🗂 Account</div>
+      <div class="kpi-value" id="kpiAcc">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-title">⬆ Today</div>
+      <div class="kpi-value" id="kpiToday">0</div>
+    </div>
+
+  </div>
+
+  <!-- RECENT ACTIVITY -->
+  <div style="margin-top:20px;">
+    <div style="font-weight:bold; margin-bottom:8px;">🕒 Recent Activity</div>
+    <div id="recentList"></div>
+  </div>
+
 </div>
 
+<!-- UPLOAD -->
+<div id="upload" class="box" style="display:none;">
+  <h3>Upload Document</h3>
+
+  <div class="row">
+<input type="text" id="ic" placeholder="Enter IC (e.g. XXXXXX-XX-XXXX)">
+<input type="text" id="account" placeholder="Enter Account No" inputmode="numeric">
+  </div>
+
+<input type="file" id="files" multiple>
+
+<p style="font-size:12px; color:#666;">Maximum 4 files only</p>
+
+<div id="fileList" style="margin-top:10px;"></div>
+
+  <button class="action" onclick="upload()">Upload</button>
+  <p id="msg"></p>
+</div>
+
+<!-- SEARCH -->
+<div id="search" class="box" style="display:none;">
+  <h3>Search by IC</h3>
+
+<div class="form-group">
+  <input type="text" id="searchIC" placeholder="Enter IC (e.g. XXXXXX-XX-XXXX)" maxlength="14">
+  <button class="action" onclick="search()">Search</button>
+</div>
+
+  <div id="result"></div>
+</div>
+
+</div>
+
+</div>
+
+<!-- BOTTOM NAV (MOBILE) -->
 <div class="bottom-nav">
+  
   <button onclick="showPage('dashboard', this, true)" class="active">🏠<br>Home</button>
-  <button onclick="showPage('upload', this)">📤<br>Upload</button>
+  <button onclick="showPage('upload', this)">⬆<br>Upload</button>
   <button onclick="showPage('search', this)">🔍<br>Search</button>
   <button onclick="logout()">🔓<br>Logout</button>
+
+<div class="bottom-powered">
+  Powered by <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
 </div>
 
-<div id="overlay">
-  <div class="modal">
-    <div class="modal-icon" id="modalIcon" style="margin-bottom:20px;">
-      <svg class="check-svg" viewBox="0 0 52 52" style="width:60px; height:60px; margin:0 auto; display:none;">
-        <circle cx="26" cy="26" r="25" fill="none" stroke="#10b981" stroke-width="3"/>
-        <path fill="none" stroke="#10b981" stroke-width="3" d="M14 27l7 7 16-16"/>
-      </svg>
-      <div class="search-loader" id="modalSpinner"></div>
-    </div>
-    <div class="modal-title" id="modalTitle" style="font-weight:700; font-size:18px;">Processing...</div>
-    <div class="modal-sub" id="modalSub" style="color:#64748b; font-size:14px; margin:8px 0 20px 0;">Please wait</div>
-    <button id="okBtn" onclick="closeModal()" style="display:none; width:100%; padding:12px; border-radius:10px; border:none; background:#0f172a; color:white; font-weight:600; cursor:pointer;">Dismiss</button>
-  </div>
 </div>
 
 <script>
+
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyd2deFraEXRG9d6fwghdfd6ZdGFg17-OKWoTHutEl8uHIhWSv33QzHwkgzqBUt6dIPjg/exec";
 
 /* ===== NAVIGATION ===== */
@@ -406,8 +799,7 @@ function showPage(page, el, isClick = false) {
   document.getElementById("search").style.display = "none";
   document.getElementById("login").style.display = "none";
 
-  const target = document.getElementById(page);
-  if(target) target.style.display = "block";
+  document.getElementById(page).style.display = "block";
 
   document.querySelectorAll(".sidebar button, .bottom-nav button").forEach(btn => {
     btn.classList.remove("active");
@@ -430,25 +822,27 @@ function showPage(page, el, isClick = false) {
   }
   
   if (page === "dashboard" && isClick) {  
-    location.reload();  
+  location.reload();  
   }
 
-  if (page === "login") {
+  // 🔐 CONTROL NAV VISIBILITY
+if (page === "login") {
+  document.querySelector(".sidebar").style.display = "none";
+  document.querySelector(".bottom-nav").style.display = "none";
+} else {
+
+  // 🔥 FORCE CORRECT BEHAVIOR
+  if (window.innerWidth <= 768) {
     document.querySelector(".sidebar").style.display = "none";
-    document.querySelector(".bottom-nav").style.display = "none";
-    document.querySelector(".mobile-header").style.display = "none";
+    document.querySelector(".bottom-nav").style.display = "flex";
   } else {
-    if (window.innerWidth <= 768) {
-      document.querySelector(".sidebar").style.display = "none";
-      document.querySelector(".bottom-nav").style.display = "flex";
-      document.querySelector(".mobile-header").style.display = "block";
-    } else {
-      document.querySelector(".sidebar").style.display = "flex";
-      document.querySelector(".bottom-nav").style.display = "none";
-      document.querySelector(".mobile-header").style.display = "none";
-    }
+    document.querySelector(".sidebar").style.display = "block";
+    document.querySelector(".bottom-nav").style.display = "none";
   }
-}
+  
+}  // tutup else
+
+}  // ✅🔥 INI BARU TUTUP showPage()
 
 /* ===== BASE64 ===== */
 function toBase64(file) {
@@ -466,10 +860,12 @@ let selectedFiles = [];
 document.getElementById("files").addEventListener("change", function(e) {
   let newFiles = Array.from(e.target.files);
   selectedFiles = selectedFiles.concat(newFiles);
+
   if (selectedFiles.length > 4) {
     alert("Maximum 4 files only!");
     selectedFiles = selectedFiles.slice(0, 4);
   }
+
   renderFileList();
   this.value = "";
 });
@@ -477,16 +873,37 @@ document.getElementById("files").addEventListener("change", function(e) {
 function renderFileList() {
   const list = document.getElementById("fileList");
   list.innerHTML = "";
+
   selectedFiles.forEach((file, index) => {
+
     let sizeKB = (file.size / 1024).toFixed(1);
-    list.innerHTML += `
-      <div style="background:#f8fafc; padding:12px; border-radius:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; border:1px solid #e2e8f0;">
-        <div>
-          <span style="font-size:14px; font-weight:600; color:#334155;">📄 ${file.name}</span><br>
-          <span style="color:#94a3b8; font-size:11px;">${sizeKB} KB</span>
-        </div>
-        <button onclick="removeFile(${index})" style="background:#fee2e2; border:none; color:#ef4444; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:bold;">✕</button>
-      </div>`;
+
+list.innerHTML += `
+  <div style="
+    background:#f1f3f7;
+    padding:10px;
+    border-radius:10px;
+    margin-bottom:6px;
+    font-size:13px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  ">
+    <div>
+      📄 ${file.name}<br>
+      <span style="color:#888; font-size:11px;">${sizeKB} KB</span>
+    </div>
+
+    <button id="remove-${index}" onclick="removeFile(${index})" style="
+      background:#ff4d4f;
+      border:none;
+      color:white;
+      padding:5px 8px;
+      border-radius:6px;
+      cursor:pointer;
+    ">✕</button>
+  </div>
+`;
   });
 }
 
@@ -496,251 +913,538 @@ function removeFile(index) {
 }
 
 async function login() {
+
   const userId = document.getElementById("userId").value;
   const password = document.getElementById("password").value;
 
+  // 🔥 SHOW PREMIUM LOADING
   document.getElementById("overlay").style.display = "flex";
-  document.getElementById("modalSpinner").style.display = "block";
-  document.querySelector(".check-svg").style.display = "none";
+
+  document.getElementById("modalIcon").className = "modal-icon loading";
   document.getElementById("modalTitle").innerText = "Authenticating...";
+  document.getElementById("modalSub").innerText = "Securing your session";
+
   document.getElementById("okBtn").style.display = "none";
+  document.querySelector(".check-svg").style.display = "none";
 
   try {
+
     const res = await fetch(WEB_APP_URL, {
       method: "POST",
-      body: JSON.stringify({ action: "login", userId: userId, password: password })
+      body: JSON.stringify({
+        action: "login",
+        userId: userId,
+        password: password
+      })
     });
+
     const data = await res.json();
+
     if (data.status === "success") {
-      document.getElementById("modalSpinner").style.display = "none";
-      document.querySelector(".check-svg").style.display = "block";
+
+      // 🔥 SUCCESS ANIMATION
+      const svg = document.querySelector(".check-svg");
+
+      svg.style.display = "none";
+      svg.offsetHeight;
+      svg.style.display = "block";
+
+      document.getElementById("modalIcon").className = "modal-icon";
       document.getElementById("modalTitle").innerText = "Access Granted";
+      document.getElementById("modalSub").innerText = "Welcome back";
+
+      // SAVE SESSION
       localStorage.setItem("user", JSON.stringify(data));
+
+      // 🔥 DELAY for smooth feel
       setTimeout(() => {
         document.getElementById("overlay").style.display = "none";
+
         showPage("dashboard");
         applyRole(data.role);
         loadDashboard();
-      }, 1000);
+
+      }, 1200);
+
     } else {
+
       document.getElementById("overlay").style.display = "none";
-      document.getElementById("loginMsg").innerText = "Invalid credentials. Please try again.";
+      document.getElementById("loginMsg").innerText = "Invalid login";
+
     }
+
   } catch (err) {
-    alert("System error. Please try again.");
+    alert("Login failed!");
+    console.error(err);
     location.reload();
   }
 }
 
 function logout() {
   localStorage.removeItem("user");
+
+  // 🔥 nice UX (optional)
   document.getElementById("overlay").style.display = "flex";
   document.getElementById("modalTitle").innerText = "Logging out...";
-  setTimeout(() => { location.reload(); }, 800);
+  document.getElementById("modalSub").innerText = "Ending session";
+
+  setTimeout(() => {
+    location.reload();
+  }, 800);
 }
 
 function applyRole(role) {
+
   const user = JSON.parse(localStorage.getItem("user"));
-  document.getElementById("welcomeName").innerText = "Hi, " + user.userId;
-  document.getElementById("userRole").innerText = "System Role: " + role;
+
+  // 👤 DISPLAY NAME
+  document.getElementById("welcomeName").innerText =
+    "👤 Welcome, " + user.userId;
+
+  // 🏷 ROLE
+  document.getElementById("userRole").innerText =
+    "Role: " + role;
+
+  if (role === "MASTER") {
+    console.log("MASTER ACCESS");
+  }
+
+  if (role === "USER") {
+    console.log("USER ACCESS");
+  }
 }
   
 async function loadDashboard() {
+
   try {
+
     const res = await fetch(WEB_APP_URL + "?dashboard=1");
     const data = await res.json();
+
+    // EXPECTED FORMAT FROM BACKEND
+    // data = { docs, ic, account, today, recent: [] }
+
     document.getElementById("kpiDocs").innerText = data.docs || 0;
     document.getElementById("kpiIC").innerText = data.ic || 0;
     document.getElementById("kpiAcc").innerText = data.account || 0;
     document.getElementById("kpiToday").innerText = data.today || 0;
 
+    // RECENT ACTIVITY
     let html = "";
-    (data.recent || []).forEach(r => {
-      html += `
-        <div class="file-item" onclick="goToSearch('${r.ic}')" style="cursor:pointer; border-left: 4px solid #38bdf8;">
-          <div style="font-weight:700; color:#1e293b; margin-bottom:5px;">IC: ${r.ic}</div>
-          <div style="font-size:13px; color:#64748b;">
-            Acc: ${r.account} | ${r.total} file(s)<br>
-            <span style="font-size:11px;">By ${r.user} • ${r.time}</span>
-          </div>
-        </div>`;
-    });
-    document.getElementById("recentList").innerHTML = html || '<p style="color:#94a3b8; font-size:13px;">No recent activities.</p>';
-  } catch (e) { console.error("Dashboard error", e); }
-}
 
-window.addEventListener("load", function() {
-  const user = JSON.parse(localStorage.getItem("user"));
-  if (!user) { showPage("login"); return; }
-  const savedPage = localStorage.getItem("activePage") || "dashboard";
-  showPage(savedPage);
-  applyRole(user.role);
-  loadDashboard();
+(data.recent || []).forEach(r => {
+html += `
+  <div class="file-item" onclick="goToSearch('${r.ic}')" style="
+    background:#f1f3f7;
+    padding:10px;
+    border-radius:10px;
+    margin-bottom:6px;
+    font-size:12px;
+    cursor:pointer;
+  ">
+  
+    👤 <span style="font-weight:bold;">IC No :</span> ${r.ic}<br>
+    💳 <span style="font-weight:bold;">Account No :</span> ${r.account}<br>
+    📁 <span style="font-weight:bold;">Total File :</span> ${r.total} ${r.total > 1 ? "files" : "file"}<br>
+    🧑 <span style="font-size:11px; color:#666;">Uploaded by: ${r.user}</span>
+    ⏱ ${r.time}
+    
+  </div>
+`;
 });
 
-async function upload() {
-  const ic = document.getElementById("ic").value.trim();
-  const account = document.getElementById("account").value.trim();
-  if (!ic || !account || selectedFiles.length === 0) {
-    alert("Incomplete data! Please check IC, Account, and Files.");
+    document.getElementById("recentList").innerHTML = 
+  html || '<div style="color:#888; font-size:12px;">No activity today</div>';
+
+  } catch (e) {
+    console.error("Dashboard load error", e);
+  }
+}
+
+// AUTO LOAD
+window.addEventListener("load", function() {
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user) {
+    showPage("login");
     return;
   }
 
-  document.getElementById("overlay").style.display = "flex";
-  document.getElementById("modalSpinner").style.display = "block";
-  document.querySelector(".check-svg").style.display = "none";
-  document.getElementById("modalTitle").innerText = "Uploading Files...";
-  document.getElementById("modalSub").innerText = "Sending to secure server";
+  // 🔥 GET LAST PAGE
+  const savedPage = localStorage.getItem("activePage") || "dashboard";
+
+  showPage(savedPage);
+  applyRole(user.role);
+  loadDashboard();
+
+  // 🔥 FIX ACTIVE BUTTON UI
+  document.querySelectorAll(".sidebar button, .bottom-nav button").forEach(btn => {
+    btn.classList.remove("active");
+
+    if (btn.getAttribute("onclick")?.includes(savedPage)) {
+      btn.classList.add("active");
+    }
+  });
+
+});
+
+/* ===== UPLOAD ===== */
+async function upload() {
+
+  const btn = document.querySelector("#upload button");
+  if (btn.disabled) return;
+  btn.style.display = "none";
+
+  const ic = document.getElementById("ic").value.trim();
+  const account = document.getElementById("account").value.trim();
+
+  if (!ic || !account || selectedFiles.length === 0) {
+    alert("Enter IC, Account & select file!");
+    btn.style.display = "block";
+    return;
+  }
+
+  // 🔥 SHOW OVERLAY
+document.getElementById("overlay").style.display = "flex";
+
+document.getElementById("modalIcon").className = "modal-icon loading";
+document.getElementById("modalTitle").innerText = "Uploading...";
+document.getElementById("modalSub").innerText =
+  `Uploading ${selectedFiles.length} file(s) for IC: ${ic}`;
+
+document.getElementById("okBtn").style.display = "none";
+document.querySelector(".check-svg").style.display = "none";
 
   try {
-    let filesData = await Promise.all(selectedFiles.map(async (file) => {
-      let processedFile = file;
-      if (file.type.startsWith("image/")) processedFile = await compressImage(file);
-      let base64 = await toBase64(processedFile);
-      return { name: processedFile.name, type: processedFile.type, data: base64.split(",")[1] };
-    }));
 
-    const user = JSON.parse(localStorage.getItem("user"));
-    let payload = { ic, account, userId: user.userId, files: filesData };
+    // ✅ convert semua file sekali
+let filesData = await Promise.all(selectedFiles.map(async (file) => {
 
-    await fetch(WEB_APP_URL, { method: "POST", body: JSON.stringify(payload) });
+  let processedFile = file;
 
-    document.getElementById("modalSpinner").style.display = "none";
-    document.querySelector(".check-svg").style.display = "block";
-    document.getElementById("modalTitle").innerText = "Upload Completed";
-    document.getElementById("modalSub").innerText = "Files successfully tracked.";
-    document.getElementById("okBtn").style.display = "block";
+  // 🔥 only process image
+  if (file.type.startsWith("image/")) {
+    processedFile = await compressImage(file);
+  }
+
+  let base64 = await toBase64(processedFile);
+
+  return {
+    name: processedFile.name,
+    type: processedFile.type,
+    data: base64.split(",")[1]
+  };
+}));
+
+const user = JSON.parse(localStorage.getItem("user"));
+
+let payload = {
+  ic,
+  account,
+  userId: user.userId, // 🔥 tambah ni
+  files: filesData
+};
+
+    await fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+
+    // ✅ SUCCESS
+const svg = document.querySelector(".check-svg");
+
+// reset animation (VERY IMPORTANT)
+svg.style.display = "none";
+svg.offsetHeight; // force reflow
+svg.style.display = "block";
+
+document.getElementById("modalIcon").className = "modal-icon";
+document.getElementById("modalTitle").innerText = "Upload Successful";
+
+document.getElementById("modalSub").innerText =
+  `Documents saved for IC: ${ic}`;
+
+document.getElementById("okBtn").style.display = "block";
+
   } catch (err) {
-    alert("Upload failed. Try again.");
+    alert("Upload failed!");
+    console.error(err);
     location.reload();
   }
 }
 
 async function compressImage(file) {
-  if (file.size <= 2 * 1024 * 1024) return file;
+
+  // ✅ kalau file kecil → skip
+  if (file.size <= 2 * 1024 * 1024) {
+    return file;
+  }
+
   return new Promise((resolve) => {
+
     const img = new Image();
     const reader = new FileReader();
-    reader.onload = (e) => img.src = e.target.result;
-    img.onload = () => {
+
+    reader.onload = function(e) {
+      img.src = e.target.result;
+    };
+
+    img.onload = function() {
+
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
+
+      // 🔥 resize (maintain ratio)
       let maxWidth = 1280;
       let scale = Math.min(maxWidth / img.width, 1);
+
       canvas.width = img.width * scale;
       canvas.height = img.height * scale;
+
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      // 🔥 dynamic quality control
       let quality = 0.8;
-      const format = file.type === "image/png" ? "image/png" : "image/jpeg";
-      function tryCompress() {
-        canvas.toBlob((blob) => {
-          if (blob.size > 1.5 * 1024 * 1024 && quality > 0.4) {
-            quality -= 0.05;
-            tryCompress();
-          } else {
-            resolve(new File([blob], file.name, { type: format }));
-          }
-        }, format, quality);
-      }
+
+function tryCompress() {
+
+  const isPNG = file.type === "image/png";
+  const format = isPNG ? "image/png" : "image/jpeg";
+
+  canvas.toBlob((blob) => {
+
+    if (!blob) {
+      resolve(file);
+      return;
+    }
+
+    if (blob.size > 1.5 * 1024 * 1024 && quality > 0.4) {
+      quality -= 0.05;
       tryCompress();
+    } else {
+
+      resolve(new File([blob], file.name, {
+        type: format
+      }));
+    }
+
+  }, format, quality);
+}
+
+tryCompress();
     };
+
     reader.readAsDataURL(file);
   });
 }
   
+/* ===== SEARCH ===== */
+let lastSearch = "";
+
 async function search() {
   const ic = document.getElementById("searchIC").value.trim();
-  if (!ic) { alert("Please enter an IC number"); return; }
 
-  document.getElementById("result").innerHTML = `<div class="search-loader"></div><p style="text-align:center; color:#64748b;">Searching database...</p>`;
+  if (!ic) {
+    alert("Enter IC!");
+    return;
+  }
+
+  lastSearch = ic;
+  document.getElementById("result").innerHTML = `
+  <div class="search-loader"></div>
+  <div style="text-align:center;">Searching...</div>
+`;
 
   const res = await fetch(`${WEB_APP_URL}?ic=${encodeURIComponent(ic)}&_=${Date.now()}`);
   const data = await res.json();
 
-  let html = data.length === 0 ? '<p style="text-align:center; padding:20px; color:#94a3b8;">No records found for this IC.</p>' : "";
-  let grouped = {};
-  data.forEach(d => {
-    if (!grouped[d.account]) grouped[d.account] = [];
-    grouped[d.account].push(d);
-  });
+  if (ic !== lastSearch) return;
 
-  Object.keys(grouped).forEach(acc => {
-    let files = grouped[acc];
-    files.sort((a, b) => {
-      const getDT = (name) => {
-        const m = name.match(/_(\d{8})_(\d{6})/);
-        return m ? m[1] + m[2] : "0";
-      };
-      return getDT(b.file).localeCompare(getDT(a.file));
-    });
+let html = data.length === 0 ? "No record found." : "";
 
-    let latestFile = files[0].file;
-    let latestUser = files[0].user || "UNKNOWN";
-    let dateMatch = latestFile.match(/_(\d{8})_(\d{6})/);
-    let formattedDate = "Unknown Date";
+// 🔥 GROUP BY ACCOUNT
+let grouped = {};
 
-    if (dateMatch) {
-      let d = dateMatch[1]; let t = dateMatch[2];
-      formattedDate = `${d.substring(6,8)}/${d.substring(4,6)}/${d.substring(0,4)} ${t.substring(0,2)}:${t.substring(2,4)}`;
-    }
+data.forEach(d => {
+  if (!grouped[d.account]) {
+    grouped[d.account] = [];
+  }
+  grouped[d.account].push(d);
+});
 
+// 🔥 LOOP GROUP
+Object.keys(grouped).forEach(acc => {
+
+  let files = grouped[acc];
+
+  // 🔥 SORT LATEST (assume filename ada datetime)
+  files.sort((a, b) => {
+  const getDT = (name) => {
+    const m = name.match(/_(\d{8})_(\d{6})/);
+    return m ? m[1] + m[2] : "0";
+  };
+  return getDT(b.file).localeCompare(getDT(a.file));
+});
+
+  // 🔥 COUNT
+  let count = files.length;
+
+  // 🔥 EXTRACT DATE FROM FIRST FILE (latest)
+let latestFile = files[0].file;
+
+let latestUser = files[0].user || "UNKNOWN";
+
+let dateMatch = latestFile.match(/_(\d{8})_(\d{6})/);
+
+let formattedDate = "Unknown";
+
+if (dateMatch) {
+  let d = dateMatch[1]; // YYYYMMDD
+  let t = dateMatch[2]; // HHMMSS
+
+  let year = d.substring(0, 4);
+  let month = d.substring(4, 6);
+  let day = d.substring(6, 8);
+
+  let hour = t.substring(0, 2);
+  let min = t.substring(2, 4);
+  let sec = t.substring(4, 6);
+
+  formattedDate = `${day}/${month}/${year} ${hour}:${min}:${sec}`;
+}
+
+  // 🔥 ACCOUNT HEADER
+  html += `
+    <div class="file-item">
+      <div style="font-weight:bold;">
+        📁 Account No: ${acc} 
+        <span style="color:#666; font-size:12px;">(${count} ${count > 1 ? "files" : "file"})</span>
+      </div>
+
+      <div style="font-size:11px; color:#888; margin-top:2px;">
+        Latest Upload: ${formattedDate}  
+<span style="margin-left:6px;color:#007bff; font-weight:500;">By: ${latestUser}</span>
+      </div>
+  `;
+
+  // 🔥 FILE LIST
+  files.forEach(f => {
     html += `
-      <div class="file-item" style="border-top: 3px solid #38bdf8;">
-        <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:10px;">
-            <div>
-                <div style="font-weight:800; font-size:15px; color:#0f172a;">Account: ${acc}</div>
-                <div style="font-size:12px; color:#64748b;">Uploaded by ${latestUser} on ${formattedDate}</div>
-            </div>
-            <div style="background:#e0f2fe; color:#0369a1; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700;">${files.length} Files</div>
-        </div>
-        <div style="display:flex; flex-direction:column; gap:8px;">
-          ${files.map(f => `
-            <div style="background:#f8fafc; padding:10px; border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
-                <div class="file-name" style="max-width:70%; font-size:13px;">${f.file}</div>
-                <a href="${f.url}" target="_blank" style="color:#2563eb; font-weight:700; text-decoration:none; font-size:13px;">View 👁️</a>
-            </div>
-          `).join('')}
-        </div>
-      </div>`;
+      <div style="margin-top:8px;">
+<div class="file-name">📄 ${f.file}</div>
+<a href="${f.url}" target="_blank">👁 View</a>
+      </div>
+    `;
   });
+
+  html += `</div>`;
+});
+
   document.getElementById("result").innerHTML = html;
 }
 
-document.getElementById("searchIC").addEventListener("keypress", (e) => { if (e.key === "Enter") search(); });
+/* ===== ENTER SEARCH ===== */
+document.getElementById("searchIC").addEventListener("keypress", function(e){
+  if (e.key === "Enter") search();
+});
 
 function goToSearch(ic) {
+
+  // pergi ke page search
   showPage("search");
+
+  // isi IC
   document.getElementById("searchIC").value = ic;
+
+  // auto search
   search();
 }
 
+/* ===== AUTO FORMAT IC (UPDATED) ===== */
 function formatIC(value) {
+
+  // buang symbol pelik
   value = value.replace(/[^0-9a-zA-Z]/g, "");
-  if (/[a-zA-Z]/.test(value)) return value.toUpperCase();
+
+  // detect OLD IC (ada huruf)
+  if (/[a-zA-Z]/.test(value)) {
+    return value.toUpperCase(); // no limit strict
+  }
+
+  // NEW IC → limit 12 digit
   value = value.substring(0, 12);
-  let res = value.substring(0, 6);
-  if (value.length > 6) res += "-" + value.substring(6, 8);
-  if (value.length > 8) res += "-" + value.substring(8, 12);
-  return res;
+
+  let part1 = value.substring(0, 6);
+  let part2 = value.substring(6, 8);
+  let part3 = value.substring(8, 12);
+
+  let result = part1;
+
+  if (part2) result += "-" + part2;
+  if (part3) result += "-" + part3;
+
+  return result;
 }
 
+/* ===== CURSOR FIX ===== */
 function handleICInput(e) {
   const input = e.target;
+
   let start = input.selectionStart;
-  let oldLen = input.value.length;
-  input.value = formatIC(input.value);
-  let newPos = start + (input.value.length - oldLen);
+  let oldLength = input.value.length;
+
+  let formatted = formatIC(input.value);
+
+  input.value = formatted;
+
+  let newLength = formatted.length;
+  let diff = newLength - oldLength;
+
+  let newPos = start + diff;
+
   input.setSelectionRange(newPos, newPos);
 }
 
+/* APPLY */
 document.getElementById("ic").addEventListener("input", handleICInput);
 document.getElementById("searchIC").addEventListener("input", handleICInput);
-document.getElementById("account").addEventListener("input", (e) => {
-  e.target.value = e.target.value.replace(/\D/g, "").substring(0, 15);
+
+
+/* ===== ACCOUNT LIMIT ===== */
+document.getElementById("account").addEventListener("input", function(e){
+  let val = e.target.value.replace(/\D/g, ""); // number only
+  e.target.value = val.substring(0, 10); // max 10 digit
 });
 
-function closeModal() { location.reload(); }
+function closeModal() {
+  location.reload();
+}
+
 </script>
+
+<div id="overlay">
+  <div class="modal">
+
+    <div class="modal-icon" id="modalIcon">
+  <svg class="check-svg" viewBox="0 0 52 52">
+    <circle class="check-circle" cx="26" cy="26" r="25" fill="none"/>
+    <path class="check-mark" fill="none" d="M14 27l7 7 16-16"/>
+  </svg>
+</div>
+
+    <div class="modal-title" id="modalTitle">
+      Processing...
+    </div>
+
+    <div class="modal-sub" id="modalSub">
+      Please wait
+    </div>
+
+    <button id="okBtn" onclick="closeModal()">OK</button>
+
+  </div>
+</div>
 
 </body>
 </html>
