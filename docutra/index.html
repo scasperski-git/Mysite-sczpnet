@@ -980,6 +980,19 @@ async function login() {
   }
 }
 
+function logout() {
+  localStorage.removeItem("user");
+
+  // 🔥 nice UX (optional)
+  document.getElementById("overlay").style.display = "flex";
+  document.getElementById("modalTitle").innerText = "Logging out...";
+  document.getElementById("modalSub").innerText = "Ending session";
+
+  setTimeout(() => {
+    location.reload();
+  }, 800);
+}
+
 function applyRole(role) {
 
   const user = JSON.parse(localStorage.getItem("user"));
