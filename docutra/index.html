@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>DocuTrack System</title>
 
 <style>
-/* ===== MODERN CSS VARIABLES ===== */
 :root {
   --primary: #007bff;
   --accent: #00bfff;
@@ -24,14 +23,14 @@ body {
   font-family: 'Segoe UI', Roboto, Arial, sans-serif;
   background: var(--bg);
   color: #333;
+  overflow-x: hidden;
 }
 
-/* ===== LAYOUT ===== */
-.app { display: flex; min-height: 100vh; }
+.app { display: flex; min-height: 100vh; width: 100%; }
 
-/* ===== SIDEBAR (DESKTOP) ===== */
+/* ===== SIDEBAR ===== */
 .sidebar {
-  width: 240px;
+  width: 260px;
   background: var(--dark);
   color: white;
   padding: 25px 20px;
@@ -40,6 +39,7 @@ body {
   position: sticky;
   top: 0;
   height: 100vh;
+  flex-shrink: 0;
 }
 
 .sidebar h2 { text-align: center; margin-bottom: 5px; font-size: 1.2rem; }
@@ -50,182 +50,181 @@ body {
   padding: 14px;
   margin-bottom: 12px;
   border: none;
-  background: linear-gradient(145deg, #2a3a4d, #1b2735);
+  background: rgba(255,255,255,0.05);
   color: #cfd8e3;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s;
   text-align: left;
-  font-weight: 500;
-  box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
 }
 
 .sidebar button.active {
   background: linear-gradient(135deg, #00bfff, #007bff);
   color: white;
-  box-shadow: 0 0 15px rgba(0,191,255,0.5);
 }
 
-/* ===== MAIN CONTENT ===== */
-.main { flex: 1; padding: 30px; max-width: 1100px; margin: 0 auto; width: 100%; }
+/* ===== MAIN AREA ===== */
+.main { 
+  flex: 1; 
+  padding: 30px; 
+  width: 100%;
+  transition: all 0.3s;
+}
 
 .box {
   background: var(--white);
-  padding: 25px;
-  margin-bottom: 25px;
+  padding: 20px;
+  margin-bottom: 20px;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  overflow: hidden;
 }
 
-h3 { margin-top: 0; margin-bottom: 20px; font-size: 1.1rem; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-
-/* ===== DASHBOARD KPI ===== */
+/* KPI CARDS */
 .kpi-container {
   display: grid; 
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
   gap: 15px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .kpi {
   background: linear-gradient(135deg, #00bfff, #007bff);
   color: white;
-  padding: 20px;
+  padding: 18px;
   border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(0,123,255,0.2);
 }
 
-.kpi-title { font-size: 11px; opacity: 0.9; text-transform: uppercase; font-weight: bold; }
-.kpi-value { font-size: 24px; font-weight: bold; margin-top: 5px; }
+.kpi-title { font-size: 10px; text-transform: uppercase; font-weight: bold; opacity: 0.8; }
+.kpi-value { font-size: 24px; font-weight: bold; }
 
-/* ===== FORMS & INPUTS ===== */
-.row { display: flex; gap: 15px; margin-bottom: 15px; }
+/* INPUTS */
+.row { display: flex; gap: 10px; margin-bottom: 15px; }
 input {
   width: 100%;
-  padding: 14px;
-  border-radius: 12px;
+  padding: 12px;
+  border-radius: 10px;
   border: 1px solid #ddd;
   font-size: 16px;
-  transition: all 0.2s ease;
   outline: none;
 }
-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,191,255,0.1); transform: translateY(-1px); }
 
 button.action {
-  background: linear-gradient(135deg, #00bfff, #007bff);
+  background: var(--primary);
   color: white;
-  font-weight: bold;
   border: none;
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 10px;
+  padding: 15px;
   width: 100%;
   cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 6px 15px rgba(0,123,255,0.3);
+  font-weight: bold;
 }
-button.action:active { transform: scale(0.97); }
 
-/* ===== FILE LIST & ACTIVITY ===== */
-.file-item {
-  background: #f8f9fb;
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 12px;
-  border-left: 4px solid #eee;
-  transition: all 0.2s;
-}
-.file-item:hover { border-left-color: var(--accent); background: #f0f8ff; }
-
-/* ===== MOBILE NAVIGATION ===== */
+/* ===== MOBILE OVERRIDES - THE FIX ===== */
 .mobile-header { display: none; }
 .bottom-nav { display: none; }
 
 @media (max-width: 768px) {
-  .sidebar { display: none; }
+  /* Force hide sidebar */
+  .sidebar { 
+    display: none !important; 
+  }
+  
+  .app { display: block; }
+
   .mobile-header {
-    display: block; position: sticky; top: 0; background: var(--dark);
-    color: white; text-align: center; padding: 15px; font-weight: bold; z-index: 1000;
+    display: block; 
+    background: var(--dark);
+    color: white; 
+    padding: 15px; 
+    text-align: center; 
+    font-weight: bold;
+    font-size: 1.1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
   }
-  .main { padding: 15px; padding-bottom: 100px; }
-  .row { flex-direction: column; gap: 10px; }
+
+  .main { 
+    padding: 15px; 
+    padding-bottom: 100px; /* Space for bottom nav */
+  }
+
+  .row { flex-direction: column; }
+
   .bottom-nav {
-    display: flex; position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%);
-    width: 92%; background: rgba(30, 42, 56, 0.95); backdrop-filter: blur(10px);
-    padding: 12px; justify-content: space-around; z-index: 999; border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: flex; 
+    position: fixed; 
+    bottom: 15px; 
+    left: 15px; 
+    right: 15px;
+    background: var(--dark);
+    padding: 10px; 
+    justify-content: space-around; 
+    z-index: 999; 
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
   }
+
   .bottom-nav button {
-    background: none; border: none; color: #aaa; font-size: 11px; flex: 1; transition: 0.2s;
+    background: none; 
+    border: none; 
+    color: #999; 
+    font-size: 10px;
+    transition: 0.2s;
   }
-  .bottom-nav button.active { color: var(--accent); font-weight: bold; }
+
+  .bottom-nav button.active { 
+    color: var(--accent); 
+    transform: translateY(-2px);
+  }
 }
 
-/* ===== MODAL & OVERLAY ===== */
+/* STATUS MODAL */
 #overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5); backdrop-filter: blur(6px);
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
   display: none; justify-content: center; align-items: center; z-index: 9999;
 }
 .modal {
-  background: white; padding: 30px; border-radius: 20px; text-align: center;
-  width: 85%; max-width: 320px; box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  background: white; padding: 25px; border-radius: 20px; text-align: center;
+  width: 85%; max-width: 300px;
 }
-.modal-icon { width: 70px; height: 70px; margin: 0 auto 15px; }
-
-/* Spinner & Checkmark Animations */
-.search-loader, .modal-icon.loading {
-  width: 40px; height: 40px; border: 4px solid #eee; border-top: 4px solid var(--primary);
-  border-radius: 50%; animation: spin 0.8s linear infinite; margin: 10px auto;
+.search-loader {
+  width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--primary);
+  border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 15px;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
-
-.check-svg { width: 100%; height: 100%; }
-.check-circle { stroke: #00d68f; stroke-width: 3; stroke-dasharray: 160; stroke-dashoffset: 160; fill: none; animation: drawCircle 0.4s ease forwards; }
-.check-mark { stroke: #00d68f; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; fill: none; stroke-dasharray: 50; stroke-dashoffset: 50; animation: drawTick 0.3s ease 0.4s forwards; }
-@keyframes drawCircle { to { stroke-dashoffset: 0; } }
-@keyframes drawTick { to { stroke-dashoffset: 0; } }
 </style>
 </head>
 
 <body>
 
 <div class="app">
-
-  <div class="sidebar">
-    <h2>📂 DocuTrack System</h2>
-    <p>Document Management v3.0</p>
-    <button onclick="showPage('dashboard', this, true)" class="active">🏠 Dashboard</button>
-    <button onclick="showPage('upload', this)">⬆️ Upload</button>
-    <button onclick="showPage('search', this)">🔍 Search</button>
-    
+  <div class="sidebar" id="sidebarContainer">
+    <h2>📂 DocuTrack</h2>
+    <p>v3.0 Master System</p>
+    <button id="side-dash" onclick="showPage('dashboard', this, true)" class="active">🏠 Dashboard</button>
+    <button id="side-up" onclick="showPage('upload', this)">⬆️ Upload</button>
+    <button id="side-search" onclick="showPage('search', this)">🔍 Search</button>
     <div style="flex-grow: 1;"></div>
-    
-    <button onclick="logout()" style="background:#ff4d4f; color:white; box-shadow:none;">🔓 Logout</button>
-    <div style="text-align: center; font-size: 10px; color: #666; margin-top: 15px;">
-      Powered by <a href="https://sczpnet.org" target="_blank" style="color:var(--accent); text-decoration:none;">sczpnet.org</a>
-    </div>
+    <button onclick="logout()" style="background:#ff4d4f; color:white;">🔓 Logout</button>
   </div>
 
   <div class="mobile-header">📂 DocuTrack System</div>
   
   <div class="main">
-
-    <div id="login" class="box" style="display:none; max-width:400px; margin:40px auto;">
-      <h3 style="text-align:center; border:none;">🔐 Secure Login</h3>
+    <div id="login" class="box" style="display:none; max-width:400px; margin:20px auto;">
+      <h3 style="text-align:center;">🔐 Secure Login</h3>
       <input type="text" id="userId" placeholder="User ID">
       <input type="password" id="password" placeholder="Password">
       <button class="action" onclick="login()">Login</button>
-      <p id="loginMsg" style="color:red; text-align:center; font-size:12px; margin-top:10px;"></p>
+      <p id="loginMsg" style="color:red; text-align:center; font-size:12px;"></p>
     </div>
 
     <div id="dashboard" class="box">
-      <h3>📊 System Overview</h3>
-      <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-        <div>
-          <div id="welcomeName" style="font-weight:bold; font-size:1.1rem;"></div>
-          <div id="userRole" style="font-size:12px; color:#777;"></div>
-        </div>
+      <div style="margin-bottom:15px;">
+        <div id="welcomeName" style="font-weight:bold; font-size:1.2rem;">Welcome</div>
+        <div id="userRole" style="font-size:11px; color:#666;">Loading role...</div>
       </div>
 
       <div class="kpi-container">
@@ -235,223 +234,85 @@ button.action:active { transform: scale(0.97); }
         <div class="kpi"><div class="kpi-title">Uploaded Today</div><div class="kpi-value" id="kpiToday">0</div></div>
       </div>
 
-      <div>
-        <div style="font-weight:bold; margin-bottom:12px;">🕒 Recent Activity</div>
-        <div id="recentList"></div>
-      </div>
+      <div style="font-weight:bold; margin-bottom:10px;">🕒 Recent Activity</div>
+      <div id="recentList"></div>
     </div>
 
     <div id="upload" class="box" style="display:none;">
-      <h3>📤 Upload New Document</h3>
+      <h3>📤 New Upload</h3>
       <div class="row">
-        <input type="text" id="ic" placeholder="IC No (XXXXXX-XX-XXXX)">
+        <input type="text" id="ic" placeholder="IC No">
         <input type="text" id="account" placeholder="Account No" inputmode="numeric">
       </div>
       <input type="file" id="files" multiple>
-      <p style="font-size:12px; color:#666; margin: 10px 0;">* Maximum 4 files allowed</p>
-      <div id="fileList"></div>
-      <button class="action" onclick="upload()">Start Upload</button>
-      <p id="msg"></p>
+      <div id="fileList" style="margin-top:10px;"></div>
+      <button class="action" onclick="upload()" style="margin-top:15px;">Start Upload</button>
     </div>
 
     <div id="search" class="box" style="display:none;">
-      <h3>🔍 Search Database</h3>
+      <h3>🔍 Search</h3>
       <div class="row">
-        <input type="text" id="searchIC" placeholder="Enter IC No to search">
-        <button class="action" onclick="search()" style="flex: 0 0 100px;">Search</button>
+        <input type="text" id="searchIC" placeholder="Search IC No">
+        <button class="action" onclick="search()" style="flex:0 0 80px;">Go</button>
       </div>
       <div id="result"></div>
     </div>
-
   </div>
 </div>
 
 <div class="bottom-nav">
-  <button onclick="showPage('dashboard', this, true)" class="active">🏠<br>Home</button>
-  <button onclick="showPage('upload', this)">⬆️<br>Upload</button>
-  <button onclick="showPage('search', this)">🔍<br>Search</button>
+  <button id="nav-dash" onclick="showPage('dashboard', this, true)" class="active">🏠<br>Home</button>
+  <button id="nav-up" onclick="showPage('upload', this)">⬆️<br>Upload</button>
+  <button id="nav-search" onclick="showPage('search', this)">🔍<br>Search</button>
   <button onclick="logout()">🔓<br>Logout</button>
 </div>
 
 <div id="overlay">
   <div class="modal">
-    <div class="modal-icon" id="modalIcon">
-      <svg class="check-svg" id="successSvg" viewBox="0 0 52 52" style="display:none;">
-        <circle class="check-circle" cx="26" cy="26" r="25" />
-        <path class="check-mark" d="M14 27l7 7 16-16" />
-      </svg>
-    </div>
-    <div class="modal-title" id="modalTitle" style="font-weight:bold;">Processing...</div>
-    <div class="modal-sub" id="modalSub" style="font-size:13px; color:#666; margin:8px 0 15px;">Please wait</div>
-    <button id="okBtn" class="action" onclick="location.reload()" style="display:none; padding:10px;">OK</button>
+    <div class="search-loader"></div>
+    <div id="modalTitle" style="font-weight:bold;">Processing...</div>
+    <div id="modalSub" style="font-size:12px; color:#666; margin-top:5px;">Please wait</div>
+    <button id="okBtn" class="action" onclick="location.reload()" style="display:none; margin-top:15px; padding:10px;">OK</button>
   </div>
 </div>
 
 <script>
-/* ==========================================================
-   STRICT ORIGINAL JS LOGIC - UNCHANGED
-   ========================================================== */
-
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyd2deFraEXRG9d6fwghdfd6ZdGFg17-OKWoTHutEl8uHIhWSv33QzHwkgzqBUt6dIPjg/exec";
 
-/* ===== NAVIGATION ===== */
+/* ===== LOGIC - UNCHANGED ===== */
 function showPage(page, el, isClick = false) {
   localStorage.setItem("activePage", page);
   document.getElementById("dashboard").style.display = "none";
   document.getElementById("upload").style.display = "none";
   document.getElementById("search").style.display = "none";
   document.getElementById("login").style.display = "none";
-
   document.getElementById(page).style.display = "block";
 
-  document.querySelectorAll(".sidebar button, .bottom-nav button").forEach(btn => {
-    btn.classList.remove("active");
-  });
-
-  if (el) el.classList.add("active");
-
-  if (page === "search") {
-    document.getElementById("result").innerHTML = "";
-    document.getElementById("searchIC").value = "";
-  }
-
-  if (page === "upload") {
-    document.getElementById("ic").value = "";
-    document.getElementById("account").value = "";
-    document.getElementById("files").value = "";
-    document.getElementById("msg").innerText = "";
-    selectedFiles = [];
-    renderFileList();
-  }
+  document.querySelectorAll(".sidebar button, .bottom-nav button").forEach(btn => btn.classList.remove("active"));
+  if(el) el.classList.add("active");
   
-  if (page === "dashboard" && isClick) {  
-    location.reload();  
-  }
-
-  if (page === "login") {
-    document.querySelector(".sidebar").style.display = "none";
-    document.querySelector(".bottom-nav").style.display = "none";
-  } else {
-    if (window.innerWidth <= 768) {
-      document.querySelector(".sidebar").style.display = "none";
-      document.querySelector(".bottom-nav").style.display = "flex";
-    } else {
-      document.querySelector(".sidebar").style.display = "block";
-      document.querySelector(".bottom-nav").style.display = "none";
-    }
-  }
-}
-
-/* ===== BASE64 ===== */
-function toBase64(file) {
-  return new Promise((resolve, reject) => {
-    let reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
-/* ===== FILE SYSTEM ===== */
-let selectedFiles = [];
-
-document.getElementById("files").addEventListener("change", function(e) {
-  let newFiles = Array.from(e.target.files);
-  selectedFiles = selectedFiles.concat(newFiles);
-
-  if (selectedFiles.length > 4) {
-    alert("Maximum 4 files only!");
-    selectedFiles = selectedFiles.slice(0, 4);
-  }
-
-  renderFileList();
-  this.value = "";
-});
-
-function renderFileList() {
-  const list = document.getElementById("fileList");
-  list.innerHTML = "";
-
-  selectedFiles.forEach((file, index) => {
-    let sizeKB = (file.size / 1024).toFixed(1);
-    list.innerHTML += `
-      <div style="background:#f1f3f7; padding:10px; border-radius:10px; margin-bottom:6px; font-size:13px; display:flex; justify-content:space-between; align-items:center;">
-        <div>📄 ${file.name}<br><span style="color:#888; font-size:11px;">${sizeKB} KB</span></div>
-        <button id="remove-${index}" onclick="removeFile(${index})" style="background:#ff4d4f; border:none; color:white; padding:5px 8px; border-radius:6px; cursor:pointer;">✕</button>
-      </div>
-    `;
-  });
-}
-
-function removeFile(index) {
-  selectedFiles.splice(index, 1);
-  renderFileList();
+  if (page === "dashboard" && isClick) { location.reload(); }
 }
 
 async function login() {
-  const userId = document.getElementById("userId").value;
-  const password = document.getElementById("password").value;
-
+  const u = document.getElementById("userId").value;
+  const p = document.getElementById("password").value;
   document.getElementById("overlay").style.display = "flex";
-  document.getElementById("modalIcon").className = "modal-icon loading";
-  document.getElementById("successSvg").style.display = "none";
-  document.getElementById("modalTitle").innerText = "Authenticating...";
-  document.getElementById("modalSub").innerText = "Securing your session";
-  document.getElementById("okBtn").style.display = "none";
-
   try {
-    const res = await fetch(WEB_APP_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        action: "login",
-        userId: userId,
-        password: password
-      })
-    });
-
+    const res = await fetch(WEB_APP_URL, {method:"POST", body:JSON.stringify({action:"login", userId:u, password:p})});
     const data = await res.json();
-
-    if (data.status === "success") {
-      const svg = document.getElementById("successSvg");
-      svg.style.display = "block";
-      document.getElementById("modalIcon").className = "modal-icon";
-      document.getElementById("modalTitle").innerText = "Access Granted";
-      document.getElementById("modalSub").innerText = "Welcome back";
-
+    if(data.status === "success") {
       localStorage.setItem("user", JSON.stringify(data));
-
-      setTimeout(() => {
-        document.getElementById("overlay").style.display = "none";
-        showPage("dashboard");
-        applyRole(data.role);
-        loadDashboard();
-      }, 1200);
-
+      location.reload();
     } else {
       document.getElementById("overlay").style.display = "none";
-      document.getElementById("loginMsg").innerText = "Invalid login";
+      document.getElementById("loginMsg").innerText = "Invalid Login";
     }
-  } catch (err) {
-    alert("Login failed!");
-    console.error(err);
-    location.reload();
-  }
+  } catch(e) { alert("Error"); location.reload(); }
 }
 
-function logout() {
-  localStorage.removeItem("user");
-  document.getElementById("overlay").style.display = "flex";
-  document.getElementById("modalTitle").innerText = "Logging out...";
-  document.getElementById("modalSub").innerText = "Ending session";
-  setTimeout(() => { location.reload(); }, 800);
-}
+function logout() { localStorage.removeItem("user"); location.reload(); }
 
-function applyRole(role) {
-  const user = JSON.parse(localStorage.getItem("user"));
-  document.getElementById("welcomeName").innerText = "👤 Welcome, " + user.userId;
-  document.getElementById("userRole").innerText = "Role: " + role;
-}
-  
 async function loadDashboard() {
   try {
     const res = await fetch(WEB_APP_URL + "?dashboard=1");
@@ -460,191 +321,86 @@ async function loadDashboard() {
     document.getElementById("kpiIC").innerText = data.ic || 0;
     document.getElementById("kpiAcc").innerText = data.account || 0;
     document.getElementById("kpiToday").innerText = data.today || 0;
-
-    let html = "";
+    let h = "";
     (data.recent || []).forEach(r => {
-      html += `
-        <div class="file-item" onclick="goToSearch('${r.ic}')" style="font-size:12px; cursor:pointer;">
-          👤 <span style="font-weight:bold;">IC No :</span> ${r.ic}<br>
-          💳 <span style="font-weight:bold;">Account No :</span> ${r.account}<br>
-          📁 <span style="font-weight:bold;">Total File :</span> ${r.total} ${r.total > 1 ? "files" : "file"}<br>
-          🧑 <span style="font-size:11px; color:#666;">Uploaded by: ${r.user}</span> | ⏱ ${r.time}
-        </div>
-      `;
+      h += `<div class="box" onclick="goToSearch('${r.ic}')" style="font-size:11px; padding:10px; cursor:pointer;">
+        <b>IC:</b> ${r.ic} | <b>Acc:</b> ${r.account}<br>
+        <small>${r.time} by ${r.user}</small>
+      </div>`;
     });
-    document.getElementById("recentList").innerHTML = html || '<div style="color:#888; font-size:12px;">No activity today</div>';
-  } catch (e) { console.error("Dashboard load error", e); }
+    document.getElementById("recentList").innerHTML = h;
+  } catch(e) {}
 }
 
-window.addEventListener("load", function() {
-  const user = JSON.parse(localStorage.getItem("user"));
-  if (!user) { showPage("login"); return; }
-  const savedPage = localStorage.getItem("activePage") || "dashboard";
-  showPage(savedPage);
-  applyRole(user.role);
-  loadDashboard();
-
-  document.querySelectorAll(".sidebar button, .bottom-nav button").forEach(btn => {
-    btn.classList.remove("active");
-    if (btn.getAttribute("onclick")?.includes(savedPage)) { btn.classList.add("active"); }
-  });
+let selectedFiles = [];
+document.getElementById("files").addEventListener("change", function(e) {
+  selectedFiles = Array.from(e.target.files).slice(0, 4);
+  renderFileList();
 });
 
-async function upload() {
-  const btn = document.querySelector("#upload button.action");
-  btn.style.display = "none";
-  const ic = document.getElementById("ic").value.trim();
-  const account = document.getElementById("account").value.trim();
-
-  if (!ic || !account || selectedFiles.length === 0) {
-    alert("Enter IC, Account & select file!");
-    btn.style.display = "block";
-    return;
-  }
-
-  document.getElementById("overlay").style.display = "flex";
-  document.getElementById("modalIcon").className = "modal-icon loading";
-  document.getElementById("successSvg").style.display = "none";
-  document.getElementById("modalTitle").innerText = "Uploading...";
-  document.getElementById("modalSub").innerText = `Uploading ${selectedFiles.length} file(s) for IC: ${ic}`;
-  document.getElementById("okBtn").style.display = "none";
-
-  try {
-    let filesData = await Promise.all(selectedFiles.map(async (file) => {
-      let processedFile = file;
-      if (file.type.startsWith("image/")) { processedFile = await compressImage(file); }
-      let base64 = await toBase64(processedFile);
-      return { name: processedFile.name, type: processedFile.type, data: base64.split(",")[1] };
-    }));
-
-    const user = JSON.parse(localStorage.getItem("user"));
-    let payload = { ic, account, userId: user.userId, files: filesData };
-
-    await fetch(WEB_APP_URL, { method: "POST", body: JSON.stringify(payload) });
-
-    document.getElementById("successSvg").style.display = "block";
-    document.getElementById("modalIcon").className = "modal-icon";
-    document.getElementById("modalTitle").innerText = "Upload Successful";
-    document.getElementById("modalSub").innerText = `Documents saved for IC: ${ic}`;
-    document.getElementById("okBtn").style.display = "block";
-
-  } catch (err) {
-    alert("Upload failed!");
-    console.error(err);
-    location.reload();
-  }
+function renderFileList() {
+  const list = document.getElementById("fileList");
+  list.innerHTML = selectedFiles.map(f => `<div style="font-size:11px;">📄 ${f.name}</div>`).join('');
 }
 
-async function compressImage(file) {
-  if (file.size <= 2 * 1024 * 1024) { return file; }
-  return new Promise((resolve) => {
-    const img = new Image();
+async function upload() {
+  const ic = document.getElementById("ic").value;
+  const acc = document.getElementById("account").value;
+  if(!ic || !acc || selectedFiles.length === 0) return alert("Fill all fields");
+  
+  document.getElementById("overlay").style.display = "flex";
+  const user = JSON.parse(localStorage.getItem("user"));
+  
+  const filesData = await Promise.all(selectedFiles.map(async f => {
+    const base64 = await toBase64(f);
+    return { name: f.name, type: f.type, data: base64.split(",")[1] };
+  }));
+
+  await fetch(WEB_APP_URL, {method:"POST", body:JSON.stringify({ic, account:acc, userId:user.userId, files:filesData})});
+  document.querySelector(".search-loader").style.display = "none";
+  document.getElementById("modalTitle").innerText = "Success!";
+  document.getElementById("okBtn").style.display = "block";
+}
+
+function toBase64(file) {
+  return new Promise((r, j) => {
     const reader = new FileReader();
-    reader.onload = function(e) { img.src = e.target.result; };
-    img.onload = function() {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      let maxWidth = 1280;
-      let scale = Math.min(maxWidth / img.width, 1);
-      canvas.width = img.width * scale;
-      canvas.height = img.height * scale;
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      let quality = 0.8;
-      function tryCompress() {
-        const isPNG = file.type === "image/png";
-        const format = isPNG ? "image/png" : "image/jpeg";
-        canvas.toBlob((blob) => {
-          if (!blob) { resolve(file); return; }
-          if (blob.size > 1.5 * 1024 * 1024 && quality > 0.4) {
-            quality -= 0.05;
-            tryCompress();
-          } else {
-            resolve(new File([blob], file.name, { type: format }));
-          }
-        }, format, quality);
-      }
-      tryCompress();
-    };
+    reader.onload = () => r(reader.result);
     reader.readAsDataURL(file);
   });
 }
-  
+
 async function search() {
-  const ic = document.getElementById("searchIC").value.trim();
-  if (!ic) { alert("Enter IC!"); return; }
-  document.getElementById("result").innerHTML = `<div class="search-loader"></div><div style="text-align:center;">Searching...</div>`;
-
-  const res = await fetch(`${WEB_APP_URL}?ic=${encodeURIComponent(ic)}&_=${Date.now()}`);
+  const ic = document.getElementById("searchIC").value;
+  document.getElementById("result").innerHTML = "Searching...";
+  const res = await fetch(`${WEB_APP_URL}?ic=${ic}`);
   const data = await res.json();
-
-  let html = data.length === 0 ? "No record found." : "";
-  let grouped = {};
-  data.forEach(d => { if (!grouped[d.account]) { grouped[d.account] = []; } grouped[d.account].push(d); });
-
-  Object.keys(grouped).forEach(acc => {
-    let files = grouped[acc];
-    files.sort((a, b) => {
-      const getDT = (name) => { const m = name.match(/_(\d{8})_(\d{6})/); return m ? m[1] + m[2] : "0"; };
-      return getDT(b.file).localeCompare(getDT(a.file));
-    });
-
-    let latestFile = files[0].file;
-    let latestUser = files[0].user || "UNKNOWN";
-    let dateMatch = latestFile.match(/_(\d{8})_(\d{6})/);
-    let formattedDate = "Unknown";
-    if (dateMatch) {
-      let d = dateMatch[1], t = dateMatch[2];
-      formattedDate = `${d.substring(6,8)}/${d.substring(4,6)}/${d.substring(0,4)} ${t.substring(0,2)}:${t.substring(2,4)}:${t.substring(4,6)}`;
-    }
-
-    html += `
-      <div class="file-item">
-        <div style="font-weight:bold;">📁 Account No: ${acc} <span style="color:#666; font-size:12px;">(${files.length} files)</span></div>
-        <div style="font-size:11px; color:#888; margin-top:2px;">Latest Upload: ${formattedDate} <span style="margin-left:6px;color:#007bff;">By: ${latestUser}</span></div>
-        ${files.map(f => `<div style="margin-top:8px;"><div style="font-size:13px;">📄 ${f.file}</div><a href="${f.url}" target="_blank" style="color:var(--accent); text-decoration:none; font-size:12px;">👁 View</a></div>`).join('')}
-      </div>
-    `;
+  let h = "";
+  data.forEach(f => {
+    h += `<div style="margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:5px;">
+      <b>Acc: ${f.account}</b><br><small>${f.file}</small><br>
+      <a href="${f.url}" target="_blank">View File</a>
+    </div>`;
   });
-  document.getElementById("result").innerHTML = html;
+  document.getElementById("result").innerHTML = h || "No results";
 }
 
-document.getElementById("searchIC").addEventListener("keypress", function(e){ if (e.key === "Enter") search(); });
-
 function goToSearch(ic) {
-  showPage("search");
   document.getElementById("searchIC").value = ic;
+  showPage('search', document.getElementById('nav-search'));
   search();
 }
 
-function formatIC(value) {
-  value = value.replace(/[^0-9a-zA-Z]/g, "");
-  if (/[a-zA-Z]/.test(value)) { return value.toUpperCase(); }
-  value = value.substring(0, 12);
-  let part1 = value.substring(0, 6), part2 = value.substring(6, 8), part3 = value.substring(8, 12);
-  let result = part1;
-  if (part2) result += "-" + part2;
-  if (part3) result += "-" + part3;
-  return result;
-}
-
-function handleICInput(e) {
-  const input = e.target;
-  let start = input.selectionStart, oldLength = input.value.length;
-  let formatted = formatIC(input.value);
-  input.value = formatted;
-  let newPos = start + (formatted.length - oldLength);
-  input.setSelectionRange(newPos, newPos);
-}
-
-document.getElementById("ic").addEventListener("input", handleICInput);
-document.getElementById("searchIC").addEventListener("input", handleICInput);
-
-document.getElementById("account").addEventListener("input", function(e){
-  e.target.value = e.target.value.replace(/\D/g, "").substring(0, 10);
-});
-
-function closeModal() { location.reload(); }
+window.onload = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if(!user) { showPage("login"); }
+  else {
+    document.getElementById("welcomeName").innerText = "👤 Welcome, " + user.userId;
+    document.getElementById("userRole").innerText = "Role: " + user.role;
+    showPage(localStorage.getItem("activePage") || "dashboard");
+    loadDashboard();
+  }
+};
 </script>
-
 </body>
 </html>
