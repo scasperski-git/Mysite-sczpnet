@@ -2,308 +2,470 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>DocuTrack System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DocuTrack Pro | System</title>
 
 <style>
-/* ===== UI ENHANCEMENTS ONLY - LOGIC PRESERVED ===== */
 :root {
   --primary: #007bff;
+  --primary-dark: #0056b3;
   --accent: #00bfff;
-  --dark: #1e2a38;
-  --bg: #eef2f7;
+  --bg-body: #f8fafc;
+  --bg-sidebar: #1e293b;
   --white: #ffffff;
+  --text-main: #334155;
+  --text-muted: #64748b;
+  --radius: 12px;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  
+
 body {
   margin: 0;
-  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
-  background: var(--bg);
-  color: #333;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg-body);
+  color: var(--text-main);
+  line-height: 1.5;
 }
 
-.app { display: flex; min-height: 100vh; }
+/* ===== LAYOUT ===== */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
 
-/* ===== SIDEBAR (DESKTOP) ===== */
+/* ===== SIDEBAR (Desktop) ===== */
 .sidebar {
-  width: 240px;
-  background: var(--dark);
+  width: 260px;
+  background: var(--bg-sidebar);
   color: white;
-  padding: 25px 20px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   position: sticky;
   top: 0;
   height: 100vh;
-  flex-shrink: 0;
+  z-index: 100;
 }
 
-.sidebar h2 { text-align: center; margin-bottom: 5px; font-size: 1.2rem; }
+.sidebar h2 {
+  font-size: 1.25rem;
+  margin: 0 0 4px 0;
+  color: var(--accent);
+}
+
+.sidebar-nav {
+  margin-top: 32px;
+  flex-grow: 1;
+}
 
 .sidebar button {
   width: 100%;
-  padding: 14px;
-  margin-bottom: 12px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
   border: none;
-  background: rgba(255,255,255,0.05);
-  color: #cfd8e3;
-  border-radius: 12px;
+  background: transparent;
+  color: #94a3b8;
+  border-radius: var(--radius);
   cursor: pointer;
-  transition: all 0.25s ease;
   text-align: left;
+  font-weight: 500;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .sidebar button.active {
-  background: linear-gradient(135deg, #00bfff, #007bff);
+  background: rgba(255, 255, 255, 0.1);
   color: white;
-  box-shadow: 0 4px 15px rgba(0,191,255,0.4);
+  box-shadow: inset 4px 0 0 var(--accent);
+}
+
+.sidebar button:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.logout-btn {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #ef4444 !important;
+  margin-top: auto;
 }
 
 /* ===== MAIN CONTENT ===== */
-.main { 
-  flex: 1; 
-  padding: 25px; 
-  max-width: 1200px; 
-  margin: 0 auto; 
-  width: 100%; 
+.main-content {
+  flex: 1;
+  padding: 32px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .box {
   background: var(--white);
-  padding: 25px;
-  margin-bottom: 25px;
+  padding: 24px;
   border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  box-shadow: var(--shadow);
+  margin-bottom: 24px;
 }
 
-/* KPI CARDS */
-.kpi-container {
-  display: grid; 
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
-  gap: 15px;
-  margin-bottom: 25px;
+h3 { margin-top: 0; font-size: 1.1rem; color: var(--text-main); }
+
+/* ===== DASHBOARD KPI ===== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
-.kpi {
-  background: linear-gradient(135deg, #00bfff, #007bff);
-  color: white;
+.kpi-card {
+  background: var(--white);
   padding: 20px;
-  border-radius: 14px;
+  border-radius: var(--radius);
+  border-left: 4px solid var(--primary);
+  box-shadow: var(--shadow);
 }
 
-.kpi-title { font-size: 11px; opacity: 0.9; text-transform: uppercase; font-weight: bold; }
-.kpi-value { font-size: 24px; font-weight: bold; margin-top: 5px; }
+.kpi-label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; }
+.kpi-value { font-size: 1.75rem; font-weight: 800; display: block; margin-top: 4px; }
 
-/* FORMS */
-.row { display: flex; gap: 15px; margin-bottom: 15px; }
+/* ===== INPUTS & BUTTONS ===== */
 input {
   width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  font-size: 16px;
+  padding: 12px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  margin-bottom: 16px;
   outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-button.action {
-  background: linear-gradient(135deg, #00bfff, #007bff);
-  color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 12px;
-  padding: 16px;
+input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.btn-action {
   width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--primary);
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.btn-action:hover { background: var(--primary-dark); }
+.btn-action:active { transform: scale(0.98); }
+
+/* ===== FILE LIST UI ===== */
+.file-item {
+  background: #f1f5f9;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.btn-remove {
+  background: #fee2e2;
+  color: #ef4444;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
-/* ===== MOBILE FIXES ===== */
+/* ===== SEARCH RESULTS ===== */
+.result-card {
+  border: 1px solid #e2e8f0;
+  padding: 16px;
+  border-radius: var(--radius);
+  margin-top: 12px;
+  background: #f8fafc;
+}
+
+.search-loader {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid var(--primary);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+/* ===== MOBILE ADAPTATION ===== */
 .mobile-header { display: none; }
 .bottom-nav { display: none; }
 
 @media (max-width: 768px) {
-  .sidebar { display: none !important; }
+  .sidebar { display: none; }
+  .main-content { padding: 16px; padding-bottom: 100px; }
   .mobile-header {
-    display: block; position: sticky; top: 0; background: var(--dark);
-    color: white; text-align: center; padding: 15px; font-weight: bold; z-index: 1000;
+    display: block;
+    background: var(--bg-sidebar);
+    color: white;
+    padding: 16px;
+    text-align: center;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
   }
-  .main { padding: 15px; padding-bottom: 100px; }
-  .row { flex-direction: column; gap: 10px; }
-  
   .bottom-nav {
-    display: flex; position: fixed; bottom: 15px; left: 50%; transform: translateX(-50%);
-    width: 92%; background: rgba(30, 42, 56, 0.95); backdrop-filter: blur(10px);
-    padding: 12px; justify-content: space-around; z-index: 999; border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--white);
+    border-top: 1px solid #e2e8f0;
+    padding: 10px 0;
+    justify-content: space-around;
+    z-index: 1000;
   }
-  .bottom-nav button {
-    background: none; border: none; color: #aaa; font-size: 11px; flex: 1;
+  .nav-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    text-align: center;
   }
-  .bottom-nav button.active { color: var(--accent); font-weight: bold; }
+  .nav-btn.active { color: var(--primary); font-weight: bold; }
 }
 
-/* OVERLAY & MODAL */
+/* ===== OVERLAY & MODAL ===== */
 #overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.5); backdrop-filter: blur(6px);
+  background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
   display: none; justify-content: center; align-items: center; z-index: 9999;
 }
 .modal {
-  background: white; padding: 30px; border-radius: 20px; text-align: center;
-  width: 85%; max-width: 320px;
+  background: white; padding: 24px; border-radius: 20px;
+  width: 90%; max-width: 340px; text-align: center;
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
 }
-.modal-icon { width: 70px; height: 70px; margin: 0 auto 15px; }
-.modal-icon.loading { border: 5px solid #eee; border-top: 5px solid var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
 
-.check-svg { width: 100%; height: 100%; }
-.check-circle { stroke: #00d68f; stroke-width: 3; stroke-dasharray: 160; stroke-dashoffset: 160; fill: none; animation: drawCircle 0.4s ease forwards; }
-.check-mark { stroke: #00d68f; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; fill: none; stroke-dasharray: 50; stroke-dashoffset: 50; animation: drawTick 0.3s ease 0.4s forwards; }
-@keyframes drawCircle { to { stroke-dashoffset: 0; } }
-@keyframes drawTick { to { stroke-dashoffset: 0; } }
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+/* SVG Progress */
+.check-svg { width: 60px; height: 60px; margin: 0 auto 15px; }
+.check-circle { stroke: #22c55e; stroke-width: 3; fill: none; }
+.check-mark { stroke: #22c55e; stroke-width: 3; fill: none; stroke-linecap: round; }
 </style>
 </head>
 
 <body>
 
-<div class="app">
-  <div class="sidebar">
+<div class="app-container">
+
+  <aside class="sidebar">
     <h2>📂 DocuTrack</h2>
-    <p style="font-size:11px; text-align:center; color:#aaa; margin-bottom:25px;">Document System</p>
-    <button onclick="showPage('dashboard', this, true)" class="active">🏠 Dashboard</button>
-    <button onclick="showPage('upload', this)">⬆️ Upload</button>
-    <button onclick="showPage('search', this)">🔍 Search</button>
-    <div style="flex-grow: 1;"></div>
-    <button onclick="logout()" style="background:#ff4d4f; color:white;">Logout 🔓</button>
-    <div style="text-align: center; font-size: 10px; color: #666; margin-top: 15px;">
-      Powered by <a href="https://sczpnet.org" target="_blank" style="color:var(--accent); text-decoration:none;">sczpnet.org</a>
+    <p style="font-size: 0.7rem; opacity: 0.6;">Document Control v3.0</p>
+    
+    <nav class="sidebar-nav">
+      <button onclick="showPage('dashboard', this)" id="side-dash" class="active">🏠 Dashboard</button>
+      <button onclick="showPage('upload', this)" id="side-up">⬆️ Upload</button>
+      <button onclick="showPage('search', this)" id="side-search">🔍 Search</button>
+    </nav>
+
+    <button onclick="logout()" class="logout-btn">🔓 Logout Session</button>
+    
+    <div style="margin-top: 20px; font-size: 10px; color: #64748b;">
+      Powered by <a href="https://sczpnet.org" style="color:var(--accent); text-decoration:none;">sczpnet.org</a>
     </div>
-  </div>
+  </aside>
 
   <div class="mobile-header">📂 DocuTrack System</div>
-  
-  <div class="main">
-    <div id="login" class="box" style="display:none; max-width:400px; margin:40px auto;">
-      <h3 style="text-align:center;">🔐 Login</h3>
-      <input type="text" id="userId" placeholder="User ID">
+
+  <main class="main-content">
+
+    <div id="login" class="box" style="display:none; max-width:400px; margin: 50px auto;">
+      <h3 style="text-align:center;">🔐 Secure Access</h3>
+      <input type="text" id="userId" placeholder="Username / ID">
       <input type="password" id="password" placeholder="Password">
-      <button class="action" onclick="login()">Login</button>
-      <p id="loginMsg" style="color:red; text-align:center; margin-top:10px;"></p>
+      <button class="btn-action" onclick="login()">Sign In</button>
+      <p id="loginMsg" style="color:red; text-align:center; font-size: 0.8rem; margin-top:10px;"></p>
     </div>
 
-    <div id="dashboard" class="box">
-      <h3>📊 DocuTrack Dashboard</h3>
-      <div style="margin-bottom:20px;">
-        <div id="welcomeName" style="font-weight:bold; font-size:1.1rem;"></div>
-        <div id="userRole" style="font-size:12px; color:#777;"></div>
+    <div id="dashboard">
+      <div style="margin-bottom: 24px;">
+        <h2 id="welcomeName" style="margin:0;">Welcome</h2>
+        <span id="userRole" style="color:var(--text-muted); font-size: 0.8rem;">Role: Loading...</span>
       </div>
 
-      <div class="kpi-container">
-        <div class="kpi"><div class="kpi-title">📁 Documents</div><div class="kpi-value" id="kpiDocs">0</div></div>
-        <div class="kpi"><div class="kpi-title">👤 IC</div><div class="kpi-value" id="kpiIC">0</div></div>
-        <div class="kpi"><div class="kpi-title">🗂 Account</div><div class="kpi-value" id="kpiAcc">0</div></div>
-        <div class="kpi"><div class="kpi-title">⬆ Today</div><div class="kpi-value" id="kpiToday">0</div></div>
+      <div class="kpi-grid">
+        <div class="kpi-card"><span class="kpi-label">Total Files</span><span class="kpi-value" id="kpiDocs">0</span></div>
+        <div class="kpi-card" style="border-left-color: #10b981;"><span class="kpi-label">Unique IC</span><span class="kpi-value" id="kpiIC">0</span></div>
+        <div class="kpi-card" style="border-left-color: #f59e0b;"><span class="kpi-label">Accounts</span><span class="kpi-value" id="kpiAcc">0</span></div>
+        <div class="kpi-card" style="border-left-color: #8b5cf6;"><span class="kpi-label">Today</span><span class="kpi-value" id="kpiToday">0</span></div>
       </div>
 
-      <div style="margin-top:25px;">
-        <div style="font-weight:bold; margin-bottom:12px;">🕒 Recent Activity</div>
-        <div id="recentList"></div>
+      <div class="box">
+        <h3>🕒 Recent Activity</h3>
+        <div id="recentList" style="font-size: 0.85rem;">
+          </div>
       </div>
     </div>
 
-    <div id="upload" class="box" style="display:none;">
-      <h3>Upload Document</h3>
-      <div class="row">
-        <input type="text" id="ic" placeholder="Enter IC">
-        <input type="text" id="account" placeholder="Enter Account No" inputmode="numeric">
+    <div id="upload" style="display:none;">
+      <div class="box">
+        <h3>⬆️ Upload Document</h3>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <input type="text" id="ic" placeholder="IC (000000-00-0000)">
+          <input type="text" id="account" placeholder="Account No" inputmode="numeric">
+        </div>
+        <label style="font-size: 0.8rem; font-weight: bold; color: var(--text-muted);">Select Files (Max 4)</label>
+        <input type="file" id="files" multiple style="margin-top: 8px;">
+        <div id="fileList"></div>
+        <button class="btn-action" onclick="upload()" style="margin-top: 10px;">Upload to Server</button>
+        <p id="msg" style="text-align:center; font-size: 0.8rem;"></p>
       </div>
-      <input type="file" id="files" multiple>
-      <p style="font-size:12px; color:#666; margin:10px 0;">Maximum 4 files only</p>
-      <div id="fileList"></div>
-      <button class="action" onclick="upload()">Upload</button>
-      <p id="msg"></p>
     </div>
 
-    <div id="search" class="box" style="display:none;">
-      <h3>Search by IC</h3>
-      <div class="row">
-        <input type="text" id="searchIC" placeholder="Enter IC No" maxlength="14">
-        <button class="action" onclick="search()" style="flex:0 0 100px;">Search</button>
+    <div id="search" style="display:none;">
+      <div class="box">
+        <h3>🔍 Search Record</h3>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="searchIC" placeholder="Search by IC Number">
+          <button class="btn-action" onclick="search()" style="width:100px;">Find</button>
+        </div>
       </div>
       <div id="result"></div>
     </div>
-  </div>
+
+  </main>
 </div>
 
-<div class="bottom-nav">
-  <button onclick="showPage('dashboard', this, true)" class="active">🏠<br>Home</button>
-  <button onclick="showPage('upload', this)">⬆️<br>Upload</button>
-  <button onclick="showPage('search', this)">🔍<br>Search</button>
-  <button onclick="logout()">🔓<br>Logout</button>
-</div>
+<nav class="bottom-nav">
+  <button class="nav-btn active" onclick="showPage('dashboard', this)">🏠<br>Home</button>
+  <button class="nav-btn" onclick="showPage('upload', this)">⬆️<br>Upload</button>
+  <button class="nav-btn" onclick="showPage('search', this)">🔍<br>Search</button>
+  <button class="nav-btn" onclick="logout()">🔓<br>Logout</button>
+</nav>
 
 <div id="overlay">
   <div class="modal">
-    <div class="modal-icon" id="modalIcon">
-      <svg class="check-svg" viewBox="0 0 52 52" style="display:none;">
-        <circle class="check-circle" cx="26" cy="26" r="25" />
-        <path class="check-mark" d="M14 27l7 7 16-16" />
-      </svg>
+    <div id="modalSpinner" class="search-loader"></div>
+    <div id="modalSuccess" style="display:none;">
+       <svg class="check-svg" viewBox="0 0 52 52">
+         <circle class="check-circle" cx="26" cy="26" r="25" />
+         <path class="check-mark" d="M14 27l7 7 16-16" />
+       </svg>
     </div>
-    <div class="modal-title" id="modalTitle" style="font-weight:bold;">Processing...</div>
-    <div class="modal-sub" id="modalSub" style="font-size:13px; color:#666; margin-top:5px;">Please wait</div>
-    <button id="okBtn" class="action" onclick="location.reload()" style="display:none; margin-top:15px; padding:10px;">OK</button>
+    <h3 id="modalTitle">Processing...</h3>
+    <p id="modalSub" style="color:#64748b; font-size: 0.85rem;"></p>
+    <button id="okBtn" class="btn-action" onclick="closeModal()" style="display:none;">OK</button>
   </div>
 </div>
 
 <script>
-/* ==========================================================
-   YOUR ORIGINAL JAVASCRIPT LOGIC - 100% PRESERVED
-   ========================================================== */
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyd2deFraEXRG9d6fwghdfd6ZdGFg17-OKWoTHutEl8uHIhWSv33QzHwkgzqBUt6dIPjg/exec";
 
-function showPage(page, el, isClick = false) {
+/* ===== NAVIGATION LOGIC ===== */
+function showPage(page, el) {
   localStorage.setItem("activePage", page);
-  document.getElementById("dashboard").style.display = "none";
-  document.getElementById("upload").style.display = "none";
-  document.getElementById("search").style.display = "none";
-  document.getElementById("login").style.display = "none";
+  const sections = ['dashboard', 'upload', 'search', 'login'];
+  sections.forEach(s => document.getElementById(s).style.display = "none");
   document.getElementById(page).style.display = "block";
-  document.querySelectorAll(".sidebar button, .bottom-nav button").forEach(btn => btn.classList.remove("active"));
-  if (el) el.classList.add("active");
-  if (page === "search") { document.getElementById("result").innerHTML = ""; document.getElementById("searchIC").value = ""; }
-  if (page === "upload") { document.getElementById("ic").value = ""; document.getElementById("account").value = ""; document.getElementById("files").value = ""; document.getElementById("msg").innerText = ""; selectedFiles = []; renderFileList(); }
-  if (page === "dashboard" && isClick) { location.reload(); }
+
+  document.querySelectorAll(".sidebar button, .nav-btn").forEach(btn => btn.classList.remove("active"));
   
-  if (page === "login") {
-    document.querySelector(".sidebar").style.display = "none";
-    document.querySelector(".bottom-nav").style.display = "none";
-  } else {
-    if (window.innerWidth <= 768) {
-      document.querySelector(".sidebar").style.setProperty("display", "none", "important");
-      document.querySelector(".bottom-nav").style.display = "flex";
+  // Highlight correct buttons in both navs
+  if(page === 'dashboard') {
+    document.getElementById('side-dash')?.classList.add('active');
+    loadDashboard();
+  } else if(page === 'upload') {
+    document.getElementById('side-up')?.classList.add('active');
+  } else if(page === 'search') {
+    document.getElementById('side-search')?.classList.add('active');
+  }
+  
+  if (el) el.classList.add("active");
+}
+
+/* ===== AUTHENTICATION ===== */
+async function login() {
+  const userId = document.getElementById("userId").value;
+  const password = document.getElementById("password").value;
+  if(!userId || !password) return;
+
+  showOverlay("Authenticating...", "Checking credentials");
+
+  try {
+    const res = await fetch(WEB_APP_URL, {
+      method: "POST",
+      body: JSON.stringify({ action: "login", userId, password })
+    });
+    const data = await res.json();
+
+    if (data.status === "success") {
+      localStorage.setItem("user", JSON.stringify(data));
+      showSuccess("Welcome Back", "Login successful");
+      setTimeout(() => {
+        closeOverlay();
+        showPage("dashboard");
+        applyRole(data.role);
+      }, 1000);
     } else {
-      document.querySelector(".sidebar").style.display = "block";
-      document.querySelector(".bottom-nav").style.display = "none";
+      closeOverlay();
+      document.getElementById("loginMsg").innerText = "Invalid User ID or Password";
     }
+  } catch (err) {
+    closeOverlay();
+    alert("System Connection Error");
   }
 }
 
-function toBase64(file) {
-  return new Promise((resolve, reject) => {
-    let reader = new FileReader();
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
+function logout() {
+  localStorage.removeItem("user");
+  location.reload();
 }
 
+function applyRole(role) {
+  const user = JSON.parse(localStorage.getItem("user"));
+  document.getElementById("welcomeName").innerText = "👤 " + user.userId;
+  document.getElementById("userRole").innerText = "Role: " + role;
+}
+
+/* ===== DASHBOARD DATA ===== */
+async function loadDashboard() {
+  try {
+    const res = await fetch(WEB_APP_URL + "?dashboard=1");
+    const data = await res.json();
+
+    document.getElementById("kpiDocs").innerText = data.docs || 0;
+    document.getElementById("kpiIC").innerText = data.ic || 0;
+    document.getElementById("kpiAcc").innerText = data.account || 0;
+    document.getElementById("kpiToday").innerText = data.today || 0;
+
+    let html = "";
+    (data.recent || []).forEach(r => {
+      html += `
+        <div class="result-card" onclick="goToSearch('${r.ic}')" style="cursor:pointer;">
+          <strong>IC:</strong> ${r.ic} | <strong>Acc:</strong> ${r.account}<br>
+          <span style="color:var(--text-muted); font-size: 0.75rem;">Uploaded by ${r.user} @ ${r.time}</span>
+        </div>`;
+    });
+    document.getElementById("recentList").innerHTML = html || "No activity found.";
+  } catch (e) { console.error("Dashboard error", e); }
+}
+
+/* ===== UPLOAD LOGIC ===== */
 let selectedFiles = [];
 document.getElementById("files").addEventListener("change", function(e) {
   let newFiles = Array.from(e.target.files);
-  selectedFiles = selectedFiles.concat(newFiles);
-  if (selectedFiles.length > 4) { alert("Maximum 4 files only!"); selectedFiles = selectedFiles.slice(0, 4); }
+  selectedFiles = selectedFiles.concat(newFiles).slice(0, 4);
   renderFileList();
   this.value = "";
 });
@@ -311,134 +473,150 @@ document.getElementById("files").addEventListener("change", function(e) {
 function renderFileList() {
   const list = document.getElementById("fileList");
   list.innerHTML = "";
-  selectedFiles.forEach((file, index) => {
-    let sizeKB = (file.size / 1024).toFixed(1);
-    list.innerHTML += `<div style="background:#f1f3f7; padding:10px; border-radius:10px; margin-bottom:6px; font-size:13px; display:flex; justify-content:space-between; align-items:center;">
-      <div>📄 ${file.name}<br><span style="color:#888; font-size:11px;">${sizeKB} KB</span></div>
-      <button onclick="removeFile(${index})" style="background:#ff4d4f; border:none; color:white; padding:5px 8px; border-radius:6px; cursor:pointer;">✕</button>
-    </div>`;
+  selectedFiles.forEach((f, i) => {
+    list.innerHTML += `<div class="file-item"><span>📄 ${f.name}</span><button class="btn-remove" onclick="removeFile(${i})">✕</button></div>`;
   });
 }
 
-function removeFile(index) { selectedFiles.splice(index, 1); renderFileList(); }
-
-async function login() {
-  const userId = document.getElementById("userId").value;
-  const password = document.getElementById("password").value;
-  document.getElementById("overlay").style.display = "flex";
-  document.getElementById("modalIcon").className = "modal-icon loading";
-  document.querySelector(".check-svg").style.display = "none";
-  try {
-    const res = await fetch(WEB_APP_URL, { method: "POST", body: JSON.stringify({ action: "login", userId: userId, password: password }) });
-    const data = await res.json();
-    if (data.status === "success") {
-      document.getElementById("modalIcon").className = "modal-icon";
-      document.querySelector(".check-svg").style.display = "block";
-      document.getElementById("modalTitle").innerText = "Access Granted";
-      localStorage.setItem("user", JSON.stringify(data));
-      setTimeout(() => { document.getElementById("overlay").style.display = "none"; showPage("dashboard"); applyRole(data.role); loadDashboard(); }, 1200);
-    } else {
-      document.getElementById("overlay").style.display = "none";
-      document.getElementById("loginMsg").innerText = "Invalid login";
-    }
-  } catch (err) { alert("Login failed!"); location.reload(); }
-}
-
-function logout() { localStorage.removeItem("user"); location.reload(); }
-
-function applyRole(role) {
-  const user = JSON.parse(localStorage.getItem("user"));
-  document.getElementById("welcomeName").innerText = "👤 Welcome, " + user.userId;
-  document.getElementById("userRole").innerText = "Role: " + role;
-}
-
-async function loadDashboard() {
-  try {
-    const res = await fetch(WEB_APP_URL + "?dashboard=1");
-    const data = await res.json();
-    document.getElementById("kpiDocs").innerText = data.docs || 0;
-    document.getElementById("kpiIC").innerText = data.ic || 0;
-    document.getElementById("kpiAcc").innerText = data.account || 0;
-    document.getElementById("kpiToday").innerText = data.today || 0;
-    let html = "";
-    (data.recent || []).forEach(r => {
-      html += `<div style="background:#f1f3f7; padding:10px; border-radius:10px; margin-bottom:6px; font-size:12px;">
-        👤 <b>IC No :</b> ${r.ic}<br>💳 <b>Account No :</b> ${r.account}<br>📁 <b>Total :</b> ${r.total}<br>
-        <span style="font-size:11px; color:#666;">By: ${r.user} | ${r.time}</span>
-      </div>`;
-    });
-    document.getElementById("recentList").innerHTML = html || '<div style="color:#888; font-size:12px;">No activity today</div>';
-  } catch (e) { console.error(e); }
-}
-
-window.addEventListener("load", function() {
-  const user = JSON.parse(localStorage.getItem("user"));
-  if (!user) { showPage("login"); return; }
-  const savedPage = localStorage.getItem("activePage") || "dashboard";
-  showPage(savedPage);
-  applyRole(user.role);
-  loadDashboard();
-});
+function removeFile(i) { selectedFiles.splice(i, 1); renderFileList(); }
 
 async function upload() {
   const ic = document.getElementById("ic").value.trim();
   const account = document.getElementById("account").value.trim();
-  if (!ic || !account || selectedFiles.length === 0) { alert("Fill all fields!"); return; }
-  document.getElementById("overlay").style.display = "flex";
-  document.getElementById("modalIcon").className = "modal-icon loading";
+  if (!ic || !account || selectedFiles.length === 0) return alert("Fill all details");
+
+  showOverlay("Uploading...", `Sending ${selectedFiles.length} file(s)`);
+
   try {
-    let filesData = await Promise.all(selectedFiles.map(async (file) => {
-      let base64 = await toBase64(file);
-      return { name: file.name, type: file.type, data: base64.split(",")[1] };
+    const filesData = await Promise.all(selectedFiles.map(async (file) => {
+      let processed = file;
+      if (file.type.startsWith("image/")) processed = await compressImage(file);
+      const base64 = await toBase64(processed);
+      return { name: processed.name, type: processed.type, data: base64.split(",")[1] };
     }));
+
     const user = JSON.parse(localStorage.getItem("user"));
-    await fetch(WEB_APP_URL, { method: "POST", body: JSON.stringify({ ic, account, userId: user.userId, files: filesData }) });
-    document.getElementById("modalIcon").className = "modal-icon";
-    document.querySelector(".check-svg").style.display = "block";
-    document.getElementById("modalTitle").innerText = "Upload Successful";
-    document.getElementById("okBtn").style.display = "block";
-  } catch (err) { alert("Upload failed!"); location.reload(); }
+    const payload = { ic, account, userId: user.userId, files: filesData };
+
+    await fetch(WEB_APP_URL, { method: "POST", body: JSON.stringify(payload) });
+    showSuccess("Upload Complete", "Documents saved successfully");
+    selectedFiles = [];
+    renderFileList();
+    document.getElementById("ic").value = "";
+    document.getElementById("account").value = "";
+  } catch (err) {
+    closeOverlay();
+    alert("Upload failed. Check connection.");
+  }
 }
 
+/* ===== SEARCH LOGIC ===== */
 async function search() {
   const ic = document.getElementById("searchIC").value.trim();
-  if (!ic) return alert("Enter IC!");
-  document.getElementById("result").innerHTML = "Searching...";
-  const res = await fetch(`${WEB_APP_URL}?ic=${encodeURIComponent(ic)}&_=${Date.now()}`);
-  const data = await res.json();
-  let html = data.length === 0 ? "No record found." : "";
-  data.forEach(f => {
-    html += `<div style="background:#f8f9fb; padding:12px; border-radius:10px; margin-bottom:10px; border-left:4px solid #00bfff;">
-      <b>Account: ${f.account}</b><br><span style="font-size:13px;">📄 ${f.file}</span><br>
-      <a href="${f.url}" target="_blank" style="color:#007bff; text-decoration:none; font-size:12px;">👁 View File</a>
-    </div>`;
+  if (!ic) return;
+
+  document.getElementById("result").innerHTML = `<div class="search-loader"></div>`;
+  
+  try {
+    const res = await fetch(`${WEB_APP_URL}?ic=${encodeURIComponent(ic)}&_=${Date.now()}`);
+    const data = await res.json();
+
+    if(data.length === 0) {
+      document.getElementById("result").innerHTML = "No record found.";
+      return;
+    }
+
+    let html = "";
+    data.forEach(f => {
+      html += `
+        <div class="result-card">
+          <div style="font-weight:bold; margin-bottom:5px;">📄 ${f.file}</div>
+          <div style="font-size:0.8rem; color:var(--text-muted);">Acc: ${f.account} | By: ${f.user}</div>
+          <a href="${f.url}" target="_blank" style="color:var(--primary); text-decoration:none; font-size:0.85rem; font-weight:bold;">👁️ View File</a>
+        </div>`;
+    });
+    document.getElementById("result").innerHTML = html;
+  } catch (e) { document.getElementById("result").innerHTML = "Search Error."; }
+}
+
+function goToSearch(ic) {
+  document.getElementById("searchIC").value = ic;
+  showPage('search');
+  search();
+}
+
+/* ===== UTILS ===== */
+function showOverlay(title, sub) {
+  document.getElementById("overlay").style.display = "flex";
+  document.getElementById("modalSpinner").style.display = "block";
+  document.getElementById("modalSuccess").style.display = "none";
+  document.getElementById("modalTitle").innerText = title;
+  document.getElementById("modalSub").innerText = sub;
+  document.getElementById("okBtn").style.display = "none";
+}
+
+function showSuccess(title, sub) {
+  document.getElementById("modalSpinner").style.display = "none";
+  document.getElementById("modalSuccess").style.display = "block";
+  document.getElementById("modalTitle").innerText = title;
+  document.getElementById("modalSub").innerText = sub;
+  document.getElementById("okBtn").style.display = "block";
+}
+
+function closeOverlay() { document.getElementById("overlay").style.display = "none"; }
+function closeModal() { closeOverlay(); loadDashboard(); }
+
+function toBase64(file) {
+  return new Promise((r, j) => {
+    const reader = new FileReader();
+    reader.onload = () => r(reader.result);
+    reader.onerror = j;
+    reader.readAsDataURL(file);
   });
-  document.getElementById("result").innerHTML = html;
 }
 
-function formatIC(value) {
-  value = value.replace(/[^0-9a-zA-Z]/g, "");
-  if (/[a-zA-Z]/.test(value)) return value.toUpperCase();
-  value = value.substring(0, 12);
-  let p1 = value.substring(0, 6), p2 = value.substring(6, 8), p3 = value.substring(8, 12);
-  let res = p1;
-  if (p2) res += "-" + p2;
-  if (p3) res += "-" + p3;
-  return res;
+async function compressImage(file) {
+  if (file.size <= 1024 * 1024) return file;
+  return new Promise((resolve) => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = (e) => { img.src = e.target.result; };
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const scale = Math.min(1280 / img.width, 1);
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob((blob) => {
+        resolve(new File([blob], file.name, { type: "image/jpeg" }));
+      }, "image/jpeg", 0.7);
+    };
+    reader.readAsDataURL(file);
+  });
 }
 
-function handleICInput(e) {
-  const input = e.target;
-  let start = input.selectionStart, oldLen = input.value.length;
-  let formatted = formatIC(input.value);
-  input.value = formatted;
-  let newPos = start + (formatted.length - oldLen);
-  input.setSelectionRange(newPos, newPos);
+// IC Formatting (000000-00-0000)
+function handleIC(e) {
+  let val = e.target.value.replace(/[^0-9]/g, "").substring(0, 12);
+  if (val.length > 8) val = val.substring(0, 6) + "-" + val.substring(6, 8) + "-" + val.substring(8, 12);
+  else if (val.length > 6) val = val.substring(0, 6) + "-" + val.substring(6, 8);
+  e.target.value = val;
 }
+document.getElementById("ic").addEventListener("input", handleIC);
+document.getElementById("searchIC").addEventListener("input", handleIC);
 
-document.getElementById("ic").addEventListener("input", handleICInput);
-document.getElementById("searchIC").addEventListener("input", handleICInput);
-document.getElementById("account").addEventListener("input", function(e){ e.target.value = e.target.value.replace(/\D/g, "").substring(0, 10); });
+/* ===== INITIALIZATION ===== */
+window.onload = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (!user) {
+    showPage("login");
+  } else {
+    applyRole(user.role);
+    showPage(localStorage.getItem("activePage") || "dashboard");
+  }
+};
 </script>
+
 </body>
 </html>
