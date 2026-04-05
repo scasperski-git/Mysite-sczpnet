@@ -409,6 +409,29 @@
   }
 }
 
+    /* 🔥 SEARCH RESPONSIVE */
+.search-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.search-btn {
+  width: 140px;
+}
+
+/* 📱 MOBILE FIX */
+@media (max-width: 768px) {
+  .search-row {
+    flex-direction: column;   /* 🔥 turun bawah */
+  }
+
+  .search-btn {
+    width: 100%;              /* full width */
+    padding: 14px;            /* kecil sikit */
+  }
+}
+
   </style>
 </head>
 <body>
@@ -528,10 +551,10 @@
 
     <div id="search" class="box page-fade" style="display:none;">
       <h3><i class="ph-fill ph-magnifying-glass" style="color: var(--primary)"></i> Search Documents</h3>
-      <div style="display:flex; gap:12px; margin-bottom:32px;">
-        <input type="text" id="searchIC" placeholder="Enter IC Number..." style="flex: 1;">
-        <button class="action" style="width:140px; border-radius: var(--radius-sm);" onclick="search()">Search</button>
-      </div>
+      <div class="search-row">
+  <input type="text" id="searchIC" placeholder="Enter IC Number..." style="flex:1;">
+  <button class="action search-btn" onclick="search()">Search</button>
+</div>
       <div id="result"></div>
     </div>
   </div>
@@ -858,7 +881,7 @@ formattedDate = `${d.substring(6,8)}/${d.substring(4,6)}/${d.substring(0,4)} ${t
         <span style="flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:flex; align-items:center; gap:10px; color:#334155;">
           <i class="ph ph-file-text" style="color: #94a3b8; font-size: 18px;"></i> ${f.file}
         </span>
-        <a href="${f.url}" target="_blank" style="flex-shrink:0; color:var(--primary); flex-shrink:0;text-decoration:none; font-weight:600; display: flex; align-items: center; gap: 6px; background: #e0e7ff; padding: 6px 12px; border-radius: 8px; transition: 0.2s;">
+        <a href="${f.url}" target="_blank" style="flex-shrink:0; color:var(--primary); text-decoration:none; font-weight:600; display:flex; align-items:center; gap:6px; background:#e0e7ff; padding:6px 12px; border-radius:8px;">
           <i class="ph ph-eye"></i> View
         </a>
       </div>`;
