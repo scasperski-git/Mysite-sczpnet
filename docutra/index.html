@@ -34,8 +34,20 @@ button {
   background: #0f172a;
   color: white;
   padding: 20px;
+
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* 🔥 MAGIC LINE */
+}
+
+.menu {
+  margin-top: 20px;
+}
+
+.sidebar-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .sidebar h2 {
@@ -801,21 +813,26 @@ button.action {
 }
 
 .logout-btn {
-  margin-top: auto; /* 🔥 push ke bawah */
   display: flex;
   align-items: center;
   gap: 10px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
 
   width: 100%;
   padding: 12px 14px;
 
   border: none;
-  background: rgba(239,68,68,0.1);
-  color: #f87171;
+  border-radius: 12px;
 
-  border-radius: 10px;
+  background: rgba(239,68,68,0.15);
+  color: #ff4d4f;
+
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: rgba(239,68,68,0.25);
 }
 
 .logout-btn i {
@@ -836,31 +853,42 @@ button.action {
 
 <!-- SIDEBAR (DESKTOP) -->
 <div class="sidebar">
-  <h2>📂 DocuTrack System</h2>
-<p style="font-size:11px; text-align:center; color:#aaa;">Document System</p>
-<button onclick="showPage('dashboard', this, true)" class="active">
-  <i class="ph-fill ph-squares-four"></i>
-  Dashboard
-</button>
 
-<button onclick="showPage('upload', this)">
-  <i class="ph-fill ph-cloud-arrow-up"></i>
-  Upload
-</button>
+  <!-- TOP -->
+  <div>
+    <h2>📂 DocuTrack</h2>
+    <p style="font-size:11px; color:#aaa;">MANAGEMENT SYSTEM</p>
 
-<button onclick="showPage('search', this)">
-  <i class="ph-fill ph-magnifying-glass"></i>
-  Search
-</button>
-  
-<button onclick="logout()" class="logout-btn">
-  <i class="ph-fill ph-sign-out"></i>
-  Logout
-</button>
-  
-<div class="sidebar-footer">
-  Powered by <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
-</div>
+    <!-- MENU -->
+    <div class="menu">
+      <button onclick="showPage('dashboard', this, true)">
+        <i class="ph-fill ph-squares-four"></i>
+        Dashboard
+      </button>
+
+      <button onclick="showPage('upload', this)" class="active">
+        <i class="ph-fill ph-cloud-arrow-up"></i>
+        Upload File
+      </button>
+
+      <button onclick="showPage('search', this)">
+        <i class="ph-fill ph-magnifying-glass"></i>
+        Search Doc
+      </button>
+    </div>
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="sidebar-bottom">
+    <button onclick="logout()" class="logout-btn">
+      <i class="ph-fill ph-sign-out"></i>
+      Logout
+    </button>
+
+    <div class="sidebar-footer">
+      Powered by <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
+    </div>
+  </div>
 
 </div>
 <!-- MAIN -->
