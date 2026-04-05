@@ -150,10 +150,17 @@ h3 {
 
 .bottom-nav button.active {
   color: #00bfff;
-  transform: scale(1.1);
   font-weight: 600;
 }
 
+.bottom-nav button.active::after {
+  content: "";
+  width: 20px;
+  height: 3px;
+  background: #00bfff;
+  border-radius: 10px;
+  margin-top: 2px;
+}
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
 
