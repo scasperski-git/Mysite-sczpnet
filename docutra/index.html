@@ -685,15 +685,22 @@ button.action {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 30px;
+  height: 30px;
 
   background: white;
   border-radius: 14px;
-  padding: 12px 14px;
+  padding: 12px 16px;
   margin-top: 8px;
 
   box-shadow: 0 6px 14px rgba(0,0,0,0.08);
   border: 1px solid #eef2f7;
   transition: all 0.2s ease;
+}
+
+.file-left {
+  flex: 1;
+  min-width: 0;
 }
 
 .file-card:hover {
@@ -733,10 +740,18 @@ button.action {
   background: #fee2e2;
   border: none;
   color: #ef4444;
-  width: 30px;
-  height: 30px;
+
+  width: 28px;
+  height: 28px;
+
   border-radius: 8px;
   cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0; /* 🔥 penting elak senget */
 }
 
 /* MOBILE TIGHT */
