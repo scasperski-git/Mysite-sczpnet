@@ -51,16 +51,18 @@
 
     /* ===== SIDEBAR (DESKTOP) ===== */
     .sidebar {
-      width: 280px;
-      background: var(--dark-sidebar);
-      color: white;
-      padding: 32px 24px;
-      display: flex;
-      flex-direction: column;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      box-shadow: 4px 0 24px rgba(0,0,0,0.05);
+  width: 280px;
+  background: var(--dark-sidebar);
+  color: white;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  align-self: stretch;   /* 🔥 ADD */
+  height: auto;          /* 🔥 CHANGE */
+  min-height: 100vh;     /* 🔥 ADD */
+  box-shadow: 4px 0 24px rgba(0,0,0,0.05);
     }
 
     .sidebar-brand {
@@ -852,11 +854,11 @@ formattedDate = `${d.substring(6,8)}/${d.substring(4,6)}/${d.substring(0,4)} ${t
 </div>
       <div style="display:grid; gap:10px;">`;
     files.forEach(f => {
-      html += `<div style="display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:12px 16px; border-radius:10px; font-size:14px; border: 1px solid #e2e8f0; transition: 0.2s;">
-        <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:75%; display: flex; align-items: center; gap: 10px; color: #334155;">
+      html += `<div style="display:flex; justify-content:space-between; align-items:center; gap:10px; background:#f8fafc; padding:12px 16px; border-radius:10px; font-size:14px; border: 1px solid #e2e8f0;">
+        <span style="flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:flex; align-items:center; gap:10px; color:#334155;">
           <i class="ph ph-file-text" style="color: #94a3b8; font-size: 18px;"></i> ${f.file}
         </span>
-        <a href="${f.url}" target="_blank" style="color:var(--primary); text-decoration:none; font-weight:600; display: flex; align-items: center; gap: 6px; background: #e0e7ff; padding: 6px 12px; border-radius: 8px; transition: 0.2s;">
+        <a href="${f.url}" target="_blank" style="flex-shrink:0; color:var(--primary); flex-shrink:0;text-decoration:none; font-weight:600; display: flex; align-items: center; gap: 6px; background: #e0e7ff; padding: 6px 12px; border-radius: 8px; transition: 0.2s;">
           <i class="ph ph-eye"></i> View
         </a>
       </div>`;
