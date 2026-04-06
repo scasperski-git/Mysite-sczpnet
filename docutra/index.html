@@ -170,8 +170,8 @@ button {
 .main {
   flex: 1;
   padding: 40px 30px;
-  margin-left: 260px; /* Offset for fixed sidebar */
-  max-width: 1200px;
+  margin-left: 260px;
+  width: calc(100% - 260px); /* ✅ FIX */
 }
 
 .box {
