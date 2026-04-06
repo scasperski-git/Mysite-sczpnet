@@ -1032,6 +1032,11 @@ function showPage(page, el, isClick = false) {
 
   document.getElementById(page).style.display = "block";
 
+  window.scrollTo({
+  top: 0,
+  behavior: "smooth"
+});
+
   document.querySelectorAll(".sidebar button, .bottom-nav button").forEach(btn => {
     btn.classList.remove("active");
   });
