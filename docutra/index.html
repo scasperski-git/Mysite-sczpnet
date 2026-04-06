@@ -864,6 +864,37 @@ button.action {
     display: none;
   }
 }
+
+.floating-footer {
+  position: fixed;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-size: 10px;
+  color: #888;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(8px);
+
+  padding: 4px 10px;
+  border-radius: 10px;
+
+  transition: all 0.3s ease;
+  z-index: 999;
+
+  opacity: 0.6;
+}
+
+.floating-footer a {
+  color: #00bfff;
+  text-decoration: none;
+}
+
+/* HIDE */
+.floating-footer.hide {
+  transform: translate(-50%, 20px);
+  opacity: 0;
+}
   
 </style>
 </head>
@@ -906,10 +937,9 @@ button.action {
       Logout
     </button>
 
-    <div class="sidebar-footer">
-      Powered by <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
-    </div>
-  </div>
+<div class="floating-footer" id="floatingFooter">
+  Powered by <a href="https://sczpnet.org" target="_blank">sczpnet.org</a>
+</div>
 
 </div>
 <!-- MAIN -->
@@ -1670,6 +1700,23 @@ document.getElementById("account").addEventListener("input", function(e){
 function closeModal() {
   location.reload();
 }
+
+let lastScroll = 0;
+const footer = document.getElementById("floatingFooter");
+
+window.addEventListener("scroll", () => {
+  let currentScroll = window.pageYOffset;
+
+  if (currentScroll > lastScroll) {
+    // scroll down → hide
+    footer.classList.add("hide");
+  } else {
+    // scroll up → show
+    footer.classList.remove("hide");
+  }
+
+  lastScroll = currentScroll;
+});
 
 </script>
 
