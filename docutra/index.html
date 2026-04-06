@@ -841,6 +841,12 @@ button.action {
   background: rgba(239,68,68,0.2);
   color: #ef4444;
 }
+
+h2 i, h3 i {
+  margin-right: 6px;
+  font-size: 18px;
+  vertical-align: middle;
+}
   
 </style>
 </head>
@@ -854,7 +860,10 @@ button.action {
 
   <!-- TOP -->
   <div>
-    <h2>📂 DocuTrack</h2>
+    <h2>
+  <i class="ph-fill ph-folder"></i>
+  DocuTrack System
+</h2>
     <p style="font-size:11px; color:#aaa;">MANAGEMENT SYSTEM</p>
 
     <!-- MENU -->
@@ -896,7 +905,10 @@ button.action {
 <div class="main">
 
 <div id="login" class="box" style="display:none; max-width:400px; margin:40px auto;">
-  <h3>🔐 Login</h3>
+  <h3>
+  <i class="ph-fill ph-lock-key"></i>
+  Login
+</h3>
 
   <input type="text" id="userId" placeholder="User ID">
   <input type="password" id="password" placeholder="Password">
@@ -908,7 +920,10 @@ button.action {
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="box">
-  <h3>📊 DocuTrack Dashboard</h3>
+  <h3>
+  <i class="ph-fill ph-chart-bar"></i>
+  Dashboard
+</h3>
 
   <!-- USER INFO -->
 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:30px;">
@@ -925,22 +940,22 @@ button.action {
   <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px;">
     
     <div class="kpi">
-      <div class="kpi-title">📁 Documents</div>
+      <div class="kpi-title"><i class="ph-fill ph-folder"></i> Documents</div>
       <div class="kpi-value" id="kpiDocs">0</div>
     </div>
 
     <div class="kpi">
-      <div class="kpi-title">👤 IC</div>
+      <div class="kpi-title"><i class="ph-fill ph-identification-card"></i> IC</div>
       <div class="kpi-value" id="kpiIC">0</div>
     </div>
 
     <div class="kpi">
-      <div class="kpi-title">🗂 Account</div>
+      <div class="kpi-title"><i class="ph-fill ph-briefcase"></i> Account</div>
       <div class="kpi-value" id="kpiAcc">0</div>
     </div>
 
     <div class="kpi">
-      <div class="kpi-title">⬆ Today</div>
+      <div class="kpi-title"><i class="ph-fill ph-trend-up"></i> Today</div>
       <div class="kpi-value" id="kpiToday">0</div>
     </div>
 
@@ -948,7 +963,7 @@ button.action {
 
   <!-- RECENT ACTIVITY -->
   <div style="margin-top:20px;">
-    <div style="font-weight:bold; margin-bottom:8px;">🕒 Recent Activity</div>
+    <div style="font-weight:bold; margin-bottom:8px;"><i class="ph-fill ph-clock"></i> Recent Activity</div>
     <div id="recentList"></div>
   </div>
 
@@ -977,7 +992,10 @@ button.action {
 
 <!-- SEARCH -->
 <div id="search" class="box" style="display:none;">
-  <h3>Search Documents</h3>
+  <h3>
+  <i class="ph-fill ph-magnifying-glass"></i>
+  Search Documents
+</h3>
 
 <div class="form-group">
   <input type="text" id="searchIC" placeholder="Enter IC (e.g. XXXXXX-XX-XXXX)" maxlength="14">
@@ -1227,7 +1245,7 @@ function applyRole(role) {
 
   // 👤 DISPLAY NAME
   document.getElementById("welcomeName").innerText =
-    "👤 Welcome, " + user.userId;
+    "<i class='ph-fill ph-user'></i> Welcome, " + user.userId;
 
   // 🏷 ROLE
   document.getElementById("userRole").innerText =
