@@ -1005,6 +1005,7 @@ async function login() {
       localStorage.setItem("user", JSON.stringify(data));
       setTimeout(() => {
         document.getElementById("overlay").style.display = "none";
+        document.getElementById("login").style.display = "none";
         showPage("dashboard");
         applyRole(data.role);
         loadDashboard();
