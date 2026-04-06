@@ -189,15 +189,14 @@ button {
 }
 
 #login {
-  position: fixed;       /* 🔥 INI FIX */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
+  position: fixed;
+  margin: auto;
+  inset: 0;
   display: none;
   justify-content: center;
   align-items: center;
   z-index: 999;
+  background: var(--bg-color);
 }
 
 .box h3 {
@@ -755,9 +754,7 @@ button.action:active {
   <i class="ph-fill ph-folder" style="color:var(--primary); font-size:22px;"></i> DocuTrack
 </div>
 
-<div class="main">
-
-  <div id="login" style="display:none;">
+<div id="login" style="display:none;">
   <div class="box" style="max-width:420px; width:100%;">
     <h3 style="justify-content: center; font-size: 24px; margin-bottom: 30px;">
       <i class="ph-fill ph-lock-key"></i> Secure Login
@@ -770,8 +767,10 @@ button.action:active {
     <p id="loginMsg" style="text-align: center; color: #ef4444; margin-top: 16px; font-weight: 500; font-size: 14px;"></p>
   </div>
 </div>
+  
+<div class="main">
 
-  <div id="dashboard" class="box">
+    <div id="dashboard" class="box">
     <h3><i class="ph-fill ph-chart-bar"></i> Overview</h3>
 
     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:30px; background: #f8fafc; padding: 16px 20px; border-radius: 16px; border: 1px solid #e2e8f0;">
@@ -912,18 +911,20 @@ function showPage(page, el, isClick = false) {
     location.reload();
   }
 
-  if (page === "login") {
+if (page === "login") {
+  document.querySelector(".sidebar").style.display = "none";
+  document.querySelector(".bottom-nav").style.display = "none";
+  document.querySelector(".main").style.display = "none";   // ✅ TAMBAH
+} else {
+  if (window.innerWidth <= 768) {
     document.querySelector(".sidebar").style.display = "none";
-    document.querySelector(".bottom-nav").style.display = "none";
+    document.querySelector(".bottom-nav").style.display = "flex";
   } else {
-    if (window.innerWidth <= 768) {
-      document.querySelector(".sidebar").style.display = "none";
-      document.querySelector(".bottom-nav").style.display = "flex";
-    } else {
-      document.querySelector(".sidebar").style.display = "flex";
-      document.querySelector(".bottom-nav").style.display = "none";
-    }
+    document.querySelector(".sidebar").style.display = "flex";
+    document.querySelector(".bottom-nav").style.display = "none";
   }
+
+  document.querySelector(".main").style.display = "block";  // ✅ TAMBAH
 }
 
 function toBase64(file) {
