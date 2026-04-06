@@ -560,22 +560,26 @@ button.action {
 }
 
 .kpi {
-  background: linear-gradient(135deg, #00bfff, #007bff);
   color: white;
   padding: 16px;
   border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(0,123,255,0.25);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
-.kpi-title {
-  font-size: 12px;
-  opacity: 0.9;
+.kpi-docs {
+  background: linear-gradient(135deg, #a855f7, #7c3aed);
 }
 
-.kpi-value {
-  font-size: 22px;
-  font-weight: bold;
-  margin-top: 5px;
+.kpi-ic {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+.kpi-acc {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+}
+
+.kpi-today {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
 }
 
 .mobile-only {
@@ -945,22 +949,22 @@ h3 i {
   <!-- KPI CARDS -->
   <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px;">
     
-    <div class="kpi">
+    <div class="kpi kpi-docs">
       <div class="kpi-title"><i class="ph-fill ph-folder"></i> Documents</div>
       <div class="kpi-value" id="kpiDocs">0</div>
     </div>
 
-    <div class="kpi">
+    <div class="kpi kpi-ic">
       <div class="kpi-title"><i class="ph-fill ph-identification-card"></i> IC</div>
       <div class="kpi-value" id="kpiIC">0</div>
     </div>
 
-    <div class="kpi">
+    <div class="kpi kpi-acc">
       <div class="kpi-title"><i class="ph-fill ph-briefcase"></i> Account</div>
       <div class="kpi-value" id="kpiAcc">0</div>
     </div>
 
-    <div class="kpi">
+    <div class="kpi kpi-today">
       <div class="kpi-title"><i class="ph-fill ph-trend-up"></i> Today</div>
       <div class="kpi-value" id="kpiToday">0</div>
     </div>
