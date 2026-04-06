@@ -1244,8 +1244,8 @@ function applyRole(role) {
   const user = JSON.parse(localStorage.getItem("user"));
 
   // 👤 DISPLAY NAME
-  document.getElementById("welcomeName").innerText =
-    "<i class='ph-fill ph-user'></i> Welcome, " + user.userId;
+document.getElementById("welcomeName").innerHTML =
+  "<i class='ph-fill ph-user'></i> <span style='margin-left:4px;'>Welcome, " + user.userId + "</span>";
 
   // 🏷 ROLE
   document.getElementById("userRole").innerText =
