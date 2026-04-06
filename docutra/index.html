@@ -574,6 +574,43 @@ button.action:active {
 @media (max-width: 768px) {
   .app { flex-direction: column; }
   .sidebar { display: none; }
+  .file-name {
+    font-size: 12px;
+    line-height: 1.3;
+  }
+}
+  /* KPI GRID MOBILE FIX */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 atas 2 bawah */
+  gap: 10px;
+}
+
+.kpi {
+  padding: 14px; /* kecilkan card */
+  border-radius: 14px;
+}
+
+.kpi-value {
+  font-size: 20px; /* kecilkan number */
+}
+
+.kpi-title {
+  font-size: 11px;
+}
+
+/* Latest Upload compact */
+.latest-row {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 6px;
+  background: #f8fafc;
+  padding: 6px 8px;
+  border-radius: 8px;
+  white-space: nowrap;       /* paksa 1 line */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
   
   .mobile-header {
     display: flex;
@@ -723,7 +760,7 @@ button.action:active {
       </div>
     </div>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px;">
+    <div class="kpi-grid">
       <div class="kpi kpi-docs">
         <div class="kpi-title"><i class="ph-fill ph-folder"></i> Documents</div>
         <div class="kpi-value" id="kpiDocs">0</div>
@@ -1173,10 +1210,10 @@ async function search() {
           📁 Account No: ${acc} 
           <span style="color:#64748b; font-weight:500; font-size:13px; margin-left:6px;">(${count} ${count > 1 ? "files" : "file"})</span>
         </div>
-        <div style="font-size:12px; color:#64748b; margin-top:6px; background:#f8fafc; padding:8px; border-radius:8px;">
-          Latest Upload: <strong>${formattedDate}</strong>  
-          <span style="margin-left:8px; color:var(--primary); font-weight:600;">By: ${latestUser}</span>
-        </div>
+<div class="latest-row">
+  Latest Upload: <strong>${formattedDate}</strong> | 
+  <span>By: ${latestUser}</span>
+</div>
         <div style="margin-top:12px; border-top: 1px dashed #e2e8f0; padding-top: 12px;">
     `;
 
