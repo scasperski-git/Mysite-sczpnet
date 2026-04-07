@@ -65,6 +65,11 @@ body {
     box-shadow: 4px 0 15px rgba(0,0,0,0.1);
 }
 
+.mobile-header-left {
+    display: flex;
+    flex-direction: column;
+}
+
 .brand {
     font-size: 22px;
     font-weight: 700;
@@ -99,31 +104,31 @@ body {
 .nav-menu {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px; /* Jarak dirapatkan sikit */
     flex: 1;
 }
 
-/* Override JS inline-block for flex layout */
+/* BUTANG SIDEBAR DIKECILKAN UNTUK DESKTOP */
 .nav-btn {
     width: 100%;
-    padding: 14px 16px;
-    font-size: 14px;
+    padding: 12px 14px; /* Padding dikurangkan */
+    font-size: 13px; /* Font dikecilkan sikit */
     font-weight: 500;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
     background: transparent;
     color: #cbd5e1;
-    display: flex;
+    display: flex; 
     align-items: center;
     justify-content: flex-start;
-    gap: 12px;
+    gap: 10px; /* Gap dikecilkan */
     transition: all 0.3s ease;
 }
 
 .nav-btn i {
-    font-size: 18px;
-    width: 24px;
+    font-size: 16px; /* Icon dikecilkan */
+    width: 22px;
     text-align: center;
 }
 
@@ -314,7 +319,7 @@ button {
 .amount {
     font-size: 24px;
     font-weight: 700;
-    color: #0f172a; /* Tukar dark color nampak premium */
+    color: #0f172a;
     letter-spacing: 0.5px;
 }
 
@@ -405,14 +410,14 @@ button {
 .session-count { font-size: 12px; color: #94a3b8; font-weight: 500; }
 
 /* ==========================================
-   MOBILE RESPONSIVE (BOTTOM NAV)
+   MOBILE RESPONSIVE (CLEAN TOP APP BAR)
    ========================================== */
 @media (max-width: 899px) {
     .app-layout {
         flex-direction: column;
     }
     
-    /* Top Header for Mobile - COMPACT */
+    /* Top Header for Mobile - APP STYLE */
     .sidebar {
         position: relative;
         width: 100%;
@@ -422,8 +427,14 @@ button {
         align-items: center;
         padding: 16px 20px; 
         border-radius: 0 0 20px 20px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.06);
         z-index: 40;
+    }
+
+    .mobile-header-left {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
     }
 
     .brand { 
@@ -437,64 +448,60 @@ button {
     
     .user-profile {
         margin-bottom: 0;
-        text-align: right; 
         background: transparent;
         border: none;
         padding: 0;
+        text-align: left;
     }
 
     #userInfo {
-        font-size: 12px;
+        font-size: 11px;
+        color: #94a3b8;
     }
 
-    /* Bottom Navigation */
+    /* Tukar Navigasi jadi Butang Kecil Di Kanan Atas */
     .nav-menu {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
         flex-direction: row;
-        background: #ffffff;
-        padding: 12px 10px;
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
-        z-index: 50;
-        border-radius: 24px 24px 0 0;
-        justify-content: space-around;
-        gap: 5px;
+        width: auto;
+        gap: 8px;
+    }
+
+    #navCheckLock {
+        display: none !important; /* Buang butang Check Lock sebab membazir */
     }
 
     .nav-btn {
-        flex-direction: column;
-        gap: 6px;
-        padding: 8px 4px;
-        font-size: 11px;
-        color: #64748b;
-        border-radius: 12px;
+        width: auto;
+        padding: 10px 12px;
+        border-radius: 10px;
         justify-content: center;
+        background: rgba(255, 255, 255, 0.05); /* Latar belakang nipis untuk butang */
+    }
+
+    .nav-btn span { 
+        display: none; /* Sembunyikan teks, tunjuk ikon saja */
     }
 
     .nav-btn i {
-        font-size: 20px;
+        font-size: 18px;
+        width: auto;
+        margin: 0;
+        color: #e2e8f0;
     }
 
-    .nav-btn:hover {
-        transform: none;
-        background: #f1f5f9;
-        color: #3b82f6;
+    .logout-btn { 
+        margin-top: 0; 
+        background: rgba(239, 68, 68, 0.2) !important;
     }
-
-    .nav-btn.active {
-        background: #eef2ff;
-        color: #3b82f6;
-        box-shadow: none;
+    
+    .logout-btn i {
+        color: #fca5a5 !important;
     }
-
-    .logout-btn { margin-top: 0; color: #ef4444 !important; }
 
     /* Main Content Adjustments */
     .main-content {
         margin-left: 0;
-        padding: 24px 15px 100px 15px; 
+        padding: 24px 15px 40px 15px; /* Tak perlukan padding bawah besar lagi */
     }
 
     .container {
@@ -514,10 +521,6 @@ button {
     .amount {
         font-size: 22px;
     }
-
-    @media (max-width: 380px) {
-        .nav-btn span { display: none; }
-    }
 }
 
 </style>
@@ -529,12 +532,13 @@ button {
 <div class="app-layout">
 
     <nav class="sidebar">
-        <div class="brand">
-            <i class="fa fa-shield-halved"></i> Lock Portal
-        </div>
-        
-        <div class="user-profile">
-            <div id="userInfo"></div>
+        <div class="mobile-header-left">
+            <div class="brand">
+                <i class="fa fa-shield-halved"></i> Lock Portal
+            </div>
+            <div class="user-profile">
+                <div id="userInfo"></div>
+            </div>
         </div>
         
         <div class="nav-menu">
@@ -605,7 +609,7 @@ window.location="../lock/";
 }
 
 if(type === "master"){
-    document.getElementById("masterBtn").style.display = "flex"; // Tukar perkataan ni je
+document.getElementById("masterBtn").style.display = "flex"; // Fix js supaya ngam dengan flexbox UI
 }
 
 async function checkSession(){
@@ -783,7 +787,7 @@ today.setHours(0,0,0,0);
 promiseDate.setHours(0,0,0,0);
 
 let statusText="LOCKED";
-let statusColor="#10b981"; // Tukar green premium sikit 
+let statusColor="#10b981"; 
 
 if(today>promiseDate){
 statusText="EXPIRED";
