@@ -163,21 +163,25 @@ body {
 /* ===== MAIN CONTENT ===== */
 .main-content {
     flex: 1;
-    margin-left: 280px; /* Same as sidebar width */
-    padding: 30px; /* Boleh adjust kalau nak lagi rapat/jarak */
-    display: flex;
-    justify-content: flex-start; /* Ini yang buat dia rapat ke kiri (sidebar) */
-    align-items: flex-start;
+    margin-left: 280px; /* Lebar sidebar */
+    padding: 0; /* Buang semua ruang kelabu di luar container */
+    display: block;
 }
 
 .container {
     width: 100%;
-    max-width: 700px; /* Saya besarkan sikit dari 600px supaya nampak lagi seimbang */
+    max-width: 100%; /* Penuh terus ke kanan */
+    min-height: 100vh; /* Penuh terus dari atas ke bawah */
     background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.03);
-    animation: slideUpFade 0.5s ease forwards;
-    padding: 32px;
+    border-radius: 0; /* Buang bucu bulat supaya lekat bucu skrin */
+    box-shadow: none; /* Buang shadow sebab dah penuh skrin */
+    padding: 40px 60px; /* Jarak untuk text form di bahagian dalam */
+    animation: fadeIn 0.4s ease forwards; /* Guna fade-in biasa supaya nampak smooth bila full screen */
+}
+
+/* List Mode override */
+body.list-mode .container {
+    max-width: 100%;
 }
 
 /* List Mode override */
