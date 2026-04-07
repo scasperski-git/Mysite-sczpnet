@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DCA Request Password Assignment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 22px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+            font-size: 14px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        .checkbox-group input {
+            margin-top: 3px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .checkbox-group label {
+            font-weight: normal;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #25D366; /* Warna rasmi WhatsApp */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #128C7E;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>DCA Password Assignment</h2>
+    
+    <div class="form-group">
+        <label for="agencyName">Agency Name</label>
+        <input type="text" id="agencyName" placeholder="Masukkan nama agensi" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="requestorName">Requestor Name</label>
+        <input type="text" id="requestorName" placeholder="Masukkan nama pemohon" required>
+    </div>
+    
+    <div class="checkbox-group">
+        <input type="checkbox" id="consent">
+        <label for="consent">I consent to the request for password assignment and acknowledge the relevant policies.</label>
+    </div>
+    
+    <button onclick="sendToWhatsApp()">Send via WhatsApp</button>
+</div>
+
+<script>
+    function sendToWhatsApp() {
+        // 1. Ambil nilai dari borang input
+        var agencyName = document.getElementById('agencyName').value;
+        var requestorName = document.getElementById('requestorName').value;
+        var consent = document.getElementById('consent').checked;
+
+        // 2. Semak jika ada ruangan yang kosong
+        if (agencyName.trim() === '' || requestorName.trim() === '') {
+            alert('Sila isi Agency Name dan Requestor Name.');
+            return;
+        }
+
+        // 3. Semak jika kotak consent tidak ditanda
+        if (!consent) {
+            alert('Sila tandakan kotak consent (persetujuan) sebelum menghantar.');
+            return;
+        }
+
+        // 4. TETAPKAN NOMBOR TELEFON WHATSAPP PENERIMA
+        // Gantikan '60123456789' dengan nombor sebenar.
+        // Mesti mulakan dengan kod negara (contohnya 60 untuk Malaysia) tanpa tanda '+' atau sengkang '-'.
+        var phoneNumber = '60176701984'; 
+
+        // 5. Susun format mesej yang akan dihantar
+        var message = "*DCA Request Password Assignment*\n\n" +
+                      "*Agency Name:* " + agencyName + "\n" +
+                      "*Requestor Name:* " + requestorName + "\n" +
+                      "*Consent:* Yes, agreed.";
+
+        // 6. Tukar format teks kepada format URL yang sah (URL Encoding)
+        var encodedMessage = encodeURIComponent(message);
+
+        // 7. Jana pautan API WhatsApp dan buka di tab/aplikasi baharu
+        var whatsappURL = 'https://wa.me/' + phoneNumber + '?text=' + encodedMessage;
+        window.open(whatsappURL, '_blank');
+    }
+</script>
+
+</body>
+</html>
