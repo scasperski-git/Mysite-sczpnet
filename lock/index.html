@@ -612,42 +612,54 @@ td:nth-child(3) {
        KOMPRESS SUCCESS PAGE UNTUK MOBILE (ONE PAGE)
        ========================================== */
     .success-card {
-        padding: 16px 14px !important; /* Kurangkan padding luar kotak */
+        padding: 24px 20px !important; /* Besarkan sikit padding luar */
+        min-height: calc(100vh - 240px); /* Paksa card panjang sikit supaya tarik isi ruang kosong ke bawah */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Tgh-tgh */
     }
     
-    /* Guna CSS untuk overwrite inline-style JS bagi tajuk & tarikh */
-    #result .success-card > div:nth-child(1) {
-        margin-bottom: 8px !important; 
+    #result .success-card > div:nth-child(1) { 
+        margin-bottom: 16px !important; 
     }
-    #result .success-card > div:nth-child(2) {
-        margin-bottom: 12px !important; 
-        font-size: 10px !important;
+    
+    #result .success-card > div:nth-child(1) .status-badge {
+        font-size: 16px !important; /* Besarkan badge title */
+        padding: 10px 24px !important;
+    }
+    
+    #result .success-card > div:nth-child(2) { 
+        margin-bottom: 20px !important; 
+        font-size: 12px !important; /* Besarkan subtitle nama dca */
     }
 
     .success-grid { 
-        grid-template-columns: repeat(2, 1fr) !important; /* Paksa 2 lajur di mobile supaya tak memanjang */
-        gap: 12px !important;
-        padding: 12px !important;
-        margin-top: 10px !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 20px 12px !important; /* Besarkan ruang antara row utk isi space */
+        padding: 18px !important;
+        margin-top: 0 !important;
+        flex: 1; /* Bagi kotak dalam ni kembang ikut tinggi */
+        align-content: center;
     }
     
     .success-item {
-        font-size: 11px !important;
+        font-size: 13px !important; /* Besarkan dr 11px */
     }
     
     .success-item b {
-        font-size: 9px !important;
-        margin-bottom: 2px !important;
+        font-size: 11px !important; /* Besarkan dr 9px */
+        margin-bottom: 6px !important;
     }
     
     .amount {
-        font-size: 16px !important; /* Kecilkan sikit amaun */
+        font-size: 22px !important; /* Besarkan harga */
     }
     
     .new-btn {
-        margin-top: 16px !important;
-        width: 100% !important; /* Lebarkan button supaya senang tekan */
-        padding: 12px !important;
+        margin-top: 20px !important; /* Jarak dgn card */
+        width: 100% !important; 
+        padding: 16px !important; /* Butang tebal sikit selesa tekan */
+        font-size: 15px !important;
     }
     
     @media (max-width: 380px) {
