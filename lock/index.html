@@ -3,8 +3,9 @@
 
 <head>
 
-<title>Lock Portal</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Secure Login Portal</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,1456 +20,453 @@
     font-family: 'Poppins', Arial, sans-serif;
 }
 
-html {
-    font-size: clamp(14px, 1.1vw, 16px);
-}
-
+/* ANIMATED PREMIUM BACKGROUND */
 body {
-    background: #f1f5f9;
+    background: linear-gradient(-45deg, #4f46e5, #3b82f6, #0ea5e9, #6366f1);
+    background-size: 400% 400%;
+    animation: bgMove 15s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     margin: 0;
-    padding: 0;
-    color: #334155;
-    min-height: 100vh;
+    padding: 20px;
 }
 
-/* ANIMATIONS */
+@keyframes bgMove {
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
+}
+
+/* PREMIUM LOGIN CARD */
+.box {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 48px 40px;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15), inset 0 0 0 1px rgba(255,255,255,0.5);
+    width: 100%;
+    max-width: 400px;
+    animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 @keyframes slideUpFade {
-    0% { transform: translateY(20px); opacity: 0; }
-    100% { transform: translateY(0); opacity: 1; }
+    0% { opacity: 0; transform: translateY(30px) scale(0.98); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-@keyframes pulseGlow {
-    0% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
-    70% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
-}
-
-/* ===== APP LAYOUT (DESKTOP SIDEBAR) ===== */
-.app-layout {
-    display: flex;
-    min-height: 100vh;
-}
-
-/* ===== SIDEBAR ===== */
-.sidebar {
-    width: 280px;
-    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    padding: 24px 20px;
-    position: fixed;
-    height: 100vh;
-    left: 0;
-    top: 0;
-    z-index: 50;
-    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
-}
-
-.brand {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #fff;
-}
-
-.brand i {
-    color: #6366f1;
-    font-size: 24px;
-}
-
-.user-profile {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 16px;
-    border-radius: 16px;
-    margin-bottom: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-#userInfo {
-    font-size: 13px;
-    font-weight: 500;
-    color: #e2e8f0;
-}
-    
-#userSummary {
-    font-size: 12px;
-    margin-top: 8px;
-    color: #a5b4fc;
-    display: inline-block;
-    font-weight: 600;
-}
-
-.nav-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    flex: 1;
-}
-
-.nav-btn {
-    width: 100%;
-    padding: 14px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    background: transparent;
-    color: #cbd5e1;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 12px;
-    transition: all 0.3s ease;
-}
-
-.nav-btn i {
-    font-size: 18px;
-    width: 24px;
+/* HEADER */
+.login-header {
     text-align: center;
+    margin-bottom: 32px;
 }
 
-.nav-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    transform: translateX(4px);
+.login-header i {
+    font-size: 32px;
+    color: #4f46e5;
+    background: #eef2ff;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    border-radius: 50%;
+    margin-bottom: 16px;
+    box-shadow: 0 8px 16px rgba(79, 70, 229, 0.15);
 }
 
-.nav-btn.active {
-    background: linear-gradient(135deg, #4f46e5, #3b82f6);
-    color: white;
-    font-weight: 600;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-}
-
-.logout-btn { 
-    margin-top: auto;
-    color: #fca5a5; 
-}
-.logout-btn:hover {
-    background: rgba(239, 68, 68, 0.15);
-    color: #ef4444;
-}
-
-/* ===== MAIN CONTENT ===== */
-.main-content {
-    flex: 1;
-    margin-left: 280px; /* Lebar sidebar */
-    padding: 0; /* Buang semua ruang kelabu di luar container */
-    display: block;
-}
-
-.container {
-    width: 100%;
-    max-width: 100%; /* Penuh terus ke kanan */
-    min-height: 100vh; /* Penuh terus dari atas ke bawah */
-    background: #ffffff;
-    border-radius: 0; /* Buang bucu bulat supaya lekat bucu skrin */
-    box-shadow: none; /* Buang shadow sebab dah penuh skrin */
-    padding: 40px 60px; /* Jarak untuk text form di bahagian dalam */
-    animation: fadeIn 0.4s ease forwards; /* Guna fade-in biasa supaya nampak smooth bila full screen */
-}
-
-/* List Mode override */
-body.list-mode .container {
-    max-width: 100%;
-}
-
-/* List Mode override */
-body.list-mode .container {
-    max-width: 1100px;
-}
-
-/* FORM BODY */
-.form-title {
-    font-size: 20px;
-    font-weight: 600;
+.login-title {
+    font-size: 24px;
+    font-weight: 700;
     color: #0f172a;
-    margin-bottom: 24px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #f1f5f9;
+    letter-spacing: -0.5px;
 }
 
-/* LABELS & INPUTS */
-label {
+.login-sub {
     font-size: 13px;
-    font-weight: 600;
-    color: #475569;
-    display: block;
-    margin-top: 16px;
-    margin-bottom: 6px;
-}
-
-input, select, textarea {
-    width: 100%;
-    padding: 14px 16px;
-    border: 1px solid #cbd5e1;
-    border-radius: 12px;
-    font-size: 14px;
-    background: #f8fafc;
-    color: #1e293b;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-}
-
-textarea {
-    resize: vertical;
-    min-height: 90px;
-}
-
-input:focus, select:focus, textarea:focus {
-    background: #ffffff;
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
-    outline: none;
-}
-
-/* SUBMIT BUTTON */
-.submit-btn {
-    width: 100%;
-    padding: 16px;
-    border: none;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    background: linear-gradient(135deg, #4f46e5, #3b82f6);
-    color: white;
-    transition: all 0.3s ease;
-    margin-top: 20px;
-}
-
-.submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
-}
-
-#submitBtn {
-    animation: pulseGlow 2s infinite;
-}
-#submitBtn:hover { animation: none; }
-
-/* ERROR STATES */
-.error {
-    color: #ef4444;
-    font-size: 12px;
-    font-weight: 500;
+    color: #64748b;
     margin-top: 4px;
-    display: none;
-    animation: fadeIn 0.3s ease;
 }
 
-.shake {
-    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
-    border-color: #ef4444 !important;
-    background: #fef2f2 !important;
+/* ERROR */
+#errorMsg {
+    background: #fef2f2;
+    color: #ef4444;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: center;
+    display: none;
+    border: 1px solid #fca5a5;
+    animation: shake 0.4s ease;
 }
 
 @keyframes shake {
-    10%, 90% { transform: translate3d(-2px, 0, 0); }
-    20%, 80% { transform: translate3d(4px, 0, 0); }
-    30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
-    40%, 60% { transform: translate3d(6px, 0, 0); }
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
 }
 
-/* AUDIT NOTE */
-.audit-note {
+/* INPUT GROUP */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.input-group i.left {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 18px;
+    transition: 0.3s ease;
+}
+
+/* INPUT */
+.input-group input {
+    width: 100%;
+    padding: 16px 45px 16px 48px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    font-size: 15px;
+    background: #f8fafc;
+    color: #1e293b;
+    transition: all 0.3s ease;
+}
+
+.input-group input::placeholder {
+    color: #94a3b8;
+}
+
+.input-group input:focus {
+    outline: none;
+    background: #ffffff;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+}
+
+.input-group input:focus + i.left,
+.input-group input:focus ~ i.left {
+    color: #4f46e5;
+}
+
+/* PASSWORD EYE */
+.toggle-pass {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #94a3b8;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+.toggle-pass:hover {
+    color: #4f46e5;
+}
+
+/* LOGIN BUTTON */
+button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+    box-shadow: 0 10px 20px rgba(79, 70, 229, 0.25);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 25px rgba(79, 70, 229, 0.35);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* ATTEMPT & SECURITY NOTE */
+.attempt {
     margin-top: 24px;
     font-size: 12px;
-    color: #78350f;
-    background: #fffbeb;
-    padding: 14px;
-    border-left: 4px solid #f59e0b;
-    border-radius: 8px;
-    line-height: 1.5;
-}
-
-/* REMARK COUNTER */
-#remarkCounter {
-    font-size: 11px;
-    color: #94a3b8;
-    text-align: right;
-    margin-top: 4px;
+    color: #64748b;
+    text-align: center;
     font-weight: 500;
 }
 
-/* SUCCESS CARD & LIST STYLES */
-.success-card {
-    padding: 30px 25px;
-    border-radius: 16px;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    text-align: center;
-    animation: fadeIn 0.5s ease;
-}
-
-.status-badge {
-    display: inline-block;
-    padding: 8px 24px;
-    border-radius: 30px;
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 1px;
-    color: white;
-    background: linear-gradient(135deg, #10b981, #059669);
-    margin-bottom: 15px;
-}
-
-.success-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    text-align: left;
-    background: #f8fafc;
-    padding: 20px;
-    border-radius: 12px;
-    margin-top: 20px;
-}
-
-.success-item b {
-    display: block;
+.login-note {
+    margin-top: 8px;
     font-size: 11px;
-    color: #64748b;
-    margin-bottom: 4px;
+    color: #94a3b8;
+    text-align: center;
 }
 
-.amount {
-    font-size: 22px;
-    font-weight: 700;
-    color: #0f172a;
-}
-
-/* TABLE STYLES */
-.table-scroll {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    margin-top: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-}
-
-table th, table td {
-    padding: 16px;
-    border-bottom: 1px solid #e2e8f0;
-    text-align: left;
-}
-
-table th {
-    background: #f8fafc;
-    font-weight: 600;
-    font-size: 12px;
-    color: #64748b;
-}
-
-table tr:last-child td { border-bottom: none; }
-table tr:hover td { background: #f8fafc; }
-
-td:nth-child(3) {
-    text-align: right;
-    font-weight: 600;
-}
-
-/* FILTER & PAGINATION */
-.filter-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 12px;
-}
-.filter-actions button {
-    flex: 1;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-}
-.apply-btn { background: #4f46e5; }
-.clear-btn { background: #64748b; }
-
-.pagination-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-    background: #f8fafc;
-    padding: 10px;
-    border-radius: 12px;
-}
-
-.page-btn {
-    padding: 10px 18px;
-    font-size: 13px;
-    border-radius: 8px;
-    background: white;
-    border: 1px solid #e2e8f0;
-    color: #4f46e5;
-    cursor: pointer;
-}
-.page-btn:disabled { color: #94a3b8; cursor: not-allowed; }
-#pageInfo { flex: 1; text-align: center; font-weight: 600; font-size: 13px; }
-
-.new-btn {
-    display: block;
-    width: auto;
-    margin: 24px auto 0;
-    padding: 14px 40px;
-    background: #64748b;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-/* OVERLAYS */
-#overlay, #sessionPopup {
+/* =========================
+AUTH OVERLAY
+========================= */
+#overlay {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(4px);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     display: none;
     align-items: center;
     justify-content: center;
-    z-index: 9999;
+    z-index: 999;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: rgba(15, 23, 42, 0.6);
 }
 
-.loader-box, .session-box {
+.auth-card {
     background: white;
     padding: 40px;
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-    max-width: 340px;
-    width: 90%;
+    min-width: 280px;
+    animation: slideUpFade 0.3s ease forwards;
 }
-.spinner {
-    width: 45px; height: 45px;
-    border: 4px solid #f1f5f9;
-    border-top: 4px solid #4f46e5;
+
+.auth-icon {
+    font-size: 40px;
+    color: #4f46e5;
+    margin-bottom: 16px;
+    animation: pulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.auth-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4px;
+}
+
+.auth-sub {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.auth-dots {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.auth-dots span {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #4f46e5;
     border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 20px auto 0;
+    animation: dots 1.4s infinite ease-in-out both;
 }
-@keyframes spin { 100% { transform: rotate(360deg); } }
 
-/* ==========================================
-   MOBILE RESPONSIVE (COMPACT HEADER + BOTTOM NAV)
-   ========================================== */
-@media (max-width: 899px) {
-    .app-layout {
-        flex-direction: column;
-    }
-    
-    /* Top Header for Mobile - COMPACT */
-    .sidebar {
-        position: relative;
-        width: 100%;
-        height: auto;
-        flex-direction: row; /* Susun kiri kanan */
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 16px; /* Padding dinipiskan */
-        border-radius: 0 0 16px 16px;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        z-index: 40;
-    }
+.auth-dots span:nth-child(1) { animation-delay: -0.32s; }
+.auth-dots span:nth-child(2) { animation-delay: -0.16s; }
 
-    .brand { 
-        margin-bottom: 0; 
-        font-size: 18px; /* Font kecil sikit */
-    }
-    
-    .brand i {
-        font-size: 20px;
-    }
-    
-    .user-profile {
-        margin-bottom: 0;
-        text-align: right; /* Text align kanan */
-        background: transparent;
-        border: none;
-        padding: 0;
-    }
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+}
 
-    #userInfo {
-        font-size: 12px;
+@keyframes dots {
+    0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    .box {
+        padding: 40px 24px;
+        border-radius: 20px;
     }
-
-    #userSummary {
-        font-size: 10px;
-        margin-top: 2px;
-        padding: 2px 8px;
+    .login-title {
+        font-size: 22px;
     }
-
-    /* Bottom Navigation */
-    .nav-menu {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        flex-direction: row;
-        background: #ffffff;
-        padding: 12px 10px;
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
-        z-index: 50;
-        border-radius: 24px 24px 0 0;
-        justify-content: space-around;
-        gap: 5px;
-    }
-
-    .nav-btn {
-        flex-direction: column;
-        gap: 6px;
-        padding: 8px 4px;
-        font-size: 11px;
-        color: #64748b;
-        border-radius: 12px;
-        justify-content: center;
-    }
-
-    .nav-btn i {
-        font-size: 20px;
-    }
-
-    .nav-btn:hover {
-        transform: none;
-        background: #f1f5f9;
-        color: #4f46e5;
-    }
-
-    .nav-btn.active {
-        background: #eef2ff;
-        color: #4f46e5;
-        box-shadow: none;
-    }
-
-    .logout-btn { margin-top: 0; color: #ef4444; }
-
-    /* Adjust Main Content for Mobile */
-    .main-content {
-        margin-left: 0;
-        padding: 16px 15px 90px 15px; /* Kurangkan top padding sebab header dah nipis */
-    }
-
-    .container {
-        padding: 24px 20px;
-        border-radius: 16px;
-    }
-
-    .success-grid { grid-template-columns: 1fr; }
-    
-    @media (max-width: 380px) {
-        .nav-btn span { display: none; }
+    button {
+        padding: 18px;
+        font-size: 16px;
     }
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="app-layout">
+<div class="box">
 
-    <nav class="sidebar">
-        <div class="brand">
-            <i class="fa fa-shield-halved"></i> Lock Portal
-        </div>
-        
-        <div class="user-profile">
-            <div id="userInfo"></div>
-            <div id="userSummary">Today: 0 Locks | RM 0</div>
-        </div>
-        
-        <div class="nav-menu">
-            <button onclick="location.reload()" class="nav-btn active" id="navNewLock">
-                <i class="fa fa-pen-to-square"></i> <span>New Lock</span>
-            </button>
-            
-            <button onclick="viewMyLocks()" class="nav-btn" id="navMyLocks">
-                <i class="fa fa-list-check"></i> <span>My Locks</span>
-            </button>
-            
-            <button id="masterBtn" class="nav-btn" onclick="goMaster()" style="display:none">
-                <i class="fa fa-chess-king"></i> <span>Master</span>
-            </button>
-            
-            <button class="nav-btn logout-btn" onclick="logout()">
-                <i class="fa fa-right-from-bracket"></i> <span>Logout</span>
-            </button>
-        </div>
-    </nav>
+<div class="login-header">
 
-    <main class="main-content">
-        <div class="container">
+<i class="fa fa-shield-halved"></i>
 
-            <div id="formSection">
-                <div class="form-title">Create New Lock</div>
-                <form id="lockForm" autocomplete="off" novalidate>
+<div class="login-title">Lock Management</div>
+<div class="login-sub">Secure Access Portal</div>
 
-                    <label>Account No</label>
-                    <input type="text" id="acc_no" name="acc_no" autocomplete="off" inputmode="numeric" maxlength="10" placeholder="ENTER ACCOUNT NO">
-                    <div class="error" id="err_acc"><i class="fa-solid fa-circle-exclamation"></i> Account No required</div>
+</div>
 
-                    <label>Branch</label>
-                    <select id="branch" name="branch_id" required>
-                        <option value="">SELECT BRANCH</option>
-                        <option value="" disabled>Loading branch list...</option>
-                    </select>
-                    <div class="error" id="err_branch"><i class="fa-solid fa-circle-exclamation"></i> Please select branch</div>
+<div id="errorMsg"></div>
 
-                    <label>Lock Amount</label>
-                    <input type="text" id="amount" name="amount" autocomplete="off" inputmode="numeric" placeholder="0.00">
-                    <div class="error" id="err_amount"><i class="fa-solid fa-circle-exclamation"></i> Amount required</div>
+<div class="input-group">
+<i class="fa fa-user left"></i>
+<input id="user" placeholder="User ID">
+</div>
 
-                    <label>Payment Category</label>
-                    <select id="payment_category" name="payment_category" required>
-                        <option value="">SELECT PAYMENT CATEGORY</option>
-                        <option>PARTIAL PAYMENT</option>
-                        <option>FULL PAYMENT</option>
-                        <option>UNDER DISCOUNT</option>
-                    </select>
-                    <div class="error" id="err_category"><i class="fa-solid fa-circle-exclamation"></i> Payment category required</div>
+<div class="input-group">
+<i class="fa fa-lock left"></i>
+<input type="password" id="pass" placeholder="Password">
+<i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
+</div>
 
-                    <label>Promise Date</label>
-                    <input type="date" id="promise_date" name="promise_date" min="">
-                    <div class="error" id="err_date"><i class="fa-solid fa-circle-exclamation"></i> Promise date required</div>
+<button onclick="login()">Login</button>
 
-                    <label>DCA ID</label>
-                    <input type="text" id="dca_id" name="dca_id" readonly>
-                    <div class="error" id="err_dca"><i class="fa-solid fa-circle-exclamation"></i> DCA ID required</div>
+<div class="attempt">
+Secure authentication system
+</div>
 
-                    <label>Remarks</label>
-                    <textarea id="remarks" name="remarks" autocomplete="off" maxlength="100" placeholder="ENTER REMARKS"></textarea>
-                    <div id="remarkCounter">0 / 100</div>
-                    <div class="error" id="err_remarks"><i class="fa-solid fa-circle-exclamation"></i> Remarks required</div>
-
-                    <button type="submit" id="submitBtn" class="submit-btn">
-                        <i class="fa-solid fa-lock" style="margin-right: 8px;"></i> Submit Lock
-                    </button>
-
-                    <div class="audit-note">
-                        <i class="fa-solid fa-shield-halved" style="margin-right: 5px;"></i> <b>Audit Note:</b> Every submission is recorded for audit and verification purposes. Unauthorized or false lock entries may be subject to investigation.
-                    </div>
-
-                </form>
-            </div>
-
-            <div id="result"></div>
-            
-            <div id="lockListSection" style="display:none;">
-                <div class="form-title" style="margin-bottom: 10px;">My Lock List</div>
-                
-                <div class="success-card" style="padding: 20px; margin-bottom: 20px;">
-                    <div style="display:flex; gap:10px; margin-bottom:12px;">
-                        <input id="filterAcc" placeholder="Search Account No" style="margin:0; flex:1;">
-                    </div>
-                    <div style="display:flex; gap:10px; margin-bottom:12px;">
-                        <input type="date" id="filterStart" style="margin:0; flex:1;">
-                        <input type="date" id="filterEnd" style="margin:0; flex:1;">
-                    </div>
-                    <div class="filter-actions">
-                        <button onclick="applyFilter()" class="apply-btn"><i class="fa fa-filter"></i> Apply</button>
-                        <button onclick="resetFilter()" class="clear-btn"><i class="fa fa-xmark"></i> Clear</button>
-                    </div>
-                </div>
-
-                <div class="table-scroll">
-                    <table style="min-width: 600px;">
-                        <thead>
-                            <tr>
-                                <th>ACC NO</th>
-                                <th>BRANCH</th>
-                                <th>AMOUNT</th>
-                                <th>PTP DATE</th>
-                                <th>REMARK</th>
-                            </tr>
-                        </thead>
-                        <tbody id="lockTable"></tbody>
-                    </table>
-                </div>
-
-                <div class="pagination-bar">
-                    <button id="prevBtn" onclick="prevPage()" class="page-btn"><i class="fa fa-chevron-left"></i></button>
-                    <span id="pageInfo"></span>
-                    <button id="nextBtn" onclick="nextPage()" class="page-btn"><i class="fa fa-chevron-right"></i></button>
-                </div>
-
-                <button class="new-btn" onclick="backToForm()"><i class="fa-solid fa-arrow-left" style="margin-right: 8px;"></i> Back</button>
-            </div>
-
-        </div>
-    </main>
+<div class="login-note">
+<i class="fa fa-lock"></i> Authorized personnel only
+</div>
 
 </div>
 
 <div id="overlay">
-    <div class="loader-box">
-        Processing Lock...
-        <div class="spinner"></div>
-    </div>
+
+<div class="auth-card">
+
+<i class="fa-solid fa-shield-halved auth-icon"></i>
+
+<div class="auth-title">Authenticating</div>
+<div class="auth-sub">Verifying credentials</div>
+
+<div class="auth-dots">
+<span></span>
+<span></span>
+<span></span>
 </div>
 
-<div id="sessionPopup">
-    <div class="session-box">
-        <i class="fa fa-lock" style="font-size: 48px; color: #ef4444; margin-bottom: 16px;"></i>
-        <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #0f172a;" id="sessionTitle">Session Expired</div>
-        <div style="font-size: 14px; color: #475569; margin-bottom: 16px;" id="sessionMsg">Please login again.</div>
-        <div style="font-size: 12px; color: #94a3b8; font-weight: 500;">Redirecting to login...</div>
-    </div>
+</div>
+
 </div>
 
 <script src="../lockconfig.js"></script>
 
 <script>
-// ==========================================
-// LOGIC BAWAH NI MAINTAIN 100% TAK SENTUH
-// ==========================================
 
 const api = API_URL;
 
-const user = localStorage.getItem("lock_user");
-const role = localStorage.getItem("lock_role");
-const token = localStorage.getItem("session_token");
+document.getElementById("user").focus();
 
-if(!token){
-logout();
+/* PASSWORD TOGGLE */
+
+function togglePass(){
+
+const pass=document.getElementById("pass");
+const icon=document.querySelector(".toggle-pass");
+
+if(pass.type==="password"){
+pass.type="text";
+icon.classList.replace("fa-eye","fa-eye-slash");
+}else{
+pass.type="password";
+icon.classList.replace("fa-eye-slash","fa-eye");
 }
 
-document.getElementById("userInfo").innerHTML =
-"User: "+(user || "-")+" | Role: "+(role || "-");
-loadUserSummary();
-setInterval(loadUserSummary,120000);
-/* ACCESS CONTROL */
-
-const type = localStorage.getItem("lock_type");
-
-if(!type){
-window.location="../lockcheck-login/";
 }
 
-if(type=="check"){
-alert("Access denied");
-window.location="../check/";
-}
+/* LOGIN */
 
-if(type === "master"){
-document.getElementById("masterBtn").style.display = "flex"; // Changed from inline-block for layout
-}
+async function login(){
 
-function goMaster(){
-window.location = "../menu/";
-}
+const user=document.getElementById("user").value.trim();
+const pass=document.getElementById("pass").value.trim();
 
-/* LOAD BRANCH */
+const err=document.getElementById("errorMsg");
 
-fetch(api+"?action=branches&token="+token)
-.then(res=>res.json())
-.then(data=>{
+err.style.display="none";
 
-if(data.status=="UNAUTHORIZED"){
-
-if(data.reason=="SESSION_REPLACED"){
-alert("Your account has been logged in from another device.");
-}
-else{
-showSessionPopup("EXPIRED");
+if(!user || !pass){
+err.innerText="Enter User ID and Password";
+err.style.display="block";
 return;
 }
-
-localStorage.clear();
-window.location="../lockcheck-login/";
-return;
-
-}
-
-var select=document.getElementById("branch");
-select.innerHTML='<option value="">SELECT BRANCH</option>';
-
-data.forEach(b=>{
-var option=document.createElement("option");
-option.value=b.id;
-option.text=b.name;
-select.appendChild(option);
-});
-
-});
-
-/* AUTO DCA */
-
-document.getElementById("dca_id").value =
-localStorage.getItem("lock_user") || "";
-
-/* MIN DATE */
-
-document.getElementById("promise_date").min =
-new Date().toISOString().split("T")[0];
-
-/* AUTO CAPITAL */
-/* ACCOUNT NO - ONLY NUMBERS */
-
-const accField = document.getElementById("acc_no");
-
-/* block typing letters */
-
-accField.addEventListener("keypress", function(e){
-
-if(!/[0-9]/.test(e.key)){
-e.preventDefault();
-}
-
-});
-
-/* block paste letters */
-
-accField.addEventListener("input", function(){
-
-this.value = this.value.replace(/\D/g,'');
-
-});
-  
-document.querySelectorAll("input[type=text]:not(#dca_id):not(#acc_no)").forEach(el=>{
-
-el.addEventListener("input",function(){
-
-let start=this.selectionStart;
-let end=this.selectionEnd;
-
-this.value=this.value.toUpperCase();
-this.setSelectionRange(start,end);
-
-});
-
-});
-
-/* AMOUNT FORMAT */
-
-const amountField = document.getElementById("amount");
-
-amountField.addEventListener("input", function(){
-
-let value = this.value.replace(/[^\d.]/g,'');
-
-let parts = value.split(".");
-
-if(parts.length > 2){
-value = parts[0] + "." + parts.slice(1).join("");
-}
-
-if(parts[1]){
-parts[1] = parts[1].substring(0,2);
-value = parts[0] + "." + parts[1];
-}
-
-this.value = value;
-
-});
-
-amountField.addEventListener("blur", function(){
-
-let value = this.value.replace(/,/g,'');
-
-if(value==="") return;
-
-let num = parseFloat(value);
-
-if(!isNaN(num)){
-this.value = num.toLocaleString("en-MY",{
-minimumFractionDigits:2,
-maximumFractionDigits:2
-});
-}
-
-});
-
-/* REMARK LIMIT */
-
-const remarkBox=document.getElementById("remarks");
-const remarkCounter=document.getElementById("remarkCounter");
-
-remarkBox.addEventListener("input",function(){
-
-if(this.value.length>100){
-this.value=this.value.substring(0,100);
-}
-
-remarkCounter.textContent=this.value.length+" / 100";
-
-});
-
-function loadUserSummary(){
-
-var dca = localStorage.getItem("lock_user");
-
-document.getElementById("userSummary").innerText =
-"Today: loading...";
-
-fetch(api+"?action=dashboard&token="+token+"&dca="+dca)
-.then(r=>r.json())
-.then(data=>{
-
-var total = data.total || 0;
-var amount = Number(data.amount || 0).toLocaleString("en-MY",{
-minimumFractionDigits:2,
-maximumFractionDigits:2
-});
-
-document.getElementById("userSummary").innerHTML =
-'<i class="fa fa-chart-line"></i> Today: '+total+
-' Locks | RM '+amount;
-
-})
-.catch(()=>{
-
-document.getElementById("userSummary").innerText =
-"Today: - | RM -";
-
-});
-
-}
-
-/* ERROR */
-
-function showError(input,errorId){
-
-input.classList.add("shake");
-document.getElementById(errorId).style.display="block";
-
-input.scrollIntoView({
-behavior:"smooth",
-block:"center"
-});
-
-setTimeout(()=>{
-input.focus();
-input.classList.remove("shake");
-},400);
-
-}
-
-/* SUBMIT LOCK */
-
-document.getElementById("lockForm").addEventListener("submit",e=>{
-
-e.preventDefault();
-
-document.querySelectorAll(".error").forEach(e=>e.style.display="none");
-
-var acc=document.getElementById("acc_no");
-var branch=document.getElementById("branch");
-var amount=document.getElementById("amount");
-var category=document.getElementById("payment_category");
-var date=document.getElementById("promise_date");
-var dca=document.getElementById("dca_id");
-var remarks=document.getElementById("remarks");
-
-if(!acc.value){showError(acc,"err_acc");return;}
-if(!branch.value){showError(branch,"err_branch");return;}
-if(!amount.value || Number(amount.value.replace(/,/g,''))<=0){showError(amount,"err_amount");return;}
-if(!category.value){showError(category,"err_category");return;}
-if(!date.value){showError(date,"err_date");return;}
-if(!dca.value){showError(dca,"err_dca");return;}
-remarks.value = remarks.value.toUpperCase();
-if(!remarks.value){showError(remarks,"err_remarks");return;}
 
 document.getElementById("overlay").style.display="flex";
-document.getElementById("submitBtn").disabled = true;
 
-var formData=new FormData(e.target);
+try{
 
-var branchName=branch.selectedOptions[0].text;
-formData.append("branch_name",branchName);
-
-/* TOKEN + USER */
-
-formData.append("token",token);
-formData.append("user",user);
-
-fetch(api,{
+const res=await fetch(api,{
 method:"POST",
-body:formData
+body:new URLSearchParams({
+action:"login",
+user:user,
+pass:pass
 })
-.then(res=>res.text())
-.then(data=>{
+});
+
+const data=await res.json();
+
+if(data.status==="SUCCESS"){
+
+localStorage.setItem("session_token",data.token);
+localStorage.setItem("lock_user",data.user);
+localStorage.setItem("lock_type",data.type);
+localStorage.setItem("lock_role",data.role);
+localStorage.setItem("lock_name",data.name);
+
+if(data.type=="check"){
+window.location="../check/";
+}
+else if(data.type=="lock"){
+window.location="../lock/";
+}
+else if(data.type=="master"){
+window.location="../menu/";
+}
+
+}
+else if(data.status==="INACTIVE"){
+err.innerText="User ID inactive";
+err.style.display="block";
+}
+else{
+err.innerText="Invalid login credentials";
+err.style.display="block";
+}
+
+}catch(e){
+
+err.innerText="System error. Please try again.";
+err.style.display="block";
+
+}
 
 document.getElementById("overlay").style.display="none";
 
-if(data=="UNAUTHORIZED"){
-
-alert("Session expired. Please login again.");
-localStorage.clear();
-window.location="../lockcheck-login/";
-return;
-
 }
 
-if(data=="ACCOUNT_ALREADY_LOCKED"){
+/* ENTER KEY */
 
-document.getElementById("result").innerHTML=
-"<div class='success-card' style='border-left:6px solid red'><b>ACCOUNT ALREADY LOCKED</b></div>";
+document.getElementById("pass").addEventListener("keypress",function(e){
 
-}
-else{
-
-showSuccess(formData);
-
+if(e.key==="Enter"){
+login();
 }
 
-});
-
-});
-
-/* DATE FORMAT */
-
-function formatDate(dateStr){
-
-if(!dateStr) return "-";
-
-/* HANDLE ISO / DATE OBJECT */
-
-let d = new Date(dateStr);
-
-if(!isNaN(d)){
-
-let day = ("0"+d.getDate()).slice(-2);
-let monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-let month = monthNames[d.getMonth()];
-let year = d.getFullYear();
-
-return day+" "+month+" "+year;
-
-}
-
-/* FALLBACK OLD FORMAT */
-
-if(dateStr.includes("-") && dateStr.split("-")[0].length==4){
-
-var p=dateStr.split("-");
-var year=p[0];
-var month=parseInt(p[1])-1;
-var day=p[2];
-
-var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-return day+" "+m[month]+" "+year;
-
-}
-
-return dateStr;
-
-}
-
-function formatDateTime(){
-
-var d=new Date();
-
-var day=("0"+d.getDate()).slice(-2);
-var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-var month=monthNames[d.getMonth()];
-var year=d.getFullYear();
-var hours=("0"+d.getHours()).slice(-2);
-var mins=("0"+d.getMinutes()).slice(-2);
-
-return day+" "+month+" "+year+" "+hours+":"+mins;
-
-}
-
-function logout(){
-localStorage.clear();
-window.location="../lockcheck-login/";
-}
-
-/* SUCCESS */
-
-function showSuccess(formData){
-
-var acc=formData.get("acc_no");
-var branch=document.getElementById("branch").selectedOptions[0].text;
-var amount="RM "+formData.get("amount");
-var category=formData.get("payment_category");
-var promise=formatDate(formData.get("promise_date"));
-var remarks=formData.get("remarks");
-var dca=formData.get("dca_id");
-var createdTime = new Date().toLocaleString("en-MY",{
-day:"2-digit",
-month:"short",
-year:"numeric",
-hour:"2-digit",
-minute:"2-digit"
-});
-
-document.getElementById("formSection").style.display="none";
-
-document.getElementById("lockListSection").style.display="none";
-document.getElementById("result").style.display="block";
-
-document.getElementById("result").innerHTML=
-
-"<div class='success-card'>"+
-"<div style='margin-bottom:15px;'><span class='status-badge'>LOCK CREATED</span></div>"+
-
-"<div style='font-size: 12px; color: #64748b; margin-bottom: 24px;'>Created by "+dca+
-" • "+createdTime+"</div>"+
-
-"<div class='success-grid'>"+
-
-"<div class='success-item'><b>ACCOUNT NO</b>"+acc+"</div>"+
-"<div class='success-item'><b>LOCK AT BRANCH</b>"+branch+"</div>"+
-
-"<div class='success-item'><b>LOCK AMOUNT</b><div class='amount'>"+amount+"</div></div>"+
-"<div class='success-item'><b>PAYMENT CATEGORY</b>"+category+"</div>"+
-
-"<div class='success-item'><b>PROMISE DATE</b>"+promise+"</div>"+
-
-"<div class='success-item' style='grid-column: 1 / -1;'><b>DCA REMARKS</b>"+remarks+"</div>"+
-
-"</div>"+
-"</div>"+
-
-"<button class='new-btn' onclick='location.reload()'><i class='fa fa-plus' style='margin-right:8px;'></i> New Lock</button>";
-
-loadUserSummary();
-  
-}
-
-function showSessionPopup(type){
-
-let title="Session Expired";
-let msg="Your session has expired. Please login again.";
-
-if(type==="DEVICE"){
-title="Logged In From Another Device";
-msg="Your account has been logged in from another device.";
-}
-
-document.getElementById("sessionTitle").innerText=title;
-document.getElementById("sessionMsg").innerText=msg;
-
-document.getElementById("sessionPopup").style.display="flex";
-
-setTimeout(()=>{
-localStorage.clear();
-window.location="../lockcheck-login/";
-},3000);
-
-}
-
-/* CLEAR ERROR */
-
-function clearError(inputId,errorId){
-document.getElementById(inputId).addEventListener("input",function(){
-document.getElementById(errorId).style.display="none";
-});
-}
-
-clearError("acc_no","err_acc");
-clearError("amount","err_amount");
-clearError("dca_id","err_dca");
-clearError("remarks","err_remarks");
-
-/* =========================
-MOBILE SAFE IDLE LOGOUT
-========================= */
-
-let lastActivity = Date.now();
-const IDLE_LIMIT = 1200000; // 20 min
-let idleTriggered = false;
-
-function updateActivity(){
-lastActivity = Date.now();
-}
-
-async function checkSession(){
-
-try{
-
-const res = await fetch(api+"?action=session&token="+token);
-const data = await res.json();
-
-if(data.status !== "ACTIVE"){
-
-showSessionPopup("DEVICE");
-return;
-
-localStorage.clear();
-window.location="../lockcheck-login/";
-
-}
-
-}catch(e){
-console.log("session check error");
-}
-
-}
-
-function checkIdle(){
-
-if(!idleTriggered && Date.now() - lastActivity > IDLE_LIMIT){
-idleTriggered = true;
-showSessionPopup("EXPIRED");
-}
-
-}
-
-setInterval(checkIdle, 5000);
-
-[
-"touchstart",
-"touchmove",
-"click",
-"scroll",
-"keydown",
-"mousemove"
-].forEach(event=>{
-document.addEventListener(event, updateActivity, {passive:true});
-});
-
-document.addEventListener("visibilitychange",()=>{
-
-if(!document.hidden){
-
-if(Date.now() - lastActivity > IDLE_LIMIT){
-showSessionPopup("EXPIRED");
-}
-
-}
-
-});
-/* SESSION MONITOR */
-
-setInterval(checkSession,30000);
-
-let fullData = [];
-let filteredData = [];
-let currentPage = 1;
-const pageSize = 5;
-
-// Added small UI logic to toggle active states on nav
-function updateNavState(activeId) {
-    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
-    document.getElementById(activeId).classList.add('active');
-}
-
-async function viewMyLocks(){
-
-document.getElementById("formSection").style.display="none";
-document.getElementById("result").style.display="none";
-document.getElementById("lockListSection").style.display="block";
-document.body.classList.add("list-mode");
-
-updateNavState('navMyLocks');
-
-try{
-
-const res = await fetch(api+"?action=mylocks&token="+token);
-const data = await res.json();
-
-if(data.status){
-document.getElementById("lockTable").innerHTML =
-"<tr><td colspan='5' style='text-align:center;padding:20px'>Access Denied</td></tr>";
-return;
-}
-
-fullData = data.sort((a,b)=> new Date(b.created) - new Date(a.created));
-filteredData = fullData;
-currentPage = 1;
-
-renderTable();
-
-}catch(e){
-
-document.getElementById("lockTable").innerHTML =
-"<tr><td colspan='5' style='text-align:center;padding:20px'>Error loading</td></tr>";
-
-}
-
-}
-
-function renderTable(){
-
-let start = (currentPage-1)*pageSize;
-let end = start + pageSize;
-
-let pageData = filteredData.slice(start,end);
-
-let html = "";
-
-pageData.forEach(d=>{
-
-let amount = "RM " + Number(d.amount || 0).toLocaleString("en-MY",{
-minimumFractionDigits:2,
-maximumFractionDigits:2
-});
-
-let today = new Date();
-today.setHours(0,0,0,0);
-
-let pDate = new Date(d.promise);
-pDate.setHours(0,0,0,0);
-
-let isOverdue = pDate < today;
-
-let remark = d.remarks || "-";
-
-let shortRemark = remark.length > 40 
-? remark.substring(0,40)+"..." 
-: remark;
-
-html += `
-<tr style="${isOverdue ? 'background:#fef2f2;' : ''}">
-<td>${d.acc_no}</td>
-<td>${d.branch}</td>
-<td>${amount}</td>
-<td style="${isOverdue ? 'color:#ef4444;font-weight:600;' : ''}">
-${formatDate(d.promise)}
-</td>
-<td onclick="toggleRemark(this)" data-full="${remark}" data-short="${shortRemark}" style="cursor:pointer; max-width: 200px; word-break: break-word;">
-
-<div class="remark-text">${shortRemark}</div>
-
-${remark.length > 40 ? '<div style="font-size: 10px; color: #3b82f6; margin-top: 4px; font-style: italic; font-weight: 500;" class="tap-hint"><i class="fa fa-hand-pointer"></i> tap to view</div>' : ''}
-
-</td>
-</tr>
-`;
-
-});
-
-document.getElementById("lockTable").innerHTML = html || 
-"<tr><td colspan='5' style='text-align:center;padding:40px;color:#94a3b8;'><i class='fa fa-folder-open' style='font-size:28px;margin-bottom:12px;display:block;'></i>No Record Found</td></tr>";
-
-let totalPage = Math.ceil(filteredData.length / pageSize) || 1;
-
-document.getElementById("pageInfo").innerText =
-`Page ${currentPage} of ${totalPage}`;
-    
-document.getElementById("prevBtn").disabled = currentPage === 1;
-document.getElementById("nextBtn").disabled = currentPage === totalPage;
-
-}
-    
-function nextPage(){
-if(currentPage * pageSize < filteredData.length){
-currentPage++;
-renderTable();
-}
-}
-
-function prevPage(){
-if(currentPage > 1){
-currentPage--;
-renderTable();
-}
-}
-
-function applyFilter(){
-
-let acc = document.getElementById("filterAcc").value.toLowerCase();
-let start = document.getElementById("filterStart").value;
-let end = document.getElementById("filterEnd").value;
-
-filteredData = fullData.filter(d=>{
-
-let accNo = (d.acc_no || "").toString().toLowerCase();
-let matchAcc = !acc || accNo.includes(acc);
-    
-let dDate = new Date(d.promise);
-dDate.setHours(0,0,0,0);
-
-let startDate = start ? new Date(start) : null;
-let endDate = end ? new Date(end) : null;
-
-if(startDate) startDate.setHours(0,0,0,0);
-if(endDate) endDate.setHours(23,59,59,999);
-
-if(startDate && endDate && startDate > endDate){
-let temp = startDate;
-startDate = endDate;
-endDate = temp;
-}
-    
-if(startDate){
-document.getElementById("filterStart").value = startDate.toISOString().split("T")[0];
-}
-
-if(endDate){
-document.getElementById("filterEnd").value = endDate.toISOString().split("T")[0];
-}
-
-let matchStart = !startDate || dDate >= startDate;
-let matchEnd = !endDate || dDate <= endDate;
-
-return matchAcc && matchStart && matchEnd;
-
-});
-
-currentPage = 1;
-renderTable();
-
-}
-
-function resetFilter(){
-
-document.getElementById("filterAcc").value="";
-document.getElementById("filterStart").value="";
-document.getElementById("filterEnd").value="";
-
-filteredData = fullData;
-currentPage = 1;
-
-renderTable();
-
-}
-
-function toggleRemark(el){
-
-let full = el.getAttribute("data-full");
-let short = el.getAttribute("data-short");
-
-let textEl = el.querySelector(".remark-text");
-let hintEl = el.querySelector(".tap-hint");
-
-if(textEl.innerText === full){
-
-textEl.innerText = short;
-
-if(hintEl) hintEl.innerHTML = "<i class='fa fa-hand-pointer'></i> tap to view";
-
-}else{
-
-textEl.innerText = full;
-
-if(hintEl) hintEl.innerHTML = "<i class='fa fa-times'></i> tap to minimize";
-
-}
-
-}
-
-function backToForm(){
-location.reload();
-}
-
-document.getElementById("filterAcc").addEventListener("keypress",function(e){
-if(e.key === "Enter"){
-applyFilter();
-}
 });
 
 </script>
