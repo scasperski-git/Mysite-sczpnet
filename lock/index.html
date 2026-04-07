@@ -597,7 +597,7 @@ td:nth-child(3) {
     .container {
         height: auto;
         min-height: auto;
-        padding: 24px 20px;
+        padding: 20px 16px; /* Kurangkan sikit padding atas container */
         border-radius: 16px;
         overflow-y: visible;
     }
@@ -612,53 +612,53 @@ td:nth-child(3) {
        KOMPRESS SUCCESS PAGE UNTUK MOBILE (ONE PAGE)
        ========================================== */
     .success-card {
-        padding: 24px 20px !important; /* Besarkan sikit padding luar */
-        min-height: calc(100vh - 240px); /* Paksa card panjang sikit supaya tarik isi ruang kosong ke bawah */
+        padding: 20px 16px !important; /* Kurangkan padding atas sikit */
+        min-height: calc(100vh - 230px); /* Adjust height */
         display: flex;
         flex-direction: column;
-        justify-content: center; /* Tgh-tgh */
+        justify-content: flex-start; /* NAIKKAN TAJUK LEKAT KE ATAS */
     }
     
     #result .success-card > div:nth-child(1) { 
-        margin-bottom: 16px !important; 
+        margin-bottom: 12px !important; 
     }
     
     #result .success-card > div:nth-child(1) .status-badge {
-        font-size: 16px !important; /* Besarkan badge title */
+        font-size: 16px !important; 
         padding: 10px 24px !important;
     }
     
     #result .success-card > div:nth-child(2) { 
-        margin-bottom: 20px !important; 
-        font-size: 12px !important; /* Besarkan subtitle nama dca */
+        margin-bottom: 16px !important; 
+        font-size: 12px !important; 
     }
 
     .success-grid { 
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 20px 12px !important; /* Besarkan ruang antara row utk isi space */
+        gap: 20px 12px !important; 
         padding: 18px !important;
         margin-top: 0 !important;
-        flex: 1; /* Bagi kotak dalam ni kembang ikut tinggi */
-        align-content: center;
+        flex: 1; /* Tolak kotak baki ke ruang tengah/bawah */
+        align-content: center; /* Susun row tengah-tengah dalam baki ruang */
     }
     
     .success-item {
-        font-size: 13px !important; /* Besarkan dr 11px */
+        font-size: 13px !important;
     }
     
     .success-item b {
-        font-size: 11px !important; /* Besarkan dr 9px */
+        font-size: 11px !important;
         margin-bottom: 6px !important;
     }
     
     .amount {
-        font-size: 22px !important; /* Besarkan harga */
+        font-size: 22px !important; 
     }
     
     .new-btn {
-        margin-top: 20px !important; /* Jarak dgn card */
+        margin-top: 20px !important; 
         width: 100% !important; 
-        padding: 16px !important; /* Butang tebal sikit selesa tekan */
+        padding: 16px !important; 
         font-size: 15px !important;
     }
     
