@@ -299,7 +299,6 @@ input:focus, select:focus, textarea:focus {
 }
 
 /* SUCCESS CARD & LIST STYLES */
-/* (Keeping the premium styling from previous update) */
 .success-card {
     padding: 30px 25px;
     border-radius: 16px;
@@ -467,36 +466,55 @@ td:nth-child(3) {
 @keyframes spin { 100% { transform: rotate(360deg); } }
 
 /* ==========================================
-   MOBILE RESPONSIVE (BOTTOM NAV MAGIK)
+   MOBILE RESPONSIVE (COMPACT HEADER + BOTTOM NAV)
    ========================================== */
 @media (max-width: 899px) {
     .app-layout {
         flex-direction: column;
     }
     
-    /* Top Header for Mobile */
+    /* Top Header for Mobile - COMPACT */
     .sidebar {
         position: relative;
         width: 100%;
         height: auto;
-        flex-direction: column;
-        padding: 20px;
-        border-radius: 0 0 24px 24px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        flex-direction: row; /* Susun kiri kanan */
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px; /* Padding dinipiskan */
+        border-radius: 0 0 16px 16px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         z-index: 40;
     }
 
-    .brand { margin-bottom: 16px; justify-content: center; }
+    .brand { 
+        margin-bottom: 0; 
+        font-size: 18px; /* Font kecil sikit */
+    }
+    
+    .brand i {
+        font-size: 20px;
+    }
     
     .user-profile {
         margin-bottom: 0;
-        text-align: center;
+        text-align: right; /* Text align kanan */
         background: transparent;
         border: none;
         padding: 0;
     }
 
-    /* Transform Menu to Bottom Navigation */
+    #userInfo {
+        font-size: 12px;
+    }
+
+    #userSummary {
+        font-size: 10px;
+        margin-top: 2px;
+        padding: 2px 8px;
+    }
+
+    /* Bottom Navigation */
     .nav-menu {
         position: fixed;
         bottom: 0;
@@ -543,7 +561,7 @@ td:nth-child(3) {
     /* Adjust Main Content for Mobile */
     .main-content {
         margin-left: 0;
-        padding: 20px 15px 100px 15px; /* Bottom padding for bottom nav */
+        padding: 16px 15px 90px 15px; /* Kurangkan top padding sebab header dah nipis */
     }
 
     .container {
@@ -553,7 +571,6 @@ td:nth-child(3) {
 
     .success-grid { grid-template-columns: 1fr; }
     
-    /* Hide text on very small screens for bottom nav to fit */
     @media (max-width: 380px) {
         .nav-btn span { display: none; }
     }
