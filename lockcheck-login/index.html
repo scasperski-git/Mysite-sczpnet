@@ -1,374 +1,444 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Secure Login Portal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #4f6df5;
-            --primary-dark: #1f3c88;
-            --accent: #6c63ff;
-            --error: #dc3545;
-            --bg-glass: rgba(255, 255, 255, 0.94);
-        }
 
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
+<title>Secure Login Portal</title>
 
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(-45deg, #4f6df5, #6c63ff, #22e1ff, #3c8ce7);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 15px;
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        /* LOGIN CARD */
-        .box {
-            background: var(--bg-glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 40px 30px;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            width: 100%;
-            max-width: 400px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            animation: slideUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+<style>
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+*{
+box-sizing:border-box;
+}
 
-        .login-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+/* ANIMATED BACKGROUND */
 
-        .logo-circle {
-            background: linear-gradient(135deg, #f0f4ff, #ffffff);
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-        }
+body{
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#4f6df5,#6c63ff,#3c8ce7,#00c6ff);
+background-size:400% 400%;
+animation:bgMove 12s ease infinite;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+margin:0;
+padding:20px;
+}
 
-        .login-header i {
-            font-size: 32px;
-            color: var(--primary);
-        }
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
 
-        .login-title {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--primary-dark);
-            letter-spacing: -0.5px;
-            margin-bottom: 4px;
-        }
+/* GLASS LOGIN CARD */
 
-        .login-sub {
-            font-size: 13px;
-            color: #718096;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+.box{
+background:rgba(255,255,255,0.92);
+backdrop-filter:blur(10px);
+padding:42px;
+border-radius:18px;
+box-shadow:0 20px 50px rgba(0,0,0,0.25);
+width:100%;
+max-width:370px;
+animation:fadeIn .4s ease;
+}
 
-        /* ALERT MESSAGE */
-        #errorMsg {
-            background: #fff5f5;
-            color: var(--error);
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            margin-bottom: 20px;
-            border-left: 4px solid var(--error);
-            display: none;
-            text-align: left;
-            animation: shake 0.4s;
-        }
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
+}
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
+/* HEADER */
 
-        /* FORM STYLING */
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
+.login-header{
+text-align:center;
+margin-bottom:24px;
+}
 
-        .input-group i.left {
-            position: absolute;
-            top: 50%;
-            left: 15px;
-            transform: translateY(-50%);
-            color: #a0aec0;
-            transition: 0.3s;
-        }
+.login-header i{
+font-size:36px;
+color:#0047ab;
+margin-bottom:6px;
+}
 
-        .input-group input {
-            width: 100%;
-            padding: 15px 45px 15px 45px;
-            border: 2px solid #edf2f7;
-            border-radius: 12px;
-            font-size: 16px;
-            background: #f8fafc;
-            transition: all 0.3s;
-            color: #2d3748;
-        }
+.login-title{
+font-size:20px;
+font-weight:700;
+color:#1f3c88;
+}
 
-        .input-group input:focus {
-            outline: none;
-            background: #fff;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(79, 109, 245, 0.1);
-        }
+.login-sub{
+font-size:12px;
+color:#666;
+}
 
-        .input-group input:focus + i.left {
-            color: var(--primary);
-        }
+/* ERROR */
 
-        .toggle-pass {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #a0aec0;
-            padding: 5px;
-        }
+#errorMsg{
+color:#dc3545;
+font-size:14px;
+margin-bottom:10px;
+text-align:center;
+display:none;
+}
 
-        /* BUTTON */
-        button {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(79, 109, 245, 0.3);
-        }
+/* INPUT GROUP */
 
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(79, 109, 245, 0.4);
-        }
+.input-group{
+position:relative;
+margin-bottom:16px;
+}
 
-        button:active {
-            transform: translateY(0);
-        }
+.input-group i.left{
+position:absolute;
+top:50%;
+left:12px;
+transform:translateY(-50%);
+color:#777;
+}
 
-        .footer-info {
-            margin-top: 25px;
-            text-align: center;
-        }
+/* INPUT */
 
-        .login-note {
-            font-size: 12px;
-            color: #a0aec0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
+.input-group input{
+width:100%;
+padding:14px 45px 14px 38px;
+border:1px solid #d9dee7;
+border-radius:10px;
+font-size:15px;
+background:#f8fbff;
+transition:.2s;
+}
 
-        /* OVERLAY */
-        #overlay {
-            position: fixed;
-            inset: 0;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            backdrop-filter: blur(8px);
-            background: rgba(0,0,0,0.4);
-        }
+.input-group input:focus{
+outline:none;
+background:white;
+border-color:#007bff;
+box-shadow:0 0 0 3px rgba(0,123,255,0.12);
+}
 
-        .auth-card {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            width: 80%;
-            max-width: 250px;
-        }
+/* PASSWORD EYE */
 
-        .auth-icon {
-            font-size: 40px;
-            color: var(--primary);
-            margin-bottom: 15px;
-            display: block;
-            animation: pulse 1.5s infinite;
-        }
+.toggle-pass{
+position:absolute;
+right:12px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+color:#777;
+}
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+.toggle-pass:hover{
+color:#007bff;
+}
 
-        /* RESPONSIVE */
-        @media (max-width: 480px) {
-            .box {
-                padding: 30px 20px;
-            }
-            .login-title {
-                font-size: 20px;
-            }
-        }
-    </style>
+/* LOGIN BUTTON */
+
+button{
+width:100%;
+padding:15px;
+background:linear-gradient(135deg,#007bff,#0047ab);
+color:white;
+border:none;
+border-radius:10px;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+transition:.2s;
+letter-spacing:.4px;
+}
+
+button:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
+
+/* ATTEMPT INDICATOR */
+
+.attempt{
+margin-top:10px;
+font-size:11px;
+color:#888;
+text-align:center;
+}
+
+/* SECURITY NOTE */
+
+.login-note{
+margin-top:14px;
+font-size:11px;
+color:#777;
+text-align:center;
+}
+
+/* =========================
+AUTH OVERLAY
+========================= */
+
+#overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+display:none;
+align-items:center;
+justify-content:center;
+z-index:999;
+backdrop-filter:blur(12px);
+background:rgba(0,0,0,0.4);
+}
+
+.auth-card{
+background:white;
+padding:38px;
+border-radius:16px;
+text-align:center;
+box-shadow:0 20px 40px rgba(0,0,0,0.25);
+min-width:240px;
+}
+
+.auth-icon{
+font-size:32px;
+color:#007bff;
+margin-bottom:12px;
+animation:pulse 1.4s infinite;
+}
+
+.auth-title{
+font-size:18px;
+font-weight:600;
+color:#1f3c88;
+}
+
+.auth-sub{
+font-size:12px;
+color:#6c757d;
+}
+
+.auth-dots{
+margin-top:14px;
+}
+
+.auth-dots span{
+display:inline-block;
+width:8px;
+height:8px;
+background:#007bff;
+border-radius:50%;
+margin:0 3px;
+animation:dots 1.2s infinite;
+}
+
+.auth-dots span:nth-child(2){
+animation-delay:0.2s;
+}
+
+.auth-dots span:nth-child(3){
+animation-delay:0.4s;
+}
+
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.15)}
+100%{transform:scale(1)}
+}
+
+@keyframes dots{
+0%,80%,100%{opacity:0}
+40%{opacity:1}
+}
+
+/* MOBILE */
+
+@media (max-width:600px){
+
+.box{
+padding:32px;
+}
+
+button{
+padding:16px;
+font-size:17px;
+}
+
+}
+
+</style>
+
 </head>
 
 <body>
 
 <div class="box">
-    <div class="login-header">
-        <div class="logo-circle">
-            <i class="fa fa-shield-halved"></i>
-        </div>
-        <div class="login-title">Lock Management</div>
-        <div class="login-sub">Secure Access Portal</div>
-    </div>
 
-    <div id="errorMsg"></div>
+<div class="login-header">
 
-    <div class="input-group">
-        <i class="fa fa-user left"></i>
-        <input type="text" id="user" placeholder="User ID" autocomplete="username">
-    </div>
+<i class="fa fa-shield-halved"></i>
 
-    <div class="input-group">
-        <i class="fa fa-lock left"></i>
-        <input type="password" id="pass" placeholder="Password" autocomplete="current-password">
-        <i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
-    </div>
+<div class="login-title">Lock Management</div>
+<div class="login-sub">Secure Access Portal</div>
 
-    <button onclick="login()" id="loginBtn">Login Now</button>
-
-    <div class="footer-info">
-        <div class="login-note">
-            <i class="fa fa-circle-check"></i> Encrypted Connection
-        </div>
-    </div>
 </div>
 
+<div id="errorMsg"></div>
+
+<div class="input-group">
+<i class="fa fa-user left"></i>
+<input id="user" placeholder="User ID">
+</div>
+
+<div class="input-group">
+<i class="fa fa-lock left"></i>
+<input type="password" id="pass" placeholder="Password">
+<i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
+</div>
+
+<button onclick="login()">Login</button>
+
+<div class="attempt">
+Secure authentication system
+</div>
+
+<div class="login-note">
+<i class="fa fa-lock"></i> Authorized personnel only
+</div>
+
+</div>
+
+<!-- AUTH OVERLAY -->
+
 <div id="overlay">
-    <div class="auth-card">
-        <i class="fa-solid fa-fingerprint auth-icon"></i>
-        <div style="font-weight:700; color:#1a202c">Verifying</div>
-        <div style="font-size:12px; color:#718096; margin-top:5px">Please wait...</div>
-    </div>
+
+<div class="auth-card">
+
+<i class="fa-solid fa-shield-halved auth-icon"></i>
+
+<div class="auth-title">Authenticating</div>
+<div class="auth-sub">Verifying credentials</div>
+
+<div class="auth-dots">
+<span></span>
+<span></span>
+<span></span>
+</div>
+
+</div>
+
 </div>
 
 <script src="../lockconfig.js"></script>
 
 <script>
-    const api = API_URL;
-    const userField = document.getElementById("user");
-    const passField = document.getElementById("pass");
-    const errBox = document.getElementById("errorMsg");
-    const overlay = document.getElementById("overlay");
 
-    userField.focus();
+const api = API_URL;
 
-    function togglePass() {
-        const icon = document.querySelector(".toggle-pass");
-        if (passField.type === "password") {
-            passField.type = "text";
-            icon.classList.replace("fa-eye", "fa-eye-slash");
-        } else {
-            passField.type = "password";
-            icon.classList.replace("fa-eye-slash", "fa-eye");
-        }
-    }
+document.getElementById("user").focus();
 
-    async function login() {
-        const user = userField.value.trim();
-        const pass = passField.value.trim();
+/* PASSWORD TOGGLE */
 
-        errBox.style.display = "none";
+function togglePass(){
 
-        if (!user || !pass) {
-            showError("Please enter both credentials");
-            return;
-        }
+const pass=document.getElementById("pass");
+const icon=document.querySelector(".toggle-pass");
 
-        overlay.style.display = "flex";
+if(pass.type==="password"){
+pass.type="text";
+icon.classList.replace("fa-eye","fa-eye-slash");
+}else{
+pass.type="password";
+icon.classList.replace("fa-eye-slash","fa-eye");
+}
 
-        try {
-            const res = await fetch(api, {
-                method: "POST",
-                body: new URLSearchParams({
-                    action: "login",
-                    user: user,
-                    pass: pass
-                })
-            });
+}
 
-            const data = await res.json();
+/* LOGIN */
 
-            if (data.status === "SUCCESS") {
-                localStorage.setItem("session_token", data.token);
-                localStorage.setItem("lock_user", data.user);
-                localStorage.setItem("lock_type", data.type);
-                localStorage.setItem("lock_role", data.role);
-                localStorage.setItem("lock_name", data.name);
+async function login(){
 
-                // Redirect logic
-                const routes = {
-                    'check': '../check/',
-                    'lock': '../lock/',
-                    'master': '../menu/'
-                };
-                window.location.href = routes[data.type] || '../menu/';
-            } else {
-                overlay.style.display = "none";
-                showError(data.status === "INACTIVE" ? "Account is inactive" : "Invalid User ID or Password");
-            }
-        } catch (e) {
-            overlay.style.display = "none";
-            showError("Connection error. Check your internet.");
-        }
-    }
+const user=document.getElementById("user").value.trim();
+const pass=document.getElementById("pass").value.trim();
 
-    function showError(msg) {
-        errBox.innerText = msg;
-        errBox.style.display = "block";
-    }
+const err=document.getElementById("errorMsg");
 
-    // Support Enter key for both fields
-    [userField, passField].forEach(input => {
-        input.addEventListener("keypress", (e) => {
-            if (e.key === "Enter") login();
-        });
-    });
+err.style.display="none";
+
+if(!user || !pass){
+err.innerText="Enter User ID and Password";
+err.style.display="block";
+return;
+}
+
+document.getElementById("overlay").style.display="flex";
+
+try{
+
+const res=await fetch(api,{
+method:"POST",
+body:new URLSearchParams({
+action:"login",
+user:user,
+pass:pass
+})
+});
+
+const data=await res.json();
+
+if(data.status==="SUCCESS"){
+
+localStorage.setItem("session_token",data.token);
+localStorage.setItem("lock_user",data.user);
+localStorage.setItem("lock_type",data.type);
+localStorage.setItem("lock_role",data.role);
+localStorage.setItem("lock_name",data.name);
+
+if(data.type=="check"){
+window.location="../check/";
+}
+else if(data.type=="lock"){
+window.location="../lock/";
+}
+else if(data.type=="master"){
+window.location="../menu/";
+}
+
+}
+else if(data.status==="INACTIVE"){
+err.innerText="User ID inactive";
+err.style.display="block";
+}
+else{
+err.innerText="Invalid login credentials";
+err.style.display="block";
+}
+
+}catch(e){
+
+err.innerText="System error. Please try again.";
+err.style.display="block";
+
+}
+
+document.getElementById("overlay").style.display="none";
+
+}
+
+/* ENTER KEY */
+
+document.getElementById("pass").addEventListener("keypress",function(e){
+
+if(e.key==="Enter"){
+login();
+}
+
+});
+
 </script>
 
 </body>
