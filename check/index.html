@@ -2,238 +2,302 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Check Lock Portal</title>
+    <title>Check Lock Portal | Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         :root {
             --primary: #007bff;
-            --dark: #0047ab;
+            --primary-dark: #0056b3;
             --success: #28a745;
             --danger: #dc3545;
-            --bg: #f0f2f5;
+            --bg-color: #f4f7f9;
+            --card-bg: #ffffff;
+            --text-main: #333;
+            --text-muted: #6c757d;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; }
 
         body {
-            font-family: 'Segoe UI', Roboto, sans-serif;
-            background: var(--bg);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-color);
             margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
+            padding: 15px;
+            color: var(--text-main);
         }
 
+        /* CONTAINER */
         .container {
+            max-width: 550px;
             width: 100%;
-            max-width: 900px; /* Lebar sikit untuk desktop */
-            background: white;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 0 30px rgba(0,0,0,0.1);
-            transition: all 0.3s;
+            margin: 20px auto;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
 
-        /* RESPONSIVE HEADER */
+        /* HEADER */
         .header {
-            background: linear-gradient(135deg, var(--primary), var(--dark));
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            padding: 15px 20px;
+            padding: 25px 20px;
+            text-align: center;
+            position: relative;
         }
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 100%;
-        }
-
-        .header-title {
-            font-size: 18px;
-            font-weight: 700;
+        .header h2 {
             margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 22px;
+            letter-spacing: 0.5px;
         }
 
         #userInfo {
-            font-size: 12px;
-            background: rgba(255,255,255,0.15);
-            padding: 5px 12px;
-            border-radius: 6px;
-            margin-right: 10px;
+            font-size: 13px;
+            margin-top: 8px;
+            opacity: 0.85;
+            background: rgba(255,255,255,0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            display: inline-block;
         }
 
         .header-buttons {
             display: flex;
             gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
         }
 
         .header-buttons button {
-            padding: 8px 15px;
+            flex: 1;
+            max-width: 130px;
+            padding: 10px;
             font-size: 13px;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
+            cursor: pointer;
             color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .logout-btn { background: rgba(220, 53, 69, 0.9); }
+        .master-btn { background: rgba(108, 99, 255, 0.9); }
+
+        .header-buttons button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        /* CONTENT */
+        .content { padding: 25px; }
+
+        .input-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 16px 16px 45px;
+            font-size: 17px;
+            border: 2px solid #e1e5eb;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0,123,255,0.1);
+        }
+
+        .action-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button.main-btn {
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
             cursor: pointer;
             font-weight: 600;
             transition: 0.2s;
-        }
-
-        .logout-btn { background: var(--danger); }
-        .master-btn { background: #6c63ff; }
-        .logout-btn:hover { background: #b91c1c; }
-
-        /* SEARCH SECTION */
-        .content {
-            padding: 20px;
-            flex: 1;
-        }
-
-        .search-area {
-            background: #fff;
-            padding: 15px;
-            border-radius: 12px;
-            border: 1px solid #eee;
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .search-area input {
-            flex: 1;
-            padding: 12px 15px;
-            font-size: 16px;
-            border: 2px solid #edf2f7;
-            border-radius: 10px;
-            outline: none;
-            transition: 0.2s;
-        }
-
-        .search-area input:focus { border-color: var(--primary); background: #fdfdfd; }
-
-        .btn-search {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 8px;
         }
 
-        /* RESULT CARD - DESKTOP OPTIMIZED */
+        .check-btn {
+            flex: 2;
+            background: var(--primary);
+            color: white;
+        }
+
+        .reset-btn {
+            flex: 1;
+            background: #f8f9fa;
+            color: var(--text-muted);
+            border: 1px solid #ddd;
+        }
+
+        .check-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        /* RESULT CARD */
         .result-card {
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 20px;
+            margin-top: 25px;
+            padding: 0;
+            border-radius: 12px;
             background: #fff;
-            animation: fadeIn 0.3s ease;
+            border: 1px solid #eee;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            animation: fadeIn 0.4s ease-out;
+            overflow: hidden;
         }
 
-        .card-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #f1f5f9;
-        }
-
-        .status-badge {
-            padding: 6px 18px;
+        .status-banner {
+            padding: 12px;
+            text-align: center;
             color: white;
             font-weight: 800;
-            font-size: 14px;
-            border-radius: 8px;
-            letter-spacing: 0.5px;
+            font-size: 18px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .created-info {
+        .res-body { padding: 20px; }
+
+        .created-meta {
             font-size: 12px;
-            color: #718096;
-            text-align: right;
-            line-height: 1.4;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 20px;
+            background: #f9f9f9;
+            padding: 6px;
+            border-radius: 6px;
         }
 
-        /* GRID: 2 Column Mobile, 4 Column Desktop */
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
         .label {
             font-size: 11px;
-            color: #a0aec0;
-            font-weight: 700;
+            font-weight: bold;
+            color: #999;
             text-transform: uppercase;
             margin-bottom: 4px;
         }
 
         .value {
-            font-size: 15px;
-            font-weight: 700;
-            color: #2d3748;
+            font-size: 16px;
+            font-weight: 600;
+            color: #222;
         }
 
         .amount-highlight {
-            font-size: 24px;
-            color: var(--danger);
-            font-weight: 800;
-        }
-
-        .remark-section {
-            margin-top: 20px;
+            grid-column: span 2;
+            background: #fff5f5;
             padding: 15px;
-            background: #f8fafc;
             border-radius: 10px;
-            border-left: 4px solid #cbd5e0;
-        }
-
-        /* UTILS */
-        .no-lock {
             text-align: center;
-            padding: 40px;
-            color: #a0aec0;
-            border: 2px dashed #e2e8f0;
-            border-radius: 15px;
+            border: 1px dashed var(--danger);
         }
 
+        .amount-val {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--danger);
+        }
+
+        .remark-box {
+            margin-top: 15px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-left: 4px solid #ddd;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* NO LOCK / ERROR */
+        .no-lock {
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff5f5;
+            border: 1px solid #feb2b2;
+            border-radius: 12px;
+            text-align: center;
+            color: #c53030;
+            font-weight: 600;
+        }
+
+        /* LOADING SPINNER */
+        .loading-wrap {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0,123,255,0.1);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
         @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
 
-        /* --- DESKTOP ADJUSTMENTS --- */
-        @media (min-width: 768px) {
-            body { padding: 40px 20px; }
-            .container { min-height: auto; border-radius: 20px; overflow: hidden; }
-            
-            /* Change grid to 4 columns on desktop */
-            .info-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            
-            .search-area { padding: 20px; }
-            
-            .header-title { font-size: 22px; }
+        /* SESSION POPUP */
+        #sessionPopup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
         }
 
-        /* --- MOBILE ADJUSTMENTS --- */
+        .session-box {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            width: 90%;
+            max-width: 350px;
+        }
+
+        /* MOBILE OPTIMIZATION */
         @media (max-width: 480px) {
-            .header-content { flex-direction: column; gap: 10px; }
-            .header-buttons { width: 100%; }
-            .header-buttons button { flex: 1; }
-            #userInfo { margin-right: 0; margin-bottom: 5px; }
-            .search-area { flex-direction: row; }
-            .btn-search span { display: none; } /* Show icon only on small mobile */
-            .btn-search { padding: 12px 15px; }
+            .header h2 { font-size: 18px; }
+            .action-btns { flex-direction: column; }
+            .info-grid { grid-template-columns: 1fr; }
+            .amount-highlight { grid-column: span 1; }
+            .container { margin: 0; border-radius: 0; min-height: 100vh; }
         }
     </style>
 </head>
@@ -241,34 +305,43 @@
 
 <div class="container">
     <div class="header">
-        <div class="header-content">
-            <div class="header-left">
-                <p class="header-title"><i class="fa fa-shield-check"></i> LockPortal</p>
-            </div>
-            <div class="header-right">
-                <span id="userInfo"></span>
-                <div class="header-buttons" style="display: inline-flex;">
-                    <button id="masterBtn" class="master-btn" onclick="goMaster()" style="display:none">Menu</button>
-                    <button class="logout-btn" onclick="logout()"><i class="fa fa-power-off"></i></button>
-                </div>
-            </div>
+        <h2><i class="fa fa-shield-halved"></i> Lock Portal</h2>
+        <div id="userInfo">Loading user...</div>
+        
+        <div class="header-buttons">
+            <button class="logout-btn" onclick="logout()">
+                <i class="fa fa-power-off"></i> Logout
+            </button>
+            <button id="masterBtn" class="master-btn" onclick="goMaster()" style="display:none">
+                <i class="fa fa-th-large"></i> Menu
+            </button>
         </div>
     </div>
 
     <div class="content">
-        <div class="search-area">
-            <input type="text" id="acc_no" inputmode="numeric" placeholder="Account Number" maxlength="12">
-            <button class="btn-search" onclick="checkLock()">
-                <i class="fa fa-search"></i> <span>Check Now</span>
+        <div class="input-group">
+            <i class="fa fa-hashtag input-icon"></i>
+            <input type="text" id="acc_no" autocomplete="off" inputmode="numeric" maxlength="10" placeholder="Enter Account Number">
+        </div>
+
+        <div class="action-btns">
+            <button class="main-btn check-btn" id="checkBtn">
+                <i class="fa fa-search"></i> Check Status
+            </button>
+            <button class="main-btn reset-btn" id="resetBtn">
+                <i class="fa fa-eraser"></i> Clear
             </button>
         </div>
 
-        <div id="result">
-            <div class="no-lock">
-                <i class="fa fa-magnifying-glass" style="font-size: 40px; margin-bottom: 15px;"></i>
-                <p>Enter an account number to verify status</p>
-            </div>
-        </div>
+        <div id="result"></div>
+    </div>
+</div>
+
+<div id="sessionPopup">
+    <div class="session-box">
+        <i class="fa fa-circle-exclamation" style="font-size:48px; color:var(--danger); margin-bottom:15px;"></i>
+        <h3 id="sessionTitle">Session Expired</h3>
+        <p id="sessionMsg" style="color:#666;">Redirecting to login page...</p>
     </div>
 </div>
 
@@ -276,91 +349,153 @@
 <script>
     const api = API_URL;
     const user = localStorage.getItem("lock_user");
+    const role = localStorage.getItem("lock_role");
     const token = localStorage.getItem("session_token");
     const type = localStorage.getItem("lock_type");
 
-    if(!type || !token) logout();
-    if(type === "master") document.getElementById("masterBtn").style.display = "inline-block";
-    document.getElementById("userInfo").innerHTML = `<i class="fa fa-user-circle"></i> ${user}`;
+    // Security Checks
+    if(!type) window.location="../lockcheck-login/";
+    if(type=="lock"){
+        alert("Access denied");
+        window.location="../lock/";
+    }
+    if(type === "master") document.getElementById("masterBtn").style.display = "flex";
+
+    document.getElementById("userInfo").innerHTML = `<i class="fa fa-user"></i> ${user || '-'} • <i class="fa fa-id-badge"></i> ${role || '-'}`;
 
     const input = document.getElementById("acc_no");
-    const resultDiv = document.getElementById("result");
+    const result = document.getElementById("result");
+    const checkBtn = document.getElementById("checkBtn");
+    const resetBtn = document.getElementById("resetBtn");
 
-    function goMaster() { window.location.href = "../menu/"; }
-    function logout() { localStorage.clear(); window.location.href = "../lockcheck-login/"; }
+    let isLoading = false;
+
+    // Helper: Formatter
+    function formatDate(dateStr) {
+        if(!dateStr) return "-";
+        const m = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        let d = new Date(dateStr);
+        if (isNaN(d)) {
+            // Handle dd/mm/yyyy format
+            if(dateStr.includes("/")){
+                let p = dateStr.split("/");
+                return `${p[0]} ${m[parseInt(p[1])-1]} ${p[2]}`;
+            }
+            return dateStr;
+        }
+        return `${("0"+d.getDate()).slice(-2)} ${m[d.getMonth()]} ${d.getFullYear()}`;
+    }
 
     async function checkLock() {
         const acc = input.value.trim();
-        if(!acc) return;
+        if(!acc) {
+            input.focus();
+            return;
+        }
+        if(isLoading) return;
 
-        resultDiv.innerHTML = `<div style="text-align:center; padding:50px;"><i class="fa fa-spinner fa-spin" style="font-size:30px; color:var(--primary)"></i></div>`;
+        isLoading = true;
+        checkBtn.disabled = true;
+        result.innerHTML = `
+            <div class="loading-wrap">
+                <div class="spinner"></div>
+                <p>Verifying Account...</p>
+            </div>`;
 
         try {
-            const res = await fetch(`${api}?acc_no=${acc}&token=${token}`);
+            const res = await fetch(`${api}?acc_no=${encodeURIComponent(acc)}&token=${token}`);
             const data = await res.json();
 
-            if(data.status === "LOCKED") {
-                const isExpired = new Date() > new Date(data.valid);
-                const statusColor = isExpired ? 'var(--danger)' : 'var(--success)';
-                
-                resultDiv.innerHTML = `
-                    <div class="result-card">
-                        <div class="card-top">
-                            <span class="status-badge" style="background:${statusColor}">${isExpired ? 'EXPIRED' : 'ACTIVE LOCK'}</span>
-                            <div class="created-info">
-                                <strong>Agent ID:</strong> ${data.dca_id}<br>
-                                <strong>Date:</strong> ${data.created || '-'}
-                            </div>
-                        </div>
-                        
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <div class="label">Account No</div>
-                                <div class="value">${data.acc_no}</div>
-                            </div>
-                            <div class="info-item">
-                                <div class="label">Branch</div>
-                                <div class="value">${data.branch || '-'}</div>
-                            </div>
-                            <div class="info-item">
-                                <div class="label">Promise Date</div>
-                                <div class="value">${new Date(data.valid).toLocaleDateString('en-GB', {day:'2-digit', month:'short', year:'numeric'})}</div>
-                            </div>
-                            <div class="info-item">
-                                <div class="label">Lock Amount</div>
-                                <div class="value amount-highlight">RM ${Number(data.amount).toLocaleString('en-MY', {minimumFractionDigits:2})}</div>
-                            </div>
-                        </div>
-
-                        <div class="info-item" style="margin-top:15px">
-                            <div class="label">Category</div>
-                            <div class="value">${data.category || '-'}</div>
-                        </div>
-
-                        <div class="remark-section">
-                            <div class="label">Remarks / Note</div>
-                            <div style="font-size:14px; color:#4a5568; line-height:1.6">${data.remarks || 'No additional remarks.'}</div>
-                        </div>
-                        
-                        <button onclick="resetSearch()" style="margin-top:20px; background:none; border:1px solid #cbd5e0; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:600; color:#718096">Clear Search</button>
-                    </div>
-                `;
-            } else {
-                resultDiv.innerHTML = `<div class="no-lock" style="color:var(--danger); border-color:#feb2b2; background:#fff5f5;"><strong>RECORD NOT FOUND</strong><br>Account is not currently locked.</div>`;
+            if(data.status == "UNAUTHORIZED") {
+                showSessionPopup(data.reason == "SESSION_REPLACED" ? "DEVICE" : "EXPIRED");
+                return;
             }
-        } catch (e) {
-            resultDiv.innerHTML = `<div class="no-lock">ERROR CONNECTING TO SERVER</div>`;
+
+            if(data.status === "LOCKED") {
+                const today = new Date();
+                today.setHours(0,0,0,0);
+                const promiseDate = new Date(data.valid);
+                promiseDate.setHours(0,0,0,0);
+
+                const isExpired = today > promiseDate;
+                const statusText = isExpired ? "EXPIRED" : "LOCKED";
+                const themeColor = isExpired ? "var(--danger)" : "var(--success)";
+
+                result.innerHTML = `
+                    <div class="result-card">
+                        <div class="status-banner" style="background:${themeColor}">
+                            <i class="fa ${isExpired ? 'fa-clock' : 'fa-lock'}"></i> ${statusText}
+                        </div>
+                        <div class="res-body">
+                            <div class="created-meta">
+                                <strong>Created by:</strong> ${data.dca_id} <br>
+                                <i class="fa fa-calendar-check"></i> ${data.created || '-'}
+                            </div>
+
+                            <div class="info-grid">
+                                <div>
+                                    <div class="label">Account No</div>
+                                    <div class="value">${data.acc_no}</div>
+                                </div>
+                                <div>
+                                    <div class="label">Branch</div>
+                                    <div class="value">${data.branch}</div>
+                                </div>
+                                <div class="amount-highlight">
+                                    <div class="label">Lock Amount</div>
+                                    <div class="amount-val">RM ${(Number(data.amount)).toLocaleString('en-MY', {minimumFractionDigits:2})}</div>
+                                </div>
+                                <div>
+                                    <div class="label">Promise Date</div>
+                                    <div class="value">${formatDate(data.valid)}</div>
+                                </div>
+                                <div>
+                                    <div class="label">Category</div>
+                                    <div class="value">${data.category || '-'}</div>
+                                </div>
+                            </div>
+
+                            <div class="label">Remarks</div>
+                            <div class="remark-box">${data.remarks || 'No remarks provided.'}</div>
+                        </div>
+                    </div>`;
+            } else {
+                result.innerHTML = `<div class="no-lock"><i class="fa fa-circle-info"></i><br>NO ACTIVE LOCK FOUND</div>`;
+            }
+        } catch(err) {
+            result.innerHTML = `<div class="no-lock" style="background:#fffaf0; color:#9b2c2c;">CONNECTION ERROR. TRY AGAIN.</div>`;
+        } finally {
+            isLoading = false;
+            checkBtn.disabled = false;
         }
     }
 
-    function resetSearch() {
-        input.value = "";
-        input.focus();
-        resultDiv.innerHTML = `<div class="no-lock"><i class="fa fa-magnifying-glass" style="font-size: 40px; margin-bottom: 15px;"></i><p>Enter an account number to verify status</p></div>`;
+    // Standard Functions
+    function logout() { localStorage.clear(); window.location="../lockcheck-login/"; }
+    function goMaster() { window.location="../menu/"; }
+    function showSessionPopup(type) {
+        if(type === "DEVICE") {
+            document.getElementById("sessionTitle").innerText = "Multiple Login";
+            document.getElementById("sessionMsg").innerText = "Account detected on another device.";
+        }
+        document.getElementById("sessionPopup").style.display = "flex";
+        setTimeout(logout, 3000);
     }
 
-    input.addEventListener("keypress", (e) => { if(e.key === "Enter") checkLock(); });
-    input.addEventListener("input", function() { this.value = this.value.replace(/[^0-9]/g,''); });
+    // Event Listeners
+    checkBtn.onclick = checkLock;
+    resetBtn.onclick = () => { input.value=""; result.innerHTML=""; input.focus(); };
+    input.onkeypress = (e) => { if(e.key === "Enter") checkLock(); };
+    input.oninput = function() { this.value = this.value.replace(/[^0-9]/g,''); };
+
+    // Session & Activity
+    let lastActivity = Date.now();
+    const updateActivity = () => lastActivity = Date.now();
+    ["click", "touchstart", "keydown"].forEach(ev => document.addEventListener(ev, updateActivity));
+    
+    setInterval(() => {
+        if(Date.now() - lastActivity > 1200000) showSessionPopup("EXPIRED");
+    }, 10000);
 </script>
 </body>
 </html>
