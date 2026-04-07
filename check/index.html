@@ -103,7 +103,6 @@ body {
     flex: 1;
 }
 
-/* Override JS inline-block for flex layout */
 .nav-btn {
     width: 100%;
     padding: 14px 16px;
@@ -314,7 +313,7 @@ input:focus {
 .amount {
     font-size: 24px;
     font-weight: 700;
-    color: #0f172a; /* Tukar dark color nampak premium */
+    color: #0f172a;
     letter-spacing: 0.5px;
 }
 
@@ -405,21 +404,24 @@ input:focus {
 .session-count { font-size: 12px; color: #94a3b8; font-weight: 500; }
 
 /* ==========================================
-   MOBILE RESPONSIVE (BOTTOM NAV)
+   MOBILE RESPONSIVE (HEADER COMPACT WITH TOP RIGHT ICONS)
    ========================================== */
 @media (max-width: 899px) {
     .app-layout {
         flex-direction: column;
     }
     
-    /* Top Header for Mobile - COMPACT */
+    /* Top Header for Mobile */
     .sidebar {
         position: relative;
         width: 100%;
         height: auto;
-        flex-direction: row; 
-        justify-content: space-between;
-        align-items: center;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-areas: 
+            "brand nav"
+            "user user";
+        gap: 12px;
         padding: 16px 20px; 
         border-radius: 0 0 20px 20px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.08);
@@ -427,6 +429,7 @@ input:focus {
     }
 
     .brand { 
+        grid-area: brand;
         margin-bottom: 0; 
         font-size: 18px; 
     }
@@ -436,65 +439,68 @@ input:focus {
     }
     
     .user-profile {
+        grid-area: user;
         margin-bottom: 0;
-        text-align: right; 
-        background: transparent;
+        text-align: left; 
+        background: rgba(255,255,255,0.05);
         border: none;
-        padding: 0;
+        padding: 12px 14px;
     }
 
     #userInfo {
         font-size: 12px;
     }
 
-    /* Bottom Navigation */
+    /* Top Right Buttons Navigation */
     .nav-menu {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
+        grid-area: nav;
+        position: static; 
         flex-direction: row;
-        background: #ffffff;
-        padding: 12px 10px;
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
-        z-index: 50;
-        border-radius: 24px 24px 0 0;
-        justify-content: space-around;
-        gap: 5px;
+        background: transparent;
+        box-shadow: none;
+        padding: 0;
+        width: auto;
+        justify-content: flex-end;
+        gap: 8px; /* Jarak antara butang icon */
     }
 
     .nav-btn {
-        flex-direction: column;
-        gap: 6px;
-        padding: 8px 4px;
-        font-size: 11px;
-        color: #64748b;
-        border-radius: 12px;
+        width: 42px; /* Jadikan petak */
+        height: 42px;
+        padding: 0;
         justify-content: center;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
     }
 
+    .nav-btn span { display: none; } /* Sembunyi teks pada mobile */
+    
     .nav-btn i {
-        font-size: 20px;
+        font-size: 18px;
+        margin: 0;
+        width: auto;
     }
 
     .nav-btn:hover {
         transform: none;
-        background: #f1f5f9;
-        color: #3b82f6;
+        background: rgba(255,255,255,0.2);
     }
 
-    .nav-btn.active {
-        background: #eef2ff;
-        color: #3b82f6;
-        box-shadow: none;
+    #navCheckLock { 
+        display: none !important; /* Tak perlu butang ni kat mobile header */
     }
 
-    .logout-btn { margin-top: 0; color: #ef4444 !important; }
+    .logout-btn { 
+        margin-top: 0; 
+        color: #fca5a5 !important; 
+        background: rgba(239, 68, 68, 0.2); /* Background merah cair sikit */
+    }
 
     /* Main Content Adjustments */
     .main-content {
         margin-left: 0;
-        padding: 24px 15px 100px 15px; 
+        padding: 24px 15px 40px 15px; /* Bottom padding dah kurangkan */
     }
 
     .container {
@@ -513,10 +519,6 @@ input:focus {
     
     .amount {
         font-size: 22px;
-    }
-
-    @media (max-width: 380px) {
-        .nav-btn span { display: none; }
     }
 }
 
@@ -547,7 +549,7 @@ input:focus {
             </button>
             
             <button class="nav-btn logout-btn" onclick="logout()">
-                <i class="fa fa-right-from-bracket"></i> <span>Logout</span>
+                <i class="fa fa-power-off"></i> <span>Logout</span>
             </button>
         </div>
     </nav>
@@ -605,7 +607,7 @@ window.location="../lock/";
 }
 
 if(type === "master"){
-    document.getElementById("masterBtn").style.display = "flex"; // Tukar perkataan ni je
+document.getElementById("masterBtn").style.display = "flex";
 }
 
 async function checkSession(){
@@ -903,7 +905,7 @@ checkLock();
 input.addEventListener("input",function(){
 this.value=this.value.replace(/[^0-9]/g,'');
 });
-  
+  
 let lastActivity = Date.now();
 const IDLE_LIMIT = 1200000; // 20 min
 let idleTriggered = false;
@@ -946,7 +948,7 @@ showSessionPopup("EXPIRED");
 /* SESSION MONITOR */
 
 setInterval(checkSession,30000);
-  
+  
 </script>
 
 <div id="sessionPopup">
