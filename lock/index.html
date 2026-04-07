@@ -4,7 +4,7 @@
 <head>
 
 <title>Lock Portal</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,16 +24,16 @@ html {
 }
 
 body {
-    background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+    background: #f1f5f9;
     margin: 0;
-    padding: 20px 15px;
+    padding: 0;
     color: #334155;
     min-height: 100vh;
 }
 
 /* ANIMATIONS */
 @keyframes slideUpFade {
-    0% { transform: translateY(30px); opacity: 0; }
+    0% { transform: translateY(20px); opacity: 0; }
     100% { transform: translateY(0); opacity: 1; }
 }
 
@@ -48,112 +48,166 @@ body {
     100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0); }
 }
 
-/* CONTAINER */
-.container {
-    width: 100%;
-    max-width: 520px;
-    margin: auto;
-    background: #ffffff;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
-    overflow: hidden;
-    animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* ===== APP LAYOUT (DESKTOP SIDEBAR) ===== */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
 }
 
-/* HEADER */
-.header {
-    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+/* ===== SIDEBAR ===== */
+.sidebar {
+    width: 280px;
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
     color: white;
+    display: flex;
+    flex-direction: column;
     padding: 24px 20px;
-    text-align: center;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 50;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
+}
+
+.brand {
     font-size: 22px;
     font-weight: 700;
     letter-spacing: 0.5px;
-    position: relative;
-    overflow: hidden;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
 }
 
-/* Subtle overlay pattern in header */
-.header::before {
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%; width: 200%; height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-    transform: rotate(30deg);
-    pointer-events: none;
+.brand i {
+    color: #6366f1;
+    font-size: 24px;
+}
+
+.user-profile {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 16px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 #userInfo {
     font-size: 13px;
     font-weight: 500;
-    margin-top: 8px;
-    color: rgba(255,255,255,0.9);
+    color: #e2e8f0;
 }
     
 #userSummary {
     font-size: 12px;
-    margin-top: 4px;
-    color: rgba(255,255,255,0.8);
-    background: rgba(0,0,0,0.15);
+    margin-top: 8px;
+    color: #a5b4fc;
     display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
-    backdrop-filter: blur(4px);
-}
-
-.header-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 16px;
-    justify-content: center;
-}
-
-.header-buttons button {
-    flex: 1;
-    padding: 10px 0;
-    font-size: 13px;
     font-weight: 600;
+}
+
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.nav-btn {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 500;
     border: none;
     border-radius: 12px;
     cursor: pointer;
-    color: white;
+    background: transparent;
+    color: #cbd5e1;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
+    justify-content: flex-start;
+    gap: 12px;
     transition: all 0.3s ease;
 }
 
-.logout-btn { background: rgba(239, 68, 68, 0.9); }
-.master-btn { background: rgba(107, 114, 128, 0.9); }
-.header-buttons button[onclick="viewMyLocks()"] { background: rgba(16, 185, 129, 0.9); }
+.nav-btn i {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
 
-.header-buttons button:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.1);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transform: translateX(4px);
+}
+
+.nav-btn.active {
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.logout-btn { 
+    margin-top: auto;
+    color: #fca5a5; 
+}
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    flex: 1;
+    margin-left: 280px; /* Same as sidebar width */
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.03);
+    animation: slideUpFade 0.5s ease forwards;
+    padding: 32px;
+}
+
+/* List Mode override */
+body.list-mode .container {
+    max-width: 1100px;
 }
 
 /* FORM BODY */
-.form-body {
-    padding: 28px;
+.form-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #0f172a;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f1f5f9;
 }
 
-/* LABELS */
+/* LABELS & INPUTS */
 label {
     font-size: 13px;
     font-weight: 600;
     color: #475569;
     display: block;
-    margin-top: 12px;
-    margin-bottom: 4px;
+    margin-top: 16px;
+    margin-bottom: 6px;
 }
 
-/* INPUTS */
 input, select, textarea {
     width: 100%;
     padding: 14px 16px;
-    margin-bottom: 16px;
     border: 1px solid #cbd5e1;
     border-radius: 12px;
     font-size: 14px;
@@ -175,17 +229,8 @@ input:focus, select:focus, textarea:focus {
     outline: none;
 }
 
-input::placeholder, textarea::placeholder {
-    color: #94a3b8;
-    text-transform: none;
-}
-
-select:invalid {
-    color: #94a3b8;
-}
-
-/* BUTTONS */
-button {
+/* SUBMIT BUTTON */
+.submit-btn {
     width: 100%;
     padding: 16px;
     border: none;
@@ -196,85 +241,25 @@ button {
     background: linear-gradient(135deg, #4f46e5, #3b82f6);
     color: white;
     transition: all 0.3s ease;
+    margin-top: 20px;
 }
 
-button i {
-    margin-right: 8px;
-}
-
-button:hover {
+.submit-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
 }
 
-button:active {
-    transform: translateY(0);
-}
-
 #submitBtn {
-    margin-top: 10px;
     animation: pulseGlow 2s infinite;
 }
-
-#submitBtn:hover {
-    animation: none;
-}
-
-/* GLOBAL PAGINATION */
-.pagination-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-    background: #f8fafc;
-    padding: 10px;
-    border-radius: 12px;
-}
-
-.page-btn {
-    flex: 0;
-    padding: 10px 18px;
-    font-size: 13px;
-    border-radius: 8px;
-    min-width: 100px;
-    background: #ffffff;
-    color: #4f46e5;
-    border: 1px solid #e2e8f0;
-}
-
-.page-btn:hover:not(:disabled) {
-    background: #f1f5f9;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.page-btn:disabled {
-    background: #f1f5f9 !important;
-    color: #94a3b8;
-    border-color: #e2e8f0;
-    cursor: not-allowed;
-    box-shadow: none;
-}
-
-#pageInfo {
-    flex: 1;
-    text-align: center;
-    font-weight: 600;
-    font-size: 13px;
-    color: #64748b;
-}
-
-.pagination-bar button, .filter-actions button {
-    width: auto;
-}
+#submitBtn:hover { animation: none; }
 
 /* ERROR STATES */
 .error {
     color: #ef4444;
     font-size: 12px;
     font-weight: 500;
-    margin-top: -12px;
-    margin-bottom: 12px;
+    margin-top: 4px;
     display: none;
     animation: fadeIn 0.3s ease;
 }
@@ -292,82 +277,9 @@ button:active {
     40%, 60% { transform: translate3d(6px, 0, 0); }
 }
 
-/* SUCCESS CARD */
-.success-card {
-    margin-top: 15px;
-    padding: 30px 25px;
-    border-radius: 16px;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    text-align: center;
-    animation: fadeIn 0.5s ease;
-}
-
-.status-box {
-    margin-bottom: 15px;
-}
-
-.status-badge {
-    display: inline-block;
-    padding: 8px 24px;
-    border-radius: 30px;
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 1px;
-    color: white;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.badge-success { background: linear-gradient(135deg, #10b981, #059669); }
-.badge-danger { background: linear-gradient(135deg, #ef4444, #dc2626); }
-
-.created-meta {
-    font-size: 12px;
-    color: #64748b;
-    margin-bottom: 24px;
-}
-
-.success-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    text-align: left;
-    background: #f8fafc;
-    padding: 20px;
-    border-radius: 12px;
-}
-
-.success-item {
-    font-size: 13px;
-    color: #334155;
-}
-
-.success-item b {
-    display: block;
-    font-size: 11px;
-    color: #64748b;
-    margin-bottom: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.amount {
-    font-size: 22px;
-    font-weight: 700;
-    color: #0f172a;
-}
-
-.new-btn {
-    margin-top: 20px;
-    background: #64748b;
-}
-
-.new-btn:hover { background: #475569; }
-
 /* AUDIT NOTE */
 .audit-note {
-    margin-top: 20px;
+    margin-top: 24px;
     font-size: 12px;
     color: #78350f;
     background: #fffbeb;
@@ -382,9 +294,145 @@ button:active {
     font-size: 11px;
     color: #94a3b8;
     text-align: right;
-    margin-top: -12px;
-    margin-bottom: 16px;
+    margin-top: 4px;
     font-weight: 500;
+}
+
+/* SUCCESS CARD & LIST STYLES */
+/* (Keeping the premium styling from previous update) */
+.success-card {
+    padding: 30px 25px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 8px 24px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: white;
+    background: linear-gradient(135deg, #10b981, #059669);
+    margin-bottom: 15px;
+}
+
+.success-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    text-align: left;
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 20px;
+}
+
+.success-item b {
+    display: block;
+    font-size: 11px;
+    color: #64748b;
+    margin-bottom: 4px;
+}
+
+.amount {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+/* TABLE STYLES */
+.table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+table th, table td {
+    padding: 16px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+}
+
+table th {
+    background: #f8fafc;
+    font-weight: 600;
+    font-size: 12px;
+    color: #64748b;
+}
+
+table tr:last-child td { border-bottom: none; }
+table tr:hover td { background: #f8fafc; }
+
+td:nth-child(3) {
+    text-align: right;
+    font-weight: 600;
+}
+
+/* FILTER & PAGINATION */
+.filter-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+.filter-actions button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+.apply-btn { background: #4f46e5; }
+.clear-btn { background: #64748b; }
+
+.pagination-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+    background: #f8fafc;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.page-btn {
+    padding: 10px 18px;
+    font-size: 13px;
+    border-radius: 8px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: #4f46e5;
+    cursor: pointer;
+}
+.page-btn:disabled { color: #94a3b8; cursor: not-allowed; }
+#pageInfo { flex: 1; text-align: center; font-weight: 600; font-size: 13px; }
+
+.new-btn {
+    display: block;
+    width: auto;
+    margin: 24px auto 0;
+    padding: 14px 40px;
+    background: #64748b;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
 }
 
 /* OVERLAYS */
@@ -392,7 +440,7 @@ button:active {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(4px);
     display: none;
     align-items: center;
     justify-content: center;
@@ -407,292 +455,263 @@ button:active {
     box-shadow: 0 25px 50px rgba(0,0,0,0.25);
     max-width: 340px;
     width: 90%;
-    animation: slideUpFade 0.4s ease forwards;
 }
-
-.loader-box { font-weight: 600; color: #1e293b; }
-
 .spinner {
-    width: 45px;
-    height: 45px;
+    width: 45px; height: 45px;
     border: 4px solid #f1f5f9;
     border-top: 4px solid #4f46e5;
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin: 20px auto 0;
 }
-
 @keyframes spin { 100% { transform: rotate(360deg); } }
 
-.session-box i {
-    font-size: 48px;
-    color: #ef4444;
-    margin-bottom: 16px;
-}
+/* ==========================================
+   MOBILE RESPONSIVE (BOTTOM NAV MAGIK)
+   ========================================== */
+@media (max-width: 899px) {
+    .app-layout {
+        flex-direction: column;
+    }
+    
+    /* Top Header for Mobile */
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        padding: 20px;
+        border-radius: 0 0 24px 24px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        z-index: 40;
+    }
 
-.session-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #0f172a; }
-.session-msg { font-size: 14px; color: #475569; margin-bottom: 16px; }
-.session-count { font-size: 12px; color: #94a3b8; font-weight: 500; }
+    .brand { margin-bottom: 16px; justify-content: center; }
+    
+    .user-profile {
+        margin-bottom: 0;
+        text-align: center;
+        background: transparent;
+        border: none;
+        padding: 0;
+    }
 
-/* TABLE STYLES */
-.table-scroll {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    border-radius: 12px;
-    border: 1px solid #e2e8f0;
-    margin-top: 15px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-}
+    /* Transform Menu to Bottom Navigation */
+    .nav-menu {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        flex-direction: row;
+        background: #ffffff;
+        padding: 12px 10px;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+        z-index: 50;
+        border-radius: 24px 24px 0 0;
+        justify-content: space-around;
+        gap: 5px;
+    }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-    background: white;
-}
-
-table th, table td {
-    padding: 14px 16px;
-    border-bottom: 1px solid #e2e8f0;
-    text-align: left;
-    white-space: normal;
-    word-break: normal;
-}
-
-table th {
-    background: #f8fafc;
-    font-weight: 600;
-    font-size: 12px;
-    color: #64748b;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-table tr:last-child td { border-bottom: none; }
-table tr:hover td { background: #f8fafc; transition: background 0.2s; }
-
-td:nth-child(3) {
-    text-align: right;
-    font-weight: 600;
-    color: #0f172a;
-}
-
-td:last-child {
-    max-width: 200px;
-    white-space: normal;
-    word-break: break-word;
-}
-
-.tap-hint {
-    font-size: 10px;
-    color: #3b82f6;
-    margin-top: 4px;
-    font-style: italic;
-    font-weight: 500;
-}
-
-/* FILTER SECTION */
-.filter-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 12px;
-    flex-wrap: wrap;
-}
-
-.apply-btn { flex: 1; background: linear-gradient(135deg, #4f46e5, #3b82f6); }
-.clear-btn { flex: 1; background: #64748b; }
-
-#filterAcc {
-    padding: 12px 16px;
-    border-radius: 10px;
-    border: 1px solid #cbd5e1;
-    margin-bottom: 0;
-}
-
-/* RESPONSIVE DESKTOP */
-@media (min-height: 700px) and (min-width: 900px) {
-    body {
-        display: flex;
-        align-items: center;
+    .nav-btn {
+        flex-direction: column;
+        gap: 6px;
+        padding: 8px 4px;
+        font-size: 11px;
+        color: #64748b;
+        border-radius: 12px;
         justify-content: center;
     }
-    .container { margin: 0; }
-}
 
-@media (min-width: 768px) {
-    .new-btn { width: auto; display: block; margin: 24px auto 0; padding: 14px 40px; }
-    table { table-layout: fixed; }
-    th:nth-child(1){width: 100px;}
-    th:nth-child(2){width: 140px;}
-    th:nth-child(3){width: 120px;}
-    th:nth-child(4){width: 110px;}
-    th:nth-child(5){width: auto;}
-}
+    .nav-btn i {
+        font-size: 20px;
+    }
 
-/* RESPONSIVE MOBILE */
-@media (max-width: 600px) {
-    body { padding: 10px; }
-    .form-body { padding: 20px; }
-    table th, table td { padding: 12px 10px; }
-    .success-grid { grid-template-columns: 1fr; gap: 12px; }
-    .success-item { width: 100%; }
-}
+    .nav-btn:hover {
+        transform: none;
+        background: #f1f5f9;
+        color: #4f46e5;
+    }
 
-.list-mode .container { max-width: 1000px; }
-body.list-mode { padding: 10px; align-items: flex-start; margin-top: 20px;}
+    .nav-btn.active {
+        background: #eef2ff;
+        color: #4f46e5;
+        box-shadow: none;
+    }
+
+    .logout-btn { margin-top: 0; color: #ef4444; }
+
+    /* Adjust Main Content for Mobile */
+    .main-content {
+        margin-left: 0;
+        padding: 20px 15px 100px 15px; /* Bottom padding for bottom nav */
+    }
+
+    .container {
+        padding: 24px 20px;
+        border-radius: 16px;
+    }
+
+    .success-grid { grid-template-columns: 1fr; }
+    
+    /* Hide text on very small screens for bottom nav to fit */
+    @media (max-width: 380px) {
+        .nav-btn span { display: none; }
+    }
+}
 
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="app-layout">
 
-<div class="header">
-<i class="fa fa-lock" style="margin-right: 8px;"></i> Lock Portal
-<div id="userInfo"></div>
-<div id="userSummary">Today: 0 Locks | RM 0</div>
+    <nav class="sidebar">
+        <div class="brand">
+            <i class="fa fa-shield-halved"></i> Lock Portal
+        </div>
+        
+        <div class="user-profile">
+            <div id="userInfo"></div>
+            <div id="userSummary">Today: 0 Locks | RM 0</div>
+        </div>
+        
+        <div class="nav-menu">
+            <button onclick="location.reload()" class="nav-btn active" id="navNewLock">
+                <i class="fa fa-pen-to-square"></i> <span>New Lock</span>
+            </button>
+            
+            <button onclick="viewMyLocks()" class="nav-btn" id="navMyLocks">
+                <i class="fa fa-list-check"></i> <span>My Locks</span>
+            </button>
+            
+            <button id="masterBtn" class="nav-btn" onclick="goMaster()" style="display:none">
+                <i class="fa fa-chess-king"></i> <span>Master</span>
+            </button>
+            
+            <button class="nav-btn logout-btn" onclick="logout()">
+                <i class="fa fa-right-from-bracket"></i> <span>Logout</span>
+            </button>
+        </div>
+    </nav>
 
-<div class="header-buttons">
-<button class="logout-btn" onclick="logout()">
-<i class="fa fa-right-from-bracket"></i> Logout
-</button>
+    <main class="main-content">
+        <div class="container">
 
-<button id="masterBtn" class="master-btn" onclick="goMaster()" style="display:none">
-<i class="fa fa-arrow-left"></i> Master
-</button>
+            <div id="formSection">
+                <div class="form-title">Create New Lock</div>
+                <form id="lockForm" autocomplete="off" novalidate>
 
-<button onclick="viewMyLocks()">
-<i class="fa fa-list"></i> My Locks
-</button>
-</div>
-</div>
+                    <label>Account No</label>
+                    <input type="text" id="acc_no" name="acc_no" autocomplete="off" inputmode="numeric" maxlength="10" placeholder="ENTER ACCOUNT NO">
+                    <div class="error" id="err_acc"><i class="fa-solid fa-circle-exclamation"></i> Account No required</div>
 
-<div class="form-body">
+                    <label>Branch</label>
+                    <select id="branch" name="branch_id" required>
+                        <option value="">SELECT BRANCH</option>
+                        <option value="" disabled>Loading branch list...</option>
+                    </select>
+                    <div class="error" id="err_branch"><i class="fa-solid fa-circle-exclamation"></i> Please select branch</div>
 
-<div id="formSection">
+                    <label>Lock Amount</label>
+                    <input type="text" id="amount" name="amount" autocomplete="off" inputmode="numeric" placeholder="0.00">
+                    <div class="error" id="err_amount"><i class="fa-solid fa-circle-exclamation"></i> Amount required</div>
 
-<form id="lockForm" autocomplete="off" novalidate>
+                    <label>Payment Category</label>
+                    <select id="payment_category" name="payment_category" required>
+                        <option value="">SELECT PAYMENT CATEGORY</option>
+                        <option>PARTIAL PAYMENT</option>
+                        <option>FULL PAYMENT</option>
+                        <option>UNDER DISCOUNT</option>
+                    </select>
+                    <div class="error" id="err_category"><i class="fa-solid fa-circle-exclamation"></i> Payment category required</div>
 
-<label>Account No</label>
-<input type="text" id="acc_no" name="acc_no" autocomplete="off" inputmode="numeric" maxlength="10" placeholder="ENTER ACCOUNT NO">
-<div class="error" id="err_acc"><i class="fa-solid fa-circle-exclamation"></i> Account No required</div>
+                    <label>Promise Date</label>
+                    <input type="date" id="promise_date" name="promise_date" min="">
+                    <div class="error" id="err_date"><i class="fa-solid fa-circle-exclamation"></i> Promise date required</div>
 
-<label>Branch</label>
-<select id="branch" name="branch_id" required>
-<option value="">SELECT BRANCH</option>
-<option value="" disabled>Loading branch list...</option>
-</select>
-<div class="error" id="err_branch"><i class="fa-solid fa-circle-exclamation"></i> Please select branch</div>
+                    <label>DCA ID</label>
+                    <input type="text" id="dca_id" name="dca_id" readonly>
+                    <div class="error" id="err_dca"><i class="fa-solid fa-circle-exclamation"></i> DCA ID required</div>
 
-<label>Lock Amount</label>
-<input type="text" id="amount" name="amount" autocomplete="off" inputmode="numeric" placeholder="0.00">
-<div class="error" id="err_amount"><i class="fa-solid fa-circle-exclamation"></i> Amount required</div>
+                    <label>Remarks</label>
+                    <textarea id="remarks" name="remarks" autocomplete="off" maxlength="100" placeholder="ENTER REMARKS"></textarea>
+                    <div id="remarkCounter">0 / 100</div>
+                    <div class="error" id="err_remarks"><i class="fa-solid fa-circle-exclamation"></i> Remarks required</div>
 
-<label>Payment Category</label>
-<select id="payment_category" name="payment_category" required>
-<option value="">SELECT PAYMENT CATEGORY</option>
-<option>PARTIAL PAYMENT</option>
-<option>FULL PAYMENT</option>
-<option>UNDER DISCOUNT</option>
-</select>
-<div class="error" id="err_category"><i class="fa-solid fa-circle-exclamation"></i> Payment category required</div>
+                    <button type="submit" id="submitBtn" class="submit-btn">
+                        <i class="fa-solid fa-lock" style="margin-right: 8px;"></i> Submit Lock
+                    </button>
 
-<label>Promise Date</label>
-<input type="date" id="promise_date" name="promise_date" min="">
-<div class="error" id="err_date"><i class="fa-solid fa-circle-exclamation"></i> Promise date required</div>
+                    <div class="audit-note">
+                        <i class="fa-solid fa-shield-halved" style="margin-right: 5px;"></i> <b>Audit Note:</b> Every submission is recorded for audit and verification purposes. Unauthorized or false lock entries may be subject to investigation.
+                    </div>
 
-<label>DCA ID</label>
-<input type="text" id="dca_id" name="dca_id" readonly>
-<div class="error" id="err_dca"><i class="fa-solid fa-circle-exclamation"></i> DCA ID required</div>
+                </form>
+            </div>
 
-<label>Remarks</label>
-<textarea id="remarks" name="remarks" autocomplete="off" maxlength="100" placeholder="ENTER REMARKS"></textarea>
-<div id="remarkCounter">0 / 100</div>
-<div class="error" id="err_remarks"><i class="fa-solid fa-circle-exclamation"></i> Remarks required</div>
+            <div id="result"></div>
+            
+            <div id="lockListSection" style="display:none;">
+                <div class="form-title" style="margin-bottom: 10px;">My Lock List</div>
+                
+                <div class="success-card" style="padding: 20px; margin-bottom: 20px;">
+                    <div style="display:flex; gap:10px; margin-bottom:12px;">
+                        <input id="filterAcc" placeholder="Search Account No" style="margin:0; flex:1;">
+                    </div>
+                    <div style="display:flex; gap:10px; margin-bottom:12px;">
+                        <input type="date" id="filterStart" style="margin:0; flex:1;">
+                        <input type="date" id="filterEnd" style="margin:0; flex:1;">
+                    </div>
+                    <div class="filter-actions">
+                        <button onclick="applyFilter()" class="apply-btn"><i class="fa fa-filter"></i> Apply</button>
+                        <button onclick="resetFilter()" class="clear-btn"><i class="fa fa-xmark"></i> Clear</button>
+                    </div>
+                </div>
 
-<button type="submit" id="submitBtn">
-<i class="fa-solid fa-lock"></i> Submit Lock
-</button>
+                <div class="table-scroll">
+                    <table style="min-width: 600px;">
+                        <thead>
+                            <tr>
+                                <th>ACC NO</th>
+                                <th>BRANCH</th>
+                                <th>AMOUNT</th>
+                                <th>PTP DATE</th>
+                                <th>REMARK</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lockTable"></tbody>
+                    </table>
+                </div>
 
-<div class="audit-note">
-<i class="fa-solid fa-shield-halved" style="margin-right: 5px;"></i> <b>Audit Note:</b> Every submission is recorded for audit and verification purposes. Unauthorized or false lock entries may be subject to investigation.
-</div>
+                <div class="pagination-bar">
+                    <button id="prevBtn" onclick="prevPage()" class="page-btn"><i class="fa fa-chevron-left"></i></button>
+                    <span id="pageInfo"></span>
+                    <button id="nextBtn" onclick="nextPage()" class="page-btn"><i class="fa fa-chevron-right"></i></button>
+                </div>
 
-</form>
+                <button class="new-btn" onclick="backToForm()"><i class="fa-solid fa-arrow-left" style="margin-right: 8px;"></i> Back</button>
+            </div>
 
-</div>
+        </div>
+    </main>
 
-<div id="result"></div>
-<div id="lockListSection" style="display:none;margin-top:10px;">
-
-<div class="success-card">
-
-<div class="status-box">
-<span class="status-badge badge-success" style="background: linear-gradient(135deg, #4f46e5, #3b82f6);">MY LOCK LIST</span>
-</div>
-
-<div style="margin-top:20px;text-align:left">
-<div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;">
-
-<input id="filterAcc" placeholder="Search Account No" style="flex:1;margin:0">
-
-<button onclick="applyFilter()" style="width:48px;height:48px;padding:0;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;">
-<i class="fa fa-search" style="margin:0;"></i>
-</button>
-
-</div>
-
-<div style="display:flex;gap:10px; margin-bottom: 6px;">
-<input type="date" id="filterStart" style="margin:0">
-<input type="date" id="filterEnd" style="margin:0">
-</div>
-
-<div class="filter-actions">
-<button onclick="applyFilter()" class="apply-btn"><i class="fa fa-filter"></i> Apply</button>
-<button onclick="resetFilter()" class="clear-btn"><i class="fa fa-xmark"></i> Clear</button>
-</div>
-</div>
-
-</div>
-
-<div class="table-scroll">
-<table style="width:100%;border-collapse:collapse;">
-<thead>
-<tr>
-<th>ACC NO</th>
-<th>BRANCH</th>
-<th>AMOUNT</th>
-<th>PTP DATE</th>
-<th>REMARK</th>
-</tr>
-</thead>
-<tbody id="lockTable"></tbody>
-</table>
-</div>
-
-<div class="pagination-bar">
-<button id="prevBtn" onclick="prevPage()" class="page-btn">
-<i class="fa fa-chevron-left"></i> Prev
-</button>
-<span id="pageInfo"></span>
-<button id="nextBtn" onclick="nextPage()" class="page-btn">
-Next <i class="fa fa-chevron-right"></i>
-</button>
-</div>
-
-<button class="new-btn" onclick="backToForm()"><i class="fa-solid fa-arrow-left"></i> Back</button>
-
-</div>
-
-</div>
 </div>
 
 <div id="overlay">
-<div class="loader-box">
-Processing Lock...
-<div class="spinner"></div>
+    <div class="loader-box">
+        Processing Lock...
+        <div class="spinner"></div>
+    </div>
 </div>
+
+<div id="sessionPopup">
+    <div class="session-box">
+        <i class="fa fa-lock" style="font-size: 48px; color: #ef4444; margin-bottom: 16px;"></i>
+        <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #0f172a;" id="sessionTitle">Session Expired</div>
+        <div style="font-size: 14px; color: #475569; margin-bottom: 16px;" id="sessionMsg">Please login again.</div>
+        <div style="font-size: 12px; color: #94a3b8; font-weight: 500;">Redirecting to login...</div>
+    </div>
 </div>
 
 <script src="../lockconfig.js"></script>
@@ -730,7 +749,7 @@ window.location="../check/";
 }
 
 if(type === "master"){
-document.getElementById("masterBtn").style.display = "inline-block";
+document.getElementById("masterBtn").style.display = "flex"; // Changed from inline-block for layout
 }
 
 function goMaster(){
@@ -1082,11 +1101,9 @@ document.getElementById("result").style.display="block";
 document.getElementById("result").innerHTML=
 
 "<div class='success-card'>"+
-"<div class='status-box'>"+
-"<span class='status-badge badge-success'>LOCK CREATED</span>"+
-"</div>"+
+"<div style='margin-bottom:15px;'><span class='status-badge'>LOCK CREATED</span></div>"+
 
-"<div class='created-meta'>Created by "+dca+
+"<div style='font-size: 12px; color: #64748b; margin-bottom: 24px;'>Created by "+dca+
 " • "+createdTime+"</div>"+
 
 "<div class='success-grid'>"+
@@ -1099,12 +1116,12 @@ document.getElementById("result").innerHTML=
 
 "<div class='success-item'><b>PROMISE DATE</b>"+promise+"</div>"+
 
-"<div class='success-item' style='width:100%'><b>DCA REMARKS</b>"+remarks+"</div>"+
+"<div class='success-item' style='grid-column: 1 / -1;'><b>DCA REMARKS</b>"+remarks+"</div>"+
 
 "</div>"+
 "</div>"+
 
-"<button class='new-btn' onclick='location.reload()'><i class='fa fa-plus'></i> New Lock</button>";
+"<button class='new-btn' onclick='location.reload()'><i class='fa fa-plus' style='margin-right:8px;'></i> New Lock</button>";
 
 loadUserSummary();
   
@@ -1222,12 +1239,20 @@ let filteredData = [];
 let currentPage = 1;
 const pageSize = 5;
 
+// Added small UI logic to toggle active states on nav
+function updateNavState(activeId) {
+    document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(activeId).classList.add('active');
+}
+
 async function viewMyLocks(){
 
 document.getElementById("formSection").style.display="none";
 document.getElementById("result").style.display="none";
 document.getElementById("lockListSection").style.display="block";
 document.body.classList.add("list-mode");
+
+updateNavState('navMyLocks');
 
 try{
 
@@ -1293,11 +1318,11 @@ html += `
 <td style="${isOverdue ? 'color:#ef4444;font-weight:600;' : ''}">
 ${formatDate(d.promise)}
 </td>
-<td onclick="toggleRemark(this)" data-full="${remark}" data-short="${shortRemark}" style="cursor:pointer;">
+<td onclick="toggleRemark(this)" data-full="${remark}" data-short="${shortRemark}" style="cursor:pointer; max-width: 200px; word-break: break-word;">
 
 <div class="remark-text">${shortRemark}</div>
 
-${remark.length > 40 ? '<div class="tap-hint"><i class="fa fa-hand-pointer"></i> tap to view</div>' : ''}
+${remark.length > 40 ? '<div style="font-size: 10px; color: #3b82f6; margin-top: 4px; font-style: italic; font-weight: 500;" class="tap-hint"><i class="fa fa-hand-pointer"></i> tap to view</div>' : ''}
 
 </td>
 </tr>
@@ -1306,7 +1331,7 @@ ${remark.length > 40 ? '<div class="tap-hint"><i class="fa fa-hand-pointer"></i>
 });
 
 document.getElementById("lockTable").innerHTML = html || 
-"<tr><td colspan='5' style='text-align:center;padding:30px;color:#94a3b8;'><i class='fa fa-folder-open' style='font-size:24px;margin-bottom:10px;display:block;'></i>No Record Found</td></tr>";
+"<tr><td colspan='5' style='text-align:center;padding:40px;color:#94a3b8;'><i class='fa fa-folder-open' style='font-size:28px;margin-bottom:12px;display:block;'></i>No Record Found</td></tr>";
 
 let totalPage = Math.ceil(filteredData.length / pageSize) || 1;
 
@@ -1426,26 +1451,6 @@ applyFilter();
 });
 
 </script>
-
-<div id="sessionPopup">
-<div class="session-box">
-
-<i class="fa fa-lock"></i>
-
-<div class="session-title" id="sessionTitle">
-Session Expired
-</div>
-
-<div class="session-msg" id="sessionMsg">
-Please login again.
-</div>
-
-<div class="session-count">
-Redirecting to login...
-</div>
-
-</div>
-</div>
 
 </body>
 </html>
