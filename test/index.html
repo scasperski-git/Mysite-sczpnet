@@ -3,144 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DCA Request Password Assignment</title>
+    <title>DCA Request Password Assignment - Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            min-height: 100vh;
+            /* Animasi Latar Belakang Gradient Premium */
+            background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364, #0f2027);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
         }
-        .container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .glass-container {
+            position: relative;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
+            padding: 40px;
+            /* Kesan Glassmorphism */
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
         }
+
+        /* Hiasan cahaya di belakang kotak */
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200px;
+            height: 200px;
+            background: rgba(37, 211, 102, 0.4); /* Hijau WhatsApp */
+            filter: blur(80px);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
         h2 {
+            color: #fff;
             text-align: center;
-            color: #333;
-            margin-bottom: 25px;
-            font-size: 22px;
+            margin-bottom: 35px;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 1px;
         }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-            font-size: 14px;
-        }
-        input[type="text"] {
+
+        /* Kesan Floating Label */
+        .input-box {
+            position: relative;
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 14px;
+            margin-bottom: 35px;
         }
-        .checkbox-group {
+
+        .input-box input {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 15px;
+            color: #fff;
+            border: none;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            outline: none;
+            background: transparent;
+            transition: 0.3s ease;
+        }
+
+        .input-box label {
+            position: absolute;
+            top: 10px;
+            left: 0;
+            padding: 0;
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.6);
+            pointer-events: none;
+            transition: 0.3s ease;
+        }
+
+        .input-box input:focus,
+        .input-box input:valid {
+            border-bottom: 2px solid #25D366;
+        }
+
+        .input-box input:focus ~ label,
+        .input-box input:valid ~ label {
+            top: -20px;
+            left: 0;
+            color: #25D366;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Custom Checkbox Premium */
+        .checkbox-container {
             display: flex;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-        .checkbox-group input {
-            margin-top: 3px;
-            margin-right: 10px;
+            align-items: center;
+            margin-bottom: 30px;
+            position: relative;
             cursor: pointer;
+            user-select: none;
         }
-        .checkbox-group label {
-            font-weight: normal;
-            font-size: 13px;
-            color: #555;
-            line-height: 1.4;
+
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
             cursor: pointer;
+            height: 0;
+            width: 0;
         }
+
+        .checkmark {
+            height: 20px;
+            width: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            margin-right: 15px;
+            transition: 0.3s;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .checkbox-container:hover input ~ .checkmark {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .checkbox-container input:checked ~ .checkmark {
+            background-color: #25D366;
+            border-color: #25D366;
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+            left: 6px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .consent-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* Butang Premium */
         button {
             width: 100%;
-            padding: 12px;
-            background-color: #25D366; /* Warna rasmi WhatsApp */
-            color: white;
+            padding: 15px;
+            background: linear-gradient(90deg, #128C7E, #25D366);
             border: none;
-            border-radius: 5px;
+            border-radius: 50px;
+            color: white;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
+            letter-spacing: 1px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+            position: relative;
+            overflow: hidden;
         }
+
         button:hover {
-            background-color: #128C7E;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(37, 211, 102, 0.5);
+        }
+
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 5px 10px rgba(37, 211, 102, 0.3);
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>DCA Password Assignment</h2>
-    
-    <div class="form-group">
-        <label for="agencyName">Agency Name</label>
-        <input type="text" id="agencyName" placeholder="Masukkan nama agensi" required>
+    <div class="glass-container">
+        <h2>DCA Request</h2>
+        
+        <div class="input-box">
+            <input type="text" id="agencyName" required>
+            <label>Agency Name</label>
+        </div>
+        
+        <div class="input-box">
+            <input type="text" id="requestorName" required>
+            <label>Requestor Name</label>
+        </div>
+        
+        <label class="checkbox-container">
+            <input type="checkbox" id="consent">
+            <span class="checkmark"></span>
+            <span class="consent-text">I consent to the request for password assignment and acknowledge the relevant policies.</span>
+        </label>
+        
+        <button onclick="sendToWhatsApp()">Send to WhatsApp</button>
     </div>
-    
-    <div class="form-group">
-        <label for="requestorName">Requestor Name</label>
-        <input type="text" id="requestorName" placeholder="Masukkan nama pemohon" required>
-    </div>
-    
-    <div class="checkbox-group">
-        <input type="checkbox" id="consent">
-        <label for="consent">I consent to the request for password assignment and acknowledge the relevant policies.</label>
-    </div>
-    
-    <button onclick="sendToWhatsApp()">Send via WhatsApp</button>
-</div>
 
-<script>
-    function sendToWhatsApp() {
-        // 1. Ambil nilai dari borang input
-        var agencyName = document.getElementById('agencyName').value;
-        var requestorName = document.getElementById('requestorName').value;
-        var consent = document.getElementById('consent').checked;
+    <script>
+        function sendToWhatsApp() {
+            var agencyName = document.getElementById('agencyName').value;
+            var requestorName = document.getElementById('requestorName').value;
+            var consent = document.getElementById('consent').checked;
 
-        // 2. Semak jika ada ruangan yang kosong
-        if (agencyName.trim() === '' || requestorName.trim() === '') {
-            alert('Sila isi Agency Name dan Requestor Name.');
-            return;
+            if (agencyName.trim() === '' || requestorName.trim() === '') {
+                alert('⚠️ Sila isi Agency Name dan Requestor Name.');
+                return;
+            }
+
+            if (!consent) {
+                alert('⚠️ Sila tandakan kotak persetujuan (consent) sebelum menghantar.');
+                return;
+            }
+
+            // GANTI NOMBOR DI BAWAH (Mesti mula dengan kod negara contoh 60)
+            var phoneNumber = '60123456789'; 
+
+            var message = "🔒 *DCA Request Password Assignment*\n\n" +
+                          "🏢 *Agency Name:* " + agencyName + "\n" +
+                          "👤 *Requestor Name:* " + requestorName + "\n" +
+                          "✅ *Consent:* Yes, agreed.";
+
+            var encodedMessage = encodeURIComponent(message);
+            var whatsappURL = 'https://wa.me/' + phoneNumber + '?text=' + encodedMessage;
+            
+            window.open(whatsappURL, '_blank');
         }
-
-        // 3. Semak jika kotak consent tidak ditanda
-        if (!consent) {
-            alert('Sila tandakan kotak consent (persetujuan) sebelum menghantar.');
-            return;
-        }
-
-        // 4. TETAPKAN NOMBOR TELEFON WHATSAPP PENERIMA
-        // Gantikan '60123456789' dengan nombor sebenar.
-        // Mesti mulakan dengan kod negara (contohnya 60 untuk Malaysia) tanpa tanda '+' atau sengkang '-'.
-        var phoneNumber = '60176701984'; 
-
-        // 5. Susun format mesej yang akan dihantar
-        var message = "*DCA Request Password Assignment*\n\n" +
-                      "*Agency Name:* " + agencyName + "\n" +
-                      "*Requestor Name:* " + requestorName + "\n" +
-                      "*Consent:* Yes, agreed.";
-
-        // 6. Tukar format teks kepada format URL yang sah (URL Encoding)
-        var encodedMessage = encodeURIComponent(message);
-
-        // 7. Jana pautan API WhatsApp dan buka di tab/aplikasi baharu
-        var whatsappURL = 'https://wa.me/' + phoneNumber + '?text=' + encodedMessage;
-        window.open(whatsappURL, '_blank');
-    }
-</script>
+    </script>
 
 </body>
 </html>
