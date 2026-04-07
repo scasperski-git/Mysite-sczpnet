@@ -164,23 +164,23 @@ body {
 /* ===== MAIN CONTENT ===== */
 .main-content {
     flex: 1;
-    margin-left: 280px; /* Lebar sidebar */
-    padding: 0; /* Buang padding kelabu */
+    margin-left: 280px; 
+    padding: 0; 
     display: block;
-    height: 100vh; /* Paksa sama tinggi dengan skrin */
+    height: 100vh; 
     overflow: hidden;
 }
 
 .container {
     width: 100%;
     max-width: 100%;
-    height: 100vh; /* Penuh terus ke bawah */
+    height: 100vh; 
     background: #ffffff;
     border-radius: 0;
     box-shadow: none;
     padding: 30px 50px;
     animation: fadeIn 0.4s ease forwards;
-    overflow-y: auto; /* Scroll dalam kotak je kalau skrin kecik sangat */
+    overflow-y: auto; 
     display: flex;
     flex-direction: column;
 }
@@ -223,7 +223,7 @@ label {
     font-weight: 600;
     color: #475569;
     display: block;
-    margin-top: 10px; /* Jarak dikurangkan sikit supaya muat skrin */
+    margin-top: 10px; 
     margin-bottom: 4px;
 }
 
@@ -242,7 +242,7 @@ input, select, textarea {
 
 textarea {
     resize: vertical;
-    min-height: 70px; /* Rendahkan sikit untuk jimat ruang bawah */
+    min-height: 70px; 
 }
 
 input:focus, select:focus, textarea:focus {
@@ -323,7 +323,7 @@ input:focus, select:focus, textarea:focus {
     font-weight: 500;
 }
 
-/* SUCCESS CARD & LIST STYLES */
+/* SUCCESS CARD */
 .success-card {
     padding: 30px 25px;
     border-radius: 16px;
@@ -369,13 +369,50 @@ input:focus, select:focus, textarea:focus {
     color: #0f172a;
 }
 
+/* FILTER CARD (UNTUK MY LOCKS) */
+.filter-card {
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+.filter-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.filter-row input {
+    margin: 0;
+    flex: 1;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+.filter-actions button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+.apply-btn { background: #4f46e5; }
+.clear-btn { background: #64748b; }
+
 /* TABLE STYLES */
 .table-scroll {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     border-radius: 12px;
     border: 1px solid #e2e8f0;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 table {
@@ -395,6 +432,7 @@ table th {
     font-weight: 600;
     font-size: 12px;
     color: #64748b;
+    text-transform: uppercase;
 }
 
 table tr:last-child td { border-bottom: none; }
@@ -405,24 +443,7 @@ td:nth-child(3) {
     font-weight: 600;
 }
 
-/* FILTER & PAGINATION */
-.filter-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 12px;
-}
-.filter-actions button {
-    flex: 1;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-}
-.apply-btn { background: #4f46e5; }
-.clear-btn { background: #64748b; }
-
+/* PAGINATION */
 .pagination-bar {
     display: flex;
     align-items: center;
@@ -495,7 +516,7 @@ td:nth-child(3) {
    ========================================== */
 @media (max-width: 899px) {
     body {
-        overflow: visible; /* Bagi mobile scroll balik */
+        overflow: visible; 
     }
 
     .app-layout {
@@ -516,14 +537,8 @@ td:nth-child(3) {
         z-index: 40;
     }
 
-    .brand { 
-        margin-bottom: 0; 
-        font-size: 18px; 
-    }
-    
-    .brand i {
-        font-size: 20px;
-    }
+    .brand { margin-bottom: 0; font-size: 18px; }
+    .brand i { font-size: 20px; }
     
     .user-profile {
         margin-bottom: 0;
@@ -533,15 +548,8 @@ td:nth-child(3) {
         padding: 0;
     }
 
-    #userInfo {
-        font-size: 12px;
-    }
-
-    #userSummary {
-        font-size: 10px;
-        margin-top: 2px;
-        padding: 2px 8px;
-    }
+    #userInfo { font-size: 12px; }
+    #userSummary { font-size: 10px; margin-top: 2px; padding: 2px 8px; }
 
     .nav-menu {
         position: fixed;
@@ -568,9 +576,7 @@ td:nth-child(3) {
         justify-content: center;
     }
 
-    .nav-btn i {
-        font-size: 20px;
-    }
+    .nav-btn i { font-size: 20px; }
 
     .nav-btn:hover {
         transform: none;
@@ -590,75 +596,81 @@ td:nth-child(3) {
     .main-content {
         margin-left: 0;
         padding: 16px 15px 90px 15px; 
-        height: auto; /* Reset untuk mobile */
+        height: auto; 
         overflow: visible;
     }
 
     .container {
         height: auto;
         min-height: auto;
-        padding: 24px 20px;
+        padding: 20px 16px; 
         border-radius: 16px;
         overflow-y: visible;
     }
 
-    /* Patahkan Grid ke Atas-Bawah (Mobile) */
     .form-row {
         flex-direction: column;
         gap: 0;
     }
 
     /* ==========================================
-       KOMPRESS SUCCESS PAGE UNTUK MOBILE (ONE PAGE)
+       KOMPRESS SUCCESS PAGE (HANYA UNTUK KAD RESULT)
        ========================================== */
-    .success-card {
-        padding: 24px 20px !important; /* Besarkan sikit padding luar */
-        min-height: calc(100vh - 240px); /* Paksa card panjang sikit supaya tarik isi ruang kosong ke bawah */
+    /* Guna selector ID #result supaya kotak filter tak terganggu */
+    #result .success-card {
+        padding: 20px 16px !important; 
+        min-height: calc(100vh - 230px); /* Khas untuk success page je */
         display: flex;
         flex-direction: column;
-        justify-content: center; /* Tgh-tgh */
+        justify-content: flex-start; 
     }
     
-    #result .success-card > div:nth-child(1) { 
-        margin-bottom: 16px !important; 
-    }
-    
-    #result .success-card > div:nth-child(1) .status-badge {
-        font-size: 16px !important; /* Besarkan badge title */
-        padding: 10px 24px !important;
-    }
-    
-    #result .success-card > div:nth-child(2) { 
-        margin-bottom: 20px !important; 
-        font-size: 12px !important; /* Besarkan subtitle nama dca */
-    }
+    #result .success-card > div:nth-child(1) { margin-bottom: 12px !important; }
+    #result .success-card > div:nth-child(1) .status-badge { font-size: 16px !important; padding: 10px 24px !important; }
+    #result .success-card > div:nth-child(2) { margin-bottom: 16px !important; font-size: 12px !important; }
 
-    .success-grid { 
+    #result .success-grid { 
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 20px 12px !important; /* Besarkan ruang antara row utk isi space */
+        gap: 20px 12px !important; 
         padding: 18px !important;
         margin-top: 0 !important;
-        flex: 1; /* Bagi kotak dalam ni kembang ikut tinggi */
-        align-content: center;
+        flex: 1; 
+        align-content: center; 
     }
     
-    .success-item {
-        font-size: 13px !important; /* Besarkan dr 11px */
+    #result .success-item { font-size: 13px !important; }
+    #result .success-item b { font-size: 11px !important; margin-bottom: 6px !important; }
+    #result .amount { font-size: 22px !important; }
+    
+    /* ==========================================
+       KEMASKINI MY LOCKS (TABLE & FILTER) MOBILE
+       ========================================== */
+    .filter-card {
+        padding: 16px; /* Nipiskan sikit padding filter box */
+        margin-bottom: 16px;
+    }
+
+    /* Susun table bagi kemas dan tak berserabut */
+    table th, table td {
+        padding: 14px 10px; /* Kurangkan padding tepi sikit */
+        font-size: 11px; /* Font optimum untuk muat skrin */
     }
     
-    .success-item b {
-        font-size: 11px !important; /* Besarkan dr 9px */
-        margin-bottom: 6px !important;
+    table th {
+        font-size: 10px;
     }
-    
-    .amount {
-        font-size: 22px !important; /* Besarkan harga */
+
+    /* Khas untuk column Amount di table (biar nampak premium) */
+    #lockTable td:nth-child(3) {
+        font-size: 13px;
+        font-weight: 700;
+        color: #0f172a;
     }
-    
+
     .new-btn {
-        margin-top: 20px !important; /* Jarak dgn card */
+        margin-top: 20px !important; 
         width: 100% !important; 
-        padding: 16px !important; /* Butang tebal sikit selesa tekan */
+        padding: 16px !important; 
         font-size: 15px !important;
     }
     
@@ -778,15 +790,15 @@ td:nth-child(3) {
             <div id="result"></div>
             
             <div id="lockListSection" style="display:none;">
-                <div class="form-title" style="margin-bottom: 10px;">My Lock List</div>
+                <div class="form-title" style="margin-bottom: 15px;">My Lock List</div>
                 
-                <div class="success-card" style="padding: 20px; margin-bottom: 20px;">
-                    <div style="display:flex; gap:10px; margin-bottom:12px;">
-                        <input id="filterAcc" placeholder="Search Account No" style="margin:0; flex:1;">
+                <div class="filter-card">
+                    <div class="filter-row">
+                        <input id="filterAcc" placeholder="Search Account No">
                     </div>
-                    <div style="display:flex; gap:10px; margin-bottom:12px;">
-                        <input type="date" id="filterStart" style="margin:0; flex:1;">
-                        <input type="date" id="filterEnd" style="margin:0; flex:1;">
+                    <div class="filter-row">
+                        <input type="date" id="filterStart">
+                        <input type="date" id="filterEnd">
                     </div>
                     <div class="filter-actions">
                         <button onclick="applyFilter()" class="apply-btn"><i class="fa fa-filter"></i> Apply</button>
@@ -795,7 +807,7 @@ td:nth-child(3) {
                 </div>
 
                 <div class="table-scroll">
-                    <table style="min-width: 600px;">
+                    <table style="min-width: 500px;">
                         <thead>
                             <tr>
                                 <th>ACC NO</th>
@@ -874,7 +886,7 @@ window.location="../check/";
 }
 
 if(type === "master"){
-document.getElementById("masterBtn").style.display = "flex"; // Changed from inline-block for layout
+document.getElementById("masterBtn").style.display = "flex"; 
 }
 
 function goMaster(){
