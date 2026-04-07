@@ -163,22 +163,20 @@ body {
 /* ===== MAIN CONTENT ===== */
 .main-content {
     flex: 1;
-    margin-left: 280px;
-    padding: 0;
+    margin-left: 280px; /* Lebar sidebar */
+    padding: 0; /* Buang semua ruang kelabu di luar container */
     display: block;
-    height: 100vh; /* Kunci tinggi sama dengan sidebar (100% skrin) */
-    overflow-y: auto; /* Kalau form panjang, hanya bahagian kanan ni je scroll */
 }
 
 .container {
     width: 100%;
-    max-width: 100%;
-    min-height: 100%; /* Penuhkan ruang tinggi main-content */
+    max-width: 100%; /* Penuh terus ke kanan */
+    min-height: 100vh; /* Penuh terus dari atas ke bawah */
     background: #ffffff;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 40px 60px;
-    animation: fadeIn 0.4s ease forwards;
+    border-radius: 0; /* Buang bucu bulat supaya lekat bucu skrin */
+    box-shadow: none; /* Buang shadow sebab dah penuh skrin */
+    padding: 40px 60px; /* Jarak untuk text form di bahagian dalam */
+    animation: fadeIn 0.4s ease forwards; /* Guna fade-in biasa supaya nampak smooth bila full screen */
 }
 
 /* List Mode override */
@@ -568,8 +566,6 @@ td:nth-child(3) {
     .main-content {
         margin-left: 0;
         padding: 16px 15px 90px 15px; /* Kurangkan top padding sebab header dah nipis */
-        height: auto; /* Tambah ni */
-        overflow-y: visible; /* Tambah ni */
     }
 
     .container {
