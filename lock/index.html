@@ -301,7 +301,7 @@ input:focus, select:focus, textarea:focus {
     40%, 60% { transform: translate3d(6px, 0, 0); }
 }
 
-/* AUDIT NOTE */
+/* AUDIT NOTE (UNTUK FORM) */
 .audit-note {
     margin-top: 16px;
     font-size: 12px;
@@ -628,20 +628,19 @@ td:nth-child(3) {
     #result .success-card > div:nth-child(1) .status-badge { font-size: 16px !important; padding: 10px 24px !important; }
     #result .success-card > div:nth-child(2) { margin-bottom: 12px !important; font-size: 11px !important; }
 
-    /* Kotak Kelabu (Details) dipadatkan dan dinaikkan */
     #result .success-grid { 
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px 10px !important; /* Jarak antara text dirapatkan */
-        padding: 14px !important; /* Padding kotak dikecilkan */
+        gap: 12px 10px !important; 
+        padding: 14px !important; 
         margin-top: 0 !important;
-        margin-bottom: auto !important; /* Tolak kotak ke atas */
-        flex: none !important; /* Jangan benarkan kotak mengembang berlebihan */
+        margin-bottom: auto !important; 
+        flex: none !important; 
         align-content: flex-start; 
     }
     
     #result .success-item { font-size: 13px !important; }
     #result .success-item b { font-size: 11px !important; margin-bottom: 4px !important; }
-    #result .amount { font-size: 20px !important; } /* Dikecilkan sikit bagi seimbang */
+    #result .amount { font-size: 20px !important; } 
     
     /* ==========================================
        KEMASKINI MY LOCKS (TABLE & FILTER) MOBILE
@@ -1257,7 +1256,7 @@ document.getElementById("result").innerHTML=
 "</div>"+
 
 "<div class='audit-note' style='margin-top: auto; text-align: left; padding: 10px; font-size: 10.5px; line-height: 1.4;'>"+
-"<i class='fa-solid fa-shield-halved' style='margin-right: 5px;'></i> <b>Audit Note:</b> Please verify your entry carefully. By submitting this lock, the DCA agrees to bear full liability for any discrepancies or mistakes made in the lock amount, especially concerning \"Full Payment\" and \"Under Discount\" categories."+
+"<i class='fa-solid fa-shield-halved' style='margin-right: 5px;'></i> <b>Audit Record:</b> This lock entry has been successfully recorded. As acknowledged during submission, the DCA bears full liability for any errors or discrepancies in the lock amount, especially concerning \"Full Payment\" and \"Under Discount\" categories."+
 "</div>"+
 
 "</div>"+
