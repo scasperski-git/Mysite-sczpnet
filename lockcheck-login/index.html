@@ -1,575 +1,547 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Login Portal - Premium Access</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    
-    <style>
-        /* =========================================
-           GLOBAL RESET & BASICS
-           ========================================= */
-        :root {
-            /* Palette Warna Premium (Moden & Profesional) */
-            --bg-start: #1a1e2a; /* Biru Gelap Premium */
-            --bg-end: #2d364a;
-            --accent-primary: #3b82f6; /* Biru Terang (Aksen) */
-            --accent-hover: #60a5fa;
-            --card-bg: rgba(255, 255, 255, 0.03); /* Glassmorphism Sangat Halus */
-            --border-color: rgba(255, 255, 255, 0.06);
-            --text-primary: #e2e8f0;
-            --text-secondary: #94a3b8;
-            --input-bg: rgba(255, 255, 255, 0.01);
-            --input-border: rgba(255, 255, 255, 0.04);
-            --shadow-premium: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            --shadow-input: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-            --error-color: #ef4444; /* Merah Lebih Tajam */
-        }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            outline: none; /* Hilangkan default outline */
-        }
+<title>Secure Login Portal</title>
 
-        /* =========================================
-           PREMIUM ANIMATED BACKGROUND
-           ========================================= */
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif; /* Font Lebih Moden */
-            background-color: var(--bg-start);
-            /* Gradient halu dan slow untuk impak premium */
-            background-image: radial-gradient(at 0% 0%, var(--bg-start) 0px, transparent 50%),
-                              radial-gradient(at 50% 100%, #252a3a 0px, transparent 50%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: var(--text-primary);
-            overflow: hidden; /* Prevent scrollbar yang tak perlu */
-            padding: 20px;
-        }
-        
-        /* Animasi Background Gelap Berombak Halus (CSS Saja) */
-        body::before {
-            content: '';
-            position: absolute;
-            width: 300%;
-            height: 300%;
-            background-image: radial-gradient(at 10% 10%, rgba(59, 130, 246, 0.05) 0px, transparent 50%),
-                              radial-gradient(at 90% 90%, rgba(59, 130, 246, 0.02) 0px, transparent 50%);
-            animation: bgPremiumMove 20s infinite linear;
-            z-index: -1;
-        }
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        @keyframes bgPremiumMove {
-            0% { transform: translate(-25%, -25%) rotate(0deg); }
-            50% { transform: translate(0%, 0%) rotate(5deg); }
-            100% { transform: translate(-25%, -25%) rotate(0deg); }
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        /* =========================================
-           GLASS LOGIN CARD - ENHANCED
-           ========================================= */
-        .box {
-            background-color: var(--card-bg);
-            backdrop-filter: blur(25px); /* Lebih Kabur (Glassmorphism Halus) */
-            -webkit-backdrop-filter: blur(25px);
-            padding: 48px 40px;
-            border-radius: 24px;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-premium);
-            width: 100%;
-            max-width: 420px; /* Lebar sedikit untuk desktop */
-            position: relative;
-            z-index: 10;
-            
-            /* Animasi Masuk */
-            opacity: 0;
-            transform: translateY(30px);
-            animation: premiumFadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-        }
+<style>
 
-        @keyframes premiumFadeIn {
-            to { opacity: 1; transform: translateY(0); }
-        }
+/* ===== BASE & TYPOGRAPHY ===== */
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-        /* =========================================
-           HEADER - CLEANER & MODERNER
-           ========================================= */
-        .login-header {
-            text-align: center;
-            margin-bottom: 36px;
-        }
+/* PREMIUM DARK ANIMATED BACKGROUND */
+body {
+    background: #0f172a;
+    background-image: radial-gradient(circle at top right, #1e1b4b, #0f172a, #020617);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+}
 
-        .login-header i {
-            font-size: 40px;
-            color: var(--accent-primary);
-            margin-bottom: 16px;
-            display: inline-block;
-            /* Animasi pulse icon untuk impact */
-            animation: iconPulse 3s infinite;
-        }
-        
-        @keyframes iconPulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+/* AMBIENT GLOWING ORBS */
+body::before, body::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 0;
+    animation: floatOrb 12s infinite alternate ease-in-out;
+}
 
-        .login-title {
-            font-size: 24px;
-            font-weight: 800;
-            color: var(--text-primary);
-            letter-spacing: -0.5px;
-            margin-bottom: 6px;
-        }
+body::before {
+    width: 400px;
+    height: 400px;
+    background: #4f46e5;
+    top: -100px;
+    left: -100px;
+    opacity: 0.4;
+}
 
-        .login-sub {
-            font-size: 13px;
-            color: var(--text-secondary);
-            font-weight: 400;
-        }
+body::after {
+    width: 350px;
+    height: 350px;
+    background: #0ea5e9;
+    bottom: -100px;
+    right: -50px;
+    opacity: 0.3;
+    animation-delay: -6s;
+}
 
-        /* =========================================
-           ERROR MSG - REFINED
-           ========================================= */
-        #errorMsg {
-            color: white;
-            background-color: var(--error-color);
-            font-size: 13px;
-            margin-bottom: 18px;
-            text-align: center;
-            display: none;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 500;
-            animation: shake 0.4s ease;
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
-        }
+@keyframes floatOrb {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(50px, 50px) scale(1.1); }
+}
 
-        /* =========================================
-           INPUT GROUPS & INPUTS - MODERN DARK
-           ========================================= */
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
+/* PREMIUM GLASSMORPHISM CARD */
+.box {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    padding: 48px 40px;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    z-index: 1;
+    animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
 
-        .input-group i.left {
-            position: absolute;
-            top: 50%;
-            left: 18px;
-            transform: translateY(-50%);
-            color: #64748b; /* Warna icon dimalam gelap */
-            font-size: 16px;
-            transition: color 0.3s ease;
-        }
+@keyframes slideUpFade {
+    0% { opacity: 0; transform: translateY(40px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
 
-        .input-group input {
-            width: 100%;
-            padding: 18px 50px 18px 50px; /* Padding lebih luas */
-            border: 1px solid var(--input-border);
-            border-radius: 12px;
-            font-size: 15px;
-            color: var(--text-primary);
-            background-color: var(--input-bg);
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-input);
-        }
-        
-        /* Placeholder styling */
-        .input-group input::placeholder {
-            color: #475569;
-            transition: opacity 0.3s;
-        }
+/* HEADER */
+.login-header {
+    text-align: center;
+    margin-bottom: 36px;
+}
 
-        .input-group input:focus {
-            background-color: rgba(255, 255, 255, 0.02);
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1), var(--shadow-input);
-        }
-        
-        /* Ubah warna icon bila focus */
-        .input-group input:focus + i.left,
-        .input-group input:focus + .toggle-pass + i.left {
-            color: var(--accent-primary);
-        }
-        
-        /* Sembunyi placeholder bila focus */
-        .input-group input:focus::placeholder {
-            opacity: 0.5;
-        }
+.login-header i {
+    font-size: 32px;
+    color: #60a5fa;
+    background: rgba(96, 165, 250, 0.1);
+    width: 76px;
+    height: 76px;
+    line-height: 76px;
+    border-radius: 50%;
+    margin-bottom: 18px;
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.2), inset 0 0 10px rgba(255,255,255,0.05);
+    border: 1px solid rgba(96, 165, 250, 0.2);
+}
 
-        /* =========================================
-           PASSWORD TOGGLE - SLEEKER
-           ========================================= */
-        .toggle-pass {
-            position: absolute;
-            right: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #64748b;
-            transition: color 0.3s ease, transform 0.2s;
-            font-size: 16px;
-            padding: 5px; /* Luas tap area */
-        }
+.login-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+}
 
-        .toggle-pass:hover {
-            color: var(--accent-primary);
-            transform: translateY(-50%) scale(1.1);
-        }
+.login-sub {
+    font-size: 14px;
+    color: #94a3b8;
+    margin-top: 6px;
+    font-weight: 300;
+}
 
-        /* =========================================
-           BUTTON - MODERNER & IMPACTFUL
-           ========================================= */
-        button {
-            width: 100%;
-            padding: 18px;
-            background-color: var(--accent-primary);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-            letter-spacing: 0.5px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.3);
-        }
-        
-        /* Hover effect modern */
-        button:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px -5px rgba(59, 130, 246, 0.4);
-        }
-        
-        /* Active (click) effect */
-        button:active {
-            transform: translateY(1px) scale(0.98);
-            box-shadow: 0 5px 10px -2px rgba(59, 130, 246, 0.2);
-        }
-        
-        /* Tambah 'shine' effect modern pada button bila hover */
-        button::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
-            top: 0;
-            left: -150px;
-            transition: left 0.5s ease;
-            transform: skewX(-20deg);
-        }
-        
-        button:hover::after {
-            left: 150%;
-        }
+/* ERROR NOTIFICATION */
+#errorMsg {
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 14px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    text-align: center;
+    display: none;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    backdrop-filter: blur(10px);
+    animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
 
-        /* =========================================
-           FOOTER INFO - CLEANER
-           ========================================= */
-        .attempt {
-            margin-top: 24px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            text-align: center;
-            font-weight: 400;
-            opacity: 0.7;
-        }
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
 
-        .login-note {
-            margin-top: 16px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            text-align: center;
-            opacity: 0.6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
+/* INPUT GROUP */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
 
-        /* =========================================
-           AUTH OVERLAY - PREMIUM GLASS & LOADER
-           ========================================= */
-        #overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            backdrop-filter: blur(15px); /* Premium blur */
-            -webkit-backdrop-filter: blur(15px);
-            background-color: rgba(10, 14, 23, 0.8); /* Gelap modern */
-        }
+.input-group i.left {
+    position: absolute;
+    top: 50%;
+    left: 18px;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 18px;
+    transition: 0.3s ease;
+}
 
-        .auth-card {
-            background-color: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow-premium);
-            min-width: 280px;
-            /* Animasi masuk overlay card */
-            transform: scale(0.9);
-            opacity: 0;
-            animation: overlayPremiumFadeIn 0.3s ease-out forwards;
-        }
-        
-        @keyframes overlayPremiumFadeIn {
-            to { transform: scale(1); opacity: 1; }
-        }
+/* INPUT FIELDS */
+.input-group input {
+    width: 100%;
+    padding: 16px 45px 16px 52px;
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    font-size: 15px;
+    background: rgba(15, 23, 42, 0.5);
+    color: #ffffff;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
 
-        .auth-icon {
-            font-size: 36px;
-            color: var(--accent-primary);
-            margin-bottom: 16px;
-            /* Premium pulsing ring effect */
-            animation: premiumPulse 1.8s infinite;
-        }
+.input-group input::placeholder {
+    color: #64748b;
+}
 
-        .auth-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
+.input-group input:focus {
+    outline: none;
+    background: rgba(15, 23, 42, 0.8);
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.15), inset 0 2px 4px rgba(0,0,0,0.1);
+}
 
-        .auth-sub {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
+.input-group input:focus + i.left,
+.input-group input:focus ~ i.left {
+    color: #60a5fa;
+}
 
-        .auth-dots {
-            margin-top: 18px;
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-        }
+/* PASSWORD EYE ICON */
+.toggle-pass {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #64748b;
+    font-size: 18px;
+    transition: 0.3s ease;
+    padding: 5px;
+}
 
-        .auth-dots span {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background-color: var(--accent-primary);
-            border-radius: 50%;
-            animation: dotsPremium 1.4s infinite cubic-bezier(0.77, 0, 0.175, 1);
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
-        }
+.toggle-pass:hover {
+    color: #60a5fa;
+}
 
-        .auth-dots span:nth-child(2) { animation-delay: 0.2s; }
-        .auth-dots span:nth-child(3) { animation-delay: 0.4s; }
+/* PREMIUM BUTTON */
+button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #4f46e5, #2563eb);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    letter-spacing: 0.5px;
+    margin-top: 12px;
+    box-shadow: 0 10px 25px rgba(79, 70, 229, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
 
-        @keyframes premiumPulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+button::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+    transform: skewX(-20deg);
+    transition: 0.5s;
+}
 
-        @keyframes dotsPremium {
-            0%, 80%, 100% { transform: scale(0); opacity: 0; }
-            40% { transform: scale(1); opacity: 1; }
-        }
+button:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(79, 70, 229, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
 
-        /* =========================================
-           RESPONSIVE (MOBILE-FIRST)
-           ========================================= */
-        @media (max-width: 600px) {
-            body {
-                padding: 15px; /* Kurangkan padding body */
-            }
+button:hover::after {
+    left: 150%;
+}
 
-            .box {
-                padding: 36px 24px; /* Padding card kurangkan */
-                border-radius: 20px;
-            }
-            
-            .login-header i { font-size: 36px; }
-            .login-title { font-size: 22px; }
-            
-            .input-group input {
-                padding: 16px 45px 16px 45px; /* Padding input mobil kurangkan sikit */
-                font-size: 14px;
-            }
-            
-            .input-group i.left, .toggle-pass { font-size: 14px; left: 15px; }
-            .toggle-pass { right: 15px; }
+button:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
+}
 
-            button {
-                padding: 16px;
-                font-size: 15px;
-            }
-        }
-    </style>
+/* FOOTER TEXTS */
+.attempt {
+    margin-top: 28px;
+    font-size: 12px;
+    color: #94a3b8;
+    text-align: center;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.login-note {
+    margin-top: 8px;
+    font-size: 11px;
+    color: #64748b;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+/* =========================
+AUTH OVERLAY
+========================= */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(2, 6, 23, 0.7);
+}
+
+.auth-card {
+    background: rgba(30, 41, 59, 0.85);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    min-width: 300px;
+    animation: overlayPop 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes overlayPop {
+    0% { opacity: 0; transform: scale(0.9); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.auth-icon {
+    font-size: 44px;
+    color: #60a5fa;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+    filter: drop-shadow(0 0 15px rgba(96, 165, 250, 0.4));
+}
+
+.auth-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+
+.auth-sub {
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+.auth-dots {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.auth-dots span {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #60a5fa;
+    border-radius: 50%;
+    animation: dots 1.4s infinite ease-in-out both;
+    box-shadow: 0 0 8px rgba(96, 165, 250, 0.5);
+}
+
+.auth-dots span:nth-child(1) { animation-delay: -0.32s; }
+.auth-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+@keyframes dots {
+    0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
+    40% { transform: scale(1); opacity: 1; }
+}
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 600px) {
+    body {
+        padding: 16px;
+    }
+    .box {
+        padding: 40px 24px;
+        border-radius: 20px;
+    }
+    .login-header i {
+        width: 64px;
+        height: 64px;
+        line-height: 64px;
+        font-size: 28px;
+    }
+    .login-title {
+        font-size: 24px;
+    }
+    .input-group input {
+        padding: 18px 45px 18px 50px;
+    }
+    button {
+        padding: 18px;
+        font-size: 16px;
+    }
+}
+
+</style>
+
 </head>
 
 <body>
 
-    <div class="box">
+<div class="box">
 
-        <div class="login-header">
-            <i class="fa fa-shield-halved"></i>
-            <div class="login-title">Lock Management</div>
-            <div class="login-sub">SECURE ACCESS PORTAL</div>
-        </div>
-
-        <div id="errorMsg"></div>
-
-        <div class="input-group">
-            <input id="user" type="text" placeholder="User ID" autocomplete="username">
-            <i class="fa fa-user left"></i>
-        </div>
-
-        <div class="input-group">
-            <input type="password" id="pass" placeholder="Password" autocomplete="current-password">
-            <i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
-            <i class="fa fa-lock left"></i>
-        </div>
-
-        <button onclick="login()">Login</button>
-
-        <div class="attempt">
-            Secure authentication system
-        </div>
-
-        <div class="login-note">
-            <i class="fa fa-lock"></i> Authorized personnel only
-        </div>
-
+    <div class="login-header">
+        <i class="fa fa-shield-halved"></i>
+        <div class="login-title">Lock Management</div>
+        <div class="login-sub">Secure Access Portal</div>
     </div>
 
-    <div id="overlay">
-        <div class="auth-card">
-            <i class="fa-solid fa-shield-halved auth-icon"></i>
-            <div class="auth-title">Authenticating</div>
-            <div class="auth-sub">Verifying credentials</div>
-            <div class="auth-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
+    <div id="errorMsg"></div>
+
+    <div class="input-group">
+        <i class="fa fa-user left"></i>
+        <input id="user" placeholder="User ID">
     </div>
 
-    <script src="../lockconfig.js"></script>
+    <div class="input-group">
+        <i class="fa fa-lock left"></i>
+        <input type="password" id="pass" placeholder="Password">
+        <i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
+    </div>
 
-    <script>
-        // Gunakan API_URL yang dijangka dari lockconfig.js
-        const api = API_URL;
+    <button onclick="login()">Login</button>
 
-        // Auto-fokus pada input User ID bila page load
-        document.getElementById("user").focus();
+    <div class="attempt">
+        Secure authentication system
+    </div>
 
-        /* PASSWORD TOGGLE - LOGIC SAMA, CUMA KEMASKAN SIKIT KOD */
-        function togglePass(){
-            const pass = document.getElementById("pass");
-            const icon = document.querySelector(".toggle-pass");
+    <div class="login-note">
+        <i class="fa fa-lock"></i> Authorized personnel only
+    </div>
 
-            if(pass.type === "password"){
-                pass.type = "text";
-                // Tukar icon mata
-                icon.classList.replace("fa-eye", "fa-eye-slash");
-            } else {
-                pass.type = "password";
-                // Tukar icon mata balik
-                icon.classList.replace("fa-eye-slash", "fa-eye");
-            }
-        }
+</div>
 
-        /* LOGIN - LOGIC ASAL KEKAL SAMA & TIDAK DISENTUH */
-        async function login(){
-            const user = document.getElementById("user").value.trim();
-            const pass = document.getElementById("pass").value.trim();
-            const err = document.getElementById("errorMsg");
+<div id="overlay">
+    <div class="auth-card">
+        <i class="fa-solid fa-shield-halved auth-icon"></i>
+        <div class="auth-title">Authenticating</div>
+        <div class="auth-sub">Verifying credentials</div>
+        
+        <div class="auth-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
 
-            // Sembunyi error msg asal
-            err.style.display = "none";
+<script src="../lockconfig.js"></script>
 
-            // Validasi asas
-            if(!user || !pass){
-                err.innerText = "Enter User ID and Password";
-                err.style.display = "block";
-                return;
-            }
+<script>
 
-            // Papar overlay loading (style flex diaktifkan oleh js asal)
-            document.getElementById("overlay").style.display = "flex";
+const api = API_URL;
 
-            try {
-                // Hantar request ke API
-                const res = await fetch(api, {
-                    method: "POST",
-                    body: new URLSearchParams({
-                        action: "login",
-                        user: user,
-                        pass: pass
-                    })
-                });
+document.getElementById("user").focus();
 
-                // Dapatkan respon JSON
-                const data = await res.json();
+/* PASSWORD TOGGLE */
 
-                // Logik respon KEKAL SAMA
-                if(data.status === "SUCCESS"){
-                    // Simpan data dalam localStorage
-                    localStorage.setItem("session_token", data.token);
-                    localStorage.setItem("lock_user", data.user);
-                    localStorage.setItem("lock_type", data.type);
-                    localStorage.setItem("lock_role", data.role);
-                    localStorage.setItem("lock_name", data.name);
+function togglePass(){
 
-                    // Redirect berdasarkan jenis
-                    if(data.type == "check"){ window.location = "../check/"; }
-                    else if(data.type == "lock"){ window.location = "../lock/"; }
-                    else if(data.type == "master"){ window.location = "../menu/"; }
-                }
-                else if(data.status === "INACTIVE"){
-                    err.innerText = "User ID inactive";
-                    err.style.display = "block";
-                }
-                else {
-                    err.innerText = "Invalid login credentials";
-                    err.style.display = "block";
-                }
-            } catch(e) {
-                // Tangkap error sistem
-                err.innerText = "System error. Please try again.";
-                err.style.display = "block";
-                console.error("Login system error:", e);
-            }
+    const pass=document.getElementById("pass");
+    const icon=document.querySelector(".toggle-pass");
 
-            // Sembunyi overlay loading
-            document.getElementById("overlay").style.display = "none";
-        }
+    if(pass.type==="password"){
+        pass.type="text";
+        icon.classList.replace("fa-eye","fa-eye-slash");
+    }else{
+        pass.type="password";
+        icon.classList.replace("fa-eye-slash","fa-eye");
+    }
 
-        /* ENTER KEY HANDLING - LOGIC SAMA */
-        document.getElementById("pass").addEventListener("keypress", function(e){
-            if(e.key === "Enter"){
-                login();
-            }
+}
+
+/* LOGIN */
+
+async function login(){
+
+    const user=document.getElementById("user").value.trim();
+    const pass=document.getElementById("pass").value.trim();
+
+    const err=document.getElementById("errorMsg");
+
+    err.style.display="none";
+
+    if(!user || !pass){
+        err.innerText="Enter User ID and Password";
+        err.style.display="block";
+        return;
+    }
+
+    document.getElementById("overlay").style.display="flex";
+
+    try{
+
+        const res=await fetch(api,{
+            method:"POST",
+            body:new URLSearchParams({
+                action:"login",
+                user:user,
+                pass:pass
+            })
         });
-    </script>
+
+        const data=await res.json();
+
+        if(data.status==="SUCCESS"){
+
+            localStorage.setItem("session_token",data.token);
+            localStorage.setItem("lock_user",data.user);
+            localStorage.setItem("lock_type",data.type);
+            localStorage.setItem("lock_role",data.role);
+            localStorage.setItem("lock_name",data.name);
+
+            if(data.type=="check"){
+                window.location="../check/";
+            }
+            else if(data.type=="lock"){
+                window.location="../lock/";
+            }
+            else if(data.type=="master"){
+                window.location="../menu/";
+            }
+
+        }
+        else if(data.status==="INACTIVE"){
+            err.innerText="User ID inactive";
+            err.style.display="block";
+        }
+        else{
+            err.innerText="Invalid login credentials";
+            err.style.display="block";
+        }
+
+    }catch(e){
+
+        err.innerText="System error. Please try again.";
+        err.style.display="block";
+
+    }
+
+    document.getElementById("overlay").style.display="none";
+
+}
+
+/* ENTER KEY */
+
+document.getElementById("pass").addEventListener("keypress",function(e){
+
+    if(e.key==="Enter"){
+        login();
+    }
+
+});
+
+</script>
 
 </body>
 </html>
