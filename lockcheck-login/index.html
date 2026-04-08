@@ -124,6 +124,7 @@ body{
     color: #94a3b8;
     font-size: 18px;
     transition: color 0.3s ease;
+    pointer-events: none; /* Penting supaya click tembus ke input */
 }
 
 /* INPUT */
@@ -219,7 +220,7 @@ button:active {
 }
 
 .login-note i {
-    color: #10b981; /* Green lock icon for trust */
+    color: #10b981; 
 }
 
 /* =========================
@@ -235,7 +236,7 @@ AUTH OVERLAY
     align-items: center;
     justify-content: center;
     z-index: 9999;
-    background: rgba(15, 23, 42, 0.6); /* Darker premium overlay */
+    background: rgba(15, 23, 42, 0.6); 
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
 }
@@ -344,18 +345,20 @@ AUTH OVERLAY
 
     <div id="errorMsg"></div>
 
-    <div class="input-group">
-        <input id="user" placeholder="User ID" autocomplete="off">
-        <i class="fa fa-user left"></i>
-    </div>
+    <form id="loginForm" onsubmit="event.preventDefault(); login();">
+        <div class="input-group">
+            <input type="text" id="user" name="username" placeholder="User ID" required>
+            <i class="fa fa-user left"></i>
+        </div>
 
-    <div class="input-group">
-        <input type="password" id="pass" placeholder="Password">
-        <i class="fa fa-lock left"></i>
-        <i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
-    </div>
+        <div class="input-group">
+            <input type="password" id="pass" name="password" placeholder="Password" required>
+            <i class="fa fa-lock left"></i>
+            <i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
+        </div>
 
-    <button onclick="login()">Login Securely</button>
+        <button type="submit">Login Securely</button>
+    </form>
 
     <div class="attempt">
         Secure authentication system
@@ -475,16 +478,6 @@ err.style.display="block";
 document.getElementById("overlay").style.display="none";
 
 }
-
-/* ENTER KEY */
-
-document.getElementById("pass").addEventListener("keypress",function(e){
-
-if(e.key==="Enter"){
-login();
-}
-
-});
 
 </script>
 
