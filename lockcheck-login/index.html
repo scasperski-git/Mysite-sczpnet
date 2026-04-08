@@ -3,7 +3,7 @@
 
 <head>
 
-<title>Check Lock Portal</title>
+<title>Secure Login Portal</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -16,311 +16,256 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 box-sizing:border-box;
 }
 
+/* ANIMATED BACKGROUND */
+
 body{
 font-family:Arial, sans-serif;
-background:#eef2f7;
+background:linear-gradient(135deg,#4f6df5,#6c63ff,#3c8ce7,#00c6ff);
+background-size:400% 400%;
+animation:bgMove 12s ease infinite;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
 margin:0;
 padding:20px;
 }
 
-/* CONTAINER */
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
 
-.container{
-max-width:520px;
+/* GLASS LOGIN CARD */
+
+.box{
+background:rgba(255,255,255,0.92);
+backdrop-filter:blur(10px);
+padding:42px;
+border-radius:18px;
+box-shadow:0 20px 50px rgba(0,0,0,0.25);
 width:100%;
-margin:auto;
-background:white;
-border-radius:14px;
-box-shadow:0 10px 30px rgba(0,0,0,0.12);
-overflow:hidden;
+max-width:370px;
+animation:fadeIn .4s ease;
+}
+
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
 }
 
 /* HEADER */
 
-.header{
-background:linear-gradient(135deg,#007bff,#0047ab);
-color:white;
-padding:18px;
+.login-header{
 text-align:center;
+margin-bottom:24px;
+}
+
+.login-header i{
+font-size:36px;
+color:#0047ab;
+margin-bottom:6px;
+}
+
+.login-title{
 font-size:20px;
-font-weight:bold;
-letter-spacing:0.5px;
+font-weight:700;
+color:#1f3c88;
 }
 
-#userInfo{
+.login-sub{
+font-size:12px;
+color:#666;
+}
+
+/* ERROR */
+
+#errorMsg{
+color:#dc3545;
 font-size:14px;
-font-weight:600;
-margin-top:4px;
-opacity:0.95;
+margin-bottom:10px;
+text-align:center;
+display:none;
 }
 
-.header-buttons{
-display:flex;
-gap:10px;
-margin-top:12px;
-justify-content:center;
+/* INPUT GROUP */
+
+.input-group{
+position:relative;
+margin-bottom:16px;
 }
 
-.header-buttons button{
-width:140px;
-margin-top:0 !important;
-padding:8px 0;
-font-size:13px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-gap:6px;
-}
-
-.logout-btn{
-background:#dc3545;
-}
-
-.master-btn{
-background:#6c63ff;
-}
-
-.header-buttons button:hover{
-opacity:0.9;
-transform:translateY(-1px);
-}
-
-.content{
-padding:25px;
+.input-group i.left{
+position:absolute;
+top:50%;
+left:12px;
+transform:translateY(-50%);
+color:#777;
 }
 
 /* INPUT */
 
-input{
+.input-group input{
 width:100%;
-padding:14px;
-font-size:16px;
-border:1px solid #ddd;
-border-radius:8px;
+padding:14px 45px 14px 38px;
+border:1px solid #d9dee7;
+border-radius:10px;
+font-size:15px;
+background:#f8fbff;
+transition:.2s;
+}
+
+.input-group input:focus{
 outline:none;
-transition:0.2s;
-}
-
-input:focus{
+background:white;
 border-color:#007bff;
-box-shadow:0 0 0 3px rgba(0,123,255,0.15);
+box-shadow:0 0 0 3px rgba(0,123,255,0.12);
 }
 
-/* BUTTON */
+/* PASSWORD EYE */
+
+.toggle-pass{
+position:absolute;
+right:12px;
+top:50%;
+transform:translateY(-50%);
+cursor:pointer;
+color:#777;
+}
+
+.toggle-pass:hover{
+color:#007bff;
+}
+
+/* LOGIN BUTTON */
 
 button{
 width:100%;
-padding:13px;
-margin-top:12px;
+padding:15px;
+background:linear-gradient(135deg,#007bff,#0047ab);
+color:white;
 border:none;
-border-radius:8px;
-font-size:16px;
-cursor:pointer;
-font-weight:600;
-transition:0.2s;
-}
-
-.check-btn{
-background:linear-gradient(135deg,#007bff,#0056b3);
-color:white;
-}
-
-.check-btn:hover{
-transform:translateY(-1px);
-box-shadow:0 6px 15px rgba(0,0,0,0.15);
-}
-
-.reset-btn{
-background:#e9ecef;
-color:#333;
-}
-
-.reset-btn:hover{
-background:#dfe3e6;
-}
-
-/* RESULT CARD */
-
-.result-card{
-margin-top:22px;
-padding:22px;
 border-radius:10px;
-background:white;
-border:1px solid #e6e6e6;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-animation:fadeIn .3s ease;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+transition:.2s;
+letter-spacing:.4px;
 }
 
-/* STATUS */
+button:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
 
-.status-box{
+/* ATTEMPT INDICATOR */
+
+.attempt{
+margin-top:10px;
+font-size:11px;
+color:#888;
 text-align:center;
-margin-bottom:12px;
 }
 
-.status-box span{
-display:inline-block;
-padding:7px 22px;
-background:#dc3545;
-color:white;
-font-weight:700;
-font-size:18px;
-border-radius:30px;
-letter-spacing:1px;
-}
+/* SECURITY NOTE */
 
-/* META */
-
-.created-meta{
-font-size:12px;
+.login-note{
+margin-top:14px;
+font-size:11px;
 color:#777;
 text-align:center;
-margin-bottom:15px;
 }
 
-/* GRID */
+/* =========================
+AUTH OVERLAY
+========================= */
 
-.row{
-display:flex;
-justify-content:space-between;
-gap:15px;
-margin-bottom:15px;
-}
-
-.col{
-flex:1;
-}
-
-.label{
-font-weight:bold;
-color:#666;
-font-size:13px;
-margin-bottom:3px;
-}
-
-.value{
-font-size:18px;
-font-weight:700;
-}
-
-.amount{
-font-size:26px;
-font-weight:800;
-color:#dc3545;
-letter-spacing:1px;
-}
-
-/* REMARK */
-
-.remark{
-margin-top:6px;
-line-height:1.5;
-}
-
-/* NO LOCK */
-
-.no-lock{
-margin-top:20px;
-padding:18px;
-background:#fff5f5;
-border:1px solid #ffc9c9;
-border-radius:8px;
-text-align:center;
-font-weight:600;
-color:#c92a2a;
-animation:fadeIn .3s ease;
-}
-
-/* SESSION POPUP */
-
-#sessionPopup{
+#overlay{
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.55);
-backdrop-filter:blur(4px);
 display:none;
 align-items:center;
 justify-content:center;
-z-index:9999;
+z-index:999;
+backdrop-filter:blur(12px);
+background:rgba(0,0,0,0.4);
 }
 
-.session-box{
+.auth-card{
 background:white;
-padding:32px;
-border-radius:12px;
+padding:38px;
+border-radius:16px;
 text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,0.25);
-max-width:320px;
-width:90%;
+box-shadow:0 20px 40px rgba(0,0,0,0.25);
+min-width:240px;
 }
 
-.session-box i{
-font-size:40px;
-color:#dc3545;
-margin-bottom:10px;
+.auth-icon{
+font-size:32px;
+color:#007bff;
+margin-bottom:12px;
+animation:pulse 1.4s infinite;
 }
 
-.session-title{
+.auth-title{
 font-size:18px;
-font-weight:bold;
-margin-bottom:6px;
-}
-
-.session-msg{
-font-size:14px;
-color:#666;
-margin-bottom:10px;
-}
-
-.session-count{
-font-size:12px;
-color:#888;
-}
-/* LOADING */
-
-.loading{
-margin-top:25px;
-text-align:center;
 font-weight:600;
-color:#444;
+color:#1f3c88;
 }
 
-.spinner{
-margin:auto;
-margin-top:12px;
-width:35px;
-height:35px;
-border:4px solid #e5e5e5;
-border-top:4px solid #007bff;
+.auth-sub{
+font-size:12px;
+color:#6c757d;
+}
+
+.auth-dots{
+margin-top:14px;
+}
+
+.auth-dots span{
+display:inline-block;
+width:8px;
+height:8px;
+background:#007bff;
 border-radius:50%;
-animation:spin .9s linear infinite;
+margin:0 3px;
+animation:dots 1.2s infinite;
 }
 
-/* ANIMATION */
-
-@keyframes spin{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
+.auth-dots span:nth-child(2){
+animation-delay:0.2s;
 }
 
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(6px);}
-to{opacity:1;transform:translateY(0);}
+.auth-dots span:nth-child(3){
+animation-delay:0.4s;
+}
+
+@keyframes pulse{
+0%{transform:scale(1)}
+50%{transform:scale(1.15)}
+100%{transform:scale(1)}
+}
+
+@keyframes dots{
+0%,80%,100%{opacity:0}
+40%{opacity:1}
 }
 
 /* MOBILE */
 
-@media (max-width:500px){
+@media (max-width:600px){
 
-.row{
-flex-direction:column;
+.box{
+padding:32px;
+}
+
+button{
+padding:16px;
+font-size:17px;
 }
 
 }
@@ -331,44 +276,58 @@ flex-direction:column;
 
 <body>
 
-<div class="container">
+<div class="box">
 
-<div class="header">
-<i class="fa fa-search"></i> Check Lock Portal
-<div id="userInfo"></div>
+<div class="login-header">
 
-<div class="header-buttons">
+<i class="fa fa-shield-halved"></i>
 
-<button class="logout-btn" onclick="logout()">
-<i class="fa fa-right-from-bracket"></i> Logout
-</button>
-
-<button id="masterBtn" class="master-btn" onclick="goMaster()" style="display:none">
-<i class="fa fa-arrow-left"></i> Master Menu
-</button>
+<div class="login-title">Lock Management</div>
+<div class="login-sub">Secure Access Portal</div>
 
 </div>
+
+<div id="errorMsg"></div>
+
+<div class="input-group">
+<i class="fa fa-user left"></i>
+<input id="user" placeholder="User ID">
 </div>
 
-<div class="content">
+<div class="input-group">
+<i class="fa fa-lock left"></i>
+<input type="password" id="pass" placeholder="Password">
+<i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
+</div>
 
-<input
-type="text"
-id="acc_no"
-autocomplete="off"
-inputmode="numeric"
-maxlength="10"
-placeholder="Enter Account Number">
+<button onclick="login()">Login</button>
 
-<button class="check-btn" id="checkBtn">
-<i class="fa fa-search"></i> Check Lock
-</button>
+<div class="attempt">
+Secure authentication system
+</div>
 
-<button class="reset-btn" id="resetBtn">
-<i class="fa fa-rotate-left"></i> New Search
-</button>
+<div class="login-note">
+<i class="fa fa-lock"></i> Authorized personnel only
+</div>
 
-<div id="result"></div>
+</div>
+
+<!-- AUTH OVERLAY -->
+
+<div id="overlay">
+
+<div class="auth-card">
+
+<i class="fa-solid fa-shield-halved auth-icon"></i>
+
+<div class="auth-title">Authenticating</div>
+<div class="auth-sub">Verifying credentials</div>
+
+<div class="auth-dots">
+<span></span>
+<span></span>
+<span></span>
+</div>
 
 </div>
 
@@ -380,385 +339,107 @@ placeholder="Enter Account Number">
 
 const api = API_URL;
 
-const user = localStorage.getItem("lock_user");
-const role = localStorage.getItem("lock_role");
-const token = localStorage.getItem("session_token");
+document.getElementById("user").focus();
 
-const type = localStorage.getItem("lock_type");
+/* PASSWORD TOGGLE */
 
-if(!type){
-window.location="../lockcheck-login/";
-}
+function togglePass(){
 
-if(type=="lock"){
-alert("Access denied");
-window.location="../lock/";
-}
+const pass=document.getElementById("pass");
+const icon=document.querySelector(".toggle-pass");
 
-if(type === "master"){
-document.getElementById("masterBtn").style.display = "inline-block";
-}
-
-async function checkSession(){
-
-try{
-
-const res = await fetch(api+"?action=session&token="+token);
-const data = await res.json();
-
-if(data.status !== "ACTIVE"){
-
-showSessionPopup("DEVICE");
-return;
-
-localStorage.clear();
-window.location="../lockcheck-login/";
-
-}
-
-}catch(e){
-console.log("session check error");
+if(pass.type==="password"){
+pass.type="text";
+icon.classList.replace("fa-eye","fa-eye-slash");
+}else{
+pass.type="password";
+icon.classList.replace("fa-eye-slash","fa-eye");
 }
 
 }
 
-function goMaster(){
-window.location="../menu/";
-}
+/* LOGIN */
 
-if(!token){
-logout();
-}
+async function login(){
 
-document.getElementById("userInfo").innerHTML =
-"User: "+(user || "-")+" | Role: "+(role || "-");
+const user=document.getElementById("user").value.trim();
+const pass=document.getElementById("pass").value.trim();
 
-const input=document.getElementById("acc_no");
-const result=document.getElementById("result");
-const checkBtn=document.getElementById("checkBtn");
-const resetBtn=document.getElementById("resetBtn");
+const err=document.getElementById("errorMsg");
 
-let isLoading=false;
+err.style.display="none";
 
-window.onload=()=>{
-input.focus();
-};
-
-function formatDate(dateStr){
-
-if(!dateStr) return "-";
-
-if(dateStr.includes("-") && dateStr.split("-")[0].length==4){
-
-var p=dateStr.split("-");
-var year=p[0];
-var month=parseInt(p[1])-1;
-var day=p[2];
-
-var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-return day+" "+m[month]+" "+year;
-
-}
-
-if(dateStr.includes("/")){
-
-var p=dateStr.split("/");
-
-var day=parseInt(p[0]);
-var month=parseInt(p[1])-1;
-var year=p[2];
-
-var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-return ("0"+day).slice(-2)+" "+m[month]+" "+year;
-
-}
-
-if(dateStr.includes("T")){
-
-var d=new Date(dateStr);
-
-var day=("0"+d.getDate()).slice(-2);
-var month=d.getMonth();
-var year=d.getFullYear();
-
-var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-return day+" "+m[month]+" "+year;
-
-}
-
-return dateStr;
-
-}
-
-function formatDateTime(dateStr){
-
-if(!dateStr) return "-";
-
-/* format expected: dd/MM/yyyy HH:mm:ss */
-
-const parts = dateStr.split(" ");
-
-const datePart = parts[0].split("/");
-const timePart = parts[1].split(":");
-
-const day = datePart[0];
-const monthIndex = parseInt(datePart[1]) - 1;
-const year = datePart[2];
-
-const hour = timePart[0];
-const minute = timePart[1];
-
-const m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-
-return day+" "+m[monthIndex]+" "+year+" "+hour+":"+minute;
-
-}
-
-async function checkLock(){
-
-const acc=input.value.trim();
-
-if(!acc){
-alert("Enter Account No");
-input.focus();
+if(!user || !pass){
+err.innerText="Enter User ID and Password";
+err.style.display="block";
 return;
 }
 
-if(isLoading) return;
-
-isLoading=true;
-checkBtn.disabled=true;
-
-result.innerHTML=
-"<div class='loading'>Checking Lock Status<div class='spinner'></div></div>";
+document.getElementById("overlay").style.display="flex";
 
 try{
 
-const res = await fetch(api+"?acc_no="+encodeURIComponent(acc)+"&token="+token);
+const res=await fetch(api,{
+method:"POST",
+body:new URLSearchParams({
+action:"login",
+user:user,
+pass:pass
+})
+});
 
 const data=await res.json();
 
-if(data.status=="UNAUTHORIZED"){
+if(data.status==="SUCCESS"){
 
-if(data.reason=="SESSION_REPLACED"){
-alert("Your account has been logged in from another device.");
+localStorage.setItem("session_token",data.token);
+localStorage.setItem("lock_user",data.user);
+localStorage.setItem("lock_type",data.type);
+localStorage.setItem("lock_role",data.role);
+localStorage.setItem("lock_name",data.name);
+
+if(data.type=="check"){
+window.location="../check/";
+}
+else if(data.type=="lock"){
+window.location="../lock/";
+}
+else if(data.type=="master"){
+window.location="../menu/";
+}
+
+}
+else if(data.status==="INACTIVE"){
+err.innerText="User ID inactive";
+err.style.display="block";
 }
 else{
-showSessionPopup("EXPIRED");
-return;
+err.innerText="Invalid login credentials";
+err.style.display="block";
 }
 
-localStorage.clear();
-window.location="../lockcheck-login/";
-return;
+}catch(e){
 
-}
-
-if(data.status==="LOCKED"){
-
-const formattedDate=formatDate(data.valid);
-const created=formatDateTime(data.created);
-const amount = "RM " + Number(data.amount || 0).toLocaleString("en-MY",{
-minimumFractionDigits:2,
-maximumFractionDigits:2
-});
-
-const promiseDate=new Date(data.valid);
-
-const today=new Date();
-today.setHours(0,0,0,0);
-
-promiseDate.setHours(0,0,0,0);
-
-let statusText="LOCKED";
-let statusColor="#28a745";
-
-if(today>promiseDate){
-statusText="EXPIRED";
-statusColor="#dc3545";
-}
-
-result.innerHTML=
-
-"<div class='result-card'>"+
-
-"<div class='status-box'><span style='background:"+statusColor+"'>"+statusText+"</span></div>"+
-
-"<div class='created-meta'>Created by "+data.dca_id+
-" • "+created+"</div>"+
-
-"<div class='row'>"+
-
-"<div class='col'>"+
-"<div class='label'>ACCOUNT NO</div>"+
-"<div class='value'>"+data.acc_no+"</div>"+
-"</div>"+
-
-"<div class='col'>"+
-"<div class='label'>BRANCH</div>"+
-"<div class='value'>"+data.branch+"</div>"+
-"</div>"+
-
-"</div>"+
-
-"<div class='row'>"+
-
-"<div class='col'>"+
-"<div class='label'>LOCK AMOUNT</div>"+
-"<div class='amount'>"+amount+"</div>"+
-"</div>"+
-
-"<div class='col'>"+
-"<div class='label'>PROMISE DATE</div>"+
-"<div class='value'>"+formattedDate+"</div>"+
-"</div>"+
-
-"</div>"+
-
-"<div class='label'>PAYMENT CATEGORY</div>"+
-"<div class='value'>"+(data.category || "-")+"</div><br>"+
-
-"<div class='label'>REMARKS</div>"+
-"<div class='remark'>"+(data.remarks || "-")+"</div>"+
-
-"</div>";
-
-}
-else{
-
-result.innerHTML=
-"<div class='no-lock'>NO LOCK FOUND</div>";
+err.innerText="System error. Please try again.";
+err.style.display="block";
 
 }
 
-}catch(err){
-
-result.innerHTML=
-"<div class='no-lock'>SYSTEM ERROR. TRY AGAIN.</div>";
+document.getElementById("overlay").style.display="none";
 
 }
 
-checkBtn.disabled=false;
-isLoading=false;
+/* ENTER KEY */
 
-}
+document.getElementById("pass").addEventListener("keypress",function(e){
 
-function newSearch(){
-
-input.value="";
-result.innerHTML="";
-checkBtn.disabled=false;
-input.focus();
-
-}
-
-function showSessionPopup(type){
-
-let title="Session Expired";
-let msg="Your session has expired. Please login again.";
-
-if(type==="DEVICE"){
-title="Logged In From Another Device";
-msg="Your account has been logged in from another device.";
-}
-
-document.getElementById("sessionTitle").innerText=title;
-document.getElementById("sessionMsg").innerText=msg;
-
-document.getElementById("sessionPopup").style.display="flex";
-
-setTimeout(()=>{
-localStorage.clear();
-window.location="../lockcheck-login/";
-},3000);
-
-}
-
-function logout(){
-localStorage.clear();
-window.location="../lockcheck-login/";
-}
-
-checkBtn.addEventListener("click",checkLock);
-resetBtn.addEventListener("click",newSearch);
-
-input.addEventListener("keypress",function(e){
 if(e.key==="Enter"){
-checkLock();
-}
-});
-
-input.addEventListener("input",function(){
-this.value=this.value.replace(/[^0-9]/g,'');
-});
-  
-let lastActivity = Date.now();
-const IDLE_LIMIT = 1200000; // 20 min
-let idleTriggered = false;
-
-function updateActivity(){
-lastActivity = Date.now();
-}
-
-function checkIdle(){
-
-if(!idleTriggered && Date.now() - lastActivity > IDLE_LIMIT){
-idleTriggered = true;
-showSessionPopup("EXPIRED");
-}
-
-}
-
-setInterval(checkIdle, 5000);
-
-[
-"touchstart",
-"touchmove",
-"click",
-"scroll",
-"keydown",
-"mousemove"
-].forEach(event=>{
-document.addEventListener(event, updateActivity, {passive:true});
-});
-
-document.addEventListener("visibilitychange",()=>{
-
-if(!document.hidden){
-if(Date.now() - lastActivity > IDLE_LIMIT){
-showSessionPopup("EXPIRED");
-}
+login();
 }
 
 });
-/* SESSION MONITOR */
 
-setInterval(checkSession,30000);
-  
 </script>
-
-<div id="sessionPopup">
-<div class="session-box">
-
-<i class="fa fa-lock"></i>
-
-<div class="session-title" id="sessionTitle">
-Session Expired
-</div>
-
-<div class="session-msg" id="sessionMsg">
-Please login again.
-</div>
-
-<div class="session-count">
-Redirecting to login...
-</div>
-
-</div>
-</div>
 
 </body>
 </html>
