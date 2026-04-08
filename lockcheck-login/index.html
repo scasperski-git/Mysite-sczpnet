@@ -403,11 +403,16 @@ AUTH OVERLAY
         <input id="user" placeholder="User ID">
     </div>
 
-    <div class="input-group">
-        <i class="fa fa-lock left"></i>
-        <input type="password" id="pass" placeholder="Password">
-        <i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
-    </div>
+<div class="input-group">
+    <i class="fa fa-user left"></i>
+    <input id="user" name="username" autocomplete="username" placeholder="User ID">
+</div>
+
+<div class="input-group">
+    <i class="fa fa-lock left"></i>
+    <input type="password" id="pass" name="password" autocomplete="current-password" placeholder="Password">
+    <i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
+</div>
 
     <button onclick="login()">Login</button>
 
