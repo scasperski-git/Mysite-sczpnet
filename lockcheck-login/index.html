@@ -122,7 +122,7 @@ left:18px;
 transform:translateY(-50%);
 color:#94a3b8;
 font-size:16px;
-pointer-events:none; /* Penting supaya input boleh diklik penuh */
+pointer-events:none;
 transition:all 0.3s ease;
 }
 
@@ -352,12 +352,12 @@ font-size:15px;
 
 <div class="input-group">
 <i class="fa fa-user left"></i>
-<input id="user" placeholder="User ID">
+<input id="user" placeholder="User ID" autocomplete="username">
 </div>
 
 <div class="input-group">
 <i class="fa fa-lock left"></i>
-<input type="password" id="pass" placeholder="Password">
+<input type="password" id="pass" placeholder="Password" autocomplete="current-password">
 <i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
 </div>
 
