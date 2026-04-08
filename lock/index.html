@@ -616,51 +616,50 @@ td:nth-child(3) {
     /* ==========================================
        KOMPRESS SUCCESS PAGE (HANYA UNTUK KAD RESULT)
        ========================================== */
-    /* Guna selector ID #result supaya kotak filter tak terganggu */
     #result .success-card {
         padding: 20px 16px !important; 
-        min-height: calc(100vh - 230px); /* Khas untuk success page je */
+        min-height: calc(100vh - 230px); 
         display: flex;
         flex-direction: column;
         justify-content: flex-start; 
     }
     
-    #result .success-card > div:nth-child(1) { margin-bottom: 12px !important; }
+    #result .success-card > div:nth-child(1) { margin-bottom: 10px !important; }
     #result .success-card > div:nth-child(1) .status-badge { font-size: 16px !important; padding: 10px 24px !important; }
-    #result .success-card > div:nth-child(2) { margin-bottom: 16px !important; font-size: 12px !important; }
+    #result .success-card > div:nth-child(2) { margin-bottom: 12px !important; font-size: 11px !important; }
 
+    /* Kotak Kelabu (Details) dipadatkan dan dinaikkan */
     #result .success-grid { 
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 20px 12px !important; 
-        padding: 18px !important;
+        gap: 12px 10px !important; /* Jarak antara text dirapatkan */
+        padding: 14px !important; /* Padding kotak dikecilkan */
         margin-top: 0 !important;
-        flex: 1; 
-        align-content: center; 
+        margin-bottom: auto !important; /* Tolak kotak ke atas */
+        flex: none !important; /* Jangan benarkan kotak mengembang berlebihan */
+        align-content: flex-start; 
     }
     
     #result .success-item { font-size: 13px !important; }
-    #result .success-item b { font-size: 11px !important; margin-bottom: 6px !important; }
-    #result .amount { font-size: 22px !important; }
+    #result .success-item b { font-size: 11px !important; margin-bottom: 4px !important; }
+    #result .amount { font-size: 20px !important; } /* Dikecilkan sikit bagi seimbang */
     
     /* ==========================================
        KEMASKINI MY LOCKS (TABLE & FILTER) MOBILE
        ========================================== */
     .filter-card {
-        padding: 16px; /* Nipiskan sikit padding filter box */
+        padding: 16px; 
         margin-bottom: 16px;
     }
 
-    /* Susun table bagi kemas dan tak berserabut */
     table th, table td {
-        padding: 14px 10px; /* Kurangkan padding tepi sikit */
-        font-size: 11px; /* Font optimum untuk muat skrin */
+        padding: 14px 10px; 
+        font-size: 11px; 
     }
     
     table th {
         font-size: 10px;
     }
 
-    /* Khas untuk column Amount di table (biar nampak premium) */
     #lockTable td:nth-child(3) {
         font-size: 13px;
         font-weight: 700;
@@ -1238,9 +1237,9 @@ document.getElementById("result").style.display="block";
 document.getElementById("result").innerHTML=
 
 "<div class='success-card'>"+
-"<div style='margin-bottom:15px;'><span class='status-badge'>LOCK CREATED</span></div>"+
+"<div style='margin-bottom:10px;'><span class='status-badge'>LOCK CREATED</span></div>"+
 
-"<div style='font-size: 12px; color: #64748b; margin-bottom: 24px;'>Created by "+dca+
+"<div style='font-size: 11px; color: #64748b; margin-bottom: 12px;'>Created by "+dca+
 " • "+createdTime+"</div>"+
 
 "<div class='success-grid'>"+
@@ -1256,6 +1255,11 @@ document.getElementById("result").innerHTML=
 "<div class='success-item' style='grid-column: 1 / -1;'><b>DCA REMARKS</b>"+remarks+"</div>"+
 
 "</div>"+
+
+"<div class='audit-note' style='margin-top: auto; text-align: left; padding: 10px; font-size: 10.5px; line-height: 1.4;'>"+
+"<i class='fa-solid fa-shield-halved' style='margin-right: 5px;'></i> <b>Audit Note:</b> Please verify your entry carefully. By submitting this lock, the DCA agrees to bear full liability for any discrepancies or mistakes made in the lock amount, especially concerning \"Full Payment\" and \"Under Discount\" categories."+
+"</div>"+
+
 "</div>"+
 
 "<button class='new-btn' onclick='location.reload()'><i class='fa fa-plus' style='margin-right:8px;'></i> New Lock</button>";
