@@ -124,7 +124,12 @@ body{
     color: #94a3b8;
     font-size: 18px;
     transition: color 0.3s ease;
-    pointer-events: none; /* Penting supaya click tembus ke input */
+    pointer-events: none; /* Supaya tak kacau bila klik */
+}
+
+/* Tukar warna icon bila input kena focus */
+.input-group:focus-within i.left {
+    color: #4f46e5;
 }
 
 /* INPUT */
@@ -150,11 +155,6 @@ body{
     background: #ffffff;
     border-color: #4f46e5;
     box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
-}
-
-.input-group input:focus + i.left,
-.input-group input:not(:placeholder-shown) + i.left {
-    color: #4f46e5;
 }
 
 /* PASSWORD EYE */
@@ -345,20 +345,18 @@ AUTH OVERLAY
 
     <div id="errorMsg"></div>
 
-    <form id="loginForm" onsubmit="event.preventDefault(); login();">
-        <div class="input-group">
-            <input type="text" id="user" name="username" placeholder="User ID" required>
-            <i class="fa fa-user left"></i>
-        </div>
+    <div class="input-group">
+        <i class="fa fa-user left"></i>
+        <input id="user" placeholder="User ID">
+    </div>
 
-        <div class="input-group">
-            <input type="password" id="pass" name="password" placeholder="Password" required>
-            <i class="fa fa-lock left"></i>
-            <i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
-        </div>
+    <div class="input-group">
+        <i class="fa fa-lock left"></i>
+        <input type="password" id="pass" placeholder="Password">
+        <i class="fa fa-eye toggle-pass" onclick="togglePass()"></i>
+    </div>
 
-        <button type="submit">Login Securely</button>
-    </form>
+    <button onclick="login()">Login</button>
 
     <div class="attempt">
         Secure authentication system
@@ -386,6 +384,9 @@ AUTH OVERLAY
 <script src="../lockconfig.js"></script>
 
 <script>
+// ==========================================
+// LOGIC BAWAH NI MAINTAIN 100% TAK SENTUH
+// ==========================================
 
 const api = API_URL;
 
@@ -478,6 +479,16 @@ err.style.display="block";
 document.getElementById("overlay").style.display="none";
 
 }
+
+/* ENTER KEY */
+
+document.getElementById("pass").addEventListener("keypress",function(e){
+
+if(e.key==="Enter"){
+login();
+}
+
+});
 
 </script>
 
