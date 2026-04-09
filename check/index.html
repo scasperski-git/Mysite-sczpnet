@@ -152,13 +152,15 @@ body {
 .main-content {
     flex: 1;
     margin-left: 280px; 
-    padding: 30px; /* <--- PADDING DIKURANGKAN */
-    display: block; /* <--- TUKAR DARI FLEX CENTER KE BLOCK UNTUK FULL WIDTH */
+    padding: 40px;
+    display: flex;
+    justify-content: center; /* <--- KEMBALI KE CENTER */
+    align-items: flex-start;
 }
 
 .container {
     width: 100%;
-    max-width: 100%; /* <--- JADIKAN FULL WIDTH */
+    max-width: 700px; /* <--- DIBESARKAN SIKIT DARI 600px SUPAYA SEBARIS NAMPAK CANTIK */
     background: #ffffff;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.03);
@@ -179,13 +181,13 @@ body {
 .search-bar-row {
     display: flex;
     gap: 16px;
-    align-items: stretch; /* Supaya butang dan kotak tinggi sama */
+    align-items: stretch; 
     margin-bottom: 10px;
 }
 
 /* INPUT */
 .search-bar-row input {
-    width: 280px; /* <--- PENDEKKAN INPUT BOX */
+    width: 280px; /* Kotak input pendek ngam-ngam 10 digit */
     flex: 0 0 280px;
     padding: 16px 20px;
     font-size: 15px;
@@ -215,14 +217,15 @@ body {
 .button-group {
     display: flex;
     gap: 12px;
-    flex: 1; /* Ambil ruang lebihan jika perlu */
+    flex: 1; 
 }
 
 .button-group button {
-    padding: 0 24px;
+    flex: 1;
+    padding: 0 20px;
     border: none;
     border-radius: 12px;
-    font-size: 15px;
+    font-size: 14px;
     cursor: pointer;
     font-weight: 600;
     transition: all 0.3s ease;
@@ -230,7 +233,6 @@ body {
     justify-content: center;
     align-items: center;
     gap: 8px;
-    min-width: 160px; /* Saiz minimum untuk butang */
 }
 
 .check-btn {
@@ -264,8 +266,7 @@ body {
     border: 1px solid #e2e8f0;
     box-shadow: 0 10px 25px rgba(0,0,0,0.04);
     animation: fadeIn 0.4s ease forwards;
-    max-width: 600px; /* <--- KUNCI SAIZ SUPAYA TAK FULL WIDTH */
-    margin-left: 0; /* Rapat ke kiri bawah butang */
+    width: 100%; /* Penuhkan ruangan container 700px */
 }
 
 .status-box {
@@ -337,6 +338,19 @@ body {
     border: 1px solid #e2e8f0;
 }
 
+/* AUDIT NOTE (UNTUK CHECK STATUS) */
+.audit-note {
+    margin-top: 20px;
+    font-size: 11px;
+    color: #334155;
+    background: #eff6ff; /* Soft blue background */
+    padding: 14px;
+    border-left: 4px solid #3b82f6;
+    border-radius: 8px;
+    line-height: 1.5;
+    text-align: left;
+}
+
 /* ERROR & LOADING STATES */
 .no-lock {
     margin-top: 24px;
@@ -352,7 +366,7 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    max-width: 600px; /* <--- Kunci saiz */
+    width: 100%;
 }
 
 .no-lock::before {
@@ -368,7 +382,7 @@ body {
     text-align: center;
     font-weight: 600;
     color: #475569;
-    max-width: 600px; /* <--- Kunci saiz */
+    width: 100%;
 }
 
 .spinner {
@@ -539,7 +553,7 @@ body {
     }
 
     .search-bar-row input {
-        width: 100%; /* Balik full width dalam mobile */
+        width: 100%; 
         flex: none;
     }
 
@@ -558,10 +572,6 @@ body {
     
     .amount {
         font-size: 22px;
-    }
-
-    .result-card, .no-lock, .loading {
-        max-width: 100%; /* Biar dia ikut skrin mobile */
     }
 }
 
@@ -608,7 +618,7 @@ body {
                     autocomplete="off"
                     inputmode="numeric"
                     maxlength="10"
-                    placeholder="ENTER ACCOUNT NUMBER">
+                    placeholder="ENTER ACCOUNT NO">
 
                 <div class="button-group">
                     <button class="check-btn" id="checkBtn">
@@ -879,6 +889,10 @@ result.innerHTML=
 
 "<div class='label'>REMARKS</div>"+
 "<div class='remark'>"+(data.remarks || "-")+"</div>"+
+
+"<div class='audit-note'>"+
+"<i class='fa-solid fa-circle-info' style='margin-right: 5px; color: #3b82f6;'></i> <b>Attention:</b> Account is under active DCA lock. Kindly ensure the collected payment matches the lock details above. If there is any discrepancy in the amount, please notify the respective DCA."+
+"</div>"+
 
 "</div>";
 
