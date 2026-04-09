@@ -152,15 +152,13 @@ body {
 .main-content {
     flex: 1;
     margin-left: 280px; 
-    padding: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    padding: 30px; /* <--- PADDING DIKURANGKAN */
+    display: block; /* <--- TUKAR DARI FLEX CENTER KE BLOCK UNTUK FULL WIDTH */
 }
 
 .container {
     width: 100%;
-    max-width: 600px;
+    max-width: 100%; /* <--- JADIKAN FULL WIDTH */
     background: #ffffff;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.03);
@@ -177,9 +175,18 @@ body {
     border-bottom: 2px solid #f1f5f9;
 }
 
-/* INPUT & BUTTONS */
-input {
-    width: 100%;
+/* ===== INLINE SEARCH BAR (DESKTOP) ===== */
+.search-bar-row {
+    display: flex;
+    gap: 16px;
+    align-items: stretch; /* Supaya butang dan kotak tinggi sama */
+    margin-bottom: 10px;
+}
+
+/* INPUT */
+.search-bar-row input {
+    width: 280px; /* <--- PENDEKKAN INPUT BOX */
+    flex: 0 0 280px;
     padding: 16px 20px;
     font-size: 15px;
     border: 2px solid #e2e8f0;
@@ -193,13 +200,13 @@ input {
     font-weight: 600;
 }
 
-input::placeholder {
+.search-bar-row input::placeholder {
     color: #94a3b8;
     font-weight: 400;
     letter-spacing: normal;
 }
 
-input:focus {
+.search-bar-row input:focus {
     background: #ffffff;
     border-color: #3b82f6;
     box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
@@ -208,12 +215,11 @@ input:focus {
 .button-group {
     display: flex;
     gap: 12px;
-    margin-top: 16px;
+    flex: 1; /* Ambil ruang lebihan jika perlu */
 }
 
 .button-group button {
-    flex: 1;
-    padding: 14px;
+    padding: 0 24px;
     border: none;
     border-radius: 12px;
     font-size: 15px;
@@ -224,6 +230,7 @@ input:focus {
     justify-content: center;
     align-items: center;
     gap: 8px;
+    min-width: 160px; /* Saiz minimum untuk butang */
 }
 
 .check-btn {
@@ -257,6 +264,8 @@ input:focus {
     border: 1px solid #e2e8f0;
     box-shadow: 0 10px 25px rgba(0,0,0,0.04);
     animation: fadeIn 0.4s ease forwards;
+    max-width: 600px; /* <--- KUNCI SAIZ SUPAYA TAK FULL WIDTH */
+    margin-left: 0; /* Rapat ke kiri bawah butang */
 }
 
 .status-box {
@@ -328,6 +337,7 @@ input:focus {
     border: 1px solid #e2e8f0;
 }
 
+/* ERROR & LOADING STATES */
 .no-lock {
     margin-top: 24px;
     padding: 24px;
@@ -342,6 +352,7 @@ input:focus {
     flex-direction: column;
     align-items: center;
     gap: 10px;
+    max-width: 600px; /* <--- Kunci saiz */
 }
 
 .no-lock::before {
@@ -352,12 +363,12 @@ input:focus {
     color: #ef4444;
 }
 
-/* LOADING */
 .loading {
     margin-top: 30px;
     text-align: center;
     font-weight: 600;
     color: #475569;
+    max-width: 600px; /* <--- Kunci saiz */
 }
 
 .spinner {
@@ -463,7 +474,6 @@ input:focus {
         gap: 5px;
     }
 
-    /* Susun Icon atas, Teks bawah */
     .nav-btn {
         flex-direction: column; 
         gap: 6px;
@@ -477,7 +487,6 @@ input:focus {
         background: transparent;
     }
 
-    /* Keluarkan Teks dari sembunyi */
     .nav-btn span { 
         display: block; 
         font-size: 10px; 
@@ -502,7 +511,6 @@ input:focus {
         box-shadow: none; 
     }
 
-    /* Pastikan Check Lock muncul di bottom nav */
     #navCheckLock { 
         display: flex !important; 
     }
@@ -516,7 +524,7 @@ input:focus {
     /* Main Content Adjustments */
     .main-content {
         margin-left: 0;
-        padding: 24px 15px 100px 15px; /* Tambah padding bawah elak tertindih nav */
+        padding: 24px 15px 100px 15px;
     }
 
     .container {
@@ -524,8 +532,23 @@ input:focus {
         border-radius: 16px;
     }
 
+    /* Patahkan balik sebaris untuk Mobile supaya jadi atas-bawah */
+    .search-bar-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .search-bar-row input {
+        width: 100%; /* Balik full width dalam mobile */
+        flex: none;
+    }
+
     .button-group {
         flex-direction: column;
+    }
+    
+    .button-group button {
+        padding: 14px;
     }
 
     .row {
@@ -535,6 +558,10 @@ input:focus {
     
     .amount {
         font-size: 22px;
+    }
+
+    .result-card, .no-lock, .loading {
+        max-width: 100%; /* Biar dia ikut skrin mobile */
     }
 }
 
@@ -574,21 +601,23 @@ input:focus {
         <div class="container">
             <div class="form-title">Check Account Status</div>
 
-            <input
-                type="text"
-                id="acc_no"
-                autocomplete="off"
-                inputmode="numeric"
-                maxlength="10"
-                placeholder="ENTER ACCOUNT NUMBER">
+            <div class="search-bar-row">
+                <input
+                    type="text"
+                    id="acc_no"
+                    autocomplete="off"
+                    inputmode="numeric"
+                    maxlength="10"
+                    placeholder="ENTER ACCOUNT NUMBER">
 
-            <div class="button-group">
-                <button class="check-btn" id="checkBtn">
-                    <i class="fa fa-search"></i> Check Lock
-                </button>
-                <button class="reset-btn" id="resetBtn">
-                    <i class="fa fa-rotate-left"></i> New Search
-                </button>
+                <div class="button-group">
+                    <button class="check-btn" id="checkBtn">
+                        <i class="fa fa-search"></i> Check Lock
+                    </button>
+                    <button class="reset-btn" id="resetBtn">
+                        <i class="fa fa-rotate-left"></i> New Search
+                    </button>
+                </div>
             </div>
 
             <div id="result"></div>
