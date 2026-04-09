@@ -303,7 +303,6 @@ body {
 
 .col {
     flex: 1;
-    /* Pastikan perkataan yang panjang dipotong dengan kemas jika tak muat */
     word-break: break-word; 
 }
 
@@ -537,14 +536,16 @@ body {
         background: transparent; 
     }
 
-    /* Main Content Adjustments */
+    /* Main Content Adjustments - MOBILE */
     .main-content {
         margin-left: 0;
-        padding: 24px 15px 100px 15px; 
+        /* LEBIH RAPAT KIRI DAN KANAN DI MOBILE */
+        padding: 16px 8px 100px 8px; 
     }
 
     .container {
-        padding: 24px 20px;
+        /* KURANGKAN PADDING DALAM KOTAK UTAMA MOBILE */
+        padding: 20px 16px;
         border-radius: 16px;
     }
 
@@ -568,16 +569,21 @@ body {
 
     /* KEKALKAN ROW SEBARIS UNTUK RESULT CARD DI MOBILE */
     .row {
-        flex-direction: row; /* <--- INI RAHSIA DIA, TAK PATAH KE BAWAH DAH */
-        gap: 10px; /* Kurangkan gap sikit supaya muat cantik kat skrin fon */
+        flex-direction: row; 
+        gap: 10px; 
     }
     
     .value {
-        font-size: 13px; /* Kurangkan sikit fon value supaya muat */
+        font-size: 13px; 
     }
 
     .amount {
-        font-size: 20px; /* <--- Amount dikecilkan sikit dari 24px supaya tak langgar date */
+        font-size: 20px; 
+    }
+
+    .result-card, .no-lock, .loading {
+        /* KURANGKAN PADDING DALAM KOTAK RESULT UNTUK RUANG MAKSIMUM */
+        padding: 16px;
     }
 }
 
