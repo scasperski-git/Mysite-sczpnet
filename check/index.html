@@ -152,7 +152,6 @@ body {
 .main-content {
     flex: 1;
     margin-left: 280px; 
-    /* BAWA NAIK ATAS: Top padding dikurangkan dari 40px ke 16px */
     padding: 16px 40px 40px 40px; 
     display: flex;
     justify-content: center;
@@ -166,7 +165,6 @@ body {
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.03);
     animation: slideUpFade 0.5s ease forwards;
-    /* BAWA NAIK ATAS SIKIT LAGI: Kurangkan padding atas dalam kotak */
     padding: 24px 32px 32px 32px; 
 }
 
@@ -305,6 +303,8 @@ body {
 
 .col {
     flex: 1;
+    /* Pastikan perkataan yang panjang dipotong dengan kemas jika tak muat */
+    word-break: break-word; 
 }
 
 .label {
@@ -540,7 +540,7 @@ body {
     /* Main Content Adjustments */
     .main-content {
         margin-left: 0;
-        padding: 24px 15px 100px 15px; /* MOBILE PADDING KEKAL SELAMAT */
+        padding: 24px 15px 100px 15px; 
     }
 
     .container {
@@ -566,13 +566,18 @@ body {
         padding: 14px;
     }
 
+    /* KEKALKAN ROW SEBARIS UNTUK RESULT CARD DI MOBILE */
     .row {
-        flex-direction: column;
-        gap: 12px;
+        flex-direction: row; /* <--- INI RAHSIA DIA, TAK PATAH KE BAWAH DAH */
+        gap: 10px; /* Kurangkan gap sikit supaya muat cantik kat skrin fon */
     }
     
+    .value {
+        font-size: 13px; /* Kurangkan sikit fon value supaya muat */
+    }
+
     .amount {
-        font-size: 22px;
+        font-size: 20px; /* <--- Amount dikecilkan sikit dari 24px supaya tak langgar date */
     }
 }
 
