@@ -147,15 +147,13 @@ body{
 .main-content {
     flex: 1;
     margin-left: 280px; 
-    padding: 30px 40px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 20px; /* <--- PADDING DIKURANGKAN SUPAYA RAPAT ATAS & TEPI */
+    display: block; /* <--- TUKAR SUPAYA FULL WIDTH */
 }
 
 .container-box {
     width: 100%;
-    max-width: 800px;
+    max-width: 100%; /* <--- MAX WIDTH 100% UNTUK TARIK RAPAT KE KANAN */
     animation: fadeIn 0.4s ease;
 }
 
@@ -484,7 +482,7 @@ h3 i {
 <div class="app-layout">
 
     <nav class="sidebar">
-        <div class="brand"><i class="fa fa-chess-king"></i> Master Portal</div>
+        <div class="brand"><i class="fa-solid fa-crown"></i> Master Portal</div>
         
         <div class="user-profile">
             <div id="userInfo"></div>
