@@ -404,7 +404,7 @@ input:focus {
 .session-count { font-size: 12px; color: #94a3b8; font-weight: 500; }
 
 /* ==========================================
-   MOBILE RESPONSIVE (HEADER COMPACT WITH TOP RIGHT ICONS)
+   MOBILE RESPONSIVE (BOTTOM NAV STYLE)
    ========================================== */
 @media (max-width: 899px) {
     .app-layout {
@@ -413,23 +413,20 @@ input:focus {
     
     /* Top Header for Mobile */
     .sidebar {
-        position: relative;
+        position: sticky;
+        top: 0;
         width: 100%;
         height: auto;
-        display: grid;
-        grid-template-columns: 1fr auto;
-        grid-template-areas: 
-            "brand nav"
-            "user user";
-        gap: 12px;
+        flex-direction: row; 
+        justify-content: space-between;
+        align-items: center;
         padding: 16px 20px; 
         border-radius: 0 0 20px 20px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         z-index: 40;
     }
 
     .brand { 
-        grid-area: brand;
         margin-bottom: 0; 
         font-size: 18px; 
     }
@@ -439,68 +436,87 @@ input:focus {
     }
     
     .user-profile {
-        grid-area: user;
         margin-bottom: 0;
-        text-align: left; 
-        background: rgba(255,255,255,0.05);
+        text-align: right; 
+        background: transparent;
         border: none;
-        padding: 12px 14px;
+        padding: 0;
     }
 
     #userInfo {
         font-size: 12px;
     }
 
-    /* Top Right Buttons Navigation */
+    /* Bottom Nav Menu */
     .nav-menu {
-        grid-area: nav;
-        position: static; 
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
         flex-direction: row;
-        background: transparent;
-        box-shadow: none;
-        padding: 0;
-        width: auto;
-        justify-content: flex-end;
-        gap: 8px; /* Jarak antara butang icon */
+        background: #ffffff;
+        padding: 12px 10px;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+        z-index: 50;
+        border-radius: 24px 24px 0 0;
+        justify-content: space-around;
+        gap: 5px;
     }
 
+    /* Susun Icon atas, Teks bawah */
     .nav-btn {
-        width: 42px; /* Jadikan petak */
-        height: 42px;
-        padding: 0;
+        flex-direction: column; 
+        gap: 6px;
+        padding: 8px 4px;
+        font-size: 11px;
+        color: #64748b;
+        border-radius: 12px;
         justify-content: center;
-        border-radius: 10px;
-        background: rgba(255, 255, 255, 0.1);
-        color: white;
+        width: auto;
+        height: auto;
+        background: transparent;
     }
 
-    .nav-btn span { display: none; } /* Sembunyi teks pada mobile */
+    /* Keluarkan Teks dari sembunyi */
+    .nav-btn span { 
+        display: block; 
+        font-size: 10px; 
+        font-weight: 500;
+    } 
     
     .nav-btn i {
-        font-size: 18px;
+        font-size: 20px;
         margin: 0;
         width: auto;
     }
 
     .nav-btn:hover {
         transform: none;
-        background: rgba(255,255,255,0.2);
+        background: #f1f5f9;
+        color: #4f46e5;
     }
 
+    .nav-btn.active { 
+        background: #eef2ff; 
+        color: #4f46e5; 
+        box-shadow: none; 
+    }
+
+    /* Pastikan Check Lock muncul di bottom nav */
     #navCheckLock { 
-        display: none !important; /* Tak perlu butang ni kat mobile header */
+        display: flex !important; 
     }
 
     .logout-btn { 
         margin-top: 0; 
-        color: #fca5a5 !important; 
-        background: rgba(239, 68, 68, 0.2); /* Background merah cair sikit */
+        color: #ef4444 !important; 
+        background: transparent; 
     }
 
     /* Main Content Adjustments */
     .main-content {
         margin-left: 0;
-        padding: 24px 15px 40px 15px; /* Bottom padding dah kurangkan */
+        padding: 24px 15px 100px 15px; /* Tambah padding bawah elak tertindih nav */
     }
 
     .container {
