@@ -152,27 +152,29 @@ body {
 .main-content {
     flex: 1;
     margin-left: 280px; 
-    padding: 40px;
+    /* BAWA NAIK ATAS: Top padding dikurangkan dari 40px ke 16px */
+    padding: 16px 40px 40px 40px; 
     display: flex;
-    justify-content: center; /* <--- KEMBALI KE CENTER */
+    justify-content: center;
     align-items: flex-start;
 }
 
 .container {
     width: 100%;
-    max-width: 700px; /* <--- DIBESARKAN SIKIT DARI 600px SUPAYA SEBARIS NAMPAK CANTIK */
+    max-width: 700px;
     background: #ffffff;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.03);
     animation: slideUpFade 0.5s ease forwards;
-    padding: 32px;
+    /* BAWA NAIK ATAS SIKIT LAGI: Kurangkan padding atas dalam kotak */
+    padding: 24px 32px 32px 32px; 
 }
 
 .form-title {
     font-size: 20px;
     font-weight: 600;
     color: #0f172a;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     padding-bottom: 12px;
     border-bottom: 2px solid #f1f5f9;
 }
@@ -187,7 +189,7 @@ body {
 
 /* INPUT */
 .search-bar-row input {
-    width: 280px; /* Kotak input pendek ngam-ngam 10 digit */
+    width: 280px;
     flex: 0 0 280px;
     padding: 16px 20px;
     font-size: 15px;
@@ -266,7 +268,7 @@ body {
     border: 1px solid #e2e8f0;
     box-shadow: 0 10px 25px rgba(0,0,0,0.04);
     animation: fadeIn 0.4s ease forwards;
-    width: 100%; /* Penuhkan ruangan container 700px */
+    width: 100%;
 }
 
 .status-box {
@@ -343,7 +345,7 @@ body {
     margin-top: 20px;
     font-size: 11px;
     color: #334155;
-    background: #eff6ff; /* Soft blue background */
+    background: #eff6ff;
     padding: 14px;
     border-left: 4px solid #3b82f6;
     border-radius: 8px;
@@ -538,7 +540,7 @@ body {
     /* Main Content Adjustments */
     .main-content {
         margin-left: 0;
-        padding: 24px 15px 100px 15px;
+        padding: 24px 15px 100px 15px; /* MOBILE PADDING KEKAL SELAMAT */
     }
 
     .container {
@@ -546,7 +548,6 @@ body {
         border-radius: 16px;
     }
 
-    /* Patahkan balik sebaris untuk Mobile supaya jadi atas-bawah */
     .search-bar-row {
         flex-direction: column;
         gap: 16px;
@@ -891,7 +892,7 @@ result.innerHTML=
 "<div class='remark'>"+(data.remarks || "-")+"</div>"+
 
 "<div class='audit-note'>"+
-"<i class='fa-solid fa-circle-info' style='margin-right: 5px; color: #3b82f6;'></i> <b>Branch Info:</b> This account is currently locked by the assigned DCA. Please proceed to collect the payment from the customer as per the stated Lock Amount and Payment Category."+
+"<i class='fa-solid fa-circle-info' style='margin-right: 5px; color: #3b82f6;'></i> <b>Branch Notice:</b> This account is currently locked by the assigned DCA. Please proceed to collect the payment from the customer as per the stated Lock Amount and Payment Category."+
 "</div>"+
 
 "</div>";
