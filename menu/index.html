@@ -5,359 +5,474 @@
 
 <title>Master Menu</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 
+/* ===== BASE & TYPOGRAPHY ===== */
 *{
-box-sizing:border-box;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif;
 }
 
 body{
-font-family:Arial, sans-serif;
-background:#eef2f7;
-display:flex;
-justify-content:center;
-align-items:flex-start;
-min-height:100vh;
-margin:0;
-padding:10px;
+    background: #f1f5f9;
+    margin: 0;
+    padding: 0;
+    color: #334155;
 }
 
-/* MAIN CARD */
-
-.box{
-background:white;
-padding:16px 28px 28px 28px;
-border-radius:14px;
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
-text-align:center;
-width:100%;
-max-width:520px;
+/* ANIMATIONS */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* SECTION CARD */
-
-.section{
-background:white;
-border-radius:12px;
-padding:6px 16px 16px 16px;
-margin-bottom:8px;
-box-shadow:0 6px 18px rgba(0,0,0,0.08);
-border:1px solid #eef1f6;
+/* ===== APP LAYOUT (DESKTOP) ===== */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
 }
 
-.section:hover{
-transform:translateY(-2px);
-box-shadow:0 8px 20px rgba(0,0,0,0.08);
-transition:0.2s;
+/* ===== SIDEBAR ===== */
+.sidebar {
+    width: 280px;
+    background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 20px;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 50;
+    box-shadow: 4px 0 15px rgba(0,0,0,0.1);
 }
 
-/* SECTION COLORS */
-
-.dashboard.section{
-background:linear-gradient(135deg,#f3f6ff,#e8efff);
-border:1px solid #d9e3ff;
+.brand {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
 }
 
-.summary.section{
-background:linear-gradient(135deg,#f3fff6,#e8fff0);
-border:1px solid #cfeedd;
+.brand i {
+    color: #3b82f6;
+    font-size: 24px;
 }
 
-/* TITLE */
-
-h2{
-margin-top:0;
-margin-bottom:6px;
+.user-profile {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 16px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* FIX ICON ALIGN */
-
-h3{
-display:flex;
-align-items:center;
-gap:6px;
-font-size:15px;
-font-weight:700;
-margin-bottom:4px;
+#userInfo {
+    font-size: 12px;
+    font-weight: 500;
+    color: #cbd5e1;
 }
 
-h3 i{
-font-size:14px;
+#userInfo b {
+    color: #ffffff;
+    font-size: 14px;
 }
 
-/* USER INFO */
-
-#userInfo{
-font-size:11px;
-color:#777;
-margin-bottom:10px;
+.nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
 }
 
-/* BUTTONS */
-
-button{
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-display:flex;
-align-items:center;
-justify-content:center;
-gap:8px;
-transition:.2s;
+.nav-btn {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: transparent;
+    color: #94a3b8;
+    display: flex; 
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    transition: all 0.3s ease;
 }
 
-button:hover{
-transform:translateY(-1px);
-box-shadow:0 5px 12px rgba(0,0,0,0.15);
+.nav-btn i {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
 }
 
-.top-buttons{
-display:flex;
-justify-content:center;
-gap:10px;
-margin-bottom:20px;
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transform: translateX(4px);
 }
 
-.top-buttons button{
-padding:8px 14px;
-font-size:13px;
-border-radius:8px;
+.nav-btn.active {
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
 }
 
-/* BUTTON COLORS */
-
-.check{
-background:linear-gradient(135deg,#007bff,#0056b3);
-color:white;
+.logout-btn { 
+    margin-top: auto;
+    color: #fca5a5 !important; 
 }
 
-.lock{
-background:linear-gradient(135deg,#28a745,#1f7a33);
-color:white;
+.logout-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444 !important;
 }
 
-.logout{
-background:linear-gradient(135deg,#dc3545,#b02a37);
-color:white;
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    flex: 1;
+    margin-left: 280px; 
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* DASHBOARD GRID */
-
-.dash-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(110px,1fr));
-gap:10px;
-margin-bottom:12px;
+.container-box {
+    width: 100%;
+    max-width: 800px;
+    animation: fadeIn 0.4s ease;
 }
 
-.dash-grid label{
-font-size:12px;
-color:#555;
+.page-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ===== SECTION CARDS ===== */
+.section {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03), 0 1px 3px rgba(0,0,0,0.02);
+    border: 1px solid #e2e8f0;
+}
+
+h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #1e293b;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+h3 i {
+    color: #4f46e5;
+    background: #e0e7ff;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* DASHBOARD GRID (FILTER) */
+.dash-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.dash-grid div {
+    display: flex;
+    flex-direction: column;
+}
+
+.dash-grid label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .dash-grid select,
-.dash-grid input{
-width:100%;
-padding:6px;
-font-size:13px;
-border-radius:6px;
-border:1px solid #ccc;
+.dash-grid input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 14px;
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    color: #334155;
+    font-family: inherit;
+    transition: 0.3s;
+}
+
+.dash-grid select:focus,
+.dash-grid input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
 }
 
 /* LOAD BUTTON */
-
-.load-btn{
-width:100%;
-padding:14px;
-margin-top:10px;
-font-size:15px;
-background:linear-gradient(135deg,#6c63ff,#5148d8);
-color:white;
+.load-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
 
-/* DASH CARD */
-
-.dash-card{
-margin-top:15px;
-background:linear-gradient(135deg,#eef4ff,#dbe8ff);
-padding:14px;
-border-radius:10px;
-border:1px solid #cfdcff;
+.load-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
 }
 
-.dash-stats{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
+.load-btn:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
-/* STAT BOX */
-
-.stat-box{
-background:#ffffff !important;
-border-radius:8px;
-padding:10px;
-border:1px solid #dfe5f1;
+/* DASH CARD (RESULT) */
+.dash-card {
+    margin-top: 24px;
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px dashed #cbd5e1;
 }
 
-.stat-label{
-font-size:11px;
-color:#666;
-margin-bottom:4px;
+.dash-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
 }
 
-.stat-number{
-font-weight:bold;
-font-size:clamp(16px,4vw,22px);
-white-space:nowrap;
+.stat-box {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    text-align: center;
 }
 
-.stat-number.lock{
-color:#003c9e !important;
-background:none !important;
+.stat-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 8px;
+    text-transform: uppercase;
 }
 
-.stat-number.amount{
-color:#0a7d35;
+.stat-number {
+    font-weight: 700;
+    font-size: 26px;
 }
 
-.dash-status{
-font-size:11px;
-color:#777;
-margin-top:8px;
-text-align:center;
+.stat-number.lock { color: #3b82f6; }
+.stat-number.amount { color: #10b981; }
+
+.dash-status {
+    font-size: 12px;
+    font-weight: 500;
+    color: #64748b;
+    margin-top: 12px;
+    text-align: center;
 }
 
-/* SESSION POPUP */
-
-#sessionPopup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.55);
-backdrop-filter:blur(4px);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:9999;
+/* SUMMARY SECTION */
+#refreshInfo {
+    font-size: 12px;
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 16px;
+    background: #f1f5f9;
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
 }
 
-.session-box{
-background:white;
-padding:32px;
-border-radius:12px;
-text-align:center;
-box-shadow:0 10px 30px rgba(0,0,0,0.25);
-max-width:320px;
-width:90%;
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
 }
 
-.session-box i{
-font-size:40px;
-color:#dc3545;
-margin-bottom:10px;
+.box-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
 }
 
-.session-title{
-font-size:18px;
-font-weight:bold;
-margin-bottom:6px;
+.box-card div:first-child {
+    color: #64748b;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
-.session-msg{
-font-size:14px;
-color:#666;
-margin-bottom:10px;
+.box-card div:last-child {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.5;
 }
 
-.session-count{
-font-size:12px;
-color:#888;
+#sumLock, #sumAmount {
+    font-size: 22px !important;
 }
-
-/* SUMMARY */
-
-.summary-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
-margin-bottom:10px;
-}
-
-.box-card{
-background:white;
-border:1px solid #e4e7ec;
-padding:10px;
-border-radius:8px;
-font-size:12px;
-}
-
-.box-card div:first-child{
-color:#777;
-font-size:11px;
-margin-bottom:2px;
-}
+#sumLock { color: #3b82f6 !important; }
+#sumAmount { color: #10b981 !important; }
 
 /* SPINNER */
-
 .spinner{
-width:16px;
-height:16px;
-border:3px solid rgba(255,255,255,0.4);
-border-top:3px solid white;
-border-radius:50%;
-animation:spin 0.7s linear infinite;
+    width: 18px; height: 18px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top: 3px solid white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
 }
 
-@keyframes spin{
-0%{transform:rotate(0deg)}
-100%{transform:rotate(360deg)}
+@keyframes spin{ 100%{transform:rotate(360deg)} }
+
+/* SESSION POPUP */
+#sessionPopup{
+    position:fixed; top:0; left:0; width:100%; height:100%;
+    background:rgba(15, 23, 42, 0.6); backdrop-filter:blur(4px);
+    display:none; align-items:center; justify-content:center; z-index:9999;
 }
-
-/* MOBILE */
-
-@media (max-width:600px){
-
-body{
-padding:15px;
+.session-box{
+    background:white; padding:40px; border-radius:20px; text-align:center;
+    box-shadow:0 25px 50px rgba(0,0,0,0.25); max-width:340px; width:90%;
 }
+.session-box i{ font-size:48px; color:#ef4444; margin-bottom:16px; }
+.session-title{ font-size:20px; font-weight:700; margin-bottom:8px; color:#0f172a; }
+.session-msg{ font-size:14px; color:#475569; margin-bottom:16px; }
+.session-count{ font-size:12px; color:#94a3b8; font-weight:500; }
 
-.box{
-padding:25px;
-}
+/* ==========================================
+   MOBILE RESPONSIVE (BOTTOM NAV)
+   ========================================== */
+@media (max-width: 899px) {
+    .app-layout {
+        flex-direction: column;
+    }
+    
+    /* Header (dulunya Sidebar) */
+    .sidebar {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        border-radius: 0 0 20px 20px;
+        z-index: 40;
+    }
 
-button{
-padding:18px;
-font-size:17px;
-}
+    .brand { margin-bottom: 0; font-size: 18px; }
+    .brand i { font-size: 20px; }
+    
+    .user-profile {
+        margin-bottom: 0; padding: 0; background: none; border: none; text-align: right;
+    }
 
-h2{
-font-size:22px;
-}
+    /* Bottom Nav Menu */
+    .nav-menu {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        flex-direction: row;
+        background: #ffffff;
+        padding: 12px 10px;
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+        z-index: 50;
+        border-radius: 24px 24px 0 0;
+        justify-content: space-around;
+        gap: 5px;
+    }
 
-#userInfo{
-font-size:14px;
-}
+    .nav-btn {
+        flex-direction: column;
+        gap: 6px;
+        padding: 8px 4px;
+        font-size: 11px;
+        color: #64748b;
+        border-radius: 12px;
+        justify-content: center;
+        width: auto;
+    }
 
-}
+    .nav-btn i { font-size: 20px; margin: 0; }
+    
+    .nav-btn:hover { background: #f1f5f9; color: #4f46e5; transform: none; }
+    .nav-btn.active { background: #eef2ff; color: #4f46e5; box-shadow: none; }
+    .logout-btn { margin-top: 0; color: #ef4444 !important; }
 
-/* DESKTOP LARGE */
+    /* Main Content */
+    .main-content {
+        margin-left: 0;
+        padding: 24px 16px 100px 16px; /* Padding bawah supaya tak ditutup bottom nav */
+    }
 
-@media (min-width:1200px){
+    .page-title { display: none; } /* Sembunyi tajuk besar kat mobile bagi jimat ruang */
 
-.box{
-max-width:600px;
-padding:32px;
-}
+    .section { padding: 20px 16px; }
 
+    .dash-grid { grid-template-columns: 1fr; gap: 12px; }
+
+    .summary-grid { grid-template-columns: 1fr; gap: 12px; }
+    
+    .stat-number { font-size: 24px; }
 }
 
 </style>
@@ -366,115 +481,110 @@ padding:32px;
 
 <body>
 
-<div class="box">
+<div class="app-layout">
 
-<h2><i class="fa fa-table"></i> Master Menu</h2>
+    <nav class="sidebar">
+        <div class="brand"><i class="fa fa-chess-king"></i> Master Portal</div>
+        
+        <div class="user-profile">
+            <div id="userInfo"></div>
+        </div>
+        
+        <div class="nav-menu">
+            <button class="nav-btn active">
+                <i class="fa fa-table"></i> <span>Dashboard</span>
+            </button>
+            <button class="nav-btn" onclick="goCheck()">
+                <i class="fa fa-search"></i> <span>Check Lock</span>
+            </button>
+            <button class="nav-btn" onclick="goLock()">
+                <i class="fa fa-lock"></i> <span>New Lock</span>
+            </button>
+            <button class="nav-btn logout-btn" onclick="logout()">
+                <i class="fa fa-right-from-bracket"></i> <span>Logout</span>
+            </button>
+        </div>
+    </nav>
 
-<div id="userInfo"></div>
+    <main class="main-content">
+        <div class="container-box">
+            
+            <div class="page-title">Master Overview</div>
 
-<div class="top-buttons">
+            <div class="section dashboard">
+                <h3><i class="fa fa-chart-pie"></i> Lock Dashboard</h3>
 
-<button class="check" onclick="goCheck()">
-<i class="fa fa-search"></i> Check
-</button>
+                <div class="dash-grid">
+                    <div>
+                        <label>DCA NAME</label>
+                        <select id="dcaFilter"></select>
+                    </div>
 
-<button class="lock" onclick="goLock()">
-<i class="fa fa-lock"></i> Lock
-</button>
+                    <div>
+                        <label>Start Date</label>
+                        <input type="date" id="startDate">
+                    </div>
 
-<button class="logout" onclick="logout()">
-<i class="fa fa-right-from-bracket"></i> Logout
-</button>
+                    <div>
+                        <label>End Date</label>
+                        <input type="date" id="endDate">
+                    </div>
+                </div>
 
-</div>
+                <button class="load-btn" id="loadBtn" onclick="loadDashboard()">
+                    <i class="fa fa-rotate"></i> Load Dashboard
+                </button>
 
-<div class="section dashboard">
+                <div class="dash-card">
+                    <div class="dash-stats">
+                        <div class="stat-box">
+                            <div class="stat-label">Total Lock</div>
+                            <div id="dashTotal" class="stat-number lock">0</div>
+                        </div>
 
-<h3><i class="fa fa-chart-line"></i> Lock Dashboard</h3>
+                        <div class="stat-box">
+                            <div class="stat-label">Total Amount</div>
+                            <div id="dashAmount" class="stat-number amount">RM0</div>
+                        </div>
+                    </div>
+                    <div id="dashStatus" class="dash-status"></div>
+                </div>
+            </div>
 
-<div class="dash-grid">
+            <div class="section summary">
+                <h3><i class="fa fa-calendar-check"></i> Today's Summary</h3>
 
-<div>
-<label>DCA NAME</label>
-<select id="dcaFilter"></select>
-</div>
+                <div id="refreshInfo">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Auto refresh every 2 min &nbsp;|&nbsp; <span id="lastUpdate">Last update: -</span>
+                </div>
 
-<div>
-<label>Start Date</label>
-<input type="date" id="startDate">
-</div>
+                <div class="summary-grid">
+                    <div class="box-card">
+                        <div>Total Lock</div>
+                        <div id="sumLock">0</div>
+                    </div>
 
-<div>
-<label>End Date</label>
-<input type="date" id="endDate">
-</div>
+                    <div class="box-card">
+                        <div>Total Amount</div>
+                        <div id="sumAmount">RM0</div>
+                    </div>
+                </div>
 
-</div>
+                <div class="summary-grid">
+                    <div class="box-card">
+                        <div>Top User</div>
+                        <div id="topUser"></div>
+                    </div>
 
-<button class="load-btn" id="loadBtn" onclick="loadDashboard()">
-<i class="fa fa-chart-line"></i>
-Load Dashboard
-</button>
+                    <div class="box-card">
+                        <div>Top Branch</div>
+                        <div id="topBranch"></div>
+                    </div>
+                </div>
+            </div>
 
-<div class="dash-card">
-
-<div class="dash-stats">
-
-<div class="stat-box">
-<div class="stat-label">Total Lock</div>
-<div id="dashTotal" class="stat-number lock">0</div>
-</div>
-
-<div class="stat-box">
-<div class="stat-label">Total Amount</div>
-<div id="dashAmount" class="stat-number amount">RM0</div>
-</div>
-
-</div>
-
-<div id="dashStatus" class="dash-status"></div>
-
-</div>
-
-</div>
-
-<div class="section summary">
-
-<h3><i class="fa fa-calendar"></i> Today Summary</h3>
-
-<div id="refreshInfo" style="font-size:11px;color:#888;margin-bottom:8px;">
-⟳ Auto refresh every 2 min | <span id="lastUpdate">Last update: -</span>
-</div>
-
-<div class="summary-grid">
-
-<div class="box-card">
-<div>Total Lock</div>
-<div id="sumLock">0</div>
-</div>
-
-<div class="box-card">
-<div>Total Amount</div>
-<div id="sumAmount">RM0</div>
-</div>
-
-</div>
-
-<div class="summary-grid">
-
-<div class="box-card">
-<div>Top User</div>
-<div id="topUser"></div>
-</div>
-
-<div class="box-card">
-<div>Top Branch</div>
-<div id="topBranch"></div>
-</div>
-
-</div>
-
-</div>
+        </div>
+    </main>
 
 </div>
 
@@ -670,7 +780,7 @@ document.getElementById("dashAmount").innerText="RM -";
 clearTimeout(timeout);
 
 btn.disabled=false;
-btn.innerHTML='<i class="fa fa-chart-line"></i> Load Dashboard';
+btn.innerHTML='<i class="fa fa-rotate"></i> Load Dashboard';
 
 });
 
