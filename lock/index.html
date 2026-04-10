@@ -514,7 +514,7 @@ td:nth-child(3) {
 .popup-close-btn {
     width: 100%;
     padding: 14px;
-    background: #f59e0b; /* Amber/Orange color sesuai untuk warning */
+    background: #f59e0b; 
     color: white;
     border: none;
     border-radius: 10px;
@@ -869,9 +869,9 @@ td:nth-child(3) {
     <div class="session-box">
         <i class="fa fa-triangle-exclamation" style="font-size: 48px; color: #f59e0b; margin-bottom: 16px;"></i>
         <div style="font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #0f172a;">Account Locked</div>
-        <div style="font-size: 14px; color: #475569; margin-bottom: 24px; line-height: 1.5;">This account has already been locked by another DCA or is currently active.</div>
-        <button class="popup-close-btn" onclick="location.reload()">
-            <i class="fa fa-rotate-right" style="margin-right: 5px;"></i> Close & Refresh
+        <div style="font-size: 14px; color: #475569; margin-bottom: 24px; line-height: 1.5;">An active lock already exists for this account. Please check your 'My Locks' list to view the details.</div>
+        <button class="popup-close-btn" onclick="document.getElementById('lockedPopup').style.display='none'">
+            <i class="fa fa-times" style="margin-right: 5px;"></i> Close
         </button>
     </div>
 </div>
@@ -1164,7 +1164,7 @@ if(data=="ACCOUNT_ALREADY_LOCKED"){
 
 // PAPAR POPUP BARU KAT SINI
 document.getElementById("lockedPopup").style.display="flex";
-document.getElementById("submitBtn").disabled = false; // Buka balik button in case dorang close popup tanpa refresh (kalau ada logic tu)
+document.getElementById("submitBtn").disabled = false; // Buka balik button bila close popup
 
 }
 else{
