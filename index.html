@@ -4,56 +4,284 @@
   <meta charset="UTF-8">
   <title>SCZP | Personal Site</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* CSS VARIABLES FOR EASY THEME CHANGES */
+    :root {
+      --bg-color: #0b0f19;
+      --surface-color: rgba(30, 41, 59, 0.6);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary-gradient: linear-gradient(135deg, #38bdf8, #818cf8);
+    }
+
+    /* RESET & BASE STYLES */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* NAVBAR - GLASSMORPHISM EFFECT */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(11, 15, 25, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 5%;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 1.2rem;
+      letter-spacing: 0.5px;
+    }
+
+    .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--primary-gradient); /* Fallback background if logo.png is missing */
+    }
+
+    /* HERO SECTION */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 0 10%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero .tag {
+      font-family: 'Fira Code', monospace;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(3rem, 8vw, 5rem); /* Responsive font size */
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 span {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero .subtitle {
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    /* MAIN CONTENT */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem 10% 6rem;
+    }
+
+    section {
+      margin-bottom: 6rem;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* Add a modern line next to headings */
+    h2::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--border-color);
+    }
+
+    /* ABOUT SECTION */
+    .about-text {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      background: var(--surface-color);
+      padding: 2rem;
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+    }
+
+    .about-strong {
+      color: var(--text-main);
+      font-weight: 500;
+      font-size: 1.2rem;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    /* SKILLS SECTION */
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      list-style: none;
+    }
+
+    .skills li {
+      background: var(--surface-color);
+      border: 1px solid var(--border-color);
+      padding: 1.2rem;
+      border-radius: 12px;
+      text-align: center;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+
+    .skills li:hover {
+      transform: translateY(-5px);
+      border-color: #38bdf8;
+      box-shadow: 0 10px 20px rgba(56, 189, 248, 0.1);
+      color: #38bdf8;
+    }
+
+    /* CONTACT SECTION */
+    .contact-card {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: var(--surface-color);
+      border-radius: 16px;
+      border: 1px solid var(--border-color);
+    }
+
+    .email {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 1rem 2.5rem;
+      background: var(--primary-gradient);
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      border-radius: 30px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .email:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(129, 140, 248, 0.4);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* MOBILE RESPONSIVENESS */
+    @media (max-width: 768px) {
+      .navbar { padding: 1rem 5%; }
+      .hero { padding: 0 5%; align-items: center; text-align: center; }
+      main { padding: 2rem 5% 4rem; }
+      h2::after { display: none; } /* Hide line on mobile for cleaner look */
+    }
+  </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <header class="navbar">
     <div class="brand">
-      <img src="logo.png" alt="SCZP Logo" class="logo">
-      <span>SCZP | Personal Site</span>
+      <img src="logo.png" alt="SCZP" class="logo">
+      <span>SCZP</span>
     </div>
   </header>
 
-  <!-- HERO -->
   <header class="hero">
-    <p class="tag">&gt; hello_world</p>
+    <span class="tag">&gt; hello_world</span>
     <h1>Hi, I'm <span>SCZP!</span></h1>
     <p class="subtitle">Aspiring Developer · Tech Enthusiast</p>
   </header>
 
   <main>
-    <section>
+    <section id="about">
       <h2>About</h2>
       <p class="about-text">
-  <span class="about-strong">
-    Built to learn 📚 | Built to grow 🌱
-  </span><br>
-  <span class="about-light">
-    Turning curiosity into usable code, one commit at a time.
-  </span>
+        <span class="about-strong">
+          Built to learn 📚 | Built to grow 🌱
+        </span>
+        <span class="about-light">
+          Turning curiosity into usable code, one commit at a time. I'm passionate about exploring new technologies and solving problems.
+        </span>
       </p>
     </section>
 
-    <section>
+    <section id="skills">
       <h2>Skills</h2>
       <ul class="skills">
         <li>HTML & CSS</li>
-        <li>Basic JavaScript</li>
+        <li>JavaScript</li>
         <li>Git & GitHub</li>
         <li>Learning Everyday 🚀</li>
       </ul>
     </section>
 
-    <section>
-      <h2>Contact</h2>
-      <p>
-        Email:
+    <section id="contact">
+      <h2>Let's Connect</h2>
+      <div class="contact-card">
+        <p style="color: var(--text-muted); font-size: 1.1rem;">Have an exciting project or just want to chat?</p>
         <a href="mailto:ceo@sczpnet.org" class="email">
           ceo@sczpnet.org
         </a>
-      </p>
+      </div>
     </section>
   </main>
 
