@@ -447,8 +447,9 @@ table th {
 table tr:last-child td { border-bottom: none; }
 table tr:hover td { background: #f8fafc; }
 
-td:nth-child(3) {
-    text-align: right;
+/* UPDATE KOLUM AMOUNT (KE-3) SUPAYA CENTER UNTUK DESKTOP */
+th:nth-child(3), td:nth-child(3) {
+    text-align: center;
     font-weight: 600;
 }
 
@@ -699,8 +700,9 @@ td:nth-child(3) {
         font-size: 11px; 
     }
     
-    table th {
-        font-size: 10px;
+    /* UPDATE KOLUM AMOUNT (KE-3) SUPAYA CENTER UNTUK MOBILE */
+    table th:nth-child(3), #lockTable td:nth-child(3) {
+        text-align: center;
     }
 
     #lockTable td:nth-child(3) {
@@ -913,9 +915,6 @@ const user = localStorage.getItem("lock_user");
 const role = localStorage.getItem("lock_role");
 const token = localStorage.getItem("session_token");
 
-// ==========================================
-// TAMBAHAN FUNGSI UNTUK INGAT PAGE BILA RELOAD
-// ==========================================
 window.addEventListener('DOMContentLoaded', function() {
     if (sessionStorage.getItem('active_tab') === 'list') {
         viewMyLocks();
@@ -930,7 +929,6 @@ function goNewLock() {
 function backToForm() {
     goNewLock();
 }
-// ==========================================
 
 if(!token){
 logout();
@@ -940,7 +938,6 @@ document.getElementById("userInfo").innerHTML =
 "User: "+(user || "-")+" | Role: "+(role || "-");
 loadUserSummary();
 setInterval(loadUserSummary,120000);
-/* ACCESS CONTROL */
 
 const type = localStorage.getItem("lock_type");
 
@@ -960,8 +957,6 @@ document.getElementById("masterBtn").style.display = "flex";
 function goMaster(){
 window.location = "../menu/";
 }
-
-/* LOAD BRANCH */
 
 fetch(api+"?action=branches&token="+token)
 .then(res=>res.json())
@@ -995,22 +990,13 @@ select.appendChild(option);
 
 });
 
-/* AUTO DCA */
-
 document.getElementById("dca_id").value =
 localStorage.getItem("lock_user") || "";
-
-/* MIN DATE */
 
 document.getElementById("promise_date").min =
 new Date().toISOString().split("T")[0];
 
-/* AUTO CAPITAL */
-/* ACCOUNT NO - ONLY NUMBERS */
-
 const accField = document.getElementById("acc_no");
-
-/* block typing letters */
 
 accField.addEventListener("keypress", function(e){
 
@@ -1019,8 +1005,6 @@ e.preventDefault();
 }
 
 });
-
-/* block paste letters */
 
 accField.addEventListener("input", function(){
 
@@ -1041,8 +1025,6 @@ this.setSelectionRange(start,end);
 });
 
 });
-
-/* AMOUNT FORMAT */
 
 const amountField = document.getElementById("amount");
 
@@ -1081,8 +1063,6 @@ maximumFractionDigits:2
 }
 
 });
-
-/* REMARK LIMIT */
 
 const remarkBox=document.getElementById("remarks");
 const remarkCounter=document.getElementById("remarkCounter");
@@ -1128,8 +1108,6 @@ document.getElementById("userSummary").innerText =
 
 }
 
-/* ERROR */
-
 function showError(input,errorId){
 
 input.classList.add("shake");
@@ -1146,8 +1124,6 @@ input.classList.remove("shake");
 },400);
 
 }
-
-/* SUBMIT LOCK */
 
 document.getElementById("lockForm").addEventListener("submit",e=>{
 
@@ -1179,8 +1155,6 @@ var formData=new FormData(e.target);
 
 var branchName=branch.selectedOptions[0].text;
 formData.append("branch_name",branchName);
-
-/* TOKEN + USER */
 
 formData.append("token",token);
 formData.append("user",user);
@@ -1219,13 +1193,9 @@ showSuccess(formData);
 
 });
 
-/* DATE FORMAT */
-
 function formatDate(dateStr){
 
 if(!dateStr) return "-";
-
-/* HANDLE ISO / DATE OBJECT */
 
 let d = new Date(dateStr);
 
@@ -1239,8 +1209,6 @@ let year = d.getFullYear();
 return day+" "+month+" "+year;
 
 }
-
-/* FALLBACK OLD FORMAT */
 
 if(dateStr.includes("-") && dateStr.split("-")[0].length==4){
 
@@ -1278,8 +1246,6 @@ function logout(){
 localStorage.clear();
 window.location="../lockcheck-login/";
 }
-
-/* SUCCESS */
 
 function showSuccess(formData){
 
@@ -1359,8 +1325,6 @@ window.location="../lockcheck-login/";
 
 }
 
-/* CLEAR ERROR */
-
 function clearError(inputId,errorId){
 document.getElementById(inputId).addEventListener("input",function(){
 document.getElementById(errorId).style.display="none";
@@ -1371,10 +1335,6 @@ clearError("acc_no","err_acc");
 clearError("amount","err_amount");
 clearError("dca_id","err_dca");
 clearError("remarks","err_remarks");
-
-/* =========================
-MOBILE SAFE IDLE LOGOUT
-========================= */
 
 let lastActivity = Date.now();
 const IDLE_LIMIT = 1200000; // 20 min
@@ -1440,7 +1400,6 @@ showSessionPopup("EXPIRED");
 }
 
 });
-/* SESSION MONITOR */
 
 setInterval(checkSession,30000);
 
@@ -1449,7 +1408,6 @@ let filteredData = [];
 let currentPage = 1;
 const pageSize = 5;
 
-// Added small UI logic to toggle active states on nav
 function updateNavState(activeId) {
     document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
     document.getElementById(activeId).classList.add('active');
@@ -1457,7 +1415,6 @@ function updateNavState(activeId) {
 
 async function viewMyLocks(){
 
-// SET MEMORI BAHAWA KITA DI PAGE LIST
 sessionStorage.setItem('active_tab', 'list');
 
 document.getElementById("formSection").style.display="none";
