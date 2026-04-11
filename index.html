@@ -12,7 +12,6 @@
   <style>
     /* VARIABLES */
     :root {
-      --bg-color: #f4f4f5;
       --card-bg: #ffffff;
       --text-main: #18181b;
       --text-muted: #71717a;
@@ -27,9 +26,14 @@
       box-sizing: border-box;
     }
 
+    /* BACKGROUND - SUBTLE GRID LINES */
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
-      background-color: var(--bg-color);
+      background-color: #fafafa;
+      background-image: 
+        linear-gradient(to right, #f0f0f0 1px, transparent 1px),
+        linear-gradient(to bottom, #f0f0f0 1px, transparent 1px);
+      background-size: 40px 40px;
       color: var(--text-main);
       line-height: 1.6;
       display: flex;
@@ -89,6 +93,7 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      border: 1px solid rgba(0, 0, 0, 0.03);
     }
 
     .bento-card:hover {
@@ -96,9 +101,9 @@
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
     }
 
-    /* HERO CARD (Spans full width) */
+    /* HERO CARD */
     .hero-card {
-      grid-column: 1 / -1; /* Mengambil ruang penuh dari kiri ke kanan */
+      grid-column: 1 / -1;
       text-align: center;
       align-items: center;
       background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
@@ -145,7 +150,7 @@
       gap: 10px;
     }
 
-    /* ABOUT CARD (Spans 2 columns on desktop) */
+    /* ABOUT CARD */
     .about-card {
       grid-column: span 2;
     }
@@ -176,7 +181,7 @@
     }
 
     .skills li {
-      background: var(--bg-color);
+      background: #fafafa;
       color: var(--text-main);
       padding: 0.6rem 1rem;
       border-radius: 12px;
@@ -185,7 +190,7 @@
       border: 1px solid #e4e4e7;
     }
 
-    /* CONTACT CARD (Spans full width) */
+    /* CONTACT CARD */
     .contact-card {
       grid-column: 1 / -1;
       text-align: center;
@@ -225,17 +230,21 @@
       color: var(--text-muted);
       font-size: 0.9rem;
       text-align: center;
+      background: white;
+      width: 100%;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      margin-top: auto;
     }
 
     /* RESPONSIVE DESIGN (MOBILE) */
     @media (max-width: 768px) {
       main {
-        grid-template-columns: 1fr; /* Semua kad akan tersusun ke bawah (1 column) */
+        grid-template-columns: 1fr;
         padding-top: 90px;
       }
       
       .about-card, .skills-card {
-        grid-column: 1 / -1; /* Ambil ruang penuh di mobile */
+        grid-column: 1 / -1;
       }
     }
   </style>
