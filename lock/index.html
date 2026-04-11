@@ -973,6 +973,7 @@ return;
 }
 
 localStorage.clear();
+sessionStorage.clear(); // CLEAR MEMORI
 window.location="../lockcheck-login/";
 return;
 
@@ -1172,6 +1173,7 @@ if(data=="UNAUTHORIZED"){
 
 alert("Session expired. Please login again.");
 localStorage.clear();
+sessionStorage.clear(); // CLEAR MEMORI
 window.location="../lockcheck-login/";
 return;
 
@@ -1244,6 +1246,7 @@ return day+" "+month+" "+year+" "+hours+":"+mins;
 
 function logout(){
 localStorage.clear();
+sessionStorage.clear(); // CLEAR MEMORI
 window.location="../lockcheck-login/";
 }
 
@@ -1320,6 +1323,7 @@ document.getElementById("sessionPopup").style.display="flex";
 
 setTimeout(()=>{
 localStorage.clear();
+sessionStorage.clear(); // CLEAR MEMORI
 window.location="../lockcheck-login/";
 },3000);
 
@@ -1356,7 +1360,9 @@ if(data.status !== "ACTIVE"){
 showSessionPopup("DEVICE");
 return;
 
+// (Fallback di belakang return yang lama)
 localStorage.clear();
+sessionStorage.clear();
 window.location="../lockcheck-login/";
 
 }
