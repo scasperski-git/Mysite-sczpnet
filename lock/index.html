@@ -838,7 +838,7 @@ th:nth-child(3), td:nth-child(3) {
                 
                 <div class="filter-card">
                     <div class="filter-input-group">
-                        <input id="filterAcc" placeholder="Search Account No" autocomplete="off">
+                        <input type="text" id="filterAcc" placeholder="Search Account No" autocomplete="off" inputmode="numeric" maxlength="10">
                         <div class="mini-actions">
                             <button onclick="applyFilter()" class="mini-btn search"><i class="fa fa-search"></i> Search</button>
                             <button onclick="resetFilter()" class="mini-btn clear"><i class="fa fa-xmark"></i> Clear</button>
@@ -997,23 +997,40 @@ localStorage.getItem("lock_user") || "";
 document.getElementById("promise_date").min =
 new Date().toISOString().split("T")[0];
 
+
+/* AUTO CAPITAL */
+/* ACCOUNT NO - ONLY NUMBERS */
+
 const accField = document.getElementById("acc_no");
 
+/* block typing letters */
 accField.addEventListener("keypress", function(e){
-
-if(!/[0-9]/.test(e.key)){
-e.preventDefault();
-}
-
+    if(!/[0-9]/.test(e.key)){
+        e.preventDefault();
+    }
 });
 
+/* block paste letters */
 accField.addEventListener("input", function(){
-
-this.value = this.value.replace(/\D/g,'');
-
+    this.value = this.value.replace(/\D/g,'');
 });
+
+/* TAMBAHAN BARU: FILTER SEARCH BOX - ONLY NUMBERS SAMA MACAM DEPAN */
+const filterAccField = document.getElementById("filterAcc");
+
+filterAccField.addEventListener("keypress", function(e){
+    if(!/[0-9]/.test(e.key)){
+        e.preventDefault();
+    }
+});
+
+filterAccField.addEventListener("input", function(){
+    this.value = this.value.replace(/\D/g,'');
+});
+
   
-document.querySelectorAll("input[type=text]:not(#dca_id):not(#acc_no)").forEach(el=>{
+/* AUTO CAPITAL UNTUK SEMUA INPUT TEXT KECUALI ACC NO DAN FILTER ACC */
+document.querySelectorAll("input[type=text]:not(#dca_id):not(#acc_no):not(#filterAcc)").forEach(el=>{
 
 el.addEventListener("input",function(){
 
