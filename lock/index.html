@@ -739,7 +739,7 @@ td:nth-child(3) {
         </div>
         
         <div class="nav-menu">
-            <button onclick="location.reload()" class="nav-btn active" id="navNewLock">
+            <button onclick="goNewLock()" class="nav-btn active" id="navNewLock">
                 <i class="fa fa-pen-to-square"></i> <span>New Lock</span>
             </button>
             
@@ -912,6 +912,25 @@ const api = API_URL;
 const user = localStorage.getItem("lock_user");
 const role = localStorage.getItem("lock_role");
 const token = localStorage.getItem("session_token");
+
+// ==========================================
+// TAMBAHAN FUNGSI UNTUK INGAT PAGE BILA RELOAD
+// ==========================================
+window.addEventListener('DOMContentLoaded', function() {
+    if (sessionStorage.getItem('active_tab') === 'list') {
+        viewMyLocks();
+    }
+});
+
+function goNewLock() {
+    sessionStorage.setItem('active_tab', 'form');
+    location.reload();
+}
+
+function backToForm() {
+    goNewLock();
+}
+// ==========================================
 
 if(!token){
 logout();
@@ -1186,9 +1205,8 @@ return;
 
 if(data=="ACCOUNT_ALREADY_LOCKED"){
 
-// PAPAR POPUP BARU KAT SINI
 document.getElementById("lockedPopup").style.display="flex";
-document.getElementById("submitBtn").disabled = false; // Buka balik button bila close popup
+document.getElementById("submitBtn").disabled = false; 
 
 }
 else{
@@ -1313,7 +1331,7 @@ document.getElementById("result").innerHTML=
 
 "</div>"+
 
-"<button class='new-btn' onclick='location.reload()'><i class='fa fa-plus' style='margin-right:8px;'></i> New Lock</button>";
+"<button class='new-btn' onclick='goNewLock()'><i class='fa fa-plus' style='margin-right:8px;'></i> New Lock</button>";
 
 loadUserSummary();
   
@@ -1439,6 +1457,9 @@ function updateNavState(activeId) {
 
 async function viewMyLocks(){
 
+// SET MEMORI BAHAWA KITA DI PAGE LIST
+sessionStorage.setItem('active_tab', 'list');
+
 document.getElementById("formSection").style.display="none";
 document.getElementById("result").style.display="none";
 document.getElementById("lockListSection").style.display="block";
@@ -1549,7 +1570,6 @@ renderTable();
 }
 }
 
-// FUNGSI FILTER YANG BARU DAN LEBIH RINGKAS (UNTUK ACCOUNT NO SAHAJA)
 function applyFilter(){
 
 let acc = document.getElementById("filterAcc").value.toLowerCase();
@@ -1564,7 +1584,6 @@ renderTable();
 
 }
 
-// FUNGSI RESET YANG BARU
 function resetFilter(){
 
 document.getElementById("filterAcc").value="";
@@ -1598,10 +1617,6 @@ if(hintEl) hintEl.innerHTML = "<i class='fa fa-times'></i> tap to minimize";
 
 }
 
-}
-
-function backToForm(){
-location.reload();
 }
 
 document.getElementById("filterAcc").addEventListener("keypress",function(e){
