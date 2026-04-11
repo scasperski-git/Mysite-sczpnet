@@ -369,42 +369,48 @@ input:focus, select:focus, textarea:focus {
     color: #0f172a;
 }
 
-/* FILTER CARD (UNTUK MY LOCKS) */
+/* FILTER CARD (UNTUK MY LOCKS) - KINI LEBIH KEMAS */
 .filter-card {
-    padding: 20px;
+    padding: 16px 20px;
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 16px;
     margin-bottom: 20px;
 }
 
-.filter-row {
+.filter-input-group {
     display: flex;
-    gap: 10px;
-    margin-bottom: 12px;
+    flex-direction: column;
 }
 
-.filter-row input {
-    margin: 0;
-    flex: 1;
+.filter-input-group input {
+    margin-bottom: 8px;
 }
 
-.filter-actions {
+.mini-actions {
     display: flex;
+    justify-content: flex-end;
     gap: 10px;
-    margin-top: 12px;
 }
-.filter-actions button {
-    flex: 1;
-    padding: 12px;
-    border-radius: 10px;
-    border: none;
-    color: white;
+
+.mini-btn {
+    padding: 8px 16px;
+    font-size: 12px;
     font-weight: 600;
+    border-radius: 8px;
+    border: none;
     cursor: pointer;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
 }
-.apply-btn { background: #4f46e5; }
-.clear-btn { background: #64748b; }
+
+.mini-btn.search { background: #4f46e5; }
+.mini-btn.search:hover { background: #4338ca; }
+.mini-btn.clear { background: #64748b; }
+.mini-btn.clear:hover { background: #475569; }
 
 /* TABLE STYLES */
 .table-scroll {
@@ -807,16 +813,12 @@ td:nth-child(3) {
                 <div class="form-title" style="margin-bottom: 15px;">My Lock List</div>
                 
                 <div class="filter-card">
-                    <div class="filter-row">
-                        <input id="filterAcc" placeholder="Search Account No">
-                    </div>
-                    <div class="filter-row">
-                        <input type="date" id="filterStart">
-                        <input type="date" id="filterEnd">
-                    </div>
-                    <div class="filter-actions">
-                        <button onclick="applyFilter()" class="apply-btn"><i class="fa fa-filter"></i> Apply</button>
-                        <button onclick="resetFilter()" class="clear-btn"><i class="fa fa-xmark"></i> Clear</button>
+                    <div class="filter-input-group">
+                        <input id="filterAcc" placeholder="Search Account No" autocomplete="off">
+                        <div class="mini-actions">
+                            <button onclick="resetFilter()" class="mini-btn clear"><i class="fa fa-xmark"></i> Clear</button>
+                            <button onclick="applyFilter()" class="mini-btn search"><i class="fa fa-search"></i> Search</button>
+                        </div>
                     </div>
                 </div>
 
@@ -1525,45 +1527,14 @@ renderTable();
 }
 }
 
+// FUNGSI FILTER YANG BARU DAN LEBIH RINGKAS (UNTUK ACCOUNT NO SAHAJA)
 function applyFilter(){
 
 let acc = document.getElementById("filterAcc").value.toLowerCase();
-let start = document.getElementById("filterStart").value;
-let end = document.getElementById("filterEnd").value;
 
 filteredData = fullData.filter(d=>{
-
-let accNo = (d.acc_no || "").toString().toLowerCase();
-let matchAcc = !acc || accNo.includes(acc);
-    
-let dDate = new Date(d.promise);
-dDate.setHours(0,0,0,0);
-
-let startDate = start ? new Date(start) : null;
-let endDate = end ? new Date(end) : null;
-
-if(startDate) startDate.setHours(0,0,0,0);
-if(endDate) endDate.setHours(23,59,59,999);
-
-if(startDate && endDate && startDate > endDate){
-let temp = startDate;
-startDate = endDate;
-endDate = temp;
-}
-    
-if(startDate){
-document.getElementById("filterStart").value = startDate.toISOString().split("T")[0];
-}
-
-if(endDate){
-document.getElementById("filterEnd").value = endDate.toISOString().split("T")[0];
-}
-
-let matchStart = !startDate || dDate >= startDate;
-let matchEnd = !endDate || dDate <= endDate;
-
-return matchAcc && matchStart && matchEnd;
-
+    let accNo = (d.acc_no || "").toString().toLowerCase();
+    return !acc || accNo.includes(acc);
 });
 
 currentPage = 1;
@@ -1571,11 +1542,10 @@ renderTable();
 
 }
 
+// FUNGSI RESET YANG BARU
 function resetFilter(){
 
 document.getElementById("filterAcc").value="";
-document.getElementById("filterStart").value="";
-document.getElementById("filterEnd").value="";
 
 filteredData = fullData;
 currentPage = 1;
