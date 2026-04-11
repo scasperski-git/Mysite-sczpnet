@@ -978,7 +978,7 @@ return;
 }
 
 localStorage.clear();
-sessionStorage.clear(); // CLEAR MEMORI
+sessionStorage.clear(); 
 window.location="../lockcheck-login/";
 return;
 
@@ -1003,24 +1003,20 @@ document.getElementById("promise_date").min =
 new Date().toISOString().split("T")[0];
 
 
-/* AUTO CAPITAL */
 /* ACCOUNT NO - ONLY NUMBERS */
 
 const accField = document.getElementById("acc_no");
 
-/* block typing letters */
 accField.addEventListener("keypress", function(e){
     if(!/[0-9]/.test(e.key)){
         e.preventDefault();
     }
 });
 
-/* block paste letters */
 accField.addEventListener("input", function(){
     this.value = this.value.replace(/\D/g,'');
 });
 
-/* TAMBAHAN BARU: FILTER SEARCH BOX - ONLY NUMBERS SAMA MACAM DEPAN */
 const filterAccField = document.getElementById("filterAcc");
 
 filterAccField.addEventListener("keypress", function(e){
@@ -1034,7 +1030,6 @@ filterAccField.addEventListener("input", function(){
 });
 
   
-/* AUTO CAPITAL UNTUK SEMUA INPUT TEXT KECUALI ACC NO DAN FILTER ACC */
 document.querySelectorAll("input[type=text]:not(#dca_id):not(#acc_no):not(#filterAcc)").forEach(el=>{
 
 el.addEventListener("input",function(){
@@ -1195,7 +1190,7 @@ if(data=="UNAUTHORIZED"){
 
 alert("Session expired. Please login again.");
 localStorage.clear();
-sessionStorage.clear(); // CLEAR MEMORI
+sessionStorage.clear(); 
 window.location="../lockcheck-login/";
 return;
 
@@ -1251,24 +1246,9 @@ return dateStr;
 
 }
 
-function formatDateTime(){
-
-var d=new Date();
-
-var day=("0"+d.getDate()).slice(-2);
-var monthNames=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-var month=monthNames[d.getMonth()];
-var year=d.getFullYear();
-var hours=("0"+d.getHours()).slice(-2);
-var mins=("0"+d.getMinutes()).slice(-2);
-
-return day+" "+month+" "+year+" "+hours+":"+mins;
-
-}
-
 function logout(){
 localStorage.clear();
-sessionStorage.clear(); // CLEAR MEMORI
+sessionStorage.clear(); 
 window.location="../lockcheck-login/";
 }
 
@@ -1345,7 +1325,7 @@ document.getElementById("sessionPopup").style.display="flex";
 
 setTimeout(()=>{
 localStorage.clear();
-sessionStorage.clear(); // CLEAR MEMORI
+sessionStorage.clear(); 
 window.location="../lockcheck-login/";
 },3000);
 
@@ -1382,7 +1362,6 @@ if(data.status !== "ACTIVE"){
 showSessionPopup("DEVICE");
 return;
 
-// (Fallback di belakang return yang lama)
 localStorage.clear();
 sessionStorage.clear();
 window.location="../lockcheck-login/";
@@ -1452,10 +1431,12 @@ document.body.classList.add("list-mode");
 
 updateNavState('navMyLocks');
 
-// PAPARKAN LOADING STATE SEMENTARA TUNGGU DATA
+// PAPARKAN LOADING STATE DALAM TABLE SAHAJA
 document.getElementById("lockTable").innerHTML = 
 "<tr><td colspan='5' style='text-align:center;padding:40px;color:#64748b;'><i class='fa fa-circle-notch fa-spin' style='font-size:28px;margin-bottom:12px;display:block;color:#4f46e5;'></i>Loading records...</td></tr>";
-document.getElementById("pageInfo").innerText = "Loading...";
+
+// RESET INFO PAGINATION SEMENTARA LOADING
+document.getElementById("pageInfo").innerText = "-";
 document.getElementById("prevBtn").disabled = true;
 document.getElementById("nextBtn").disabled = true;
 
@@ -1479,8 +1460,7 @@ renderTable();
 }catch(e){
 
 document.getElementById("lockTable").innerHTML =
-"<tr><td colspan='5' style='text-align:center;padding:20px'>Error loading data. Please try again.</td></tr>";
-document.getElementById("pageInfo").innerText = "";
+"<tr><td colspan='5' style='text-align:center;padding:20px'>Error loading data.</td></tr>";
 
 }
 
